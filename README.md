@@ -2,7 +2,7 @@
 
 A sandbox for developers to test their ideas and create better implementations of the GeoPose standard.
 
-## References
+## Dependencies
 
 * Threejs: (npm install three) 3D library
 * Typescript Compiler: (npm install -g typescript)
