@@ -4,7 +4,7 @@ import { Distance } from "../../types/measures/Distance";
 
 
 /** Defines an Extension to specify the 3D dimensions of a Pose. */
-export class BoundaryExtension extends Extension {
+export class DimensionsExtension extends Extension {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 

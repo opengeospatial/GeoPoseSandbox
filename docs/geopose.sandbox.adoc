@@ -1,0 +1,102 @@
+= GeoPose Sandbox
+
+
+== Classes
+* APAOrientation (at data\model\orientations\APAOrientation.ts)
+**  Defines the Aircraft Principal Axes Orientation. 
+@see https://en.wikipedia.org/wiki/Aircraft_principal_axes 
+* Angle (at data\types\measures\Angle.ts)
+**  Defines a angular measure. 
+* BoundaryExtension (at data\model\extensions\BoundaryExtension.ts)
+**  Defines an Extension to specify the 3D boundary of a Pose. 
+(Useful for geofencing). 
+* Box (at data\types\shapes\Box.ts)
+**  Defines a three-dimensional box Shape (global). 
+* DimensionsExtension (at data\model\extensions\DimensionsExtension.ts)
+**  Defines an Extension to specify the 3D dimensions of a Pose. 
+* Distance (at data\types\measures\Distance.ts)
+**  Defines a distance (relative dimensional magnitude) measure. 
+* Ellipsoid (at data\types\shapes\Ellipsoid.ts)
+**  Defines a three-dimensional ellipsoid Shape. 
+* Entity (at data\model\Entity.ts)
+**  Defines an Entity in a Scene. 
+* EulerOrientation (at data\model\orientations\EulerOrientation.ts)
+**  Defines the Euler Orientation. 
+@see https://en.wikipedia.org/wiki/Euler_angles 
+* Extension (at data\model\Extension.ts)
+**  Define the basic class of a Pose Extension. 
+* GlobalPosition (at data\model\positions\GlobalPosition.ts)
+**  Defines a position in global (elliptical) coordinate system.
+* (Based on PICE and LPT-ENU). 
+* LocalPosition (at data\model\positions\LocalPosition.ts)
+**  Defines a position in local (euclidean) coordinate system. 
+* LookAtOrientation (at data\model\orientations\LookAtOrientation.ts)
+**  Defines the Orientation based on an Entity to look at. 
+* Measure (at data\types\Measure.ts)
+**  Defines a numeric measure. 
+* MirrorExtension (at data\model\extensions\MirrorExtension.ts)
+**  Defines an Extension to specify how a Pose is mirrored.  
+* Node (at data\types\Node.ts)
+**  Defines a data node (a element in a hierarchy). 
+* NodeSet (at data\types\NodeSet.ts)
+**  Define a set of Nodes. 
+* OrbitalPosition (at data\model\positions\OrbitalPosition.ts)
+**  Defines a position in Orbital (Keplerian) coordinate system. 
+* Orientation (at data\model\Orientation.ts)
+**  Define the basic class of a three dimensional orientation. 
+* Pose (at data\model\Pose.ts)
+**  Defines a Pose of an object. 
+* Position (at data\model\Position.ts)
+**  Define the basic class of a three dimensional position within a reference frame. 
+* Quaternion (at data\types\complex\Quaternion.ts)
+**  Defines a four-dimensional complex number to describe rotations. 
+* QuaternionOrientation (at data\model\orientations\QuaternionOrientation.ts)
+**  Defines a Quaternion-based Orientation. 
+@see https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation 
+* Root (at data\model\Root.ts)
+**  Defines the Root node of the data model. 
+* Shape (at data\types\Shape.ts)
+**  Defines a three dimensional shape. 
+* Size (at data\types\measures\Size.ts)
+**  Defines a size (dimensional magnitude) measure. 
+* Sphere (at data\types\shapes\Sphere.ts)
+**  Defines a three-dimensional spherical Shape. 
+* String (at data\types\String.ts)
+**  Defines a numeric measure. 
+* Time (at data\types\measures\Time.ts)
+**  Defines a time (dimensional magnitude) measure. 
+* Vector3 (at data\types\complex\Vector3.ts)
+**  Defines a three-dimensional vector. 
+
+
+== Files
+* data\model\Entity.ts
+* data\model\Extension.ts
+* data\model\extensions\BoundaryExtension.ts
+* data\model\extensions\DimensionsExtension.ts
+* data\model\extensions\MirrorExtension.ts
+* data\model\Orientation.ts
+* data\model\orientations\APAOrientation.ts
+* data\model\orientations\EulerOrientation.ts
+* data\model\orientations\LookAtOrientation.ts
+* data\model\orientations\QuaternionOrientation.ts
+* data\model\Pose.ts
+* data\model\Position.ts
+* data\model\positions\GlobalPosition.ts
+* data\model\positions\LocalPosition.ts
+* data\model\positions\OrbitalPosition.ts
+* data\model\Root.ts
+* data\types\complex\Quaternion.ts
+* data\types\complex\Vector3.ts
+* data\types\Measure.ts
+* data\types\measures\Angle.ts
+* data\types\measures\Distance.ts
+* data\types\measures\Size.ts
+* data\types\measures\Time.ts
+* data\types\Node.ts
+* data\types\NodeSet.ts
+* data\types\Shape.ts
+* data\types\shapes\Box.ts
+* data\types\shapes\Ellipsoid.ts
+* data\types\shapes\Sphere.ts
+* data\types\String.ts
