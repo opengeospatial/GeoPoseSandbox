@@ -1,6 +1,6 @@
 # GeoPose Sandbox
 
-Welcome to GeoPose Sandbox, a testing environment to validate the different elements of the [OGC GeoPose specification](https://github.com/opengeospatial/GeoPose), with the goal of facilitating the definition and implementation of the standard. While this project is exploratory in nature, the (TypeScript) code is being primarily written with clarity/simplicity in mind and might offer guidance to those who are trying to implement the standard.
+Welcome to GeoPose Sandbox, a testing environment to validate the different elements of the [OGC GeoPose specification](https://github.com/opengeospatial/GeoPose), with the goal of facilitating the definition and implementation of the standard. While this project is exploratory in nature, the (TypeScript) code is being primarily written with clarity/simplicity in mind and might offer guidance to those who are trying to include GeoPose in their own projects.
 
 Additionally, to better explain the core concepts behind the GeoPose standard, this sandbox also includes a basic 3DUI system based on [Three.js](https://github.com/mrdoob/three.js/) that enables the creation of web-based presentations.
 
