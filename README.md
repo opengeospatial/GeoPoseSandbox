@@ -2,7 +2,7 @@
 
 Welcome to GeoPose Sandbox, a testing environment to validate the different elements of the [OGC GeoPose specification](https://github.com/opengeospatial/GeoPose), with the goal of facilitating the definition and implementation of the standard. While this project is exploratory in nature, the (TypeScript) code is being primarily written with clarity/simplicity in mind and might offer guidance to anyone that wan
 
-Additionally, to better explain the core concepts behind the GeoPose standard, this sandbox also includes a basic 3DUI system that enables the creation of web-based presentations.
+Additionally, to better explain the core concepts behind the GeoPose standard, this sandbox also includes a basic 3DUI system based on [Three.js](https://github.com/mrdoob/three.js/) that enables the creation of web-based presentations.
 
 
 ## Folder Structure
@@ -20,10 +20,10 @@ This projects follows a simple folder structure:
 * **utilities:** The custom build system for the project and the files to properly
 
 
-This project includes a custom 
-
 ## Dependencies
 
-* Threejs: (npm install three) 3D library
-* Typescript Compiler: (npm install -g typescript)
-* Terser: (npm install -g terser)
+To properly build this project with it is necesary to install the following Node packages,
+
+* **Threejs:** (npm install three) The 3D engine the user interaction is based on
+* **Typescript:** (npm install -g typescript) Transpiles the Typescript code to Javacript
+* **Terser:** (npm install -g terser) Minifies the Javascript Code.
