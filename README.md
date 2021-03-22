@@ -24,6 +24,6 @@ This projects follows a simple folder structure:
 
 To properly build this project with it is necesary to install the following Node packages,
 
-* **Threejs:** (npm install three) The 3D engine the user interaction is based on
-* **Typescript:** (npm install -g typescript) Transpiles the Typescript code to Javacript
+* **Threejs:** (npm install three) The 3D engine the user interaction is based on.
+* **Typescript:** (npm install -g typescript) Transpiles the Typescript code to Javacript.
 * **Terser:** (npm install -g terser) Minifies the Javascript Code.
