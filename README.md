@@ -16,8 +16,8 @@ This projects follows a simple folder structure:
   * **data:** A collection of structures to facilitate the definition, conversion and serialization of Geopose-related data.
   * **logic:** The logic representation of the data structures (in the Threejs engine).
   * **user:** A relatively simple collection of classes to define user interaction spaces.
-* **tests:** A collection of test that focus on different aspects of the Geopose
-* **utilities:** The custom build system for the project and the files to properly
+* **tests:** A collection of test that focus on different aspects of the Geopose Sandbox.
+* **utilities:** The custom build system for the project and other external tools.
 
 
 ## Dependencies
