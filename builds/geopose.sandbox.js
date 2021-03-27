@@ -59,7 +59,10 @@
 GeoPoseSandbox._instances = [];
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a data node (a element in a hierarchy). */
        class Node {
 
@@ -175,7 +178,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Define the basic class of a Pose Extension. */
        class Extension extends Node {
 
@@ -194,7 +200,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Extension to specify the 3D boundary of a Pose.
  * (Useful for geofencing). */
        class BoundaryExtension extends Extension {
@@ -204,7 +213,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Extension to specify the 3D dimensions of a Pose. */
        class DimensionsExtension extends Extension {
 
@@ -250,7 +262,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Extension to specify how a Pose is mirrored.  */
        class MirrorExtension extends Extension {
 }
@@ -258,7 +273,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Define the basic class of a three dimensional orientation. */
        class Orientation extends Node {
 
@@ -292,7 +310,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines the Aircraft Principal Axes Orientation.
  * @see https://en.wikipedia.org/wiki/Aircraft_principal_axes */
        class APAOrientation extends Orientation {
@@ -339,7 +360,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines the Euler Orientation.
  * @see https://en.wikipedia.org/wiki/Euler_angles */
        class EulerOrientation extends Orientation {
@@ -385,7 +409,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines the Orientation based on an Pose to look at. */
        class LookAtOrientation extends Orientation {
 
@@ -416,7 +443,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Quaternion-based Orientation.
  * @see https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation */
        class QuaternionOrientation extends Orientation {
@@ -475,7 +505,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Pose of an object. */
        class Pose extends Node {
 
@@ -573,7 +606,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Define the basic class of a three dimensional position within a reference frame. */
        class Position extends Node {
 
@@ -616,7 +652,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a position in global (elliptical) coordinate system.
 * (Based on PICE and LPT-ENU). */
        class GlobalPosition extends Position {
@@ -682,7 +721,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a position in local (euclidean) coordinate system. */
        class LocalPosition extends Position {
 
@@ -727,7 +769,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a position in Orbital (Keplerian) coordinate system. */
        class OrbitalPosition extends Position {
 
@@ -767,7 +812,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Define a set of Nodes. */
        class NodeSet extends Node {
 
@@ -826,7 +874,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an external data resource. */
        class Resource extends Node {
 
@@ -866,7 +917,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Audio Resource. */
        class AudioResource extends Resource {
 }
@@ -874,7 +928,10 @@ GeoPoseSandbox._instances = [];
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Font Resource. */
        class FontResource extends Resource {
 
@@ -1135,7 +1192,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Model Resource. */
        class ModelResource extends Resource {
 }
@@ -1144,7 +1204,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Provides a way to group resources. */
        class ResourceGroup extends Node {
 
@@ -1180,7 +1243,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a four-dimensional complex number to describe rotations. */
        class Quaternion extends Node {
 
@@ -1232,7 +1298,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three-dimensional vector. */
        class Vector3 extends Node {
 
@@ -1294,7 +1363,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a numeric measure. */
        class Measure extends Node {
 
@@ -1427,7 +1499,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a angular measure. */
        class Angle extends Measure {
 
@@ -1456,7 +1531,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a distance (relative dimensional magnitude) measure. */
        class Distance extends Measure {
 
@@ -1485,7 +1563,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a size (dimensional magnitude) measure. */
        class Size extends Measure {
 
@@ -1517,7 +1598,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a time (dimensional magnitude) measure. */
        class Time extends Measure {
 
@@ -1550,7 +1634,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three dimensional shape. */
        class Shape extends Node {
 
@@ -1593,7 +1680,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three-dimensional box Shape (global). */
        class Box extends Shape {
 
@@ -1651,7 +1741,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three-dimensional ellipsoid Shape. */
        class Ellipsoid extends Shape {
 
@@ -1709,7 +1802,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three-dimensional spherical Shape. */
        class Sphere extends Shape {
 
@@ -1735,7 +1831,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a numeric measure. */
        class String extends Node {
 
@@ -1795,7 +1894,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an logic Behavior */
        class Behavior extends Node {
 
@@ -1826,7 +1928,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a logic Entity. */
        class Entity extends Node {
 
@@ -1891,7 +1996,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Camera. */
        class Camera extends Entity {
 
@@ -1953,7 +2061,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Scene. */
        class Scene extends Entity {
 
@@ -1984,7 +2095,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Sphere entity. */
        class SphereEntity extends Entity {
 
@@ -2006,7 +2120,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Text entity. */
        class TextEntity extends Entity {
 
@@ -2072,7 +2189,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an interaction Component */
        class Component extends Node {
 
@@ -2122,7 +2242,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Camera Interaction Component. */
        class CameraComponent extends Component {
 
@@ -2170,7 +2293,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Text Interaction Component. */
        class TextComponent extends Component {
 
@@ -2226,7 +2352,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines the user Presence in an interaction space. */
        class Presence extends Node {
 
@@ -2261,7 +2390,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Interaction Space. */
        class Space extends Node {
 
@@ -2323,7 +2455,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an User Interaction Viewport. */
        class Viewport {
 
@@ -2540,7 +2675,10 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Interaction Widget. */
        class Widget extends Node {
 
@@ -2607,6 +2745,9 @@ let defaultFontData = {
 
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c

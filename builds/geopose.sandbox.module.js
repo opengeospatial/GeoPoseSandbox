@@ -59,7 +59,10 @@ export class GeoPoseSandbox {
 GeoPoseSandbox._instances = [];
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a data node (a element in a hierarchy). */
 export class Node {
 
@@ -175,7 +178,10 @@ export class Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Define the basic class of a Pose Extension. */
 export class Extension extends Node {
 
@@ -194,7 +200,10 @@ export class Extension extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Extension to specify the 3D boundary of a Pose.
  * (Useful for geofencing). */
 export class BoundaryExtension extends Extension {
@@ -204,7 +213,10 @@ export class BoundaryExtension extends Extension {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Extension to specify the 3D dimensions of a Pose. */
 export class DimensionsExtension extends Extension {
 
@@ -250,7 +262,10 @@ export class DimensionsExtension extends Extension {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Extension to specify how a Pose is mirrored.  */
 export class MirrorExtension extends Extension {
 }
@@ -258,7 +273,10 @@ export class MirrorExtension extends Extension {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Define the basic class of a three dimensional orientation. */
 export class Orientation extends Node {
 
@@ -292,7 +310,10 @@ export class Orientation extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines the Aircraft Principal Axes Orientation.
  * @see https://en.wikipedia.org/wiki/Aircraft_principal_axes */
 export class APAOrientation extends Orientation {
@@ -339,7 +360,10 @@ export class APAOrientation extends Orientation {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines the Euler Orientation.
  * @see https://en.wikipedia.org/wiki/Euler_angles */
 export class EulerOrientation extends Orientation {
@@ -385,7 +409,10 @@ export class EulerOrientation extends Orientation {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines the Orientation based on an Pose to look at. */
 export class LookAtOrientation extends Orientation {
 
@@ -416,7 +443,10 @@ export class LookAtOrientation extends Orientation {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Quaternion-based Orientation.
  * @see https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation */
 export class QuaternionOrientation extends Orientation {
@@ -475,7 +505,10 @@ export class QuaternionOrientation extends Orientation {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Pose of an object. */
 export class Pose extends Node {
 
@@ -573,7 +606,10 @@ export class Pose extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Define the basic class of a three dimensional position within a reference frame. */
 export class Position extends Node {
 
@@ -616,7 +652,10 @@ export class Position extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a position in global (elliptical) coordinate system.
 * (Based on PICE and LPT-ENU). */
 export class GlobalPosition extends Position {
@@ -682,7 +721,10 @@ export class GlobalPosition extends Position {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a position in local (euclidean) coordinate system. */
 export class LocalPosition extends Position {
 
@@ -727,7 +769,10 @@ export class LocalPosition extends Position {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a position in Orbital (Keplerian) coordinate system. */
 export class OrbitalPosition extends Position {
 
@@ -767,7 +812,10 @@ export class OrbitalPosition extends Position {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Define a set of Nodes. */
 export class NodeSet extends Node {
 
@@ -826,7 +874,10 @@ export class NodeSet extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an external data resource. */
 export class Resource extends Node {
 
@@ -866,7 +917,10 @@ export class Resource extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Audio Resource. */
 export class AudioResource extends Resource {
 }
@@ -874,7 +928,10 @@ export class AudioResource extends Resource {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Font Resource. */
 export class FontResource extends Resource {
 
@@ -1135,7 +1192,10 @@ export let defaultFont = FontResource.parse(defaultFontData);
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Model Resource. */
 export class ModelResource extends Resource {
 }
@@ -1144,7 +1204,10 @@ export class ModelResource extends Resource {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Provides a way to group resources. */
 export class ResourceGroup extends Node {
 
@@ -1180,7 +1243,10 @@ export class ResourceGroup extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a four-dimensional complex number to describe rotations. */
 export class Quaternion extends Node {
 
@@ -1232,7 +1298,10 @@ export class Quaternion extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three-dimensional vector. */
 export class Vector3 extends Node {
 
@@ -1294,7 +1363,10 @@ export class Vector3 extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a numeric measure. */
 export class Measure extends Node {
 
@@ -1427,7 +1499,10 @@ export class Measure extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a angular measure. */
 export class Angle extends Measure {
 
@@ -1456,7 +1531,10 @@ export class Angle extends Measure {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a distance (relative dimensional magnitude) measure. */
 export class Distance extends Measure {
 
@@ -1485,7 +1563,10 @@ export class Distance extends Measure {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a size (dimensional magnitude) measure. */
 export class Size extends Measure {
 
@@ -1517,7 +1598,10 @@ export class Size extends Measure {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a time (dimensional magnitude) measure. */
 export class Time extends Measure {
 
@@ -1550,7 +1634,10 @@ export class Time extends Measure {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three dimensional shape. */
 export class Shape extends Node {
 
@@ -1593,7 +1680,10 @@ export class Shape extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three-dimensional box Shape (global). */
 export class Box extends Shape {
 
@@ -1651,7 +1741,10 @@ export class Box extends Shape {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three-dimensional ellipsoid Shape. */
 export class Ellipsoid extends Shape {
 
@@ -1709,7 +1802,10 @@ export class Ellipsoid extends Shape {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a three-dimensional spherical Shape. */
 export class Sphere extends Shape {
 
@@ -1735,7 +1831,10 @@ export class Sphere extends Shape {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a numeric measure. */
 export class String extends Node {
 
@@ -1795,7 +1894,10 @@ export class String extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an logic Behavior */
 export class Behavior extends Node {
 
@@ -1826,7 +1928,10 @@ export class Behavior extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a logic Entity. */
 export class Entity extends Node {
 
@@ -1891,7 +1996,10 @@ export class Entity extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Camera. */
 export class Camera extends Entity {
 
@@ -1953,7 +2061,10 @@ export class Camera extends Entity {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Scene. */
 export class Scene extends Entity {
 
@@ -1984,7 +2095,10 @@ export class Scene extends Entity {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Sphere entity. */
 export class SphereEntity extends Entity {
 
@@ -2006,7 +2120,10 @@ export class SphereEntity extends Entity {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Text entity. */
 export class TextEntity extends Entity {
 
@@ -2072,7 +2189,10 @@ export class TextEntity extends Entity {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an interaction Component */
 export class Component extends Node {
 
@@ -2122,7 +2242,10 @@ export class Component extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Camera Interaction Component. */
 export class CameraComponent extends Component {
 
@@ -2170,7 +2293,10 @@ export class CameraComponent extends Component {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines a Text Interaction Component. */
 export class TextComponent extends Component {
 
@@ -2226,7 +2352,10 @@ export class TextComponent extends Component {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines the user Presence in an interaction space. */
 export class Presence extends Node {
 
@@ -2261,7 +2390,10 @@ export class Presence extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Interaction Space. */
 export class Space extends Node {
 
@@ -2323,7 +2455,10 @@ export class Space extends Node {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an User Interaction Viewport. */
 export class Viewport {
 
@@ -2540,7 +2675,10 @@ export function addCssRule(selector, rule, override = false) {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 /** Defines an Interaction Widget. */
 export class Widget extends Node {
 
@@ -2608,8 +2746,11 @@ export class Widget extends Node {
 
 
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 export default GeoPoseSandbox;
