@@ -1,0 +1,478 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#"
+     xml:base="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:opla-sd="http://ontologydesignpatterns.org/opla-sd#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPosition -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionX -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionY -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#DefinesSpaces -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#DefinesSpaces">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Experience"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Space"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Renders -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Renders">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Viewport"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Layer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Subspaces -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Subspaces">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Space"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Space"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasGeometry -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasGeometry">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Mesh"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Geometry"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasLayers -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasLayers">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Space"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Layer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasMaterial -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasMaterial">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Mesh"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Material"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasObjects -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasObjects">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Scene"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Object3D"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasPresence -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasPresence">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#User"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Presence"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasStates -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasStates">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Layer"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#State"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasWidget -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#hasWidget">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#State"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Widget"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#interactsWith -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#interactsWith">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#User"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Space"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#isPresent -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#isPresent">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Presence"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Layer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#BoxGeometry -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#BoxGeometry">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Geometry"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">680.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">120.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Button -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Button">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Widget"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">759.0641769359934</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">679.931843611465</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Camera -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Camera">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Object3D"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">389.66481150135417</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">429.8376666644334</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Experience -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Experience">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">50.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">590.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Geometry -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Geometry">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">520.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">180.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Label -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Label">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Widget"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">758.643827055465</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">619.5413678782951</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Layer -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Layer">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">239.61533318786564</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">680.299139930879</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Light -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Light">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Object3D"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">390.003076416467</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">340.0337847924708</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Material -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Material">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">520.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">290.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Mesh -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Mesh">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Object3D"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">390.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">240.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Object3D -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Object3D">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">220.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">290.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Presence -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Presence">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">239.5781252481347</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">760.0489658583358</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Scene -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Scene">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">70.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">290.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Space -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Space">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">59.62920696423524</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">679.7259281970775</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#SphereGeometry -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#SphereGeometry">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Geometry"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">680.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">180.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#State -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#State">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">400.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">680.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#TextArea -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#TextArea">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Widget"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">759.1863830865552</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">739.9615746899851</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#TextGeometry -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#TextGeometry">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Geometry"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">680.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">230.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#User -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#User">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">70.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">760.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Viewport -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Viewport">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">230.0</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">590.0</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Widget -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mikelsalazar/ontologies/GeoPoseSandbox#Widget">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">559.175184288637</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">679.8355963172946</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

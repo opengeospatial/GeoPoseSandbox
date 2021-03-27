@@ -1,4 +1,4 @@
-import { Node } from "../../types/Node";
+import { Node } from "../../Node";
 import { Measure } from "../../types/Measure";
 import { Orientation } from "../Orientation";
 
@@ -23,16 +23,16 @@ export class QuaternionOrientation extends Orientation {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** Gets the value of the quaternion vector in the X(i) axis. */
+	/** The value of the quaternion vector in the X(i) axis. */
 	get x() { return this._x; }
 
-	/** Gets the value of the quaternion vector in the Y(j) axis. */
+	/** The value of the quaternion vector in the Y(j) axis. */
 	get y() { return this._y; }
 
-	/** Gets the value of the quaternion vector in the Z(k) axis. */
+	/** The value of the quaternion vector in the Z(k) axis. */
 	get z() { return this._z; }
 
-	/** Gets the rotation half-angle around the quaternion vector. */
+	/** The rotation half-angle around the quaternion vector. */
 	get w() { return this._w; }
 
 
@@ -43,9 +43,7 @@ export class QuaternionOrientation extends Orientation {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
-	constructor(name : any, parentNode?: Node, params?: number[]);
-	constructor(name : any, parentNode?: Node, params?: object);
-	constructor(name : any, parentNode?: Node, params: any = {}){ 
+	constructor(name : any, parentNode?: Node, params: any = {}) { 
 
 		// Call the parent constructor
 		super (name, parentNode, params);
@@ -58,9 +56,9 @@ export class QuaternionOrientation extends Orientation {
 		}
 
 		// Create the children nodes
-		this._x = new Measure("x", this, params.x || 0);
-		this._y = new Measure("y", this, params.y || 0);
-		this._z = new Measure("z", this, params.z || 0);
-		this._w = new Measure("w", this, params.w || 1);
+		this._x = new Measure("x", "x", this, params.x || 0);
+		this._y = new Measure("y", "y", this, params.y || 0);
+		this._z = new Measure("z", "z", this, params.z || 0);
+		this._w = new Measure("w", "w", this, params.w || 1);
 	}
 }

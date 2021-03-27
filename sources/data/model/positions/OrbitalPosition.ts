@@ -1,4 +1,4 @@
-import { Node } from "../../types/Node";
+import { Node } from "../../Node";
 import { Position } from "../Position";
 import { Measure } from "../../types/Measure";
 import { Distance } from "../../types/measures/Distance";
@@ -29,7 +29,7 @@ export class OrbitalPosition extends Position {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** Gets the eccentricity of the orbit. */
+	/** The eccentricity of the orbit. */
 	get eccentricity() { return this._eccentricity; }
 
 
@@ -39,8 +39,6 @@ export class OrbitalPosition extends Position {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
-	constructor(name: any, parentNode?: Node, params?: number[]);
-	constructor(name: any, parentNode?: Node, params?: object);
 	constructor(name: any, parentNode?: Node, params: any = {}) {
 
 		// Call the parent constructor
@@ -61,6 +59,6 @@ export class OrbitalPosition extends Position {
 			params.semimajor_axis || 0);
 
 		// TODO Complete this
-		this.relativeValues.x.set(-this._semimajor_axis.value / 2);
+		this.relativeValues.x.setValue(-this._semimajor_axis.value / 2);
 	}
 }

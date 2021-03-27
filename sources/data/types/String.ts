@@ -1,47 +1,45 @@
-import { Node } from "./Node";
+import { Node } from "../Node";
 
-/** Defines a numeric measure. */ 
+/** Defines a numeric measure. */
 export class String extends Node {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
 	/** The current value of the Measure.*/
-	private _value : string = null;
+	private _value: string = null;
 
 	/** The default value of the Measure. .*/
-	private _default : string = null;
+	private _default: string = null;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** Gets the current value of the Measure. */
-	get value():string { return this._value; }
-	
+	get value(): string { return this._value; }
+
 	/** Sets the current value of the Measure. */
-	set value(newValue: string) { this._value = newValue; }
+	set value(newValue: string) { this._value = newValue; this.updated=false;}
 
 	/** Gets the default value of the Measure. */
-	get default() : string { return this._default; }
+	get default(): string { return this._default; }
 
 	/** Sets the default value of the Measure. */
 	set default(newDefault: string) { this._default = newDefault; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-	
+
 	/** Initializes a new instance of the Measure class.
-	 * @param name The name(s) of the Measure.
+	 * @param name The name of the Measure.
 	 * @param parentNode The parent Measure.
-	 * @param params The initialization parameters (or a numberic value). */
-	constructor(name : any, parentNode?: Node, params?: string);
-	constructor(name : any, parentNode?: Node, params?: object);
-	constructor(name : any, parentNode?: Node, params: any = {}){ 
-		
+	 * @param params The initialization parameters (or a string value). */
+	constructor(name: string, parentNode?: Node, params: any = {}) {
+
 		// Call the parent constructor
-		super (name, parentNode, params);
+		super(name, "string", parentNode, params);
 
 		// Set the values
-		if (params) this.set(params);
+		if (params) this.setValue(params);
 	}
 
 
@@ -49,9 +47,9 @@ export class String extends Node {
 
 	/** Sets the value or the properties of the Measure.
 	* @param params The properties to modify (or a numeric value). */
-	set(params: number);
-	set(params: object);
-	set( params: any = {}){
+	setValue(params: number);
+	setValue(params: object);
+	setValue(params: any = {}) {
 		if (typeof params == "string") this.value = params;
 		else {
 			this.value = params.value;
@@ -60,7 +58,7 @@ export class String extends Node {
 	}
 
 	/** Gets the value of the Number.
-	 *  The value of the Number. */
-	get(): string{ return this._value; }
+	 *  @returns The value of the Number. */
+	getValue(): string { return this._value; }
 
 }

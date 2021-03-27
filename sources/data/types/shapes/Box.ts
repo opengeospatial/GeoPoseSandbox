@@ -1,4 +1,4 @@
-import { Node } from '../Node'
+import { Node } from '../../Node'
 import { Shape } from '../Shape'
 import { Size } from '../measures/Size';
 
@@ -7,25 +7,25 @@ export class Box extends Shape {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The size of the Box in the X dimension. */
-	public _width: Size;
+	/** The Size of in the X axis. */
+	private _width: Size;
 
-	/** The size of the Box in the Y dimension. */
-	public _height: Size;
+	/** The Size of in the Y axis. */
+	private _height: Size;
 
-	/** The size of the Box in the Z dimension. */
-	public _depth: Size;
+	/** The Size of in the Z axis. */
+	private _depth: Size;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** Gets the size of the Box in the X dimension. */
+	/** The Size of in the X axis. */
 	get width(): Size { return this._width; }
 
-	/** Gets the size of the Box in the Z dimension. */
+	/** The Size of in the Z axis. */
 	get depth(): Size { return this._depth; }
 
-	/** Gets the size of the Box in the Y dimension. */
+	/** The Size of in the Y axis. */
 	get height(): Size { return this._height; }
 
 
@@ -35,12 +35,17 @@ export class Box extends Shape {
 	 * @param name The name(s) of the node.
 	 * @param parentNode The parent node.
 	 * @param params The initialization parameters. */
-	constructor(name: any, parentNode?: Node, params?: object);
-	constructor(name: any, parentNode?: Node, params?: any) {
+	constructor(name: any, parentNode?: Node, params: any = {}) {
 		super(name, parentNode, params);
-		this._width = new Size("Width", this, params[0]);
-		this._height = new Size("Height", this, params[1] || params[0]);
-		this._depth = new Size("Depth", this, params[2] || params[0]);
+		if (Array.isArray(params)) { params = {
+			width: (params.length > 0) ? params[0] : 1,
+			depth: (params.length > 1) ? params[1] : 1,
+			height: (params.length > 2) ? params[2] : 1
+		};}
+		let defaultValue = params.size || params.width || 1;
+		this._width = new Size("Width", this, params.width || defaultValue);
+		this._depth = new Size("Depth", this, this._depth || defaultValue);
+		this._height = new Size("Height", this, this._height || defaultValue);
 	}
 
 
@@ -54,8 +59,8 @@ export class Box extends Shape {
 	/** Sets the values of the Box from an array.
 	* @param values An array with the numerical values. */
 	fromArray(values: number[]) {
-		this._width.set((values.length > 0) ? values[0] : 0);
-		this._depth.set((values.length > 1) ? values[1] : this.width.get());
-		this._height.set((values.length > 2) ? values[2] : this.width.get());
+		this._width.setValue((values.length > 0)? values[0] : 0);
+		this._depth.setValue((values.length > 1)? values[1] : values[0]);
+		this._height.setValue((values.length > 2)? values[2] : values[0]);
 	}
 }

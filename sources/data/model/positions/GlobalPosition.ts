@@ -1,4 +1,4 @@
-import { Node } from "../../types/Node";
+import { Node } from "../../Node";
 import { Position } from "../Position";
 import { Angle } from "../../types/measures/Angle";
 import { Distance } from "../../types/measures/Distance";
@@ -10,31 +10,31 @@ export class GlobalPosition extends Position {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The angle in degrees around the equator of the globe. */
+	/** The Angle in degrees around the equator of the globe. */
 	private _longitude : Angle;
 
-	/** The angle in degrees around the prime meridian of the globe. */
+	/** The Angle in degrees around the prime meridian of the globe. */
 	private _latitude : Angle;
 
-	/** The vertical distance relative to the surface to the globe. */
+	/** The vertical Distance relative to the surface to the globe. */
 	private _altitude : Distance;
 	
-	/** The shape of the globe. */
+	/** The Shape of the globe. */
 	private _globe : Ellipsoid = null;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** Gets the angle in degrees around the equator of the globe. */
+	/** The Angle in degrees around the equator of the globe. */
 	get longitude() { return this._longitude; }
 
-	/** Gets the angle in degrees around the prime meridian of the globe. */
+	/** The Angle in degrees around the prime meridian of the globe. */
 	get latitude() { return this._latitude; }
 
-	/** Gets the vertical distance relative to the surface to the globe. */
+	/** The vertical Distance relative to the surface to the globe. */
 	get altitude() { return this._altitude; }
 
-	/** Gets the shape of the globe. */
+	/** The Shape of the globe. */
 	get globe() { return this._globe; }
 
 
@@ -44,8 +44,6 @@ export class GlobalPosition extends Position {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
-	constructor(name : any, parentNode?: Node, params?: number[]);
-	constructor(name : any, parentNode?: Node, params?: object);
 	constructor(name : any, parentNode?: Node, params: any = {}){ 
 
 		// Call the parent constructor
@@ -70,13 +68,13 @@ export class GlobalPosition extends Position {
 			latSin = Math.sin(lat), latCos = Math.cos(lat);
 
 		// Calculate the relative position
-		this.relativeValues.x.set(lngCos * latCos * alt);
-		this.relativeValues.y.set(latSin * alt);
-		this.relativeValues.z.set(lngSin * latCos * alt);
+		this.relativeValues.x.setValue(lngCos * latCos * alt);
+		this.relativeValues.y.setValue(latSin * alt);
+		this.relativeValues.z.setValue(lngSin * latCos * alt);
 
 		// Calculate the vertical vector
-		this.verticalVector.x.set(0);
-		this.verticalVector.y.set(-lng );
-		this.verticalVector.z.set(lat - Math.PI/2);
+		this.verticalVector.x.setValue(0);
+		this.verticalVector.y.setValue(-lng );
+		this.verticalVector.z.setValue(lat - Math.PI/2);
 	}
 }

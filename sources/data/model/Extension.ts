@@ -1,4 +1,4 @@
-import { Node } from "../types/Node";
+import { Node } from "../Node";
 
 /** Define the basic class of a Pose Extension. */
 export class Extension extends Node {
@@ -9,11 +9,9 @@ export class Extension extends Node {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
-	constructor(name: any, parentNode?: Node, params?: number[]);
-	constructor(name: any, parentNode?: Node, params?: object);
 	constructor(name: any, parentNode?: Node, params: any = {}) {
 
 		// Call the parent constructor
-		super(name, parentNode, params);
+		super(name, "extension", parentNode, params);
 	}
 }

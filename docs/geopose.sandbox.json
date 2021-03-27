@@ -1,0 +1,2521 @@
+{
+	"name": "GeoPose Sandbox",
+	"classes": {
+		"Extension": {
+			"name": "Extension",
+			"comment": { "description": "Define the basic class of a Pose Extension." },
+			"extends": "Node",
+			"file": "data/model/Extension.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Extension class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"BoundaryExtension": {
+			"name": "BoundaryExtension",
+			"comment": { "description": "Defines an Extension to specify the 3D boundary of a Pose. (Useful for geofencing)." },
+			"extends": "Extension",
+			"file": "data/model/extensions/BoundaryExtension.ts",
+			"members": {}
+		},
+		"DimensionsExtension": {
+			"name": "DimensionsExtension",
+			"comment": { "description": "Defines an Extension to specify the 3D dimensions of a Pose." },
+			"extends": "Extension",
+			"file": "data/model/extensions/DimensionsExtension.ts",
+			"members": {
+				"_width": {
+					"name": "_width",
+					"comment": { "description": "The Size in the X axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_depth": {
+					"name": "_depth",
+					"comment": { "description": "The Size in the Y axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_height": {
+					"name": "_height",
+					"comment": { "description": "The Size in the Z axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"width": {
+					"name": "width",
+					"comment": { "description": "Gets the Size in the X axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"depth": {
+					"name": "depth",
+					"comment": { "description": "Gets the Size in the Y axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"height": {
+					"name": "height",
+					"comment": { "description": "Gets the Size in the Z axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the LocalPosition class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"MirrorExtension": {
+			"name": "MirrorExtension",
+			"comment": { "description": "Defines an Extension to specify how a Pose is mirrored." },
+			"extends": "Extension",
+			"file": "data/model/extensions/MirrorExtension.ts",
+			"members": {}
+		},
+		"Orientation": {
+			"name": "Orientation",
+			"comment": { "description": "Define the basic class of a three dimensional orientation." },
+			"extends": "Node",
+			"file": "data/model/Orientation.ts",
+			"members": {
+				"_relativeValues": {
+					"name": "_relativeValues",
+					"comment": { "description": "Define the relative orientation." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_absoluteValues": {
+					"name": "_absoluteValues",
+					"comment": { "description": "Define the absolute orientation." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"relativeValues": {
+					"name": "relativeValues",
+					"comment": { "description": "The relative orientation." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"absoluteValues": {
+					"name": "absoluteValues",
+					"comment": { "description": "The absolute orientation." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Orientation class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"APAOrientation": {
+			"name": "APAOrientation",
+			"comment": { "description": "Defines the Aircraft Principal Axes Orientation.", "see": "https://en.wikipedia.org/wiki/Aircraft_principal_axes" },
+			"extends": "Orientation",
+			"file": "data/model/orientations/APAOrientation.ts",
+			"members": {
+				"_roll": {
+					"name": "_roll",
+					"comment": { "description": "The Angle in the X axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_pitch": {
+					"name": "_pitch",
+					"comment": { "description": "The Angle in the Y axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_yaw": {
+					"name": "_yaw",
+					"comment": { "description": "The Angle in the Z axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"roll": {
+					"name": "roll",
+					"comment": { "description": "The Angle in the X axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"pitch": {
+					"name": "pitch",
+					"comment": { "description": "The Angle in the Y axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"yaw": {
+					"name": "yaw",
+					"comment": { "description": "The Angle in the Z axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the APAOrientation class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"EulerOrientation": {
+			"name": "EulerOrientation",
+			"comment": { "description": "Defines the Euler Orientation.", "see": "https://en.wikipedia.org/wiki/Euler_angles" },
+			"extends": "Orientation",
+			"file": "data/model/orientations/EulerOrientation.ts",
+			"members": {
+				"_x": {
+					"name": "_x",
+					"comment": { "description": "The Angle in the X axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_y": {
+					"name": "_y",
+					"comment": { "description": "The Angle in the Y axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_z": {
+					"name": "_z",
+					"comment": { "description": "The Angle in the Z axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"x": {
+					"name": "x",
+					"comment": { "description": "The Angle in the X axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"y": {
+					"name": "y",
+					"comment": { "description": "The Angle in the Y axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"z": {
+					"name": "z",
+					"comment": { "description": "The Angle in the Z axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the APAOrientation class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"LookAtOrientation": {
+			"name": "LookAtOrientation",
+			"comment": { "description": "Defines the Orientation based on an Pose to look at." },
+			"extends": "Orientation",
+			"file": "data/model/orientations/LookAtOrientation.ts",
+			"members": {
+				"_target": {
+					"name": "_target",
+					"comment": { "description": "The target Pose to look at." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"target": {
+					"name": "target",
+					"comment": { "description": "The target Entity to look at." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the APAOrientation class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"QuaternionOrientation": {
+			"name": "QuaternionOrientation",
+			"comment": { "description": "Defines a Quaternion-based Orientation.", "see": "https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation" },
+			"extends": "Orientation",
+			"file": "data/model/orientations/QuaternionOrientation.ts",
+			"members": {
+				"_x": {
+					"name": "_x",
+					"comment": { "description": "The value of the quaternion vector in the X(i) axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_y": {
+					"name": "_y",
+					"comment": { "description": "The value of the quaternion vector in the Y(j) axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_z": {
+					"name": "_z",
+					"comment": { "description": "The value of the quaternion vector in the Z(k) axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_w": {
+					"name": "_w",
+					"comment": { "description": "The rotation half-angle around the quaternion vector." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"x": {
+					"name": "x",
+					"comment": { "description": "The value of the quaternion vector in the X(i) axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"y": {
+					"name": "y",
+					"comment": { "description": "The value of the quaternion vector in the Y(j) axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"z": {
+					"name": "z",
+					"comment": { "description": "The value of the quaternion vector in the Z(k) axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"w": {
+					"name": "w",
+					"comment": { "description": "The rotation half-angle around the quaternion vector." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the APAOrientation class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Pose": {
+			"name": "Pose",
+			"comment": { "description": "Defines a Pose of an object." },
+			"extends": "Node",
+			"file": "data/model/Pose.ts",
+			"members": {
+				"_position": {
+					"name": "_position",
+					"comment": { "description": "The position of the Pose." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_orientation": {
+					"name": "_orientation",
+					"comment": { "description": "The orientation of the Pose." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_extensions": {
+					"name": "_extensions",
+					"comment": { "description": "The extensions of the Pose." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_parent": {
+					"name": "_parent",
+					"comment": { "description": "The parent Pose." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_children": {
+					"name": "_children",
+					"comment": { "description": "The children Poses." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"position": {
+					"name": "position",
+					"comment": { "description": "The position of the Pose." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"orientation": {
+					"name": "orientation",
+					"comment": { "description": "The orientation of the Pose." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"extensions": {
+					"name": "extensions",
+					"comment": { "description": "The extensions of the Pose." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"parent": {
+					"name": "parent",
+					"comment": { "description": "The parent of the Pose." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"children": {
+					"name": "children",
+					"comment": { "description": "The children of the Pose." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Pose class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Position": {
+			"name": "Position",
+			"comment": { "description": "Define the basic class of a three dimensional position within a reference frame." },
+			"extends": "Node",
+			"file": "data/model/Position.ts",
+			"members": {
+				"_relativeValues": {
+					"name": "_relativeValues",
+					"comment": { "description": "Define the relative position." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_absoluteValues": {
+					"name": "_absoluteValues",
+					"comment": { "description": "Define the absolute position." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_verticalVector": {
+					"name": "_verticalVector",
+					"comment": { "description": "Define the vertical vector." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_forwardVector": {
+					"name": "_forwardVector",
+					"comment": { "description": "Define the forward vector." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"relativeValues": {
+					"name": "relativeValues",
+					"comment": { "description": "The relative position." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"absoluteValues": {
+					"name": "absoluteValues",
+					"comment": { "description": "The absolute position." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"verticalVector": {
+					"name": "verticalVector",
+					"comment": { "description": "The vertical vector." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"forwardVector": {
+					"name": "forwardVector",
+					"comment": { "description": "The forward vector." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Position class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"GlobalPosition": {
+			"name": "GlobalPosition",
+			"comment": { "description": "Defines a position in global (elliptical) coordinate system. (Based on PICE and LPT-ENU)." },
+			"extends": "Position",
+			"file": "data/model/positions/GlobalPosition.ts",
+			"members": {
+				"_longitude": {
+					"name": "_longitude",
+					"comment": { "description": "The Angle in degrees around the equator of the globe." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_latitude": {
+					"name": "_latitude",
+					"comment": { "description": "The Angle in degrees around the prime meridian of the globe." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_altitude": {
+					"name": "_altitude",
+					"comment": { "description": "The vertical Distance relative to the surface to the globe." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_globe": {
+					"name": "_globe",
+					"comment": { "description": "The Shape of the globe." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"longitude": {
+					"name": "longitude",
+					"comment": { "description": "The Angle in degrees around the equator of the globe." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"latitude": {
+					"name": "latitude",
+					"comment": { "description": "The Angle in degrees around the prime meridian of the globe." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"altitude": {
+					"name": "altitude",
+					"comment": { "description": "The vertical Distance relative to the surface to the globe." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"globe": {
+					"name": "globe",
+					"comment": { "description": "The Shape of the globe." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the GlobalPosition class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"LocalPosition": {
+			"name": "LocalPosition",
+			"comment": { "description": "Defines a position in local (euclidean) coordinate system." },
+			"extends": "Position",
+			"file": "data/model/positions/LocalPosition.ts",
+			"members": {
+				"_x": {
+					"name": "_x",
+					"comment": { "description": "The Distance in the X axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_y": {
+					"name": "_y",
+					"comment": { "description": "The Distance in the Y axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_z": {
+					"name": "_z",
+					"comment": { "description": "The Distance in the Z axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"x": {
+					"name": "x",
+					"comment": { "description": "The Distance in the X axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"y": {
+					"name": "y",
+					"comment": { "description": "The Distance in the Y axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"z": {
+					"name": "z",
+					"comment": { "description": "The Distance in the Z axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the LocalPosition class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"OrbitalPosition": {
+			"name": "OrbitalPosition",
+			"comment": { "description": "Defines a position in Orbital (Keplerian) coordinate system." },
+			"extends": "Position",
+			"file": "data/model/positions/OrbitalPosition.ts",
+			"members": {
+				"_eccentricity": {
+					"name": "_eccentricity",
+					"comment": { "description": "The eccentricity of the orbit (the amount by which its orbit around another body deviates from a perfect circle)." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_semimajor_axis": {
+					"name": "_semimajor_axis",
+					"comment": { "description": "The periapsis of the orbit." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_inclination": {
+					"name": "_inclination",
+					"comment": { "description": "The vertical tilt of the ellipse with respect to the reference plane." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_longitude": {
+					"name": "_longitude",
+					"comment": { "description": "The longitude of the ascending node." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_period": {
+					"name": "_period",
+					"comment": { "description": "The period of the orbit." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"eccentricity": {
+					"name": "eccentricity",
+					"comment": { "description": "The eccentricity of the orbit." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the OrbitalPosition class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Node": {
+			"name": "Node",
+			"comment": { "description": "Defines a data node (a element in a hierarchy)." },
+			"extends": null,
+			"file": "data/Node.ts",
+			"members": {
+				"_name": {
+					"name": "_name",
+					"comment": { "description": "The name of the node." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_parentNode": {
+					"name": "_parentNode",
+					"comment": { "description": "The parent of the data node." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_childNodes": {
+					"name": "_childNodes",
+					"comment": { "description": "The child nodes of the data node." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_updated": {
+					"name": "_updated",
+					"comment": { "description": "The name of the data element." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_type": {
+					"name": "_type",
+					"comment": { "description": "The type data of the Node." },
+					"modifiers": [ "protected" ],
+					"type": "field"
+				},
+				"onPreUpdate": {
+					"name": "onPreUpdate",
+					"comment": { "description": "A function callback to be used before the node update." },
+					"modifiers": [ "static", "public" ],
+					"type": "field"
+				},
+				"onPostUpdate": {
+					"name": "onPostUpdate",
+					"comment": { "description": "A function callback to be used before the node update." },
+					"modifiers": [ "static", "public" ],
+					"type": "field"
+				},
+				"name": {
+					"name": "name",
+					"comment": { "description": "The name of the node." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"fullName": {
+					"name": "fullName",
+					"comment": { "description": "Gets the full name of the node." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"parentNode": {
+					"name": "parentNode",
+					"comment": { "description": "The parent of the node." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"childNodes": {
+					"name": "childNodes",
+					"comment": { "description": "The children of the node." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"updated": {
+					"name": "updated",
+					"comment": { "description": "A boolean indicating if the node has been updated or not." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Node instance.",
+						"params": { "name": "The name(s) of the node.", "type": "The type of the node.", "parentNode": "The parent node.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the Node.",
+						"params": { "forced": "Indicates whether the update is forced or not.", "deltaTime": "The update time." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"NodeSet": {
+			"name": "NodeSet",
+			"comment": { "description": "Define a set of Nodes." },
+			"extends": null,
+			"file": "data/NodeSet.ts",
+			"members": {
+				"_pointer": {
+					"name": "_pointer",
+					"comment": { "description": "Define a set of Nodes." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Node instance.",
+						"params": { "name": "The name(s) of the node.", "parentNode": "The parent node.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"getIndex": {
+					"name": "getIndex",
+					"comment": {
+						"description": "Gets a node by index.",
+						"params": { "index": "The index of the node to get." },
+						"return": "The node with the given index."
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"Symbol": {
+					"name": "Symbol",
+					"comment": {
+						"description": "Gets a node by index.",
+						"params": { "index": "The index of the node to get." },
+						"return": "The node with the given index."
+					},
+					"modifiers": [ "public" ],
+					"type": "field"
+				}
+			}
+		},
+		"Resource": {
+			"name": "Resource",
+			"comment": { "description": "Defines an external data resource." },
+			"extends": "Node",
+			"file": "data/Resource.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Resource instance.",
+						"params": { "name": "The name of the resource." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"load": {
+					"name": "load",
+					"comment": {
+						"description": "Loads the resource.",
+						"params": { "url": "The URL of the Resource." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"AudioResource": {
+			"name": "AudioResource",
+			"comment": { "description": "Defines a Audio Resource." },
+			"extends": "Resource",
+			"file": "data/resources/AudioResource.ts",
+			"members": {
+				"_representation": {
+					"name": "_representation",
+					"comment": { "description": "The representation of the Font." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				}
+			}
+		},
+		"FontResource": {
+			"name": "FontResource",
+			"comment": { "description": "Defines a Font Resource." },
+			"extends": "Resource",
+			"file": "data/resources/FontResource.ts",
+			"members": {
+				"_representation": {
+					"name": "_representation",
+					"comment": { "description": "The representation of the Font." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"representation": {
+					"name": "representation",
+					"comment": { "description": "The representation of the Font." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"parse": {
+					"name": "parse",
+					"comment": { "description": "The representation of the Font." },
+					"modifiers": [ "static", "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"ModelResource": {
+			"name": "ModelResource",
+			"comment": { "description": "Defines a Model Resource." },
+			"extends": "Resource",
+			"file": "data/resources/ModelResource.ts",
+			"members": {
+				"_representation": {
+					"name": "_representation",
+					"comment": { "description": "The representation of the Font." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				}
+			}
+		},
+		"ResourceGroup": {
+			"name": "ResourceGroup",
+			"comment": { "description": "Provides a way to group resources." },
+			"extends": "Node",
+			"file": "data/resources/ResourceGroup.ts",
+			"members": {
+				"_models": {
+					"name": "_models",
+					"comment": { "description": "The model resources." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_fonts": {
+					"name": "_fonts",
+					"comment": { "description": "The font resources." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_audios": {
+					"name": "_audios",
+					"comment": { "description": "The audio resources." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"models": {
+					"name": "models",
+					"comment": { "description": "The model resources." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"fonts": {
+					"name": "fonts",
+					"comment": { "description": "The font resources." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"audios": {
+					"name": "audios",
+					"comment": { "description": "The audio resources." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new ResourceManager instance.",
+						"params": { "name": "The name of the interaction space." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Quaternion": {
+			"name": "Quaternion",
+			"comment": { "description": "Defines a four-dimensional complex number to describe rotations." },
+			"extends": "Node",
+			"file": "data/types/complex/Quaternion.ts",
+			"members": {
+				"_x": {
+					"name": "_x",
+					"comment": { "description": "The value of the quaternion vector in the X(i) axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_y": {
+					"name": "_y",
+					"comment": { "description": "The value of the quaternion vector in the Y(j) axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_z": {
+					"name": "_z",
+					"comment": { "description": "The value of the quaternion vector in the Z(k) axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_w": {
+					"name": "_w",
+					"comment": { "description": "The rotation half-angle around the quaternion vector." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"x": {
+					"name": "x",
+					"comment": { "description": "The value of the quaternion vector in the X(i) axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"y": {
+					"name": "y",
+					"comment": { "description": "The value of the quaternion vector in the Y(j) axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"z": {
+					"name": "z",
+					"comment": { "description": "The value of the quaternion vector in the Z(k) axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"w": {
+					"name": "w",
+					"comment": { "description": "The rotation half-angle around the quaternion vector." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Quaternion class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Vector3": {
+			"name": "Vector3",
+			"comment": { "description": "Defines a three-dimensional vector." },
+			"extends": "Node",
+			"file": "data/types/complex/Vector3.ts",
+			"members": {
+				"_x": {
+					"name": "_x",
+					"comment": { "description": "The value in the X axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_y": {
+					"name": "_y",
+					"comment": { "description": "The value in the Y axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_z": {
+					"name": "_z",
+					"comment": { "description": "The value in the Z axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"x": {
+					"name": "x",
+					"comment": { "description": "The value in the X axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"y": {
+					"name": "y",
+					"comment": { "description": "The value in the Y axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"z": {
+					"name": "z",
+					"comment": { "description": "The value in the Z axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Vector3 class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a number array)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"toArray": {
+					"name": "toArray",
+					"comment": { "description": "Converts the Vector3 instance into an array representation." },
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"fromArray": {
+					"name": "fromArray",
+					"comment": {
+						"description": "Sets the values of the Vector3 from an array.",
+						"params": { "values": "An array with the numerical values." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Measure": {
+			"name": "Measure",
+			"comment": { "description": "Defines a numeric measure." },
+			"extends": "Node",
+			"file": "data/types/Measure.ts",
+			"members": {
+				"_value": {
+					"name": "_value",
+					"comment": { "description": "The current value of the Measure." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_min": {
+					"name": "_min",
+					"comment": { "description": "The minimum possible value of Measure." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_max": {
+					"name": "_max",
+					"comment": { "description": "The maximum possible value of the Measure." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_default": {
+					"name": "_default",
+					"comment": { "description": "The default value of the Measure. ." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_accuracy": {
+					"name": "_accuracy",
+					"comment": { "description": "The accuracy of the Measure." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_unit": {
+					"name": "_unit",
+					"comment": { "description": "The measurement unit of the Measure." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "Gets the current value of the Measure." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"min": {
+					"name": "min",
+					"comment": { "description": "Gets the minimum possible value of the Measure." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"max": {
+					"name": "max",
+					"comment": { "description": "Gets the maximum possible value of the Measure." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"newDefault": {
+					"name": "newDefault",
+					"comment": { "description": "Sets the default value of the Measure." },
+					"modifiers": [ "public" ],
+					"type": "field"
+				},
+				"accuracy": {
+					"name": "accuracy",
+					"comment": { "description": "Gets the value accuracy of the Measure." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"unit": {
+					"name": "unit",
+					"comment": { "description": "Gets the measurement unit of the Measure." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Measure class.",
+						"params": { "name": "The name of the Measure.", "type": "The type of the Measure.", "parentNode": "The parent Measure.", "params": "The initialization parameters (or a numeric value)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"setValue": {
+					"name": "setValue",
+					"comment": {
+						"description": "Sets the value or the properties of the Measure.",
+						"params": { "params": "The properties to modify (or a numeric value)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"getValue": {
+					"name": "getValue",
+					"comment": { "description": "Gets the value of the Number. The value of the Number." },
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Angle": {
+			"name": "Angle",
+			"comment": { "description": "Defines a angular measure." },
+			"extends": "Measure",
+			"file": "data/types/measures/Angle.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Angle class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a numeric value)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Distance": {
+			"name": "Distance",
+			"comment": { "description": "Defines a distance (relative dimensional magnitude) measure." },
+			"extends": "Measure",
+			"file": "data/types/measures/Distance.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Distance class.",
+						"params": { "name": "The name(s) of the node.", "parentNode": "The parent node.", "params": "The initialization parameters (or a numeric value)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Size": {
+			"name": "Size",
+			"comment": { "description": "Defines a size (dimensional magnitude) measure." },
+			"extends": "Measure",
+			"file": "data/types/measures/Size.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Size class.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters (or a numeric value)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Time": {
+			"name": "Time",
+			"comment": { "description": "Defines a time (dimensional magnitude) measure." },
+			"extends": "Measure",
+			"file": "data/types/measures/Time.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Time class.",
+						"params": { "name": "The name(s) of the node.", "parentNode": "The parent node.", "params": "The initialization parameters (or a numeric value)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Shape": {
+			"name": "Shape",
+			"comment": { "description": "Defines a three dimensional shape." },
+			"extends": "Node",
+			"file": "data/types/Shape.ts",
+			"members": {
+				"_shaded": {
+					"name": "_shaded",
+					"comment": { "description": "Indicates if the Shape should be shaded or not." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_color": {
+					"name": "_color",
+					"comment": { "description": "The color of the Shape." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_texture": {
+					"name": "_texture",
+					"comment": { "description": "The diffuse texture of the Shape." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_emissive": {
+					"name": "_emissive",
+					"comment": { "description": "The emissive texture of the Shape." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"shaded": {
+					"name": "shaded",
+					"comment": { "description": "Indicates if the Shape should be shaded or not." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"color": {
+					"name": "color",
+					"comment": { "description": "The color of the Shape." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"texture": {
+					"name": "texture",
+					"comment": { "description": "The diffuse texture of the Shape." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"emissive": {
+					"name": "emissive",
+					"comment": { "description": "The emissive texture of the Shape." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes the Shape instance.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Box": {
+			"name": "Box",
+			"comment": { "description": "Defines a three-dimensional box Shape (global)." },
+			"extends": "Shape",
+			"file": "data/types/shapes/Box.ts",
+			"members": {
+				"_width": {
+					"name": "_width",
+					"comment": { "description": "The Size of in the X axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_height": {
+					"name": "_height",
+					"comment": { "description": "The Size of in the Y axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_depth": {
+					"name": "_depth",
+					"comment": { "description": "The Size of in the Z axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"width": {
+					"name": "width",
+					"comment": { "description": "The Size of in the X axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"depth": {
+					"name": "depth",
+					"comment": { "description": "The Size of in the Z axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"height": {
+					"name": "height",
+					"comment": { "description": "The Size of in the Y axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes the Box instance.",
+						"params": { "name": "The name(s) of the node.", "parentNode": "The parent node.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"toArray": {
+					"name": "toArray",
+					"comment": { "description": "Converts the Box instance into an array representation." },
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"fromArray": {
+					"name": "fromArray",
+					"comment": {
+						"description": "Sets the values of the Box from an array.",
+						"params": { "values": "An array with the numerical values." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Ellipsoid": {
+			"name": "Ellipsoid",
+			"comment": { "description": "Defines a three-dimensional ellipsoid Shape." },
+			"extends": "Shape",
+			"file": "data/types/shapes/Ellipsoid.ts",
+			"members": {
+				"_radiusX": {
+					"name": "_radiusX",
+					"comment": { "description": "The Size of the radius in the X axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_radiusY": {
+					"name": "_radiusY",
+					"comment": { "description": "The Size of the radius in the Y axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_radiusZ": {
+					"name": "_radiusZ",
+					"comment": { "description": "The Size of the radius in the Z axis." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"radiusX": {
+					"name": "radiusX",
+					"comment": { "description": "The Size of the radius in the X axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"radiusY": {
+					"name": "radiusY",
+					"comment": { "description": "The Size of the radius in the Y axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"radiusZ": {
+					"name": "radiusZ",
+					"comment": { "description": "The Size of the radius in the Z axis." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes the Ellipsoid instance.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"toArray": {
+					"name": "toArray",
+					"comment": { "description": "Converts the Ellipsoid instance into an array representation." },
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"fromArray": {
+					"name": "fromArray",
+					"comment": {
+						"description": "Sets the values of the Ellipsoid from an array.",
+						"params": { "values": "An array with the numerical values." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Sphere": {
+			"name": "Sphere",
+			"comment": { "description": "Defines a three-dimensional spherical Shape." },
+			"extends": "Shape",
+			"file": "data/types/shapes/Sphere.ts",
+			"members": {
+				"_radius": {
+					"name": "_radius",
+					"comment": { "description": "The Size of the radius in all axes." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"radius": {
+					"name": "radius",
+					"comment": { "description": "The Size of the radius in all axes." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes the Sphere instance.",
+						"params": { "name": "The name(s) of the node.", "parent": "The parent node.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"String": {
+			"name": "String",
+			"comment": { "description": "Defines a numeric measure." },
+			"extends": "Node",
+			"file": "data/types/String.ts",
+			"members": {
+				"_value": {
+					"name": "_value",
+					"comment": { "description": "The current value of the Measure." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_default": {
+					"name": "_default",
+					"comment": { "description": "The default value of the Measure. ." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "Gets the current value of the Measure." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"newDefault": {
+					"name": "newDefault",
+					"comment": { "description": "Sets the default value of the Measure." },
+					"modifiers": [ "public" ],
+					"type": "field"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Measure class.",
+						"params": { "name": "The name of the Measure.", "parentNode": "The parent Measure.", "params": "The initialization parameters (or a string value)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"setValue": {
+					"name": "setValue",
+					"comment": {
+						"description": "Sets the value or the properties of the Measure.",
+						"params": { "params": "The properties to modify (or a numeric value)." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"getValue": {
+					"name": "getValue",
+					"comment": { "description": "Gets the value of the Number.", "return": "The value of the Number." },
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"GeoPoseSandbox": {
+			"name": "GeoPoseSandbox",
+			"comment": { "description": "Manages the GeoPose Sandbox." },
+			"extends": null,
+			"file": "GeoPoseSandbox.ts",
+			"members": {
+				"_instances": {
+					"name": "_instances",
+					"comment": { "description": "The list of GeoPoseSandbox instances." },
+					"modifiers": [ "static", "private" ],
+					"type": "field"
+				},
+				"_space": {
+					"name": "_space",
+					"comment": { "description": "The main interaction Space." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_viewports": {
+					"name": "_viewports",
+					"comment": { "description": "The Viewports for user interaction." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"appName": {
+					"name": "appName",
+					"comment": { "description": "The application name of the Geopose Sandbox." },
+					"modifiers": [ "get", "static", "public" ],
+					"type": "accessor"
+				},
+				"version": {
+					"name": "version",
+					"comment": { "description": "The version number of the Geopose Sandbox." },
+					"modifiers": [ "get", "static", "public" ],
+					"type": "accessor"
+				},
+				"instances": {
+					"name": "instances",
+					"comment": { "description": "The list of GeoPoseSandbox instances." },
+					"modifiers": [ "get", "static", "public" ],
+					"type": "accessor"
+				},
+				"space": {
+					"name": "space",
+					"comment": { "description": "The interaction space." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"viewports": {
+					"name": "viewports",
+					"comment": { "description": "The Viewports for user interaction." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"init": {
+					"name": "init",
+					"comment": {
+						"description": "Initializes a new GeoPoseSandbox instance.",
+						"params": { "params": "The initialization parameters." },
+						"return": "The new GeoPoseSandbox instance."
+					},
+					"modifiers": [ "static", "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Behavior": {
+			"name": "Behavior",
+			"comment": { "description": "Defines an logic Behavior" },
+			"extends": "Node",
+			"file": "logic/Behavior.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new logic behavior.",
+						"params": { "name": "The name of the logic behavior.", "type": "The type of the logic behavior.", "parentNode": "The parent node." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Camera": {
+			"name": "Camera",
+			"comment": { "description": "Defines a Camera." },
+			"extends": "Entity",
+			"file": "logic/entities/Camera.ts",
+			"members": {
+				"_fieldOfView": {
+					"name": "_fieldOfView",
+					"comment": { "description": "The field of view of the Camera." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_aspectRatio": {
+					"name": "_aspectRatio",
+					"comment": { "description": "The aspect ratio of the Camera." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_nearPlane": {
+					"name": "_nearPlane",
+					"comment": { "description": "The near plane of the Camera frustum." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_farPlane": {
+					"name": "_farPlane",
+					"comment": { "description": "The far plane of the Camera frustum." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"aspectRatio": {
+					"name": "aspectRatio",
+					"comment": { "description": "The aspect ratio of the Camera." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Camera instance.",
+						"params": { "name": "The name of the entity.", "parent": "The parent entity." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the camera.",
+						"params": { "forced": "Indicates whether the update is forced or not.", "deltaTime": "The update time." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Scene": {
+			"name": "Scene",
+			"comment": { "description": "Defines a Scene." },
+			"extends": "Entity",
+			"file": "logic/entities/Scene.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Define a public constructor.",
+						"params": { "parent": "The parent entity." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"SphereEntity": {
+			"name": "SphereEntity",
+			"comment": { "description": "Defines a Sphere entity." },
+			"extends": "Entity",
+			"file": "logic/entities/SphereEntity.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new SphereEntity instance.",
+						"params": { "name": "The name of the entity.", "parentNode": "The parent entity." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"TextEntity": {
+			"name": "TextEntity",
+			"comment": { "description": "Defines a Text entity." },
+			"extends": "Entity",
+			"file": "logic/entities/TextEntity.ts",
+			"members": {
+				"_characters": {
+					"name": "_characters",
+					"comment": { "description": "The string of characters of the text entity." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_font": {
+					"name": "_font",
+					"comment": { "description": "The font name of the text entity." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"characters": {
+					"name": "characters",
+					"comment": { "description": "The string of characters of the text entity." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"font": {
+					"name": "font",
+					"comment": { "description": "The font name of the text entity." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new TextEntity instance.",
+						"params": { "name": "The name of the entity.", "parent": "The parent entity." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the entity.",
+						"params": { "forced": "Indicates whether the update is forced or not.", "deltaTime": "The update time." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Entity": {
+			"name": "Entity",
+			"comment": { "description": "Defines a logic Entity." },
+			"extends": "Node",
+			"file": "logic/Entity.ts",
+			"members": {
+				"_representation": {
+					"name": "_representation",
+					"comment": { "description": "The representation of the entity." },
+					"modifiers": [ "protected" ],
+					"type": "field"
+				},
+				"_pose": {
+					"name": "_pose",
+					"comment": { "description": "The pose of the entity." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"representation": {
+					"name": "representation",
+					"comment": { "description": "The representation of the entity." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"pose": {
+					"name": "pose",
+					"comment": { "description": "The pose of the entity." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Entity instance.",
+						"params": { "name": "The name of the entity.", "type": "The type of the entity.", "parent": "The parent entity." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the entity.",
+						"params": { "forced": "Indicates whether the update is forced or not.", "deltaTime": "The update time." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Component": {
+			"name": "Component",
+			"comment": { "description": "Defines an interaction Component" },
+			"extends": "Node",
+			"file": "user/interaction/Component.ts",
+			"members": {
+				"_entity": {
+					"name": "_entity",
+					"comment": { "description": "The entity of the component." },
+					"modifiers": [ "protected" ],
+					"type": "field"
+				},
+				"_parentEntity": {
+					"name": "_parentEntity",
+					"comment": { "description": "The parent entity of the component." },
+					"modifiers": [ "protected" ],
+					"type": "field"
+				},
+				"entity": {
+					"name": "entity",
+					"comment": { "description": "The entity of the component." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Component instance.",
+						"params": { "name": "The name of the component.", "type": "The type of component.", "parentNode": "The parent component or widget.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the Component.",
+						"params": { "forced": "Indicates whether the update is forced or not.", "deltaTime": "The update time." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"CameraComponent": {
+			"name": "CameraComponent",
+			"comment": { "description": "Defines a Camera Interaction Component." },
+			"extends": "Component",
+			"file": "user/interaction/components/CameraComponent.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new CameraComponent instance.",
+						"params": { "name": "The name of the component.", "parentNode": "The parent component or widget.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Initializes a new CameraComponent instance.",
+						"params": { "name": "The name of the component.", "parentNode": "The parent component or widget.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"TextComponent": {
+			"name": "TextComponent",
+			"comment": { "description": "Defines a Text Interaction Component." },
+			"extends": "Component",
+			"file": "user/interaction/components/TextComponent.ts",
+			"members": {
+				"_characters": {
+					"name": "_characters",
+					"comment": { "description": "The string of characters of the text component." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_font": {
+					"name": "_font",
+					"comment": { "description": "The font name of the text component." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"characters": {
+					"name": "characters",
+					"comment": { "description": "The string of characters of the text component." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"font": {
+					"name": "font",
+					"comment": { "description": "The font name of the text component." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new TextComponent instance.",
+						"params": { "name": "The name of the component.", "parentNode": "The parent component or widget.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the TextComponent.",
+						"params": { "forced": "Indicates whether the update is forced or not.", "deltaTime": "The update time." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Presence": {
+			"name": "Presence",
+			"comment": { "description": "Defines the user Presence in an interaction space." },
+			"extends": "Node",
+			"file": "user/interaction/Presence.ts",
+			"members": {
+				"_viewport": {
+					"name": "_viewport",
+					"comment": { "description": "The viewport associated to the user presence." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_camera": {
+					"name": "_camera",
+					"comment": { "description": "The camera associated to the user presence." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"viewport": {
+					"name": "viewport",
+					"comment": { "description": "The viewport associated to the user presence." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"camera": {
+					"name": "camera",
+					"comment": { "description": "The camera associated to the user presence." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Presence instance.",
+						"params": { "name": "The name of the presence.", "viewport": "The viewport associated to the user presence.", "camera": "The camera associated to the user presence." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				}
+			}
+		},
+		"Space": {
+			"name": "Space",
+			"comment": { "description": "Defines an Interaction Space." },
+			"extends": "Node",
+			"file": "user/interaction/Space.ts",
+			"members": {
+				"_entity": {
+					"name": "_entity",
+					"comment": { "description": "The scene of the space." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_resources": {
+					"name": "_resources",
+					"comment": { "description": "The resources of the space." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_widgets": {
+					"name": "_widgets",
+					"comment": { "description": "The widget definitions of the space." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_spaces": {
+					"name": "_spaces",
+					"comment": { "description": "The subspaces of the space." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_presences": {
+					"name": "_presences",
+					"comment": { "description": "The user presences in the space." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"entity": {
+					"name": "entity",
+					"comment": { "description": "The representation of the space." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"resources": {
+					"name": "resources",
+					"comment": { "description": "The resources of the space." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"widgets": {
+					"name": "widgets",
+					"comment": { "description": "The widget definitions of the space." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"spaces": {
+					"name": "spaces",
+					"comment": { "description": "The subspaces of the space." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"presences": {
+					"name": "presences",
+					"comment": { "description": "The user presences in the space." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Space instance.",
+						"params": { "name": "The name of the space.", "parentNode": "The parent node.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the space.",
+						"params": { "forced": "Indicates whether the update is forced or not.", "deltaTime": "The update time." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		},
+		"Viewport": {
+			"name": "Viewport",
+			"comment": { "description": "Defines an User Interaction Viewport." },
+			"extends": null,
+			"file": "user/interaction/Viewport.ts",
+			"members": {
+				"_element": {
+					"name": "_element",
+					"comment": { "description": "The main element of the viewport." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_canvas": {
+					"name": "_canvas",
+					"comment": { "description": "The canvas element of the viewport." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_renderer": {
+					"name": "_renderer",
+					"comment": { "description": "The renderer of the viewport." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_state": {
+					"name": "_state",
+					"comment": { "description": "The state of the viewport." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_focused": {
+					"name": "_focused",
+					"comment": { "description": "The focus state of the viewport." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_width": {
+					"name": "_width",
+					"comment": { "description": "The width of the viewport." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_height": {
+					"name": "_height",
+					"comment": { "description": "The height of the viewport." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_spaces": {
+					"name": "_spaces",
+					"comment": { "description": "The spaces of the viewport." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_deltaTime": {
+					"name": "_deltaTime",
+					"comment": { "description": "The time between updates." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_lastTime": {
+					"name": "_lastTime",
+					"comment": { "description": "The last update time." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"element": {
+					"name": "element",
+					"comment": { "description": "The main element of the viewport." },
+					"modifiers": [ "get", "public", "let", "return" ],
+					"type": "field"
+				},
+				"canvas": {
+					"name": "canvas",
+					"comment": { "description": "The canvas element of the viewport." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"renderer": {
+					"name": "renderer",
+					"comment": { "description": "The renderer of the viewport." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"spaces": {
+					"name": "spaces",
+					"comment": { "description": "The spaces of the viewport." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"width": {
+					"name": "width",
+					"comment": { "description": "The width of the viewport." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"height": {
+					"name": "height",
+					"comment": { "description": "The height of the viewport." },
+					"modifiers": [ "get", "public", "set" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Viewport instance.",
+						"params": { "parentElement": "The parent HTML element." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the Viewport.",
+						"params": { "time": "The current update time." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"resize": {
+					"name": "resize",
+					"comment": { "description": "Resizes the viewport." },
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"link": {
+					"name": "link",
+					"comment": {
+						"description": "Connects this viewport to a interaction Space.",
+						"params": { "space": "The space to connect." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"unlink": {
+					"name": "unlink",
+					"comment": {
+						"description": "Disconnects an interaction Space from the viewport.",
+						"params": { "space": "The space to disconnect." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				},
+				"id": {
+					"name": "id",
+					"comment": {
+						"description": "Creates a DOM element",
+						"params": { "type": "The type of the element (its tag name)", "id": "The id of the element.", "classes": "The classes of the element.", "parent": "The parent of the element.", "content": "The HTML content of the element.", "style": "The style of the element." },
+						"return": "The generated element."
+					},
+					"modifiers": [ "public" ],
+					"type": "field"
+				},
+				"classes": {
+					"name": "classes",
+					"comment": {
+						"description": "Creates a DOM element",
+						"params": { "type": "The type of the element (its tag name)", "id": "The id of the element.", "classes": "The classes of the element.", "parent": "The parent of the element.", "content": "The HTML content of the element.", "style": "The style of the element." },
+						"return": "The generated element."
+					},
+					"modifiers": [ "public" ],
+					"type": "field"
+				},
+				"style": {
+					"name": "style",
+					"comment": {
+						"description": "Creates a DOM element",
+						"params": { "type": "The type of the element (its tag name)", "id": "The id of the element.", "classes": "The classes of the element.", "parent": "The parent of the element.", "content": "The HTML content of the element.", "style": "The style of the element." },
+						"return": "The generated element."
+					},
+					"modifiers": [ "public" ],
+					"type": "field"
+				},
+				"content": {
+					"name": "content",
+					"comment": {
+						"description": "Creates a DOM element",
+						"params": { "type": "The type of the element (its tag name)", "id": "The id of the element.", "classes": "The classes of the element.", "parent": "The parent of the element.", "content": "The HTML content of the element.", "style": "The style of the element." },
+						"return": "The generated element."
+					},
+					"modifiers": [ "public" ],
+					"type": "field"
+				},
+				"parent": {
+					"name": "parent",
+					"comment": {
+						"description": "Creates a DOM element",
+						"params": { "type": "The type of the element (its tag name)", "id": "The id of the element.", "classes": "The classes of the element.", "parent": "The parent of the element.", "content": "The HTML content of the element.", "style": "The style of the element." },
+						"return": "The generated element."
+					},
+					"modifiers": [ "public" ],
+					"type": "field"
+				},
+				"document": {
+					"name": "document",
+					"comment": {
+						"description": "Creates a CSS rule.",
+						"params": { "selector": "The CSS selector", "rule": "The css rule", "override": "Indicates whether to override rules or not." }
+					},
+					"modifiers": [ "public" ],
+					"type": "field"
+				},
+				"stylesheet": {
+					"name": "stylesheet",
+					"comment": {
+						"description": "Creates a CSS rule.",
+						"params": { "selector": "The CSS selector", "rule": "The css rule", "override": "Indicates whether to override rules or not." }
+					},
+					"modifiers": [ "let", "public" ],
+					"type": "field"
+				},
+				"rules": {
+					"name": "rules",
+					"comment": {
+						"description": "Creates a CSS rule.",
+						"params": { "selector": "The CSS selector", "rule": "The css rule", "override": "Indicates whether to override rules or not." }
+					},
+					"modifiers": [ "let", "public" ],
+					"type": "field"
+				},
+				"ruleIndex": {
+					"name": "ruleIndex",
+					"comment": {
+						"description": "Creates a CSS rule.",
+						"params": { "selector": "The CSS selector", "rule": "The css rule", "override": "Indicates whether to override rules or not." }
+					},
+					"modifiers": [ "public" ],
+					"type": "field"
+				}
+			}
+		},
+		"Widget": {
+			"name": "Widget",
+			"comment": { "description": "Defines an Interaction Widget." },
+			"extends": "Node",
+			"file": "user/interaction/Widget.ts",
+			"members": {
+				"_entity": {
+					"name": "_entity",
+					"comment": { "description": "The entity of the widget." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_parentEntity": {
+					"name": "_parentEntity",
+					"comment": { "description": "The parent entity of the widget." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_widgets": {
+					"name": "_widgets",
+					"comment": { "description": "The list of child widgets." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"_components": {
+					"name": "_components",
+					"comment": { "description": "The components of the widget." },
+					"modifiers": [ "private" ],
+					"type": "field"
+				},
+				"entity": {
+					"name": "entity",
+					"comment": { "description": "The entity of the space." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"widgets": {
+					"name": "widgets",
+					"comment": { "description": "The list of child widgets." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"components": {
+					"name": "components",
+					"comment": { "description": "The components of the widget." },
+					"modifiers": [ "get", "public" ],
+					"type": "accessor"
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Widget instance.",
+						"params": { "name": "The name of the widget.", "type": "The type of widget.", "parentNode": "The parent widget or space.", "params": "The initialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"type": "constructor"
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the widget.",
+						"params": { "forced": "Indicates whether the update is forced or not.", "deltaTime": "The update time." }
+					},
+					"modifiers": [ "public" ],
+					"type": "method"
+				}
+			}
+		}
+	},
+	"files": {
+		"GeoPoseSandbox.ts": {
+			"classes": [ "GeoPoseSandbox" ],
+			"links": [ "user/interaction/Space.ts", "user/interaction/Viewport.ts" ]
+		},
+		"data/Node.ts": {
+			"classes": [ "Node" ],
+			"links": [ "data/NodeSet.ts" ]
+		},
+		"data/model/Extension.ts": {
+			"classes": [ "Extension" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"data/model/extensions/BoundaryExtension.ts": {
+			"classes": [ "BoundaryExtension" ],
+			"links": [ "data/model/Extension.ts" ]
+		},
+		"data/model/extensions/DimensionsExtension.ts": {
+			"classes": [ "DimensionsExtension" ],
+			"links": [ "data/Node.ts", "data/model/Extension.ts", "data/types/measures/Size.ts" ]
+		},
+		"data/model/extensions/MirrorExtension.ts": {
+			"classes": [ "MirrorExtension" ],
+			"links": [ "data/model/Extension.ts" ]
+		},
+		"data/model/Orientation.ts": {
+			"classes": [ "Orientation" ],
+			"links": [ "data/Node.ts", "data/types/complex/Quaternion.ts" ]
+		},
+		"data/model/orientations/APAOrientation.ts": {
+			"classes": [ "APAOrientation" ],
+			"links": [ "data/Node.ts", "data/types/measures/Angle.ts", "data/model/Orientation.ts" ]
+		},
+		"data/model/orientations/EulerOrientation.ts": {
+			"classes": [ "EulerOrientation" ],
+			"links": [ "data/Node.ts", "data/types/measures/Angle.ts", "data/model/Orientation.ts" ]
+		},
+		"data/model/orientations/LookAtOrientation.ts": {
+			"classes": [ "LookAtOrientation" ],
+			"links": [ "data/Node.ts", "data/model/Orientation.ts", "data/model/Pose.ts" ]
+		},
+		"data/model/orientations/QuaternionOrientation.ts": {
+			"classes": [ "QuaternionOrientation" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts", "data/model/Orientation.ts" ]
+		},
+		"data/model/Pose.ts": {
+			"classes": [ "Pose" ],
+			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/model/Position.ts", "data/model/Orientation.ts", "data/model/Extension.ts", "data/model/positions/LocalPosition.ts", "data/model/positions/GlobalPosition.ts", "data/model/positions/OrbitalPosition.ts", "data/model/orientations/LookAtOrientation.ts", "data/model/orientations/APAOrientation.ts", "data/model/orientations/QuaternionOrientation.ts", "data/model/orientations/EulerOrientation.ts" ]
+		},
+		"data/model/Position.ts": {
+			"classes": [ "Position" ],
+			"links": [ "data/types/complex/Vector3.ts", "data/Node.ts" ]
+		},
+		"data/model/positions/GlobalPosition.ts": {
+			"classes": [ "GlobalPosition" ],
+			"links": [ "data/Node.ts", "data/model/Position.ts", "data/types/measures/Angle.ts", "data/types/measures/Distance.ts", "data/types/shapes/Ellipsoid.ts" ]
+		},
+		"data/model/positions/LocalPosition.ts": {
+			"classes": [ "LocalPosition" ],
+			"links": [ "data/Node.ts", "data/model/Position.ts", "data/types/measures/Distance.ts" ]
+		},
+		"data/model/positions/OrbitalPosition.ts": {
+			"classes": [ "OrbitalPosition" ],
+			"links": [ "data/Node.ts", "data/model/Position.ts", "data/types/Measure.ts", "data/types/measures/Distance.ts", "data/types/measures/Angle.ts" ]
+		},
+		"data/NodeSet.ts": {
+			"classes": [ "NodeSet" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"data/Resource.ts": {
+			"classes": [ "Resource" ],
+			"links": [ "data/Node.ts", "data/types/String.ts" ]
+		},
+		"data/resources/AudioResource.ts": {
+			"classes": [ "AudioResource" ],
+			"links": [ "data/resources/three.ts", "data/Resource.ts" ]
+		},
+		"data/resources/FontResource.ts": {
+			"classes": [ "FontResource" ],
+			"links": [ "data/resources/three.ts", "data/Resource.ts" ]
+		},
+		"data/resources/ModelResource.ts": {
+			"classes": [ "ModelResource" ],
+			"links": [ "data/resources/three.ts", "data/Resource.ts" ]
+		},
+		"data/resources/ResourceGroup.ts": {
+			"classes": [ "ResourceGroup" ],
+			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/resources/AudioResource.ts", "data/resources/FontResource.ts", "data/resources/ModelResource.ts" ]
+		},
+		"data/types/complex/Quaternion.ts": {
+			"classes": [ "Quaternion" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		},
+		"data/types/complex/Vector3.ts": {
+			"classes": [ "Vector3" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		},
+		"data/types/Measure.ts": {
+			"classes": [ "Measure" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"data/types/measures/Angle.ts": {
+			"classes": [ "Angle" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		},
+		"data/types/measures/Distance.ts": {
+			"classes": [ "Distance" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		},
+		"data/types/measures/Size.ts": {
+			"classes": [ "Size" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		},
+		"data/types/measures/Time.ts": {
+			"classes": [ "Time" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		},
+		"data/types/Shape.ts": {
+			"classes": [ "Shape" ],
+			"links": [ "data/Node.ts", "data/types/String.ts" ]
+		},
+		"data/types/shapes/Box.ts": {
+			"classes": [ "Box" ],
+			"links": [ "data/Node.ts", "data/types/Shape.ts", "data/types/measures/Size.ts" ]
+		},
+		"data/types/shapes/Ellipsoid.ts": {
+			"classes": [ "Ellipsoid" ],
+			"links": [ "data/Node.ts", "data/types/Shape.ts", "data/types/measures/Size.ts" ]
+		},
+		"data/types/shapes/Sphere.ts": {
+			"classes": [ "Sphere" ],
+			"links": [ "data/Node.ts", "data/types/Shape.ts", "data/types/measures/Size.ts" ]
+		},
+		"data/types/String.ts": {
+			"classes": [ "String" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"logic/Behavior.ts": {
+			"classes": [ "Behavior" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"logic/Entity.ts": {
+			"classes": [ "Entity" ],
+			"links": [ "logic/three.ts", "data/model/Pose.ts", "data/Node.ts" ]
+		},
+		"logic/entities/Camera.ts": {
+			"classes": [ "Camera" ],
+			"links": [ "logic/entities/three.ts", "data/model/Pose.ts", "data/types/complex/Vector3.ts", "logic/Entity.ts" ]
+		},
+		"logic/entities/Scene.ts": {
+			"classes": [ "Scene" ],
+			"links": [ "logic/entities/three.ts", "logic/Entity.ts" ]
+		},
+		"logic/entities/SphereEntity.ts": {
+			"classes": [ "SphereEntity" ],
+			"links": [ "logic/entities/three.ts", "logic/Entity.ts" ]
+		},
+		"logic/entities/TextEntity.ts": {
+			"classes": [ "TextEntity" ],
+			"links": [ "logic/entities/three.ts", "data/resources/FontResource.ts", "logic/Entity.ts", "data/types/String.ts", "data/types/measures/Time.ts", "logic/entities/three.ts" ]
+		},
+		"user/interaction/Component.ts": {
+			"classes": [ "Component" ],
+			"links": [ "data/Node.ts", "logic/Entity.ts", "user/interaction/Widget.ts" ]
+		},
+		"user/interaction/components/CameraComponent.ts": {
+			"classes": [ "CameraComponent" ],
+			"links": [ "user/interaction/Component.ts", "data/Node.ts", "logic/entities/Camera.ts", "user/interaction/Space.ts" ]
+		},
+		"user/interaction/components/TextComponent.ts": {
+			"classes": [ "TextComponent" ],
+			"links": [ "user/interaction/Component.ts", "data/Node.ts", "data/types/String.ts", "logic/Entity.ts", "logic/entities/TextEntity.ts" ]
+		},
+		"user/interaction/Presence.ts": {
+			"classes": [ "Presence" ],
+			"links": [ "data/Node.ts", "user/interaction/Viewport.ts", "logic/entities/Camera.ts" ]
+		},
+		"user/interaction/Space.ts": {
+			"classes": [ "Space" ],
+			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/resources/ResourceGroup.ts", "logic/entities/Scene.ts", "user/interaction/Presence.ts", "user/interaction/Widget.ts" ]
+		},
+		"user/interaction/Viewport.ts": {
+			"classes": [ "Viewport" ],
+			"links": [ "user/interaction/three.ts", "user/interaction/Presence.ts", "user/interaction/Space.ts" ]
+		},
+		"user/interaction/Widget.ts": {
+			"classes": [ "Widget" ],
+			"links": [ "data/Node.ts", "data/NodeSet.ts", "logic/Entity.ts", "user/interaction/Component.ts", "user/interaction/Space.ts" ]
+		},
+		"data/serialization/JsonSerialization.ts": { "classes": [], "links": [] },
+		"data/serialization/XmlSerialization.ts": { "classes": [], "links": [] },
+		"user/interaction/components/ModelComponent.ts": { "classes": [], "links": [] }
+	}
+}
