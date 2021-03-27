@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"types": [ "three" ],
+		// "removeComments": true,
+		// "preserveWhitespace": true,
+		"outDir": "builds/modules"
+	},
+	"include": [ "./sources/**/*.ts" ]
+	// "include": [ "./builds/temporal/**/*.ts" ]
+}

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>GeoPose Presentation: What is Geopose</title>
+	<meta name="description" content="GeoPose Website">
+	<meta name="keywords" content="GeoPose, Website, OARC, OSCP">
+	<meta name="author" content="Mikel Salazar">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>html, body { width: 100%; height: 100%; margin:0; }</style>
+</head>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js"></script>
+	<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
+	<script>
+
+// The elements of the prototype
+let scene, camera, fog,light, renderer, canvas, buttons = [];
+let hud, hudCamera, hudButtons = [];
+let background, globe;
+let cursor = null, selected = null;
+let lastTime = 0, fps = 0;
+let dragging = false, globeInertiaX = 0, globeInertiaY =0;
+let width, height;
+let logo, menu, sectionTitle, instructions, previousButton, nextButton;
+let cameraRotation = { lng: 0, lat: 0}, targetRotation = null, targetAnimation = 100;
+let section = 0, previousSection = -1;
+
+/** Defines a button. */
+class Button {
+
+	constructor(name, parent, text, size, align = "middle-center", 
+		lng = 0, lat = 0, alt = 1, color = 0xffffff, selectionLayer, callback) {
+		this.parent = parent;
+		this.name = name;
+		this.text = text; this.size = size; this.align = align;
+		this.lng = lng; this.lat = lat; this.alt = alt;
+		this.offsetRotation = 0;
+
+		this.obj = new THREE.Object3D(); this.obj.name = name;
+		if (this.parent) this.parent.add(this.obj);
+
+		// Create the selector
+		this.selector = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),
+			 new THREE.MeshBasicMaterial({opacity:0.0, transparent:true, depthTest:false}));
+		this.selector.name = name; this.selector.callback = callback;
+		if(selectionLayer) selectionLayer.push(this.selector);
+		this.obj.add(this.selector);
+
+
+		// Create the label
+		this.label = new THREE.Mesh(new THREE.TextGeometry( this.text, {
+			font:fontRegular, size: size , height:0}),
+			new THREE.MeshBasicMaterial({color: color})); 
+		this.label.geometry.center();
+		this.obj.add(this.label);
+		
+		// Start updating 
+		this.update();
+	}
+
+	/** Updates the button elements.*/
+	update () {
+		if (this.text== "sphere") {
+			this.label.geometry = new THREE.SphereGeometry(this.size,32,32);
+			this.selector.geometry = new THREE.SphereGeometry(this.size);
+ 		} else { 
+			this.label.geometry = new THREE.TextGeometry(this.text, {
+				font:fontRegular, size:this.size , height:0});
+			this.label.geometry.center();
+			this.label.geometry.computeBoundingBox();
+			let boundingBox = this.label.geometry.boundingBox;
+			let width = boundingBox.max.x - boundingBox.min.x;
+			let height = boundingBox.max.y - boundingBox.min.y;
+			let x,y;
+			this.label.position.set(0,0,0);
+			switch(this.align) {
+				case "top-left": x = -width/2; y = height/2; break;
+				case "top-center": x = 0; y = height/2; break;
+				case "top-right": x = width/2; y = height/2; break;
+				case "middle-left":  x = -width/2; y = 0; break; 
+				case "middle-center": x = 0; y = 0; break;
+				case "middle-right": x = width/2; y = 0; break;
+				case "bottom-left": x = -width/2; y = -height/2; break;
+				case "bottom-center": x = 0; y = -height/2; break;
+				case "bottom-right": x = width/2; y = -height/2; break;
+			}
+
+			this.label.position.x += x; this.label.position.y += y;
+			this.selector.position.x = this.label.position.x;
+			this.selector.position.y = this.label.position.y;
+			this.selector.geometry = new THREE.BoxGeometry(width,height,0.1)
+		}
+		
+		let lng = -this.lng * (Math.PI/180), 
+			lat = -this.lat * (Math.PI/180),
+		 	alt = -this.alt,
+			lngSin = Math.sin(lng), lngCos = Math.cos(lng),
+			latSin = Math.sin(lat), latCos = Math.cos(lat);
+
+		this.obj.position.z = lngCos * latCos * alt;
+		this.obj.position.y = latSin * alt;
+		this.obj.position.x = lngSin * latCos * alt;
+	
+		this.obj.rotation.set(0,0,0);
+		this.obj.rotateY(lng);
+		this.obj.rotateX(-lat);
+		this.obj.rotateY(this.offsetRotation);
+
+	}
+} 
+
+
+// Load the resources
+let manager = new THREE.LoadingManager();
+manager.onStart = function (url, itemsLoaded, itemsTotal) {
+	console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+};
+manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+	console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+};
+manager.onError = function (url) { console.log('There was an error loading ' + url); };
+manager.onLoad = function () { console.log('Loading complete!'); init(); };
+
+let fontLoader = new THREE.FontLoader(manager), fontRegular, fontBold;
+fontLoader.load("fonts/Aero_Matics_Regular.json", (f) => {fontRegular = f});
+fontLoader.load("fonts/Aero_Matics_Bold.json", (f) => {fontBold = f});
+
+let textureLoader = new THREE.TextureLoader(manager),
+	starsTexture = textureLoader.load("textures/2k_milky_way.jpg"),
+	earthTexture = textureLoader.load("textures/2k_earth_daymap.jpg"),
+	normalTexture = textureLoader.load("textures/2k_earth_normals.jpg"),
+	cloudTexture = textureLoader.load("textures/2k_earth_clouds.jpg");
+
+let modelLoader = new THREE.GLTFLoader();
+modelLoader.load("models/presentation2.gltf",
+		function (gltf) { scene.add(gltf.scene); },
+		function (xhr) { console.log((xhr.loaded/xhr.total*100) + '% loaded');},
+		function (error) { console.log('Unable to load the model'); }
+	);
+
+function createSection(radius, minLng, maxLng, minLat, maxLat) {
+	let c = Math.PI / 180, size = (maxLng - minLng);
+	let d = new THREE.SphereGeometry(radius, 64, 32, 
+		(-minLng + 270 - size)* c, size * c, minLat * c, (maxLat - minLat)* c)
+	return d;
+}
+
+
+/** Initializes the scene. */
+function init() {
+
+	renderer = new THREE.WebGLRenderer({antialias:true});
+	renderer.autoClear = false; renderer.setClearColor(0xffffff)
+	document.body.appendChild(renderer.domElement);
+
+	// Create the main scene
+	scene = new THREE.Scene();
+	scene.fog = new THREE.Fog(0xffffff,6,10);
+	scene.add(new THREE.PointLight(0xffffff,1,0,20));
+	scene.add(new THREE.AmbientLight(0x444444));
+	camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000 );
+
+
+	// Create the HUD layer
+	hud = new THREE.Scene(); hud.add(new THREE.AmbientLight());
+	hudCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000 );
+
+	//TEMPORAL
+	// cameraRotation.lng = 120;
+
+	// Add the HUD elements
+	let blue = new THREE.MeshPhongMaterial({color: 0x002088, 
+		side: THREE.DoubleSide, opacity: 0.5, transparent: true});
+	let blue2 = new THREE.MeshPhongMaterial({color: 0x002088, 
+		side: THREE.DoubleSide, opacity: 0.5, transparent: true});
+
+
+
+	let p = Math.PI, d = Math.PI * 2;
+	
+	hud.add(new THREE.Mesh(createSection(1,0,360,0,74), blue));
+	hud.add(new THREE.Mesh(createSection(1,0,360,106,180), blue));
+	logo = new Button("Logo", hud, "GeoPose", 0.04, "bottom-right",
+		-30, 19, 0.95, 0xffffff, hudButtons, ()=> { console.log("Logo"); });
+	menu = new Button("Menu", hud, "Menu", 0.04, "bottom-left",
+		30, 19, 0.95, 0xffffff, hudButtons, ()=> { console.log("Menu"); });
+	sectionTitle = new Button("Section", hud, "Title", 0.05, "bottom-center",
+		0, 20, 0.95, 0xffffff, hudButtons, ()=> { console.log("Sección"); });
+	previousButton = new Button("PreviousButton", hud, "< Previous", 
+		0.03, "top-right", -30, -19, 0.95, 0xffffff, hudButtons, 
+		()=> { 	targetRotation = {lng: (section - 1) * 120, lat:0, t:1};});
+	nextButton = new Button("NextButton", hud, "Next >", 
+		0.03, "top-left", 30, -19, 0.95, 0xffffff, hudButtons, 
+		()=> { targetRotation = { lng:(section + 1) * 120, lat:0, t:1};});
+	// instructions = new Button("Instructions", hud, "instructions", 0.02, "top-center",
+	// 	0, -21, 0.95, 0xffffff, hudButtons, ()=> { console.log("Sección"); });
+
+
+	// Add the elements of the Definition
+	new Button("Definition", scene, "(Temporal Definition)\n\n\"A GeoPose is a fixed Pose \nrelated to an astronomical\nobject (by default, Earth)\n via a Topocentric Frame.\"", 0.03, "middle-right", 
+		0, 0, 0.95, 0x0088ff, buttons); 
+
+	// // Add the elements of the Resources
+	scene.add(new THREE.Mesh(createSection (1, 91, 119, 95, 105), blue2));
+	let position = new Button("Position", scene, "POSITIONING", 0.03, 
+		"middle-center", 105, -8, 0.95, 0xffffff, buttons); 
+	new Button("PositioningText", scene, "Simplified conversions between positioning \n systems facilitate the definition of spaces", 
+		0.018, "middle-center", 105, -12, 0.95, 0xffffff, buttons); 
+	scene.add(new THREE.Mesh(createSection (1, 121, 149, 95, 105), blue2));
+	let orientation = new Button("Orientation", scene, "ORIENTATION", 0.03, 
+		"middle-center", 137, -8, 0.95, 0xffffff, buttons); 
+	new Button("CreationText", scene, "Multiple rotation systems to chose from\n enable the creation of many use cases  ", 
+		0.018, "middle-center", 135, -12, 0.95, 0xffffff, buttons); 
+	
+	
+
+	// Add the elements of the applications
+	scene.add(new THREE.Mesh(createSection (1, 211, 229, 95, 105), blue2));
+	new Button("Creation", scene, "CREATION", 0.03, "middle-center", 
+		220, -8, 0.95, 0xffffff, buttons); 
+	new Button("CreationText", scene, "Define larger interaction\nspaces across the globe", 
+		0.018, "middle-center", 220, -12, 0.95, 0xffffff, buttons); 
+	scene.add(new THREE.Mesh(createSection (1, 231, 249, 95, 105), blue2));
+	new Button("Navigation", scene, "NAVIGATION", 0.03, "middle-center",
+		240, -8, 0.95, 0xffffff, buttons); 
+	new Button("NavigationText", scene, "Plan and share routes \n with multiple agents",
+		0.018, "middle-center", 240, -12, 0.95, 0xffffff, buttons); 
+	scene.add(new THREE.Mesh(createSection (1, 251, 269, 95, 105), blue2));
+	new Button("Discovery", scene, "DISCOVERY", 0.03, "middle-center",
+		260, -8, 0.95, 0xffffff, buttons); 
+	new Button("DiscoveryText", scene, "Find new and engaging\nexperiences on the go", 
+		0.018, "middle-center", 260, -12, 0.95, 0xffffff, buttons); 
+	
+	// Create the events
+	window.addEventListener('resize', resize, false);
+	window.addEventListener('contextmenu', (e) => { e.preventDefault(); });
+	window.addEventListener('keydown', (e) => {
+		let offsetX = 0, offsetZ = 0, speed = 0.05;
+		switch (e.key) {
+			case "1": targetRotation = {lng: 0, lat: 0, t:1}; break;
+			case "2": targetRotation = {lng: 120, lat: 0, t:1}; break;
+			case "3": targetRotation = {lng: 240, lat: 0, t:1}; break;
+			case "w": case "ArrowUp": offsetZ = -speed; break;
+			case "a": case "ArrowLeft": offsetX = -speed; break;
+			case "s": case "ArrowDown": offsetZ = speed; break;
+			case "d": case "ArrowRight": offsetX = speed; break;
+		}
+
+		if (offsetX != 0 || offsetZ != 0) {
+			let l = cameraRotation.lng /180 * Math.PI,
+				cs = Math.sin(l), cc = Math.cos(l);
+			camera.position.x += -cs * offsetZ + cc *offsetX;
+			camera.position.z += cc * offsetZ + cs *offsetX;
+		}
+
+		// console.log(e);
+
+	});
+	window.addEventListener('pointerdown', (e) => {
+		select(e.x, e.y, hudCamera, hudButtons);
+		if (!selected) select(e.x, e.y, camera, buttons);
+		// if (!selected) select(e.x, e.y, camera, [globe]);
+		console.log("Selected: " + ((selected != null)? selected.name : "none"));
+	});
+	window.addEventListener('pointermove', (e) => { 
+
+		if (e.buttons == 2) {
+			cameraRotation.lng -= (e.x - cursor.x) / 10;
+			cameraRotation.lat += (e.y - cursor.y) / 10;
+		}
+		cursor = {x: e.x, y: e.y};
+		// console.log(cameraRotation.lng);
+	});
+	window.addEventListener('pointerup', (e) => { 
+		if(selected && selected.callback) selected.callback();
+	 });
+
+	// Resize the viewport and render it
+	resize(); draw();
+}
+
+/** Selects an object if iyt is at a particular position on screen.*/
+function select (x,y, camera, objects) {
+	let raycaster = new THREE.Raycaster();
+	raycaster.setFromCamera(new THREE.Vector2(
+		(x / width) * 2 - 1, -(y / height) * 2 + 1), camera);
+	let intersects = raycaster.intersectObjects(objects);
+	selected = (intersects.length>0)? intersects[0].object : null;
+	return selected;
+}
+
+/** Resize the viewport. */
+function draw(time) {
+
+	// Calculate the time
+	let deltaTime = time - lastTime; lastTime = time;
+
+	// Rotate the background
+	// background.rotation.y = time* 0.00001;
+
+	// Rotate the globe
+	// if (globeInertiaX > 0.1) globeInertiaX = 0.1;
+	// if (globeInertiaY > 0.1) globeInertiaY = 0.1;
+	// globe.rotation.x += globeInertiaX; globe.rotation.y += globeInertiaY;
+	// if (globe.rotation.x > +Math.PI/2) globe.rotation.x = +Math.PI/2;
+	// if (globe.rotation.x < -Math.PI/2) globe.rotation.x = -Math.PI/2;
+
+	// Rotate the camera
+	if (cameraRotation.lng < 0) cameraRotation.lng += 360;
+	else cameraRotation.lng %= 360;
+	if (targetRotation) {
+		if(targetRotation.sLng == undefined) targetRotation.sLng = cameraRotation.lng;
+		if(targetRotation.sLat == undefined) targetRotation.sLat = cameraRotation.lat;
+
+		targetRotation.t -= deltaTime/400;
+		if (targetRotation.t > 0) {
+			cameraRotation.lng = targetRotation.lng
+				 - ((targetRotation.lng - targetRotation.sLng) * targetRotation.t);
+			cameraRotation.lat = targetRotation.lat
+				- ((targetRotation.lat - targetRotation.sLat) * targetRotation.t);
+		} else {
+			cameraRotation.lng = targetRotation.lng;
+			cameraRotation.lat = targetRotation.lat;
+			targetRotation = null;
+		}
+		
+	}
+	if (cameraRotation.lat > +90) cameraRotation.lat = +90;
+	if (cameraRotation.lat < -90) cameraRotation.lat = -90;
+	camera.rotation.set(0,0,0); 
+	camera.rotateY(-cameraRotation.lng * Math.PI/180); 
+	camera.rotateX(cameraRotation.lat * Math.PI/180);
+
+	// Change the section, based on the position of the camera
+	section = Math.round(cameraRotation.lng / 120) % 3;
+	if (section != previousSection) {
+		console.log("Change: " + section);
+		switch(section) {
+			case 0:
+				sectionTitle.text = "Definition";
+				nextButton.text = "Elements >";
+				previousButton.text = "< Applications";
+				// instructions.text = "";
+			break;
+			case 1:
+				sectionTitle.text = "Elements"; 
+				nextButton.text = "Applications >";
+				previousButton.text = "< Definition";
+				// instructions.text = "";
+			break;
+			case 2:
+				sectionTitle.text = "Applications"; 
+				nextButton.text = "Definition >";
+				previousButton.text = "< Elements";
+				// instructions.text = ""
+			break;
+		}
+		sectionTitle.update();
+		nextButton.update();
+		previousButton.update();
+		// instructions.update();
+		previousSection = section;
+	}
+
+	// Render the two layers
+	renderer.clearColor();
+	renderer.render(scene, camera);
+	renderer.clearDepth();
+	renderer.render(hud, hudCamera);
+
+	// Call this function as soon as possible
+	requestAnimationFrame(draw);
+}
+
+
+/** Resize the viewport. */
+function resize() {
+	width = window.innerWidth; height = window.innerHeight;
+	let aspect = camera.aspect = hudCamera.aspect = width/height;
+	camera.updateProjectionMatrix(); hudCamera.updateProjectionMatrix();
+	renderer.setSize(width, height);
+}
+
+
+	</script>
+</body>
+</html>

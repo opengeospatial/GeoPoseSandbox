@@ -1,4 +1,4 @@
-import { Node } from '../Node'
+import { Node } from '../../Node'
 import { Shape } from '../Shape'
 import { Size } from '../measures/Size';
 
@@ -7,25 +7,25 @@ export class Ellipsoid extends Shape {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The radius of the ellipsoid in the X dimension. */
-	public _radiusX: Size;
+	/** The Size of the radius in the X axis. */
+	private _radiusX: Size;
 
-	/** The radius of the ellipsoid in the Y dimension. */
-	public _radiusY: Size;
+	/** The Size of the radius in the Y axis. */
+	private _radiusY: Size;
 
-	/** The radius of the ellipsoid in the Z dimension. */
-	public _radiusZ: Size;
+	/** The Size of the radius in the Z axis. */
+	private _radiusZ: Size;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** Gets the radius of the ellipsoid in the X dimension. */
+	/** The Size of the radius in the X axis. */
 	get radiusX(): Size { return this._radiusX; }
 
-	/** Gets the radius of the ellipsoid in the Y dimension. */
+	/** The Size of the radius in the Y axis. */
 	get radiusY(): Size { return this._radiusY; }
 
-	/** Gets the radius of the ellipsoid in the Z dimension. */
+	/** The Size of the radius in the Z axis. */
 	get radiusZ(): Size { return this._radiusZ; }
 
 
@@ -35,12 +35,17 @@ export class Ellipsoid extends Shape {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters. */
-	constructor(name: any, parentNode?: Node, params?: object);
-	constructor(name: any, parentNode?: Node, params?: any) {
+	constructor(name: any, parentNode?: Node, params: any = {}) {
 		super(name, parentNode, params);
-		this._radiusX = new Size("radiusX", this, params.radiusX);
-		this._radiusY = new Size("radiusY", this, params.radiusY);
-		this._radiusZ = new Size("radiusZ", this, params.radiusZ);
+		if (Array.isArray(params)) { params = {
+			radiusX: (params.length > 0) ? params[0] : 1,
+			radiusY: (params.length > 1) ? params[1] : 1,
+			radiusZ: (params.length > 2) ? params[2] : 1
+		};}
+		let radius = params.radius || params.radiusX || 1;
+		this._radiusX = new Size("radiusX", this, params.radiusX || radius);
+		this._radiusY = new Size("radiusY", this, params.radiusY || radius) ;
+		this._radiusZ = new Size("radiusZ", this, params.radiusZ || radius);
 	}
 
 
@@ -54,8 +59,8 @@ export class Ellipsoid extends Shape {
 	/** Sets the values of the Ellipsoid from an array.
 	* @param values An array with the numerical values. */
 	fromArray(values: number[]) {
-		this._radiusX.set((values.length > 0) ? values[0] : 0);
-		this._radiusY.set((values.length > 1) ? values[1] : this.radiusX.get());
-		this._radiusZ.set((values.length > 2) ? values[2] : this.radiusX.get());
+		this._radiusX.setValue((values.length > 0) ? values[0] : 0);
+		this._radiusY.setValue((values.length > 1) ? values[1] : values[0]);
+		this._radiusZ.setValue((values.length > 2) ? values[2] : values[0]);
 	}
 }

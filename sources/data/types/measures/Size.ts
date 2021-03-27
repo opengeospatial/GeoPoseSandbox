@@ -1,4 +1,4 @@
-import { Node } from '../Node'
+import { Node } from '../../Node'
 import { Measure } from "../Measure";
 
 /** Defines a size (dimensional magnitude) measure. */
@@ -10,13 +10,12 @@ export class Size extends Measure {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a numeric value). */
-	constructor(name: any, parentNode?: Node, params?: number);
-	constructor(name: any, parentNode?: Node, params?: object);
-	constructor(name: any, parentNode?: Node, params?: any) {
+	constructor(name: any, parentNode?: Node, params: any = {}) {
 
 		// If the params is a numeric value, encapsulate it in an object
 		if (typeof params == "number") params = { value: params };
-		else if (typeof params == "string") params = { value: parseFloat(params) };
+		else if (typeof params == "string")
+			params = { value: parseFloat(params) };
 
 		// Set the minimum value to 0 (no negative sizes allowed).
 		params.min = 0;
@@ -25,6 +24,6 @@ export class Size extends Measure {
 		if (!params.units) params.units = "meters";
 
 		// Call the base constructor
-		super(name, parentNode, params);
+		super(name, "size", parentNode, params);
 	}
 }

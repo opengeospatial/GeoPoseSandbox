@@ -1,4 +1,4 @@
-import { Node } from "../types/Node";
+import { Node } from "../Node";
 import { Quaternion } from "../types/complex/Quaternion";
 
 /** Define the basic class of a three dimensional orientation. */
@@ -15,10 +15,10 @@ export class Orientation extends Node {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** Gets the relative orientation. */
+	/** The relative orientation. */
 	get relativeValues() { return this._relativeValues; }
 
-	/** Gets the absolute orientation. */
+	/** The absolute orientation. */
 	get absoluteValues() { return this._absoluteValues; }
 
 
@@ -28,12 +28,10 @@ export class Orientation extends Node {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
-	constructor(name: any, parentNode?: Node, params?: number[]);
-	constructor(name: any, parentNode?: Node, params?: object);
 	constructor(name: any, parentNode?: Node, params: any = {}) {
 
 		// Call the parent constructor
-		super(name, parentNode, params);
+		super(name, "orientation", parentNode, params);
 
 		// Create the children nodes
 		this._relativeValues = new Quaternion("relativeValues", this);

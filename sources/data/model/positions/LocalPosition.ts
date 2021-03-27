@@ -1,4 +1,4 @@
-import { Node } from "../../types/Node";
+import { Node } from "../../Node";
 import { Position } from "../Position";
 import { Distance } from "../../types/measures/Distance";
 
@@ -8,25 +8,25 @@ export class LocalPosition extends Position {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The distance in the X axis. */
+	/** The Distance in the X axis. */
 	private _x : Distance;
 
-	/** The distance in the Y axis. */
+	/** The Distance in the Y axis. */
 	private _y : Distance;
 
-	/** The distance in the Z axis. */
+	/** The Distance in the Z axis. */
 	private _z : Distance;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** Gets the distance in the X axis. */
+	/** The Distance in the X axis. */
 	get x() { return this._x; }
 
-	/** Gets the distance in the Y axis. */
+	/** The Distance in the Y axis. */
 	get y() { return this._y; }
 
-	/** Gets the distance in the Z axis. */
+	/** The Distance in the Z axis. */
 	get z() { return this._z; }
 
 
@@ -36,8 +36,6 @@ export class LocalPosition extends Position {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
-	constructor(name : any, parentNode?: Node, params?: number[]);
-	constructor(name : any, parentNode?: Node, params?: object);
 	constructor(name : any, parentNode?: Node, params: any = {}){ 
 
 		// Call the parent constructor

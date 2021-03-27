@@ -1,5 +1,5 @@
 import { Vector3 } from "../types/complex/Vector3";
-import { Node } from "../types/Node";
+import { Node } from "../Node";
 
 /** Define the basic class of a three dimensional position within a reference frame. */
 export class Position extends Node {
@@ -21,16 +21,16 @@ export class Position extends Node {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** Gets the relative position. */
+	/** The relative position. */
 	get relativeValues() { return this._relativeValues; }
 
-	/** Gets the absolute position. */
+	/** The absolute position. */
 	get absoluteValues() { return this._absoluteValues; }
 
-	/** Gets the vertical vector. */
+	/** The vertical vector. */
 	get verticalVector() { return this._verticalVector; }
 
-	/** Gets the forward vector. */
+	/** The forward vector. */
 	get forwardVector() { return this._forwardVector; }
 
 
@@ -40,12 +40,10 @@ export class Position extends Node {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
-	constructor(name: any, parentNode?: Node, params?: number[]);
-	constructor(name: any, parentNode?: Node, params?: object);
 	constructor(name: any, parentNode?: Node, params: any = {}) {
 
 		// Call the parent constructor
-		super(name, parentNode, params);
+		super(name, "position", parentNode, params);
 
 		// Create the children nodes
 		this._relativeValues = new Vector3("relativeValues", this);

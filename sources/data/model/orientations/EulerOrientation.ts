@@ -1,4 +1,4 @@
-import { Node } from "../../types/Node";
+import { Node } from "../../Node";
 import { Angle } from "../../types/measures/Angle";
 import { Orientation } from "../Orientation";
 
@@ -8,25 +8,25 @@ export class EulerOrientation extends Orientation {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The angle in the X axis. */
+	/** The Angle in the X axis. */
 	private _x : Angle;
 
-	/** The angle in the Y axis. */
+	/** The Angle in the Y axis. */
 	private _y : Angle;
 
-	/** The angle in the Z axis. */
+	/** The Angle in the Z axis. */
 	private _z : Angle;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** Gets the angle in the X axis. */
+	/** The Angle in the X axis. */
 	get x() { return this._x; }
 
-	/** Gets the angle in the Y axis. */
+	/** The Angle in the Y axis. */
 	get y() { return this._y; }
 
-	/** Gets the angle in the Z axis. */
+	/** The Angle in the Z axis. */
 	get z() { return this._z; }
 
 
@@ -36,8 +36,6 @@ export class EulerOrientation extends Orientation {
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
-	constructor(name : any, parentNode?: Node, params?: number[]);
-	constructor(name : any, parentNode?: Node, params?: object);
 	constructor(name : any, parentNode?: Node, params: any = {}){ 
 
 		// Call the parent constructor

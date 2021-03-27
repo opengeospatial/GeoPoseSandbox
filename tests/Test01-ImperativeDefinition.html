@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>GeoPose Sandbox: Test 01 - Imperative Definition</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="../node_modules/three/build/three.js"></script>
+		<script src="../builds/geopose.sandbox.js"></script>
+		<style></style>
+	</head>
+	<body>
+		<script> 
+
+// Initialize the Geopose Sandbox
+let instance = new GeoPoseSandbox();
+
+// Create an Interaction Space
+let space = new Space();
+
+// Create an Interaction Widget
+let widget = new Widget("TestWidget", "widget", space.widgets);
+
+// Create a text component
+let text = new TextComponent("TestText", widget.components, {characters:"HELLO"});
+
+// Link the space with the viewport
+instance.viewports[0].link(space);
+
+setInterval(()=> {text.characters.value = "MI"}, 1000 );
+
+		</script>
+	</body>
+</html>

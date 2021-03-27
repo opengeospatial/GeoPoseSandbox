@@ -1,4 +1,4 @@
-import { Node } from "./Node";
+import { Node } from "../Node";
 
 /** Defines a numeric measure. */ 
 export class Measure extends Node {
@@ -35,6 +35,7 @@ export class Measure extends Node {
 		if (newValue < this._min)  this._value = this._min;
 		else if (newValue > this._max) this._value = this._max;
 		else this._value = newValue;
+		this.updated = false;
 	}
 
 
@@ -44,7 +45,8 @@ export class Measure extends Node {
 	/** Sets the minimum possible value of the Measure. */
 	set min(newMin: number) { 
 		if (newMin > this._max) this._max = newMin;
-		this._min = newMin;
+		if (newMin > this._value) this.value = newMin;
+		this._min = newMin; this.updated = false;
 	}
 	
 
@@ -54,7 +56,8 @@ export class Measure extends Node {
 	/** Sets the maximum possible value of the Measure. */
 	set max(newMax: number) { 
 		if (newMax < this._min) this._min = newMax;
-		this._max = newMax;
+		if (newMax < this._value) this.value = newMax;
+		this._max = newMax; this.updated = false;
 	}
 
 
@@ -62,38 +65,44 @@ export class Measure extends Node {
 	get default() : number { return this._default; }
 
 	/** Sets the default value of the Measure. */
-	set default(newDefault: number) { this._default = newDefault; }
+	set default(newDefault: number) { 
+		this._default = newDefault; this.updated = false;
+	}
 
 	
 	/** Gets the value accuracy of the Measure. */
 	get accuracy() : number { return this._accuracy; }
 
 	/** Sets the value accuracy of the Measure. */
-	set accuracy(newAccuracy: number) { this._accuracy = newAccuracy; }
+	set accuracy(newAccuracy: number) {
+		this._accuracy = newAccuracy; this.updated = false;
+	}
 
 
 	/** Gets the measurement unit of the Measure. */
 	get unit() : string { return this._unit; }
 
 	/** Sets the measurement unit of the Measure. */
-	set unit(newUnit: string) { this._unit = newUnit; }
+	set unit(newUnit: string) { 
+		// TODO create conversion between units
+		this._unit = newUnit; this.updated = false;
+	}
 	
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 	
 	/** Initializes a new instance of the Measure class.
-	 * @param name The name(s) of the Measure.
+	 * @param name The name of the Measure.
+	 * @param type The type of the Measure.
 	 * @param parentNode The parent Measure.
 	 * @param params The initialization parameters (or a numeric value). */
-	constructor(name : any, parentNode?: Node, params?: number);
-	constructor(name : any, parentNode?: Node, params?: object);
-	constructor(name : any, parentNode?: Node, params: any = {}){ 
+	constructor(name : any, type: string, parentNode?: Node, params: any = {}){ 
 		
 		// Call the parent constructor
-		super (name, parentNode, params);
+		super (name, type, parentNode, params);
 
 		// Set the values
-		if (params) this.set(params);
+		if (params) this.setValue(params);
 	}
 
 
@@ -101,20 +110,17 @@ export class Measure extends Node {
 
 	/** Sets the value or the properties of the Measure.
 	* @param params The properties to modify (or a numeric value). */
-	set(params: number);
-	set(params: object);
-	set(params: any = {}){
+	setValue (params: number);
+	setValue (params: object);
+	setValue (params: any = {}){
 		if (typeof params == "number") this.value = params;
 		else {
-			this.min = params.min;
-			this.max = params.max;
-			this.value = params.value;
-			this.accuracy = params.accuracy;
+			this.min = params.min; this.max = params.max;
+			this.value = params.value; this.accuracy = params.accuracy;
 		}
 	}
 
 	/** Gets the value of the Number.
 	 *  The value of the Number. */
-	get(): number { return this._value; }
-
+	getValue (): number { return this._value; }
 }

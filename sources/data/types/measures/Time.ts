@@ -1,4 +1,4 @@
-import { Node } from '../Node'
+import { Node } from '../../Node'
 import { Measure } from "../Measure";
 
 /** Defines a time (dimensional magnitude) measure. */
@@ -10,13 +10,12 @@ export class Time extends Measure {
 	 * @param name The name(s) of the node.
 	 * @param parentNode The parent node.
 	 * @param params The initialization parameters (or a numeric value). */
-	constructor(name: any, parentNode?: Node, params?: number);
-	constructor(name: any, parentNode?: Node, params?: object);
-	constructor(name: any, parentNode?: Node, params?: any) {
+	constructor(name: any, parentNode?: Node, params: any = {}) {
 
 		// If the params is a numeric value, encapsulate it in an object
 		if (typeof params == "number") params = { value: params };
-		else if (typeof params == "string") params = { value: parseFloat(params) };
+		else if (typeof params == "string")
+			params = { value: parseFloat(params) };
 
 		// Set the minimum value to 0 (no negative sizes allowed).
 		params.min = 0;
@@ -25,6 +24,6 @@ export class Time extends Measure {
 		if (!params.units) params.units = "seconds";
 
 		// Call the base constructor
-		super(name, parentNode, params);
+		super(name, "time", parentNode, params);
 	}
 }

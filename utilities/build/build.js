@@ -22,11 +22,9 @@ global.PROJECT_FOLDER_PATH = path.resolve(__dirname, '..\\..\\') + '\\';
 global.SOURCES_FOLDER_PATH = PROJECT_FOLDER_PATH + 'sources\\';
 global.DOCS_FOLDER_PATH = PROJECT_FOLDER_PATH + 'docs\\';
 global.BUILDS_FOLDER_PATH = PROJECT_FOLDER_PATH + 'builds\\';
-global.TEMPORAL_FOLDER_PATH = PROJECT_FOLDER_PATH + 'builds\\temporal\\';
-global.MODULES_FOLDER_PATH = PROJECT_FOLDER_PATH + 'builds\\modules\\';
+global.TEMPORAL_FOLDER_PATH = BUILDS_FOLDER_PATH + 'temporal\\';
+global.MODULES_FOLDER_PATH = BUILDS_FOLDER_PATH + 'modules\\';
 global.SOURCES_MAIN_FILE_PATH = SOURCES_FOLDER_PATH + 'GeoPoseSandbox.ts';
-global.MINIMIZED_FILE_PATH = BUILDS_FOLDER_PATH + MAIN_FILENAME + '.min.js';
-global.SOURCE_MAP_FILE_PATH = MINIMIZED_FILE_PATH + '.map';
 global.BUILD_FILE_PATH = BUILDS_FOLDER_PATH + MAIN_FILENAME;
 global.TEXT_FILE = {encoding:'utf8'};
 
@@ -163,9 +161,12 @@ try {
 	documentation.build();
 
 	// Build the output files
-	// distributables.build({filePaths: codebase.filePaths}); 
+	distributables.build(); 
+
 }
 catch (e) {  // If there is any error, show a message
 	log('The build process has been stopped.'); 
 	console.log(e); process.exit(1);
 }
+
+log('ALL DONE');
