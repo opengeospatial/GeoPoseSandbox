@@ -115,16 +115,11 @@ function transpileTypeScriptFiles() {
 
 
 /** Combines the javascript files. */
-<<<<<<< HEAD
 function combine(filePaths, outputFilePath, type = null, prefix = "") {
-=======
-function combine(filePaths, outputFilePath, type = null) {
->>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 	
 	// Combine the javascript files
 	main.log('Combining: ' + path.basename(outputFilePath), 1);
 	
-<<<<<<< HEAD
 	// Process each file
 	let fileIndex, fileCount = filePaths.length, combinedData = [];
 	for (fileIndex = 0; fileIndex < fileCount; fileIndex++) {
@@ -136,14 +131,6 @@ function combine(filePaths, outputFilePath, type = null) {
 		// 
 		let lines = data.split("\n"), combinedLines = [],
 			lineIndex, lineCount = lines.length;
-=======
-	
-	// Process each file
-	let fileIndex, fileCount = filePaths.length, combinedLines = [];
-	for (fileIndex = 0; fileIndex < fileCount; fileIndex++) {
-		let data = fs.readFileSync(filePaths[fileIndex], TEXT_FILE);
-		let lines = data.split("\n"), lineIndex, lineCount = lines.length;
->>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 		for (lineIndex = 0; lineIndex < lineCount; lineIndex++) {
 			let line = lines[lineIndex], l = line.trim();
 
@@ -152,7 +139,6 @@ function combine(filePaths, outputFilePath, type = null) {
 				&& (l.indexOf(" from ") >= 0)) line = l = "";
 
 			// If it is not a module, remove the export declarations
-<<<<<<< HEAD
 			if (type != "module" && l.startsWith("export "))
 				line = line.replace("export ", "       ");
 
@@ -169,21 +155,6 @@ function combine(filePaths, outputFilePath, type = null) {
 	// Write the combined file
 	let data = prefix + combinedData.join("\n\n");
 	fs.writeFileSync(outputFilePath, data, TEXT_FILE);
-=======
-			if (!module && l.startsWith("export "))
-				line = line.replace("export ", "       ");
-
-			// Add the list to the combined list
-			combinedLines.push(line);
-		}
-	}
-	
-	// If it is a module, add the default export
-	if (module) combinedLines.push('export default ' + MAIN_NAMESPACE + ';');
-
-	// Write the combined file
-	fs.writeFileSync(outputFilePath, combinedLines.join("\n"), TEXT_FILE);
->>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 }
 
 
@@ -199,7 +170,6 @@ function build() {
 
 	// Combine the JavaScript files
 	main.log("Combining JavaScript files...", 1);
-<<<<<<< HEAD
 	combine(moduleFilePaths, BUILD_FILE_PATH + '.module.js', "module" );
 	combine(moduleFilePaths, BUILD_FILE_PATH + '.js', "browser");
 
@@ -208,16 +178,6 @@ function build() {
 	combine([ENGINE_FILE_PATH, LOADERS_FOLDER_PATH + 'GLTFLoader.js',
 		BUILD_FILE_PATH + '.js'], BUILD_FILE_PATH + '.bundle.js', null,
 		"// GeoPose Sandbox + ThreeJS Bundle\n\n");
-=======
-	combine(moduleFilePaths, BUILD_FILE_PATH + '.module.js', true );
-	combine(moduleFilePaths, BUILD_FILE_PATH + '.js', false);
-
-	// Create the bundles with
-	main.log("Create the bundle...", 1);
-	
-	combine([BUILD_FILE_PATH + '.js', ],
-		BUILD_FILE_PATH + '.js', false)
->>>>>>> 227a8b178c115b491f008a0dae8cd72c483dc56c
 
 }
 
