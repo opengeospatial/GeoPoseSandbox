@@ -1,17 +1,11 @@
 import { Node } from "../data/Node.js";
 
-
 /** Defines an logic Behavior */
 export class Behavior extends Node {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-
-
-
 	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 

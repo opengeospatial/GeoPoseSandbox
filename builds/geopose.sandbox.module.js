@@ -66,7 +66,7 @@ export class Node {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the Node instance.
+	/** Initializes a new instance of the Node class.
 	 * @param name The name(s) of the node.
 	 * @param type The type of the node.
 	 * @param parentNode The parent node.
@@ -253,6 +253,201 @@ export class DimensionsExtension extends Extension {
 
 /** Defines an Extension to specify how a Pose is mirrored.  */
 export class MirrorExtension extends Extension {
+}
+
+
+
+
+
+/** Define the basic class of a three dimensional position within a reference frame. */
+export class Location extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Location class.
+	 * @param name The name(s) of the node.
+	 * @param parent The parent node.
+	 * @param params The initialization parameters (or a number array). */
+	constructor(name, parentNode, params = {}) {
+
+		// Call the parent constructor
+		super(name, "position", parentNode, params);
+
+		// Create the children nodes
+		this._relativeValues = new Vector3("relativeValues", this);
+		this._absoluteValues = new Vector3("absoluteValues", this);
+		this._verticalVector = new Vector3("verticalVector", this);
+		this._forwardVector = new Vector3("forwardVector", this);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The relative position. */
+	get relativeValues() { return this._relativeValues; }
+
+	/** The absolute position. */
+	get absoluteValues() { return this._absoluteValues; }
+
+	/** The vertical vector. */
+	get verticalVector() { return this._verticalVector; }
+
+	/** The forward vector. */
+	get forwardVector() { return this._forwardVector; }
+}
+
+
+
+
+
+
+/** Defines a position in local (euclidean) coordinate system. */
+export class EuclideanLocation extends Location {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the EuclideanLocation class.
+	 * @param name The name(s) of the node.
+	 * @param parent The parent node.
+	 * @param params The initialization parameters (or a number array). */
+	constructor(name, parentNode, params = {}) {
+
+		// Call the parent constructor
+		super(name, parentNode, params);
+
+		// If the params is an array, convert it to an object
+		if (Array.isArray(params)) {
+			let v = params, l = v.length;
+			params = { x: (l > 0) ? v[0] : 0, y: (l > 1) ? v[1] : 0, z: (l > 2) ? v[2] : 0 };
+		}
+
+		// Create the children nodes
+		this._x = new Distance("x", this, params.x || 0);
+		this._y = new Distance("y", this, params.y || 0);
+		this._z = new Distance("z", this, params.z || 0);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The Distance in the X axis. */
+	get x() { return this._x; }
+
+	/** The Distance in the Y axis. */
+	get y() { return this._y; }
+
+	/** The Distance in the Z axis. */
+	get z() { return this._z; }
+}
+
+
+
+
+
+
+/** Defines a location in global (elliptical) coordinate system.
+* (Based on PICE and LPT-ENU). */
+export class GlobalLocation extends Location {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the GlobalLocation class.
+	 * @param name The name(s) of the node.
+	 * @param parent The parent node.
+	 * @param params The initialization parameters (or a number array). */
+	constructor(name, parentNode, params = {}) {
+
+		// Call the parent constructor
+		super(name, parentNode, params);
+
+		/** The Shape of the globe. */
+		this._globe = null;
+
+		// If the params is an array, convert it to an object
+		if (Array.isArray(params)) {
+			let v = params, l = v.length;
+			params = { longitude: (l > 0) ? v[0] : 0,
+				latitude: (l > 1) ? v[1] : 0, altitude: (l > 2) ? v[2] : 0 };
+		}
+
+		// Create the children nodes
+		this._longitude = new Angle("longitude", this, params.longitude || 0);
+		this._latitude = new Angle("latitude", this, params.latitude || 0);
+		this._altitude = new Distance("altitude", this, params.altitude || 0);
+
+		// TODO Improve this
+		let lng = -this._longitude.value * (Math.PI / 180), lat = this._latitude.value * (Math.PI / 180), alt = this._altitude.value + 6378137, lngSin = Math.sin(lng), lngCos = Math.cos(lng), latSin = Math.sin(lat), latCos = Math.cos(lat);
+
+		// Calculate the relative location
+		this.relativeValues.x.setValue(lngCos * latCos * alt);
+		this.relativeValues.y.setValue(latSin * alt);
+		this.relativeValues.z.setValue(lngSin * latCos * alt);
+
+		// Calculate the vertical vector
+		this.verticalVector.x.setValue(0);
+		this.verticalVector.y.setValue(-lng);
+		this.verticalVector.z.setValue(lat - Math.PI / 2);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The Angle in degrees around the equator of the globe. */
+	get longitude() { return this._longitude; }
+
+	/** The Angle in degrees around the prime meridian of the globe. */
+	get latitude() { return this._latitude; }
+
+	/** The vertical Distance relative to the surface to the globe. */
+	get altitude() { return this._altitude; }
+
+	/** The Shape of the globe. */
+	get globe() { return this._globe; }
+}
+
+
+
+
+
+
+/** Defines a position in Orbital (Keplerian) coordinate system. */
+export class OrbitalLocation extends Location {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the OrbitalLocation class.
+	 * @param name The name(s) of the node.
+	 * @param parent The parent node.
+	 * @param params The initialization parameters (or a number array). */
+	constructor(name, parentNode, params = {}) {
+
+		// Call the parent constructor
+		super(name, parentNode, params);
+
+		// If the params is an array, convert it to an object
+		if (Array.isArray(params)) {
+			let v = params, l = v.length;
+			params = {};
+		}
+
+		// Create the children nodes
+		this._eccentricity = new Distance("eccentricity", this, params.eccentricity || 1);
+		this._semimajor_axis = new Distance("semimajor_axis", this, params.semimajor_axis || 0);
+		this._inclination = new Distance("inclination", this, params.semimajor_axis || 0);
+
+		// TODO Complete this
+		this.relativeValues.x.setValue(-this._semimajor_axis.value / 2);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The eccentricity of the orbit. */
+	get eccentricity() { return this._eccentricity; }
 }
 
 
@@ -476,6 +671,7 @@ export class QuaternionOrientation extends Orientation {
 
 
 
+
 /** Defines a Pose of an object. */
 export class Pose extends Node {
 
@@ -496,7 +692,7 @@ export class Pose extends Node {
 
 		// Analyze the initialization parameters
 		if (params.type && params.type.indexOf("Geopose") == 0) {
-			this._position = new GlobalPosition("position", this, {
+			this._location = new GlobalLocation("location", this, {
 				longitude: params.longitude,
 				latitude: params.latitude,
 				altitude: params.height
@@ -506,24 +702,24 @@ export class Pose extends Node {
 		// Create the child nodes
 		this._extensions = new NodeSet("extensions", this, params.extensions, Extension);
 
-		// Validate the position initialization parameters
-		if (params.position) {
-			let positionType;
-			switch (params.position.type) {
-				case "local":
-					positionType = LocalPosition;
+		// Validate the location initialization parameters
+		if (params.location) {
+			let locationType;
+			switch (params.location.type) {
+				case "euclidean":
+					locationType = EuclideanLocation;
 					break;
 				case "global":
-					positionType = GlobalPosition;
+					locationType = GlobalLocation;
 					break;
 				case "orbital":
-					positionType = OrbitalPosition;
+					locationType = OrbitalLocation;
 					break;
 				default:
-					positionType = LocalPosition;
+					locationType = EuclideanLocation;
 					break;
 			}
-			this._position = new positionType("position", this, params.position);
+			this._location = new locationType("location", this, params.location);
 		}
 
 		// Validate the orientation initialization parameters
@@ -540,11 +736,11 @@ export class Pose extends Node {
 				case "quaternion":
 					orientationType = QuaternionOrientation;
 					break;
-				case "quaternion":
-					orientationType = QuaternionOrientation;
+				case "lookat":
+					orientationType = LookAtOrientation;
 					break;
 				default:
-					orientationType = LocalPosition;
+					orientationType = EuclideanLocation;
 					break;
 			}
 			this._orientation = new orientationType("orientation", this, params.orientation);
@@ -554,8 +750,8 @@ export class Pose extends Node {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The position of the Pose. */
-	get position() { return this._position; }
+	/** The location of the Pose. */
+	get location() { return this._location; }
 
 	/** The orientation of the Pose. */
 	get orientation() { return this._orientation; }
@@ -568,201 +764,6 @@ export class Pose extends Node {
 
 	/** The children of the Pose. */
 	get children() { return this._children; }
-}
-
-
-
-
-
-/** Define the basic class of a three dimensional position within a reference frame. */
-export class Position extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Position class.
-	 * @param name The name(s) of the node.
-	 * @param parent The parent node.
-	 * @param params The initialization parameters (or a number array). */
-	constructor(name, parentNode, params = {}) {
-
-		// Call the parent constructor
-		super(name, "position", parentNode, params);
-
-		// Create the children nodes
-		this._relativeValues = new Vector3("relativeValues", this);
-		this._absoluteValues = new Vector3("absoluteValues", this);
-		this._verticalVector = new Vector3("verticalVector", this);
-		this._forwardVector = new Vector3("forwardVector", this);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The relative position. */
-	get relativeValues() { return this._relativeValues; }
-
-	/** The absolute position. */
-	get absoluteValues() { return this._absoluteValues; }
-
-	/** The vertical vector. */
-	get verticalVector() { return this._verticalVector; }
-
-	/** The forward vector. */
-	get forwardVector() { return this._forwardVector; }
-}
-
-
-
-
-
-
-/** Defines a position in global (elliptical) coordinate system.
-* (Based on PICE and LPT-ENU). */
-export class GlobalPosition extends Position {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the GlobalPosition class.
-	 * @param name The name(s) of the node.
-	 * @param parent The parent node.
-	 * @param params The initialization parameters (or a number array). */
-	constructor(name, parentNode, params = {}) {
-
-		// Call the parent constructor
-		super(name, parentNode, params);
-
-		/** The Shape of the globe. */
-		this._globe = null;
-
-		// If the params is an array, convert it to an object
-		if (Array.isArray(params)) {
-			let v = params, l = v.length;
-			params = { longitude: (l > 0) ? v[0] : 0,
-				latitude: (l > 1) ? v[1] : 0, altitude: (l > 2) ? v[2] : 0 };
-		}
-
-		// Create the children nodes
-		this._longitude = new Angle("longitude", this, params.longitude || 0);
-		this._latitude = new Angle("latitude", this, params.latitude || 0);
-		this._altitude = new Distance("altitude", this, params.altitude || 0);
-
-		// TODO Improve this
-		let lng = -this._longitude.value * (Math.PI / 180), lat = this._latitude.value * (Math.PI / 180), alt = this._altitude.value + 6378137, lngSin = Math.sin(lng), lngCos = Math.cos(lng), latSin = Math.sin(lat), latCos = Math.cos(lat);
-
-		// Calculate the relative position
-		this.relativeValues.x.setValue(lngCos * latCos * alt);
-		this.relativeValues.y.setValue(latSin * alt);
-		this.relativeValues.z.setValue(lngSin * latCos * alt);
-
-		// Calculate the vertical vector
-		this.verticalVector.x.setValue(0);
-		this.verticalVector.y.setValue(-lng);
-		this.verticalVector.z.setValue(lat - Math.PI / 2);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The Angle in degrees around the equator of the globe. */
-	get longitude() { return this._longitude; }
-
-	/** The Angle in degrees around the prime meridian of the globe. */
-	get latitude() { return this._latitude; }
-
-	/** The vertical Distance relative to the surface to the globe. */
-	get altitude() { return this._altitude; }
-
-	/** The Shape of the globe. */
-	get globe() { return this._globe; }
-}
-
-
-
-
-
-
-/** Defines a position in local (euclidean) coordinate system. */
-export class LocalPosition extends Position {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the LocalPosition class.
-	 * @param name The name(s) of the node.
-	 * @param parent The parent node.
-	 * @param params The initialization parameters (or a number array). */
-	constructor(name, parentNode, params = {}) {
-
-		// Call the parent constructor
-		super(name, parentNode, params);
-
-		// If the params is an array, convert it to an object
-		if (Array.isArray(params)) {
-			let v = params, l = v.length;
-			params = { x: (l > 0) ? v[0] : 0, y: (l > 1) ? v[1] : 0, z: (l > 2) ? v[2] : 0 };
-		}
-
-		// Create the children nodes
-		this._x = new Distance("x", this, params.x || 0);
-		this._y = new Distance("y", this, params.y || 0);
-		this._z = new Distance("z", this, params.z || 0);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The Distance in the X axis. */
-	get x() { return this._x; }
-
-	/** The Distance in the Y axis. */
-	get y() { return this._y; }
-
-	/** The Distance in the Z axis. */
-	get z() { return this._z; }
-}
-
-
-
-
-
-
-/** Defines a position in Orbital (Keplerian) coordinate system. */
-export class OrbitalPosition extends Position {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the OrbitalPosition class.
-	 * @param name The name(s) of the node.
-	 * @param parent The parent node.
-	 * @param params The initialization parameters (or a number array). */
-	constructor(name, parentNode, params = {}) {
-
-		// Call the parent constructor
-		super(name, parentNode, params);
-
-		// If the params is an array, convert it to an object
-		if (Array.isArray(params)) {
-			let v = params, l = v.length;
-			params = {};
-		}
-
-		// Create the children nodes
-		this._eccentricity = new Distance("eccentricity", this, params.eccentricity || 1);
-		this._semimajor_axis = new Distance("semimajor_axis", this, params.semimajor_axis || 0);
-		this._inclination = new Distance("inclination", this, params.semimajor_axis || 0);
-
-		// TODO Complete this
-		this.relativeValues.x.setValue(-this._semimajor_axis.value / 2);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The eccentricity of the orbit. */
-	get eccentricity() { return this._eccentricity; }
 }
 
 
@@ -1176,6 +1177,51 @@ export class ResourceGroup extends Node {
 	/** The audio resources. */
 	get audios() { return this._audios; }
 }
+
+
+
+
+/** Defines a Serialization/Deserialization of the GeoPose Standard. */
+export class GeoPoseSerialization {
+
+
+	/** Serializes a Pose into the Geopose JSON string.
+	 * @param pose The (Geo)Pose instance to serialize.
+	 * @returns The GeoPose JSON string. */
+	static serializeJSON(pose) {
+		let geopose = {};
+		return JSON.stringify(geopose);
+	}
+
+	/** Deserializes a GeoPose JSON string into a Pose.
+	 * @param geoposeData The JSON string with the geopose data.
+	 * @returns The deserialized (Geo)Pose instance. */
+	static deserializeJSON(geoposeData) {
+		let data = JSON.parse(geoposeData);
+		let geopose = new Pose("GeoPose", null, {
+
+		});
+		return geopose;
+	}
+
+
+	/** Serializes a Pose into the Geopose CSV string.
+	 * @param pose The (Geo)Pose instance to serialize.
+	 * @returns The GeoPose CSV string. */
+	static serializeCSV(pose) {
+		let geoPoseValues = [];
+		return geoPoseValues.join(',');
+	}
+
+	/** Deserializes a GeoPose CSV string into a Pose.
+	 * @param geoposeData The CSV string with the geopose data.
+	 * @returns The deserialized (Geo)Pose instance. */
+	static deserializeCSV(geoposeData) {
+		let geoPoseValues = geoposeData.split(',');
+	}
+}
+
+
 
 
 
@@ -1795,18 +1841,12 @@ export class String extends Node {
 
 
 
-
 /** Defines an logic Behavior */
 export class Behavior extends Node {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-
-
-
 	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 

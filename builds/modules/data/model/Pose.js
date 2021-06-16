@@ -1,9 +1,10 @@
 import { Node } from "../Node.js";
 import { NodeSet } from "../NodeSet.js";
 import { Extension } from "./Extension.js";
-import { LocalPosition } from "./positions/LocalPosition.js";
-import { GlobalPosition } from "./positions/GlobalPosition.js";
-import { OrbitalPosition } from "./positions/OrbitalPosition.js";
+import { EuclideanLocation } from "./locations/EuclideanLocation.js";
+import { GlobalLocation } from "./locations/GlobalLocation.js";
+import { OrbitalLocation } from "./locations/OrbitalLocation.js";
+import { LookAtOrientation } from "./orientations/LookAtOrientation.js";
 import { APAOrientation } from "./orientations/APAOrientation.js";
 import { QuaternionOrientation } from "./orientations/QuaternionOrientation.js";
 import { EulerOrientation } from "./orientations/EulerOrientation.js";
@@ -28,7 +29,7 @@ export class Pose extends Node {
 
 		// Analyze the initialization parameters
 		if (params.type && params.type.indexOf("Geopose") == 0) {
-			this._position = new GlobalPosition("position", this, {
+			this._location = new GlobalLocation("location", this, {
 				longitude: params.longitude,
 				latitude: params.latitude,
 				altitude: params.height
@@ -38,24 +39,24 @@ export class Pose extends Node {
 		// Create the child nodes
 		this._extensions = new NodeSet("extensions", this, params.extensions, Extension);
 
-		// Validate the position initialization parameters
-		if (params.position) {
-			let positionType;
-			switch (params.position.type) {
-				case "local":
-					positionType = LocalPosition;
+		// Validate the location initialization parameters
+		if (params.location) {
+			let locationType;
+			switch (params.location.type) {
+				case "euclidean":
+					locationType = EuclideanLocation;
 					break;
 				case "global":
-					positionType = GlobalPosition;
+					locationType = GlobalLocation;
 					break;
 				case "orbital":
-					positionType = OrbitalPosition;
+					locationType = OrbitalLocation;
 					break;
 				default:
-					positionType = LocalPosition;
+					locationType = EuclideanLocation;
 					break;
 			}
-			this._position = new positionType("position", this, params.position);
+			this._location = new locationType("location", this, params.location);
 		}
 
 		// Validate the orientation initialization parameters
@@ -72,11 +73,11 @@ export class Pose extends Node {
 				case "quaternion":
 					orientationType = QuaternionOrientation;
 					break;
-				case "quaternion":
-					orientationType = QuaternionOrientation;
+				case "lookat":
+					orientationType = LookAtOrientation;
 					break;
 				default:
-					orientationType = LocalPosition;
+					orientationType = EuclideanLocation;
 					break;
 			}
 			this._orientation = new orientationType("orientation", this, params.orientation);
@@ -86,8 +87,8 @@ export class Pose extends Node {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The position of the Pose. */
-	get position() { return this._position; }
+	/** The location of the Pose. */
+	get location() { return this._location; }
 
 	/** The orientation of the Pose. */
 	get orientation() { return this._orientation; }

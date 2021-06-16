@@ -68,7 +68,7 @@
 
 * *height:* Gets the <<Size,Size>> in the Z axis.
 
-* *constructor:* Initializes a new instance of the <<LocalPosition,LocalPosition>> class.
+* *constructor:* Initializes a new instance of the LocalPosition class.
 
 [[Distance]]*Distance:* Defines a distance (relative dimensional magnitude) measure.
 
@@ -97,6 +97,16 @@
 * *constructor:* Initializes a new <<Entity,Entity>> instance.
 
 * *update:* Updates the entity.
+
+[[EuclideanLocation]]*EuclideanLocation:* Defines a position in local (euclidean) coordinate system.
+
+* *x:* The <<Distance,Distance>> in the X axis.
+
+* *y:* The <<Distance,Distance>> in the Y axis.
+
+* *z:* The <<Distance,Distance>> in the Z axis.
+
+* *constructor:* Initializes a new instance of the <<EuclideanLocation,EuclideanLocation>> class.
 
 [[EulerOrientation]]*EulerOrientation:* Defines the Euler <<Orientation,Orientation>>.
 
@@ -132,7 +142,17 @@
 
 * *init:* Initializes a new <<GeoPoseSandbox,GeoPoseSandbox>> instance.
 
-[[GlobalPosition]]*GlobalPosition:* Defines a position in global (elliptical) coordinate system. (Based on PICE and LPT-ENU).
+[[GeoPoseSerialization]]*GeoPoseSerialization:* Defines a Serialization/Deserialization of the GeoPose Standard.
+
+* *serializeJSON:* Defines a Serialization/Deserialization of the GeoPose Standard.
+
+* *deserializeJSON:* Deserializes a GeoPose JSON string into a <<Pose,Pose>>.
+
+* *serializeCSV:* Serializes a <<Pose,Pose>> into the Geopose CSV string.
+
+* *deserializeCSV:* Deserializes a GeoPose CSV string into a <<Pose,Pose>>.
+
+[[GlobalLocation]]*GlobalLocation:* Defines a location in global (elliptical) coordinate system. (Based on PICE and LPT-ENU).
 
 * *longitude:* The <<Angle,Angle>> in degrees around the equator of the globe.
 
@@ -142,17 +162,19 @@
 
 * *globe:* The <<Shape,Shape>> of the globe.
 
-* *constructor:* Initializes a new instance of the <<GlobalPosition,GlobalPosition>> class.
+* *constructor:* Initializes a new instance of the <<GlobalLocation,GlobalLocation>> class.
 
-[[LocalPosition]]*LocalPosition:* Defines a position in local (euclidean) coordinate system.
+[[Location]]*Location:* Define the basic class of a three dimensional position within a reference frame.
 
-* *x:* The <<Distance,Distance>> in the X axis.
+* *relativeValues:* The relative position.
 
-* *y:* The <<Distance,Distance>> in the Y axis.
+* *absoluteValues:* The absolute position.
 
-* *z:* The <<Distance,Distance>> in the Z axis.
+* *verticalVector:* The vertical vector.
 
-* *constructor:* Initializes a new instance of the <<LocalPosition,LocalPosition>> class.
+* *forwardVector:* The forward vector.
+
+* *constructor:* Initializes a new instance of the <<Location,Location>> class.
 
 [[LookAtOrientation]]*LookAtOrientation:* Defines the <<Orientation,Orientation>> based on an <<Pose,Pose>> to look at.
 
@@ -200,7 +222,7 @@
 
 * *updated:* A boolean indicating if the node has been updated or not.
 
-* *constructor:* Initializes a new instance of the <<Node,Node>> instance.
+* *constructor:* Initializes a new instance of the <<Node,Node>> class.
 
 * *update:* Updates the <<Node,Node>>.
 
@@ -212,11 +234,11 @@
 
 * *Symbol:* Gets a node by index.
 
-[[OrbitalPosition]]*OrbitalPosition:* Defines a position in Orbital (Keplerian) coordinate system.
+[[OrbitalLocation]]*OrbitalLocation:* Defines a position in Orbital (Keplerian) coordinate system.
 
 * *eccentricity:* The eccentricity of the orbit.
 
-* *constructor:* Initializes a new instance of the <<OrbitalPosition,OrbitalPosition>> class.
+* *constructor:* Initializes a new instance of the <<OrbitalLocation,OrbitalLocation>> class.
 
 [[Orientation]]*Orientation:* Define the basic class of a three dimensional orientation.
 
@@ -228,7 +250,7 @@
 
 [[Pose]]*Pose:* Defines a <<Pose,Pose>> of an object.
 
-* *position:* The position of the <<Pose,Pose>>.
+* *location:* The location of the <<Pose,Pose>>.
 
 * *orientation:* The orientation of the <<Pose,Pose>>.
 
@@ -239,18 +261,6 @@
 * *children:* The children of the <<Pose,Pose>>.
 
 * *constructor:* Initializes a new instance of the <<Pose,Pose>> class.
-
-[[Position]]*Position:* Define the basic class of a three dimensional position within a reference frame.
-
-* *relativeValues:* The relative position.
-
-* *absoluteValues:* The absolute position.
-
-* *verticalVector:* The vertical vector.
-
-* *forwardVector:* The forward vector.
-
-* *constructor:* Initializes a new instance of the <<Position,Position>> class.
 
 [[Presence]]*Presence:* Defines the user <<Presence,Presence>> in an interaction space.
 
@@ -457,16 +467,16 @@
 * data\model\extensions\BoundaryExtension.ts
 * data\model\extensions\DimensionsExtension.ts
 * data\model\extensions\MirrorExtension.ts
+* data\model\Location.ts
+* data\model\locations\EuclideanLocation.ts
+* data\model\locations\GlobalLocation.ts
+* data\model\locations\OrbitalLocation.ts
 * data\model\Orientation.ts
 * data\model\orientations\APAOrientation.ts
 * data\model\orientations\EulerOrientation.ts
 * data\model\orientations\LookAtOrientation.ts
 * data\model\orientations\QuaternionOrientation.ts
 * data\model\Pose.ts
-* data\model\Position.ts
-* data\model\positions\GlobalPosition.ts
-* data\model\positions\LocalPosition.ts
-* data\model\positions\OrbitalPosition.ts
 * data\Node.ts
 * data\NodeSet.ts
 * data\Resource.ts
@@ -474,6 +484,7 @@
 * data\resources\FontResource.ts
 * data\resources\ModelResource.ts
 * data\resources\ResourceGroup.ts
+* data\serialization\GeoPoseSerialization.ts
 * data\serialization\JsonSerialization.ts
 * data\serialization\XmlSerialization.ts
 * data\types\complex\Quaternion.ts

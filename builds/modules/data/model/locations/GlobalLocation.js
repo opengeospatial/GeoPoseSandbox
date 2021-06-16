@@ -1,15 +1,15 @@
-import { Position } from "../Position.js";
+import { Location } from "../Location.js";
 import { Angle } from "../../types/measures/Angle.js";
 import { Distance } from "../../types/measures/Distance.js";
 
-/** Defines a position in global (elliptical) coordinate system.
+/** Defines a location in global (elliptical) coordinate system.
 * (Based on PICE and LPT-ENU). */
-export class GlobalPosition extends Position {
+export class GlobalLocation extends Location {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the GlobalPosition class.
+	/** Initializes a new instance of the GlobalLocation class.
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
@@ -36,7 +36,7 @@ export class GlobalPosition extends Position {
 		// TODO Improve this
 		let lng = -this._longitude.value * (Math.PI / 180), lat = this._latitude.value * (Math.PI / 180), alt = this._altitude.value + 6378137, lngSin = Math.sin(lng), lngCos = Math.cos(lng), latSin = Math.sin(lat), latCos = Math.cos(lat);
 
-		// Calculate the relative position
+		// Calculate the relative location
 		this.relativeValues.x.setValue(lngCos * latCos * alt);
 		this.relativeValues.y.setValue(latSin * alt);
 		this.relativeValues.z.setValue(lngSin * latCos * alt);

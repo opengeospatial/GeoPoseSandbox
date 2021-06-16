@@ -1,14 +1,14 @@
-import { Position } from "../Position.js";
+import { Location } from "../Location.js";
 import { Distance } from "../../types/measures/Distance.js";
 
 
 /** Defines a position in Orbital (Keplerian) coordinate system. */
-export class OrbitalPosition extends Position {
+export class OrbitalLocation extends Location {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the OrbitalPosition class.
+	/** Initializes a new instance of the OrbitalLocation class.
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */

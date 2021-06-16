@@ -5,7 +5,7 @@ export class Node {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the Node instance.
+	/** Initializes a new instance of the Node class.
 	 * @param name The name(s) of the node.
 	 * @param type The type of the node.
 	 * @param parentNode The parent node.

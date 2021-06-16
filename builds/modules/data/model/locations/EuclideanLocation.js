@@ -1,14 +1,14 @@
-import { Position } from "../Position.js";
+import { Location } from "../Location.js";
 import { Distance } from "../../types/measures/Distance.js";
 
 
 /** Defines a position in local (euclidean) coordinate system. */
-export class LocalPosition extends Position {
+export class EuclideanLocation extends Location {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the LocalPosition class.
+	/** Initializes a new instance of the EuclideanLocation class.
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
