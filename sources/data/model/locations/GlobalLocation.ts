@@ -1,12 +1,12 @@
 import { Node } from "../../Node";
-import { Position } from "../Position";
+import { Location } from "../Location";
 import { Angle } from "../../types/measures/Angle";
 import { Distance } from "../../types/measures/Distance";
 import { Ellipsoid } from "../../types/shapes/Ellipsoid";
 
-/** Defines a position in global (elliptical) coordinate system.
+/** Defines a location in global (elliptical) coordinate system.
 * (Based on PICE and LPT-ENU). */
-export class GlobalPosition extends Position {
+export class GlobalLocation extends Location {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
@@ -40,7 +40,7 @@ export class GlobalPosition extends Position {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 	
-	/** Initializes a new instance of the GlobalPosition class.
+	/** Initializes a new instance of the GlobalLocation class.
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */
@@ -67,7 +67,7 @@ export class GlobalPosition extends Position {
 			lngSin = Math.sin(lng), lngCos = Math.cos(lng),
 			latSin = Math.sin(lat), latCos = Math.cos(lat);
 
-		// Calculate the relative position
+		// Calculate the relative location
 		this.relativeValues.x.setValue(lngCos * latCos * alt);
 		this.relativeValues.y.setValue(latSin * alt);
 		this.relativeValues.z.setValue(lngSin * latCos * alt);

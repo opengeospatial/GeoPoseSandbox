@@ -1,12 +1,12 @@
 import { Node } from "../../Node";
-import { Position } from "../Position";
+import { Location } from "../Location";
 import { Measure } from "../../types/Measure";
 import { Distance } from "../../types/measures/Distance";
 import { Angle } from "../../types/measures/Angle";
 
 
 /** Defines a position in Orbital (Keplerian) coordinate system. */
-export class OrbitalPosition extends Position {
+export class OrbitalLocation extends Location {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
@@ -35,7 +35,7 @@ export class OrbitalPosition extends Position {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the OrbitalPosition class.
+	/** Initializes a new instance of the OrbitalLocation class.
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */

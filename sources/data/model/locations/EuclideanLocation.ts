@@ -1,10 +1,10 @@
 import { Node } from "../../Node";
-import { Position } from "../Position";
+import { Location } from "../Location";
 import { Distance } from "../../types/measures/Distance";
 
 
 /** Defines a position in local (euclidean) coordinate system. */
-export class LocalPosition extends Position {
+export class EuclideanLocation extends Location {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
@@ -32,7 +32,7 @@ export class LocalPosition extends Position {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 	
-	/** Initializes a new instance of the LocalPosition class.
+	/** Initializes a new instance of the EuclideanLocation class.
 	 * @param name The name(s) of the node.
 	 * @param parent The parent node.
 	 * @param params The initialization parameters (or a number array). */

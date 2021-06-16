@@ -1,11 +1,11 @@
 import { Node } from "../Node";
 import { NodeSet } from "../NodeSet";
-import { Position } from "./Position";
+import { Location } from "./Location";
 import { Orientation } from "./Orientation";
 import { Extension } from "./Extension";
-import { LocalPosition } from "./positions/LocalPosition";
-import { GlobalPosition } from "./positions/GlobalPosition";
-import { OrbitalPosition } from "./positions/OrbitalPosition";
+import { EuclideanLocation } from "./locations/EuclideanLocation";
+import { GlobalLocation } from "./locations/GlobalLocation";
+import { OrbitalLocation } from "./locations/OrbitalLocation";
 import { LookAtOrientation } from "./orientations/LookAtOrientation";
 import { APAOrientation } from "./orientations/APAOrientation";
 import { QuaternionOrientation } from "./orientations/QuaternionOrientation";
@@ -16,8 +16,8 @@ export class Pose extends Node {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The position of the Pose. */
-	private _position: Position;
+	/** The location of the Pose. */
+	private _location: Location;
 
 	/** The orientation of the Pose. */
 	private _orientation: Orientation;
@@ -34,8 +34,8 @@ export class Pose extends Node {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The position of the Pose. */
-	get position(): Position { return this._position; }
+	/** The location of the Pose. */
+	get location(): Location { return this._location; }
 
 	/** The orientation of the Pose. */
 	get orientation(): Orientation { return this._orientation; }
@@ -63,7 +63,7 @@ export class Pose extends Node {
 
 		// Analyze the initialization parameters
 		if (params.type && params.type.indexOf("Geopose") == 0) {
-			this._position = new GlobalPosition("position", this, {
+			this._location = new GlobalLocation("location", this, {
 				longitude: params.longitude,
 				latitude: params.latitude,
 				altitude: params.height
@@ -74,17 +74,17 @@ export class Pose extends Node {
 		this._extensions = new NodeSet<Extension>("extensions", this,
 			params.extensions, Extension);
 
-		// Validate the position initialization parameters
-		if (params.position) {
-			let positionType;
-			switch (params.position.type) {
-				case "local": positionType = LocalPosition; break;
-				case "global": positionType = GlobalPosition; break;
-				case "orbital": positionType = OrbitalPosition; break;
-				default: positionType = LocalPosition; break;
+		// Validate the location initialization parameters
+		if (params.location) {
+			let locationType;
+			switch (params.location.type) {
+				case "euclidean": locationType = EuclideanLocation; break;
+				case "global": locationType = GlobalLocation; break;
+				case "orbital": locationType = OrbitalLocation; break;
+				default: locationType = EuclideanLocation; break;
 			}
-			this._position = new positionType(
-				"position", this, params.position);
+			this._location = new locationType(
+				"location", this, params.location);
 		}
 
 		// Validate the orientation initialization parameters
@@ -94,8 +94,8 @@ export class Pose extends Node {
 				case "apa": case "aircraft": orientationType = APAOrientation; break;
 				case "euler": orientationType = EulerOrientation; break;
 				case "quaternion": orientationType = QuaternionOrientation; break;
-				case "quaternion": orientationType = QuaternionOrientation; break;
-				default: orientationType = LocalPosition; break;
+				case "lookat": orientationType = LookAtOrientation; break;
+				default: orientationType = EuclideanLocation; break;
 			}
 			this._orientation = new orientationType(
 				"orientation", this, params.orientation);

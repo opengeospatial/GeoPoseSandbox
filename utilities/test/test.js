@@ -1,5 +1,5 @@
 // Electron JS file.
-// Provides the testing environment for the 
+// Provides the testing environment
 
 const { app, BrowserWindow } = require('electron');
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';

@@ -1,0 +1,39 @@
+{
+	"name": "geopose-sandbox",
+	"version": "0.1.2",
+	"description": "A testing environment to validate the different elements of the OGC GeoPose Standard",
+	"main": "builds/geopose.sandbox.js",
+	"directories": {
+		"bin": "builds",
+		"doc": "docs",
+		"example": "examples"
+	},
+	"files": [ "builds/*" ],
+	"dependencies": {},
+	"devDependencies": {
+		"three": "^0.125.1",
+		"terser": "^5.7.0",
+		"typescript": "^4.3.2"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/opengeospatial/GeoPoseSandbox.git"
+	},
+	"keywords": [
+		"GeoPose",
+		"Sandbox",
+		"Standard",
+		"Development",
+		"Typescript",
+		"Library"
+	],
+	"author": "Mikel Salazar",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/opengeospatial/GeoPoseSandbox/issues"
+	},
+	"homepage": "https://github.com/opengeospatial/GeoPoseSandbox#readme"
+}
