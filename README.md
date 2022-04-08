@@ -1,5 +1,5 @@
 
-![GeoPose Sandbox](docs/banner.png)
+![GeoPose Sandbox](docs/images/banner.png)
 
 Welcome to GeoPose Sandbox, a testing environment to validate the different elements of the [OGC GeoPose specification](https://github.com/opengeospatial/GeoPose), with the goal of facilitating the definition and implementation of the standard. While this project is exploratory in nature, the (TypeScript) code is being primarily written with clarity/simplicity in mind and might offer guidance to those who are trying to include GeoPose in their own projects.
 

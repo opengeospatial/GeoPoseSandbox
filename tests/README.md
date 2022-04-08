@@ -1,1 +1,0 @@
-A collection of test that focus on different aspects of the Geopose Sandbox.

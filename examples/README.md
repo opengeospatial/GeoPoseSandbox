@@ -1,1 +1,0 @@
-This folder will contain the examples created with the Geopose Sandbox.
