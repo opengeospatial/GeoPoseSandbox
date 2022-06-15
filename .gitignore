@@ -1,5 +1,4 @@
 .vscode
-package.json
-package.json
 node_modules
-examples
+package-lock.json
+backup

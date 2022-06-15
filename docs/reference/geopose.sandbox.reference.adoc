@@ -1,0 +1,1750 @@
+= GeoPose Sandbox Class Reference
+
+== Index
+
+=== Grouped by folder:
+
+<<GeoPoseSandbox>>
+
+==== data
+
+<<Collection>>, <<Item>>, <<Relationship>>, <<Serialization>>, <<Type>>
+
+==== data/collections
+
+<<List>>
+
+==== data/items
+
+<<Complex>>, <<Measure>>, <<Shape>>, <<Simple>>
+
+==== data/items/complex
+
+<<Color>>, <<Euler>>, <<Quaternion>>, <<Vector>>
+
+==== data/items/measures
+
+<<Angle>>, <<Distance>>, <<Size>>, <<Time>>
+
+==== data/items/shapes
+
+<<Box>>, <<Ellipsoid>>, <<Sphere>>
+
+==== data/items/simple
+
+<<Boolean>>, <<Number>>, <<String>>
+
+==== data/model
+
+<<Extension>>, <<Frame>>, <<GeoPose>>, <<Orientation>>, <<Pose>>, <<Position>>
+
+==== data/model/frames
+
+<<GeoFrame>>
+
+==== data/model/geoposes
+
+<<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>
+
+==== data/model/orientations
+
+<<LookAtOrientation>>, <<QuaternionOrientation>>, <<YawPitchRollOrientation>>
+
+==== data/model/positions
+
+<<EuclideanPosition>>, <<GeoPosition>>, <<OrbitalPosition>>
+
+==== logic
+
+<<Behavior>>, <<Entity>>, <<Event>>, <<ViewPort>>
+
+==== logic/entities
+
+<<PresenceEntity>>, <<ShapeEntity>>, <<SpaceEntity>>, <<TerrainEntity>>
+
+==== user
+
+<<User>>
+
+==== user/interaction
+
+<<Component>>, <<Layer>>, <<Presence>>, <<Space>>, <<View>>, <<Widget>>
+
+==== user/interaction/components
+
+<<PlanetComponent>>, <<ShapeComponent>>
+
+==== user/interaction/widgets
+
+<<PlanetWidget>>
+
+=== Alphabetical Order:
+
+<<Angle>>, <<Behavior>>, <<Boolean>>, <<Box>>, <<Collection>>, <<Color>>, <<Complex>>, <<Component>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanPosition>>, <<Euler>>, <<Event>>, <<Extension>>, <<Frame>>, <<GeoFrame>>, <<GeoPose>>, <<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>, <<GeoPoseSandbox>>, <<GeoPosition>>, <<Item>>, <<Layer>>, <<List>>, <<LookAtOrientation>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<OrbitalPosition>>, <<Orientation>>, <<PlanetComponent>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Relationship>>, <<Serialization>>, <<Shape>>, <<ShapeComponent>>, <<ShapeEntity>>, <<Simple>>, <<Size>>, <<Space>>, <<SpaceEntity>>, <<Sphere>>, <<String>>, <<TerrainEntity>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>, <<Widget>>, <<YawPitchRollOrientation>>
+
+== Classes
+
+=== [[Angle]]*Angle* *:* <<Measure>>
+
+Defines a angular measurement.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Angle class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[Behavior]]*Behavior* *:* <<Item>>
+
+Defines an logic behavior,
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>)** + 
+Initializes a new Behavior instance. + 
+*_name:_* The name of the logic behavior. + 
+*_parent:_* The parent item. 
+
+'''
+
+=== [[Boolean]]*Boolean* *:* <<Simple>> <boolean>
+
+Defines a boolean data item.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Boolean class. + 
+*_name:_* The name of the data type. + 
+*_parent:_* The parent data type. + 
+*_data:_* The initialization data. 
+
+==== Methods:
+
+**serialize () : any** + 
+Serializes the Boolean instance. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any)** + 
+Deserializes the Boolean instance. + 
+*_data:_* The data to deserialize. 
+
+**toString () : string** + 
+Obtains the string representation of the Boolean instance. + 
+*_Returns:_* The string representation of the Boolean instance. 
+
+**valueOf () : boolean** + 
+Obtains the primitive value of the Boolean instance. + 
+*_Returns:_* The primitive value of the Boolean instance. 
+
+'''
+
+=== [[Box]]*Box* *:* <<Shape>>
+
+Defines a three-dimensional box Shape (global).
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes the Box instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**width : <<Size>>** + 
+The size of the box the X axis. 
+
+**height : <<Size>>** + 
+The size of the box in the Y axis. 
+
+**depth : <<Size>>** + 
+The size of the box the Z axis. 
+
+'''
+
+=== [[Collection]]*Collection* *:* <<Item>>
+
+Defines a collection of data items.
+
+==== Constructor:
+
+**constructor (types : <<Type>>, owner : <<Item>>)** + 
+Initializes a new instance of the Collection instance. + 
+*_types:_* The types of items in the collection. + 
+*_owner:_* The owner the data collection. 
+
+==== Properties:
+
+**count : number** + 
+The number of items of the data collection. 
+
+**owner : <<Item>>** + 
+The owner of the data collection. 
+
+==== Methods:
+
+**getByIndex (index : number) : ItemType** + 
+Gets a data item by index. + 
+*_index:_* The index of the item to get. + 
+*_Returns:_* The item with the specified index. 
+
+**getByName (name : string) : ItemType** + 
+Gets a data item by name. + 
+ + 
+*_Returns:_* The item with the specified name. 
+
+'''
+
+=== [[Color]]*Color* *:* <<Complex>>
+
+Defines an RGBA color.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Color class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**r : <<Number>>** + 
+The red component of the color. 
+
+**g : <<Number>>** + 
+The green component of the color. 
+
+**b : <<Number>>** + 
+The blue component of the color. 
+
+**a : <<Number>>** + 
+The alpha component of the color. 
+
+==== Methods:
+
+**getValues () : object** + 
+Gets the values of the Color instance. + 
+*_Returns:_* An object with the values of the Color instance. 
+
+**setValues (r : number, g : number, b : number, a : number)** + 
+Sets the values of the Color instance. + 
+*_r:_* The value of the Red component. + 
+*_g:_* The value of the Green component. + 
+*_b:_* The value of the Blue component. + 
+*_a:_* The value of the Alpha component. 
+
+**toString () : string** + 
+Obtains the string representation of the Color instance. + 
+*_Returns:_* The string representation of the Color instance. 
+
+'''
+
+=== [[Complex]]*Complex* *:* <<Item>>
+
+Defines a complex data item.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the complex class. + 
+*_name:_* The name of the data item. + 
+*_parent:_* The parent data item. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**isDefault : boolean** + 
+Indicates whether all the the values are the default or not. 
+
+**isUndefined : boolean** + 
+Indicates whether the value is undefined or not. 
+
+'''
+
+=== [[Component]]*Component* *:* <<Item>>
+
+Defines an interaction component
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new Component instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**entity : <<Entity>>** + 
+The entity of the component. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Component. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[Distance]]*Distance* *:* <<Measure>>
+
+Defines a length measurement.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Distance class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[Ellipsoid]]*Ellipsoid* *:* <<Shape>>
+
+Defines a three-dimensional ellipsoid shape.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes the Ellipsoid instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**radiusX : <<Size>>** + 
+The radius in the X axis. 
+
+**radiusY : <<Size>>** + 
+The radius in the Y axis. 
+
+**radiusZ : <<Size>>** + 
+The radius in the Z axis. 
+
+'''
+
+=== [[Entity]]*Entity* *:* <<Item>>
+
+Defines a logic entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, representation : THREE.Object3D)** + 
+Initializes a new Entity instance. + 
+*_name:_* The name of the item. + 
+*_parent:_* The parent item. + 
+*_representation:_* The representation of the entity. 
+
+==== Properties:
+
+**representation : THREE.Object3D** + 
+The representation of the entity. 
+
+**pose : <<Pose>>** + 
+The pose of the entity. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Entity. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[EuclideanPosition]]*EuclideanPosition* *:* <<Position>>
+
+Defines a location in an euclidean coordinate system.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the EuclideanPosition class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**x** + 
+The distance from the origin in the X axis. 
+
+**y** + 
+The distance from the origin in the Y axis. 
+
+**z** + 
+The distance from the origin in the Z axis. 
+
+'''
+
+=== [[Euler]]*Euler* *:* <<Complex>>
+
+Defines the Euler orientation.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Euler class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**x : <<Angle>>** + 
+The Angle in the X axis. 
+
+**y : <<Angle>>** + 
+The Angle in the Y axis. 
+
+**z : <<Angle>>** + 
+The Angle in the Z axis. 
+
+**order : <<String>>** + 
+The order of application of axis rotation. 
+
+==== Methods:
+
+**getValues () : object** + 
+Gets the values of the Euler instance. + 
+*_Returns:_* An object with the values of the Euler instance. 
+
+**setValues (x : number, y : number, z : number)** + 
+Sets the values of the Euler instance. + 
+*_x:_* The value in the X axis. + 
+*_y:_* The value in the Y axis. + 
+*_z:_* The value in the Z axis. 
+
+'''
+
+=== [[Event]]*Event*
+
+Defines a Logic Event
+
+==== Constructor:
+
+**constructor (type : string, owner : object, data : object)** + 
+Initializes a new Event instance. + 
+*_type:_* The event type. + 
+*_owner:_* The event owner. + 
+*_data:_* The event data. 
+
+==== Properties:
+
+**owner : object** + 
+The event owner. 
+
+**data : object** + 
+The event data. 
+
+**listeners : any** + 
+The event listeners. 
+
+==== Methods:
+
+**add (listener : CallableFunction)** + 
+Adds a listener for the event. + 
+*_listener:_* The listener function to add. 
+
+**removes (listener : CallableFunction)** + 
+Removes a listener for the event. + 
+*_listener:_* The listener function to add. 
+
+**trigger (target : any, data : any)** + 
+Triggers the event. + 
+*_target:_* The object that triggers the event. + 
+*_data:_* Additional event data. 
+
+'''
+
+=== [[Extension]]*Extension* *:* <<Item>>
+
+Defines the basic class of a Pose Extension.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Extension class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[Frame]]*Frame* *:* <<Item>>
+
+Defines a reference frame.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Frame class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**shape** + 
+The shape of the reference frame. 
+
+'''
+
+=== [[GeoFrame]]*GeoFrame* *:* <<Frame>>
+
+Defines a geographical frame.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the GeoFrame class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**semiMajorAxis : <<Distance>>** + 
+The semi major axis. 
+
+**semiMinorAxis : <<Distance>>** + 
+The semi minor axis. 
+
+**flattening : <<Number>>** + 
+The flattening factor. 
+
+'''
+
+=== [[GeoPose]]*GeoPose* *:* <<Item>>
+
+Defines the GeoPose of an object.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the GeoPose class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**frame : <<GeoFrame>>** + 
+The frame of the GeoPose. 
+
+**extensions : <<List>> <<<Extension>>>** + 
+The extensions of the GeoPose. 
+
+'''
+
+=== [[GeoPoseBasicQuaternion]]*GeoPoseBasicQuaternion* *:* <<GeoPose>>
+
+Defines a basic GeoPose with Quaternion-based orientation.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the GeoPoseBasicQuaternion class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**position : <<GeoPosition>>** + 
+The position of the GeoPose. 
+
+**orientation : <<QuaternionOrientation>>** + 
+The orientation of the GeoPose. 
+
+'''
+
+=== [[GeoPoseBasicYPR]]*GeoPoseBasicYPR* *:* <<GeoPose>>
+
+Defines a basic GeoPose with Yaw-Pitch-Roll orientation.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the YawPitchRollOrientation class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**position : <<GeoPosition>>** + 
+The position of the GeoPose. 
+
+**orientation : <<YawPitchRollOrientation>>** + 
+The orientation of the GeoPose. 
+
+'''
+
+=== [[GeoPoseSandbox]]*GeoPoseSandbox* *:* <<Item>>
+
+Manages the GeoPose Sandbox.
+
+==== Constructor:
+
+**constructor (data : any)** + 
+Initializes a new GeoPoseSandbox instance. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**id : string** + 
+The name of the Geopose Sandbox. 
+
+**version : string** + 
+The version number of the Geopose Sandbox. 
+
+**instances : <<GeoPoseSandbox>>** + 
+The list of GeoPoseSandbox instances. 
+
+**autoInit** + 
+The list of GeoPoseSandbox instances. 
+
+**spaces : <<List>> <<<Space>>>** + 
+The interaction spaces of the GeoPoseSandbox instance. 
+
+**users : <<List>> <<<User>>>** + 
+The interaction spaces of the GeoPoseSandbox instance. 
+
+==== Methods:
+
+**init (params)** + 
+Initializes a new GeoPoseSandbox instance. + 
+*_params:_* The initialization parameters. + 
+*_Returns:_* The new GeoPoseSandbox instance. 
+
+'''
+
+=== [[GeoPosition]]*GeoPosition* *:* <<Position>>
+
+Defines a location in global (elliptical) coordinate system. (Based on PICE and LPT-ENU).
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the GeoPosition class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**longitude** + 
+The Angle in degrees around the equator of the globe. 
+
+**latitude** + 
+The Angle in degrees around the prime meridian of the globe. 
+
+**altitude** + 
+The vertical Distance relative to the surface to the globe. 
+
+'''
+
+=== [[Item]]*Item*
+
+Defines a data item (often called a datum) in a graph structure . Provides a way to store information in a complex way.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>)** + 
+Initializes a new instance of the Item class. + 
+*_name:_* The name of the data item. + 
+*_parent:_* The parent data item. 
+
+==== Properties:
+
+**name : string** + 
+The name of the data item. 
+
+**parent : <<Item>>** + 
+The parent of the data item. 
+
+**children : <<Collection>> <<<Item>>>** + 
+The child data items. 
+
+**relationships : Record <string>** + 
+The additional relationships of the data item. 
+
+**updated** + 
+The update state of the item. 
+
+**updateTime : number** + 
+The last update time. 
+
+**onModified : <<Event>>** + 
+A global event triggered when a item is modified. 
+
+**onPreUpdate : <<Event>>** + 
+An event triggered before a item is updated. 
+
+**onPostUpdate : <<Event>>** + 
+An event triggered after a item is updated. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Item instance. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+**serialize (format : SerializationFormat) : object** + 
+Serializes the Item instance. + 
+*_format:_* The serialization format. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : object)** + 
+Deserializes the Item instance. + 
+*_data:_* The data to deserialize. 
+
+'''
+
+=== [[Layer]]*Layer* *:* <<Item>>
+
+Defines an user interaction (view) layer .
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, presence : <<Presence>>)** + 
+Initializes a new Layer instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_presence:_* The user presence associated with the layer. 
+
+==== Properties:
+
+**widgets : <<List>> <<<Widget>>>** + 
+The widgets of the layer. 
+
+**space : <<Space>>** + 
+The Interaction Space associated to the layer. 
+
+**presence : <<Presence>>** + 
+The user Presence in the layer. 
+
+**entity : <<Entity>>** + 
+The entity associated to the layer. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the space. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[List]]*List* *:* <<Collection>> <ItemType>
+
+Defines a generic list of data items.
+
+==== Constructor:
+
+**constructor (types : <<Type>>, owner : <<Item>>)** + 
+Initializes a new instance of the List instance. + 
+*_types:_* The types of items in the collection. + 
+*_owner:_* The owner the data collection. 
+
+==== Methods:
+
+**add (item : ItemType, position : number)** + 
+Adds a new item to the end of the list. + 
+*_item:_* The item to add. + 
+*_position:_* The position where to add the item (by default, at the end). Negative values imply counting from the end of the list. + 
+*_Returns:_* The added item. 
+
+'''
+
+=== [[LookAtOrientation]]*LookAtOrientation* *:* <<Orientation>>
+
+Defines an orientation with a target.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the YawPitchRollOrientation class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**targetName : <<String>>** + 
+The target to point towards. 
+
+**targetPosition : <<Vector>>** + 
+The target position. 
+
+'''
+
+=== [[Measure]]*Measure* *:* <<Number>>
+
+Defines a numeric Measure item.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Type class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**unit : <<MeasurementUnit>>** + 
+The current unit of the measure. 
+
+**units : <<MeasurementUnit>>** + 
+The units of the measure. 
+
+**unitIndex** + 
+The value of the measure in the selected unit. 
+
+'''
+
+=== [[MeasurementUnit]]*MeasurementUnit*
+
+Defines a Measurement Unit.
+
+==== Constructor:
+
+**constructor (id : string, abbrevs : string, factor : number, defaultValue : number, min : number, max : number)** + 
+Initializes a new instance of the MeasurementUnit class. + 
+*_id:_* The id of the Measurement Unit. + 
+*_abbrevs:_* The abbreviations of the Measurement Unit. + 
+*_factor:_* The relative conversion factor of the Measurement Unit. + 
+ + 
+*_min:_* The minimum possible value of the Measurement Unit. + 
+*_max:_* The maximum possible value of the Measurement Unit. 
+
+==== Properties:
+
+**id : string** + 
+The name of the Measurement Unit. 
+
+**abbrevs : string** + 
+The list of abbreviations of the Measurement Unit. 
+
+**factor : number** + 
+The relative conversion factor of the Measurement Unit. 
+
+**min : number** + 
+The minimum possible value of the Measurement Unit. 
+
+**max : number** + 
+The maximum possible value of the Measurement Unit. 
+
+'''
+
+=== [[Number]]*Number* *:* <<Simple>> <number>
+
+Defines a Numeric data item.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Number class. + 
+*_name:_* The name of the data item. + 
+*_parent:_* The parent data item. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**min** + 
+The minimum possible value of Number. 
+
+**max** + 
+The maximum possible value of the Number. 
+
+==== Methods:
+
+**serialize () : any** + 
+Serializes the Number instance. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any)** + 
+Deserializes the Number instance. + 
+*_data:_* The data to deserialize. 
+
+**checkValue (value : number) : boolean** + 
+Checks if the value is valid for this Number instance. + 
+*_value:_* The value to check. + 
+*_Returns:_* A boolean value indicating whether the value is valid or not. 
+
+**toString () : string** + 
+Obtains the string representation of the Number instance. + 
+*_Returns:_* The string representation of the Number instance. 
+
+'''
+
+=== [[OrbitalPosition]]*OrbitalPosition* *:* <<Position>>
+
+Defines a location in an orbital coordinate system.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the OrbitalPosition class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[Orientation]]*Orientation* *:* <<Item>>
+
+Define the basic class of a three dimensional orientation.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Orientation class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**relativeValues** + 
+The relative orientation. 
+
+**absoluteValues** + 
+The absolute orientation. 
+
+'''
+
+=== [[PlanetComponent]]*PlanetComponent* *:* <<Component>>
+
+Defines a planet component for a user interaction widget.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new PlanetComponent instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**shape : <<Ellipsoid>>** + 
+The shape of the component. 
+
+'''
+
+=== [[PlanetWidget]]*PlanetWidget* *:* <<Widget>>
+
+Defines a widget for a planet.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new PlanetWidget instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**planet : <<PlanetComponent>>** + 
+The component of the widget. 
+
+'''
+
+=== [[Pose]]*Pose* *:* <<Item>>
+
+Defines a Pose of an object.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Pose class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**position : <<Position>>** + 
+The position of the Pose. 
+
+**orientation : <<Orientation>>** + 
+The orientation of the Pose. 
+
+**parent : <<Pose>>** + 
+The parent Pose. 
+
+**childPoses : <<List>> <<<Pose>>>** + 
+The child Poses. 
+
+'''
+
+=== [[Position]]*Position* *:* <<Item>>
+
+Defines a basic position within a reference frame.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Location class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**relativeValues** + 
+The relative position. 
+
+**absoluteValues** + 
+The absolute position. 
+
+**verticalVector** + 
+The vertical vector. 
+
+**forwardVector** + 
+The forward vector. 
+
+'''
+
+=== [[Presence]]*Presence* *:* <<Item>>
+
+Defines the user Presence in an interaction space.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new Presence instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**entity : <<PresenceEntity>>** + 
+The entity associated with this presence. 
+
+**space** + 
+The space associated with the presence. 
+
+'''
+
+=== [[PresenceEntity]]*PresenceEntity* *:* <<Entity>>
+
+Defines a user Presence entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new PresenceEntity instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**fieldOfView : <<Number>>** + 
+The field of view of the Camera. 
+
+**aspectRatio : <<Number>>** + 
+The aspect ratio of the Camera. 
+
+**nearPlane : <<Number>>** + 
+The near plane of the Camera frustum. 
+
+**farPlane : <<Number>>** + 
+The far plane of the Camera frustum. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Entity. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[Quaternion]]*Quaternion* *:* <<Complex>>
+
+Defines a four-dimensional complex number to describe rotations.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Quaternion class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**x : <<Number>>** + 
+The value of the quaternion vector in the X(i) axis. 
+
+**y : <<Number>>** + 
+The value of the quaternion vector in the Y(j) axis. 
+
+**z : <<Number>>** + 
+The value of the quaternion vector in the Z(k) axis. 
+
+**w : <<Number>>** + 
+The rotation half-angle around the quaternion vector. 
+
+==== Methods:
+
+**getValues () : object** + 
+Gets the values of the Quaternion instance. + 
+*_Returns:_* An object with the values of the Quaternion instance. 
+
+**setValues (x : number, y : number, z : number, w : number)** + 
+Sets the values of the Quaternion instance. + 
+*_x:_* The value of the quaternion vector in the X(i) axis. + 
+*_y:_* The value of the quaternion vector in the Y(j) axis. + 
+*_z:_* The value of the quaternion vector in the Z(k) axis. + 
+*_w:_* The rotation half-angle around the quaternion vector. 
+
+'''
+
+=== [[QuaternionOrientation]]*QuaternionOrientation* *:* <<Orientation>>
+
+Defines an orientation with a quaternion.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the QuaternionOrientation class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**x** + 
+The value of the quaternion vector in the X(i) axis. 
+
+**y** + 
+The value of the quaternion vector in the Y(j) axis. 
+
+**z** + 
+The value of the quaternion vector in the Z(k) axis. 
+
+**w** + 
+The rotation half-angle around the quaternion vector. 
+
+'''
+
+=== [[Relationship]]*Relationship*
+
+Defines a relationship between data items.
+
+==== Constructor:
+
+**constructor (name : string)** + 
+Initializes a new instance of the Node class. + 
+*_name:_* The name(s) of the relationship. 
+
+==== Properties:
+
+**name : string** + 
+The name of the relationship. 
+
+'''
+
+=== [[Serialization]]*Serialization*
+
+Provides multiple methods to serialize and deserialize data items.
+
+==== Methods:
+
+**serialize (item : <<Item>>, format : SerializationFormat) : object** + 
+Serializes a Item instance into an object. + 
+*_item:_* The format to use in the serialization. + 
+ + 
+*_Returns:_* The serialized data. 
+
+**deserialize (item : <<Item>>, data : any)** + 
+Deserializes generic data into a data Item. + 
+*_item:_* The data item to store the data. + 
+*_data:_* The data to deserialize. 
+
+**fromWords (s : string, separator) : object** + 
+Parses a string. + 
+*_s:_* The string to parse. + 
+ + 
+*_Returns:_* The CSV data. 
+
+**fromCSV (s : string) : object** + 
+Parses a CSV (Comma-Separated-Values) string. + 
+*_s:_* The string to parse. + 
+*_Returns:_* The parsed data. 
+
+**fromJSON (s : string) : object** + 
+Parses a JSON (JavaScript-Object-Notation) string. + 
+*_s:_* The string to parse. + 
+*_Returns:_* The parsed data. 
+
+**toCSV (data : object) : string** + 
+Converts an object into a CSV (Comma-Separated-Values) string. + 
+*_data:_* The data object to convert. + 
+*_Returns:_* The CSV representation of the object. 
+
+**toJSON (data : object, maxIndentation : number) : string** + 
+Converts an object into a JSON (JavaScript-Object-Notation) string. + 
+*_data:_* The data object to convert. + 
+ + 
+*_Returns:_* The JSON representation of the object. 
+
+**toString (item : <<Item>>) : string** + 
+Serializes a data item into a string. + 
+*_item:_* The data item to serialize to a string. + 
+*_Returns:_* The resulting string. 
+
+'''
+
+=== [[Shape]]*Shape* *:* <<Item>>
+
+Defines a three dimensional shape.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes the Shape instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**shaded : <<String>>** + 
+Indicates if the Shape should be shaded or not. 
+
+**color : <<String>>** + 
+The color of the Shape. 
+
+**texture : <<String>>** + 
+The diffuse texture of the Shape. 
+
+**emissive : <<String>>** + 
+The emissive texture of the Shape. 
+
+'''
+
+=== [[ShapeComponent]]*ShapeComponent* *:* <<Component>>
+
+Defines a shape component for a user interaction widget.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new ShapeComponent instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**shape : <<Shape>>** + 
+The shape of the component. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the ShapeComponent instance. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[ShapeEntity]]*ShapeEntity* *:* <<Entity>>
+
+Defines a Shape entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Entity>>, radius : number)** + 
+Initializes a new ShapeEntity instance. + 
+*_name:_* The name of the entity. + 
+ + 
+ 
+
+'''
+
+=== [[Simple]]*Simple* *:* <<Item>>
+
+Defines a simple data item.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : object)** + 
+Initializes a new instance of the Simple class. + 
+*_name:_* The name of the data item. + 
+*_parent:_* The parent data item. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**value** + 
+The current value of the Simple data type. 
+
+**defaultValue** + 
+The default value of the Simple data type. 
+
+**validValues** + 
+The valid values of the Simple data type. 
+
+**validValueIndex : number** + 
+The index of the value in the valid Simple data type. 
+
+**isDefault : boolean** + 
+Indicates whether the value is the default or not. 
+
+**isUndefined : boolean** + 
+Indicates whether the value is undefined or not. 
+
+**onModified : <<Event>>** + 
+An event triggered if the value is modified. 
+
+==== Methods:
+
+**valueOf () : any** + 
+Obtains the value of the Simple data type + 
+*_Returns:_* The value of the Type. 
+
+**checkValue (value : BasicType) : boolean** + 
+Checks if the value is valid for the Simple data type, + 
+*_value:_* The value to check. + 
+*_Returns:_* A boolean value indicating whether the value is valid or not. 
+
+'''
+
+=== [[Size]]*Size* *:* <<Measure>>
+
+Defines a dimensional measurement.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Size class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[Space]]*Space* *:* <<Item>>
+
+Defines an Interaction Space.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new Space instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**entity : <<SpaceEntity>>** + 
+The entity of the space. 
+
+**spaces : <<List>> <<<Space>>>** + 
+The subspaces of the space. 
+
+**presences : <<List>> <<<Presence>>>** + 
+The user presences in the space. 
+
+**widgets : <<List>> <<<Widget>>>** + 
+The widgets of the space. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the space. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[SpaceEntity]]*SpaceEntity* *:* <<Entity>>
+
+Defines a Space entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new SpaceEntity instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[Sphere]]*Sphere* *:* <<Shape>>
+
+Defines a three-dimensional spherical Shape.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes the Sphere instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**radius : <<Size>>** + 
+The Size of the radius in all axes. 
+
+'''
+
+=== [[String]]*String* *:* <<Simple>> <string>
+
+Defines a String data item.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the String class. + 
+*_name:_* The name of the data item. + 
+*_parent:_* The parent data item. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**validRegEx** + 
+The regular expression values of the string. 
+
+==== Methods:
+
+**deserialize (data : any)** + 
+Deserializes the String instance. + 
+*_data:_* The data to deserialize. 
+
+**checkValue (value : string) : boolean** + 
+Checks if the value is valid for this String instance. + 
+*_value:_* The value to check. + 
+*_Returns:_* A boolean value indicating whether the value is valid or not. 
+
+**toString () : string** + 
+Obtains the string representation of the Number instance. + 
+*_Returns:_* The string representation of the Number instance. 
+
+'''
+
+=== [[TerrainEntity]]*TerrainEntity* *:* <<Entity>>
+
+Defines a TerrainEntity Entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new TerrainEntity instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**shape : <<Ellipsoid>>** + 
+The shape of the component. 
+
+**texture : <<String>>** + 
+The shape of the component. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the TerrainEntity instance. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[Time]]*Time* *:* <<Measure>>
+
+Defines a temporal measurement.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Time class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[Type]]*Type*
+
+Contains the metadata of a data type. Provides a way to handle reflection and serialization in different contexts (even after the code is transpiled to Javascript).
+
+==== Constructor:
+
+**constructor (name : string, innerType : CallableFunction, parent : <<Type>>)** + 
+Initializes a new instance of the Type class. + 
+*_name:_* The name of the data type. + 
+*_innerType:_* The Javascript type. + 
+*_parent:_* The parent data type. 
+
+==== Properties:
+
+**record : Record <string>** + 
+The global list of Type instances. 
+
+**name : string** + 
+The name of the data type. 
+
+**parent : <<Type>>** + 
+The parent data type. 
+
+**children : <<Type>>** + 
+The children data types. 
+
+==== Methods:
+
+**is (type : <<Type>>) : boolean** + 
+Check if the type is (or inherits from) another. + 
+*_type:_* The type to check against. + 
+*_Returns:_* A boolean indicating whether the types are the same or not. 
+
+'''
+
+=== [[User]]*User* *:* <<Item>>
+
+Defines a user.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new User class instance. + 
+*_name:_* The name of the data item. + 
+*_parent:_* The parent data item. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**presences : <<List>> <<<Presence>>>** + 
+The presences of the user in the interaction spaces. 
+
+**views : <<List>> <<<View>>>** + 
+The point of views of the user. 
+
+'''
+
+=== [[Vector]]*Vector* *:* <<Complex>>
+
+Defines a three-dimensional vector.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the Vector3 class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**x : <<Distance>>** + 
+The vector component in the X axis. 
+
+**y : <<Distance>>** + 
+The vector component in the Y axis. 
+
+**z : <<Distance>>** + 
+The vector component in the Z axis. 
+
+==== Methods:
+
+**getValues () : object** + 
+Gets the values of the Vector instance. + 
+*_Returns:_* An object with the values of the Vector instance. 
+
+**setValues (x : number, y : number, z : number)** + 
+Sets the values of the Vector instance. + 
+*_x:_* The vector component in the X axis. + 
+*_y:_* The vector component in the Y axis. + 
+*_z:_* The vector component in the Z axis. 
+
+**toString () : string** + 
+Obtains the string representation of the Vector instance. + 
+*_Returns:_* The string representation of the Vector instance. 
+
+'''
+
+=== [[View]]*View* *:* <<Item>>
+
+Defines a User Interaction View.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new View instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**element : HTMLElement** + 
+The main element of the view. 
+
+**canvas : HTMLCanvasElement** + 
+The canvas element of the view. 
+
+**state : <<String>>** + 
+The state of the view. 
+
+**width : <<Number>>** + 
+The width of the view. 
+
+**height : <<Number>>** + 
+The height of the view. 
+
+**layers : <<List>> <<<Layer>>>** + 
+The layers of the view. 
+
+**fpsValue : number** + 
+The current Frames Per Second value. 
+
+**fpsValues : number** + 
+The list of Frames Per Second values. 
+
+==== Methods:
+
+**update (time : number)** + 
+Updates the view instance. + 
+*_time:_* The time (in milliseconds) since the last call. 
+
+**resize ()** + 
+Resizes the view. 
+
+**createDomElement (type : string, id : string, parent : HTMLElement, classes : string, style : string, content : string) : HTMLElement** + 
+Creates a DOM element + 
+*_type:_* The type of the element (its tag name) + 
+*_id:_* The id of the element. + 
+*_parent:_* The parent of the element. + 
+*_classes:_* The classes of the element. + 
+*_style:_* The style of the element. + 
+*_content:_* The HTML content of the element. + 
+*_Returns:_* The generated element. 
+
+**addCssRule (selector, rule, override)** + 
+Creates a CSS rule. + 
+*_selector:_* The CSS selector + 
+*_rule:_* The css rule + 
+*_override:_* Indicates whether to override rules or not. 
+
+'''
+
+=== [[ViewPort]]*ViewPort*
+
+Defines a Viewport.
+
+==== Constructor:
+
+**constructor (canvas, updateFunction)** + 
+Initializes a new ViewPort instance. + 
+*_canvas:_* The canvas of the viewport. + 
+*_updateFunction:_* The callback for the. 
+
+==== Properties:
+
+**canvas : HTMLCanvasElement** + 
+The canvas element of the viewport. 
+
+**renderer : THREE.WebGLRenderer** + 
+The renderer of the viewport. 
+
+**width : number** + 
+The width of the viewport. 
+
+**height : number** + 
+The height of the viewport. 
+
+==== Methods:
+
+**resize (width, height)** + 
+Resizes the viewport. + 
+*_width:_* The new width of the viewport. + 
+*_height:_* The new height of the viewport. 
+
+**render (presence : <<Presence>>)** + 
+Renders the viewport. + 
+*_presence:_* The presence of a user in a interaction space 
+
+'''
+
+=== [[Widget]]*Widget* *:* <<Item>>
+
+Defines an user interaction widget.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new Widget instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**entity : <<Entity>>** + 
+The entity of the space. 
+
+**widgets : <<List>> <<<Widget>>>** + 
+The list of child widgets. 
+
+**components : <<List>> <<<Component>>>** + 
+The components of the widget. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Widget instance. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[YawPitchRollOrientation]]*YawPitchRollOrientation* *:* <<Orientation>>
+
+Defines an orientation with Yaw, Pitch and Roll angles.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the YawPitchRollOrientation class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**yaw** + 
+The Angle in degrees around the equator of the globe. 
+
+**pitch** + 
+The Angle in degrees around the prime meridian of the globe. 
+
+**roll** + 
+The vertical distance relative to the surface to the globe. 
+
+'''
+
