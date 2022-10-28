@@ -1,8 +1,8 @@
+import { Collection } from "../../data/Collection.js";
 import { Item } from "../../data/Item.js";
 import { Type } from "../../data/Type.js";
-import { List } from "../../data/collections/List.js";
 import { Entity } from "../../logic/Entity.js";
-import { Component } from "./Component.js";
+import { Layer } from "./Layer.js";
 
 /** Defines an user interaction widget. */
 export class Widget extends Item {
@@ -20,23 +20,23 @@ export class Widget extends Item {
 		super(name, parent);
 
 		// Create the child items
-		this._widgets = new List([Widget.type], this);
-		this._components = new List([Component.type], this);
+		this._widgets = new Collection([Widget.type], this);
 
 		// Check the parent node and get the parent entity
-		if (parent) {
-			// if(!p || !(p.type == "widget" || p.type == "space")) 
-			// 	throw Error("Invalid parent for Widget " + name);
-			this._parentEntity = parent.entity;
-		}
+		if (!parent || !(parent.type.is(Layer.type)
+			|| parent.type.is(Widget.type)))
+			throw Error("Invalid parent for Widget " + name);
+		this._parentEntity = parent.entity;
 
 		// Create the entity
-		this._entity = new Entity(this.name, this);
+		this._entity = new Entity(this.name, this._parentEntity);
+		this._entity.links.add(this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
 	}
+
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -46,9 +46,6 @@ export class Widget extends Item {
 
 	/** The list of child widgets. */
 	get widgets() { return this._widgets; }
-
-	/** The components of the widget. */
-	get components() { return this._components; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -66,9 +63,10 @@ export class Widget extends Item {
 		super.update(deltaTime, forced);
 
 		// Update the associated entity
-		// this._entity.update(forced, deltaTime);
+		this._entity.update(deltaTime, forced);
 
-		// console.log("Widget Updated");
+		// Show a message on console
+		console.log("Widget Updated");
 	}
 }
 

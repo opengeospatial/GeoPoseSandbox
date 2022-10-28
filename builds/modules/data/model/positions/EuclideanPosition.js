@@ -3,7 +3,7 @@ import { Position } from "../Position.js";
 import { Distance } from "../../items/measures/Distance.js";
 
 
-/** Defines a location in an euclidean coordinate system. */
+/** Defines a position in an euclidean coordinate system. */
 export class EuclideanPosition extends Position {
 
 
@@ -29,7 +29,6 @@ export class EuclideanPosition extends Position {
 	}
 
 
-
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The distance from the origin in the X axis. */
@@ -40,6 +39,14 @@ export class EuclideanPosition extends Position {
 
 	/** The distance from the origin in the Z axis. */
 	get z() { return this._z; }
+
+	/** Updates the Item instance.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		console.log("EuclideanPosition");
+	}
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

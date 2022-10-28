@@ -1,6 +1,6 @@
 import { Type } from "./Type.js";
 import { Event } from "../logic/Event.js";
-import { List } from "./collections/List.js";
+import { Collection } from "./Collection.js";
 import { Serialization } from "./Serialization.js";
 
 /** Defines a data item (often called a datum) in a graph structure .
@@ -35,11 +35,9 @@ export class Item {
 			parent._children.add(this);
 		}
 
-		// Initialize the list of children
-		this._children = new List([Item.type], this);
-
-		// Initialize the relationships
-		this._relationships = {};
+		// Initialize the list of children and of linked items
+		this._children = new Collection([Item.type], this);
+		this._links = new Collection([Item.type], this);
 
 		// Create the events
 		this._onModified = new Event("modified", this);
@@ -72,10 +70,8 @@ export class Item {
 	/** The child data items. */
 	get children() { return this._children; }
 
-	/** The additional relationships of the data item. */
-	get relationships() {
-		return this._relationships;
-	}
+	/** The linked data items. */
+	get links() { return this._links; }
 
 	/** The update state of the item. */
 	get updated() { return this._updated; }
@@ -93,9 +89,16 @@ export class Item {
 		this.onModified.trigger(this, value);
 		Item.onModified.trigger(this, value);
 
-		// Propagate the event upwards in the hierarchy
-		if (this._parent && value == false)
-			this._parent.updated = false;
+		// Show a message on console
+		// console.log("Needs update: " + this._name);
+
+		// Propagate the event upwards in the hierarchy and to the links
+		if (value == false) {
+			if (this._parent)
+				this._parent.updated = false;
+			for (let link of this._links)
+				link.updated = false;
+		}
 	}
 
 	/** The last update time. */
@@ -147,6 +150,13 @@ export class Item {
 		Item._onPostUpdate.trigger(this);
 	}
 
+
+	destroy() {
+		if (this._parent)
+			this._parent._children.remove(this);
+		while (this.children.count > 0)
+			this._children[0].destroy();
+	}
 
 	/** Serializes the Item instance.
 	 * @param format The serialization format.

@@ -27,7 +27,7 @@ export class SpaceEntity extends Entity {
 		let light = new THREE.DirectionalLight(0xffffff);
 		light.position.z = 3;
 		this._representation.add(light);
-		this._representation.add(new THREE.Mesh(new THREE.SphereGeometry(0.1, 64, 64), new THREE.MeshPhongMaterial({ color: 0x00ff00 })));
+		this._representation.add(new THREE.Mesh(new THREE.SphereGeometry(100000, 64, 64), new THREE.MeshPhongMaterial({ color: 0x00ff00 })));
 
 	}
 }

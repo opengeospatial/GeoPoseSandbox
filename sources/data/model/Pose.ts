@@ -5,7 +5,6 @@ import { Frame } from "./Frame";
 import { Position } from "./Position";
 import { Orientation } from "./Orientation";
 import { Extension } from "./Extension";
-import { List } from "../collections/List";
 
 /** Defines a Pose of an object. */
 export class Pose extends Item {
@@ -16,19 +15,19 @@ export class Pose extends Item {
 	public static type: Type = new Type("pose", Pose, Item.type);
 
 
-	// --------------------------------------------------------- PRIVATE FIELDS
+	// ------------------------------------------------------- PROTECTED FIELDS
 	
 	/** The position of the Pose. */
-	private _position: Position;
+	protected _position: Position;
 
 	/** The orientation of the Pose. */
-	private _orientation: Orientation;
+	protected _orientation: Orientation;
 
 	/** The parent Pose. */
-	private _parentPose: Pose;
+	protected _parentPose: Pose;
 
 	/** The children Poses. */
-	private _childPoses: List<Pose>;
+	protected _childPoses: Collection<Pose>;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -43,7 +42,7 @@ export class Pose extends Item {
 	get parent(): Pose { return this._parentPose; }
 
 	/** The child Poses. */
-	get childPoses(): List<Pose> { return this._childPoses; }
+	get childPoses(): Collection<Pose> { return this._childPoses; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -58,9 +57,9 @@ export class Pose extends Item {
 		super(name, parent);
 
 		// Create the child items
-		this._position = new Position("position", this);
-		this._orientation = new Orientation("orientation", this);
-		this._childPoses = new List<Pose>([Pose.type], this);
+		// this._position = new Position("position", this);
+		// this._orientation = new Orientation("orientation", this);
+		this._childPoses = new Collection<Pose>([Pose.type], this);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

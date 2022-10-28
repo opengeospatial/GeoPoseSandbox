@@ -65,6 +65,46 @@ export class Collection<ItemType extends Item> implements Iterable<ItemType> {
 		return undefined;
 	}
 
+	
+	/** Adds a new item to the end of the list.
+	 * @param item The item to add.
+	 * @param position The position where to add the item (by default, at the
+	 * end). Negative values imply counting from the end of the list.
+	 * @returns The added item.  */
+	 add(item: ItemType, position?: number) {
+
+		// If no position is defined, just add it to the end of the array
+		if (position == undefined) this._items.push(item);
+		else { // Otherwise, calculate the index from the position
+			let index = 0, size = this._items.length;
+			if (position > 0) {
+				index = position;
+				if (index > size) index = size; // Prevent out_of_bounds errors
+			} else { // Negative values imply counting backwards
+				index = size - position;
+				if (index < 0) index = 0; // Prevent out_of_bounds errors
+			}
+		
+			// Insert the item in the right position
+			this._items.splice(index,0, item);
+		}
+
+		// Remember to increase the counter 
+		this._count++;
+	}
+
+	
+	/** Removes an item from the list. 
+	 * @param item The item to remove. */
+	remove (item: ItemType) {
+		for (let itemIndex = 0; itemIndex < this._count; itemIndex++ ) {
+			if (this._items[itemIndex] == item) {
+				this._items.splice(itemIndex,1);
+				itemIndex--; this._count--;
+			}
+		}
+	}
+
 
 	[Symbol.iterator]() {
 		let pointer = 0, items = this._items;

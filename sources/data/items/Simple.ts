@@ -37,6 +37,9 @@ export abstract class Simple<BasicType> extends Item {
 			throw Error('Invalid value "' + newValue + '" for: ' + this.name);
 		this._value = newValue; 
 		this.updated = false;
+
+		// Show a message on console
+		// console.log("Value: " + this._name + " = " + this._value);
 	}
 
 	/** The default value of the Simple data type. */

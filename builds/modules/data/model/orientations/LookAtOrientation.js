@@ -3,6 +3,7 @@ import { Orientation } from "../Orientation.js";
 import { String } from "../../items/simple/String.js";
 import { Vector } from "../../items/complex/Vector.js";
 
+
 /** Defines an orientation with a target. */
 export class LookAtOrientation extends Orientation {
 

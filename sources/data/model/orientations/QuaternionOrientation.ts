@@ -3,6 +3,7 @@ import { Type } from "../../Type";
 import { Orientation } from "../Orientation";
 import { Number } from "../../items/simple/Number";
 
+
 /** Defines an orientation with a quaternion. */
 export class QuaternionOrientation extends Orientation {
 

@@ -2,7 +2,7 @@ import { Item } from "../../data/Item.js";
 import { Type } from "../../data/Type.js";
 import { Number } from "../../data/items/simple/Number.js";
 import { String } from "../../data/items/simple/String.js";
-import { List } from "../../data/collections/List.js";
+import { Collection } from "../../data/Collection.js";
 import { Layer } from "./Layer.js";
 import { ViewPort } from "../../logic/ViewPort.js";
 
@@ -49,7 +49,7 @@ export class View extends Item {
 		this._height = new Number("height", this, { default: 100, min: 0 });
 		this._state = new String("state", this, { default: "Maximized",
 			validValues: "Normal, Maximized, FullScreen, VR, AR" });
-		this._layers = new List([Layer.type], this);
+		this._layers = new Collection([Layer.type], this);
 
 
 		// Create the viewport WebGL renderer
@@ -131,6 +131,8 @@ export class View extends Item {
 			// Show a message on console
 			// console.log("FPS: " + this._fpsValue);
 		}
+
+
 
 		// Update and render the layers
 		for (let layer of this._layers) {

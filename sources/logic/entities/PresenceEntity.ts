@@ -63,7 +63,7 @@ export class PresenceEntity extends Entity {
 		this._fieldOfView = new Number("fov", this, {defaultValue: 45});
 		this._aspectRatio = new Number("aspect", this, {defaultValue: 1});
 		this._nearPlane = new Number("near", this, {defaultValue: 0.001});
-		this._farPlane = new Number("far", this, {defaultValue: 1000});
+		this._farPlane = new Number("far", this, {defaultValue: 100000000});
 
 		// Deserialize the initialization data
 		if (data !== undefined) this.deserialize(data);
@@ -81,6 +81,9 @@ export class PresenceEntity extends Entity {
 	 * @param deltaTime The update time. 
 	 * @param forced Indicates whether the update is forced or not. */
 	update(deltaTime: number = 0, forced: boolean = false) {
+
+		// Show a message on console
+		console.log("Updated PresenceEntity")
 
 		// If the update is not forced, skip it when the item is already updated
 		if (this.updated && !forced) return;
@@ -105,10 +108,16 @@ export class PresenceEntity extends Entity {
 		// Update the projection matrix, if required
 		if (updateMatrix) camera.updateProjectionMatrix();
 
+
 		// Call the base class function
 		super.update(deltaTime, forced);
 
 		// TEMPORAL
-		camera.position.z = 5;
+		// if (camera.position.z == 0) {
+			// console.log("REPOSITIONED CAMERA");
+			// camera.position.z = 100000000;
+			camera.lookAt(0,0,0);
+		// }
+
 	}
 }

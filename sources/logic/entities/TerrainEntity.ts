@@ -5,7 +5,8 @@ import { Entity } from "../Entity";
 import { Ellipsoid } from "../../data/items/shapes/Ellipsoid";
 import { String } from "../../data/items/simple/String";
 
-/** Defines a TerrainEntity Entity. */
+
+/** Defines a Terrain Entity. */
 export class TerrainEntity extends Entity {
 
 	// -------------------------------------------------------- PUBLIC METADATA
@@ -21,19 +22,24 @@ export class TerrainEntity extends Entity {
 	private _mesh: THREE.Mesh;
 
 	/** The shape of the terrain. */
-	private _shape: Ellipsoid;
+	private _ellipsoid: Ellipsoid;
 
-	/** The texture of the terrain. */
-	private _texture: String;
+	/** The diffuse texture of the terrain. */
+	private _diffuse: String;
 
+	/** The normal texture of the terrain. */
+	private _normal: String;
 	
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The shape of the component. */
-	get shape(): Ellipsoid { return this._shape; }
+	/** The shape of the terrain. */
+	get ellipsoid(): Ellipsoid { return this._ellipsoid; }
 	
-	/** The shape of the component. */
-	get texture(): String { return this._texture; }
+	/** The diffuse texture of the terrain. */
+	get diffuse(): String { return this._diffuse; }
+
+	/** The normal texture of the terrain. */
+	get normal(): String { return this._normal; }
 
 	
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -48,15 +54,16 @@ export class TerrainEntity extends Entity {
 		super(name, parent);
 		
 		// Create the child items
-		this._shape = new Ellipsoid("shape", this);
-		this._texture = new String("texture", this);
+		this._ellipsoid = new Ellipsoid("shape", this, data);
+		this._diffuse = new String("diffuse", this);
+		this._normal = new String("normal", this);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 
 		// Add the mesh geometry
 		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1,64,64),
-			new THREE.MeshPhongMaterial({color: 0xffff00}));
+			new THREE.MeshPhongMaterial({color: 0xffffff}));
 		this._representation.add(this._mesh);
 		
 	}
@@ -70,25 +77,24 @@ export class TerrainEntity extends Entity {
 	 update(deltaTime: number = 0, forced: boolean = false) {
 
 		// Show a message on console
-		console.log("Updated TerrainEntity")
+		// console.log("Updated TerrainEntity")
 
-		// if (!this._shape.updated) {
-		// 	this._mesh.scale.set(this._shape.radiusX.value,
-		// 		this._shape.radiusY.value, this._shape.radiusZ.value);
-		// }
+		if (!this._ellipsoid.updated) {
+			this._mesh.scale.set(this._ellipsoid.radiusX.value,
+				this._ellipsoid.radiusY.value, this._ellipsoid.radiusZ.value);
+		}
 
-		if (!this._texture.updated) {
-			let textureURL = this._texture.value;
-			if (textureURL) {
-				const texture = new THREE.TextureLoader().load(textureURL);
-				this._mesh.material = new THREE.MeshPhongMaterial({map: texture});
-			}
+		if (!this._diffuse.updated && this._diffuse.value) {
+			const texture = new THREE.TextureLoader().load(this._diffuse.value);
+			(this._mesh.material as THREE.MeshPhongMaterial).map = texture;
+		}
+
+		if (!this._normal.updated && this._normal.value) {
+			const texture = new THREE.TextureLoader().load(this._normal.value);
+			(this._mesh.material as THREE.MeshPhongMaterial).normalMap = texture;
 		}
 
 		// Call the base class function
 		super.update(deltaTime, forced);
-
-		// TEMPORAL
-		this._representation.rotateY(-Math.PI/2);
 	}
 }

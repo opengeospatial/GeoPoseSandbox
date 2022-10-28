@@ -1,6 +1,6 @@
 import { Item } from "../../data/Item";
 import { Type } from "../../data/Type";
-import { List } from "../../data/collections/List";
+import { Collection } from "../../data/Collection";
 import { Presence } from "./Presence";
 import { Space } from "./Space";
 import { Widget } from "./Widget";
@@ -18,7 +18,7 @@ export class Layer extends Item {
 	// --------------------------------------------------------- PRIVATE FIELDS
 
 	/** The widgets of the layer. */
-	private _widgets: List<Widget>;
+	private _widgets: Collection<Widget>;
 
 	/** The space associated to the layer. */
 	private _space: Space;
@@ -30,7 +30,7 @@ export class Layer extends Item {
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The widgets of the layer. */
-	get widgets(): List<Widget> { return this._widgets; }
+	get widgets(): Collection<Widget> { return this._widgets; }
 
 	/** The Interaction Space associated to the layer. */
 	get space(): Space { return this._space; }
@@ -40,6 +40,7 @@ export class Layer extends Item {
 
 	/** The entity associated to the layer. */
 	get entity(): Entity { return this._space.entity; }
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -53,31 +54,33 @@ export class Layer extends Item {
 		super(name, parent);
 
 		// Create the child items
-		this._widgets = new List<Widget>([Widget.type], this);
-		this._presence = presence;
-		this._space = presence.space;
+		this._widgets = new Collection<Widget>([Widget.type], this);
+		this._presence = presence; this._space = presence.space;
+		this._presence.links.add(this); this._space.links.add(this);
 	}
+
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** Updates the space.
+	/** Updates the layer.
 	 * @param deltaTime The update time. 
 	 * @param forced Indicates whether the update is forced or not. */
 	 update(deltaTime: number = 0, forced: boolean = false) {
 		
 		// If the update is not forced, skip it when the item is already updated
-		// if (this._updated && !forced) return;
+		if (this._updated && !forced) return;
 
-		for (let widget of this.widgets) {
-			widget.update(deltaTime, forced);
-		}
+		// Update the space	and the presence of the user within it
 		this.space.update(deltaTime, forced);
 		this.presence.update(deltaTime, forced);
+
+		// Update the widgets, the space and the user presence
+		for (let widget of this.widgets) widget.update(deltaTime, forced);
 
 		// Call the parent class update function
 		super.update(deltaTime, forced);
 		
 		// Show a message on console
-		console.log("Space Updated");
+		console.log("Layer Updated");
 	}
 }

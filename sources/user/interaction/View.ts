@@ -2,7 +2,7 @@ import { Item } from "../../data/Item";
 import { Type } from "../../data/Type";
 import { Number } from "../../data/items/simple/Number";
 import { String } from "../../data/items/simple/String";
-import { List } from "../../data/collections/List";
+import { Collection } from "../../data/Collection";
 import { Layer } from "./Layer";
 import { User } from "../User";
 import { ViewPort } from "../../logic/ViewPort";
@@ -39,7 +39,7 @@ export class View extends Item {
 	private _height: Number;
 
 	/** The layers of the view. */
-	private _layers: List<Layer>; 
+	private _layers: Collection<Layer>; 
 
 	/** The time between updates. */
 	private _deltaTime: number = 0;
@@ -81,7 +81,7 @@ export class View extends Item {
 	get height(): Number { return this._height; }
 
 	/** The layers of the view. */
-	get layers(): List<Layer> { return this._layers; }
+	get layers(): Collection<Layer> { return this._layers; }
 
 	/** The current Frames Per Second value. */
 	get fpsValue(): number { return this._fpsValue; }
@@ -106,7 +106,7 @@ export class View extends Item {
 		this._height = new Number("height", this, { default: 100, min: 0 });
 		this._state = new String("state", this, { default: "Maximized", 
 			validValues: "Normal, Maximized, FullScreen, VR, AR" });
-		this._layers = new List<Layer>([Layer.type], this);
+		this._layers = new Collection<Layer>([Layer.type], this);
 
 
 		// Create the viewport WebGL renderer
@@ -160,6 +160,8 @@ export class View extends Item {
 			// Show a message on console
 			// console.log("FPS: " + this._fpsValue);
 		}
+
+		
 
 		// Update and render the layers
 		for (let layer of this._layers) {

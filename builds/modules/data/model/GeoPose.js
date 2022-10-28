@@ -1,11 +1,11 @@
-import { Item } from "../Item.js";
 import { Type } from "../Type.js";
-import { List } from "../collections/List.js";
-import { GeoFrame } from "./frames/GeoFrame.js";
+import { Pose } from "./Pose.js";
+import { Collection } from "../Collection.js";
+import { GeodeticFrame } from "./frames/GeodeticFrame.js";
 import { Extension } from "./Extension.js";
 
 /** Defines the GeoPose of an object. */
-export class GeoPose extends Item {
+export class GeoPose extends Pose {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -17,11 +17,11 @@ export class GeoPose extends Item {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child nodes
-		this._frame = new GeoFrame("frame", this);
-		this._extensions = new List([Extension.type], this);
+		this._frame = new GeodeticFrame("frame", this);
+		this._extensions = new Collection([Extension.type], this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -32,7 +32,7 @@ export class GeoPose extends Item {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The frame of the GeoPose. */
+	/** The geodetic frame of the GeoPose. */
 	get frame() { return this._frame; }
 
 	/** The extensions of the GeoPose. */
@@ -42,4 +42,4 @@ export class GeoPose extends Item {
 // -------------------------------------------------------- PUBLIC METADATA
 
 /** The data type associated to the Pose class. */
-GeoPose.type = new Type("geopose", GeoPose, Item.type);
+GeoPose.type = new Type("geopose", GeoPose, Pose.type);

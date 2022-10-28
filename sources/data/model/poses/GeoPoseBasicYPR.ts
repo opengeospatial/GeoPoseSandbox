@@ -1,10 +1,10 @@
 import { Item } from "../../Item";
 import { Type } from "../../Type";
 import { GeoPose } from "../GeoPose";
-import { GeoPosition } from "../positions/GeoPosition";
-import { YawPitchRollOrientation } from "../orientations/YawPitchRollOrientation";
+import { GeodeticPosition } from "../positions/GeodeticPosition";
+import { TaitBryanOrientation } from "../orientations/TaitBryanOrientation";
 
-/** Defines a basic GeoPose with Yaw-Pitch-Roll orientation. */
+/** Defines a basic GeoPose with Tait-Bryan (Yaw-Pitch-Roll) orientation. */
 export class GeoPoseBasicYPR extends GeoPose {
 
 	// -------------------------------------------------------- PUBLIC METADATA
@@ -13,23 +13,15 @@ export class GeoPoseBasicYPR extends GeoPose {
 	public static type: Type = new Type("geopose-basic-ypr", GeoPoseBasicYPR, 
 		GeoPose.type);
 
-	
-	// --------------------------------------------------------- PRIVATE FIELDS
-	
-	/** The position of the GeoPose. */
-	private _position: GeoPosition;
-
-	/** The orientation of the GeoPose. */
-	private _orientation: YawPitchRollOrientation;
-
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The position of the GeoPose. */
-	get position(): GeoPosition { return this._position; }
+	get position(): GeodeticPosition { return this._position as GeodeticPosition; }
 
 	/** The orientation of the GeoPose. */
-	get orientation(): YawPitchRollOrientation { return this._orientation; }
+	get orientation(): TaitBryanOrientation 
+	{ return this._orientation as TaitBryanOrientation; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -44,10 +36,12 @@ export class GeoPoseBasicYPR extends GeoPose {
 		super(name, parent);
 
 		// Create the child items
-		this._position = new GeoPosition("position", this);
-		this._orientation = new YawPitchRollOrientation("orientation", this);
+		this._position = new GeodeticPosition("position", this);
+		this._orientation = new TaitBryanOrientation("orientation", this);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
 	}
+
+
 }

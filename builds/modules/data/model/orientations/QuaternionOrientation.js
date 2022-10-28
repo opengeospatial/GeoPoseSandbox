@@ -2,6 +2,7 @@ import { Type } from "../../Type.js";
 import { Orientation } from "../Orientation.js";
 import { Number } from "../../items/simple/Number.js";
 
+
 /** Defines an orientation with a quaternion. */
 export class QuaternionOrientation extends Orientation {
 

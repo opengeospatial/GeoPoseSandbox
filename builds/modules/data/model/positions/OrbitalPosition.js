@@ -2,7 +2,7 @@ import { Type } from "../../Type.js";
 import { Position } from "../Position.js";
 
 
-/** Defines a location in an orbital coordinate system. */
+/** Defines a position in an orbital coordinate system. */
 export class OrbitalPosition extends Position {
 
 	// --------------------------------------------------------- PRIVATE FIELDS

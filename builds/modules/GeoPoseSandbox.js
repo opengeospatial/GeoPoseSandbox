@@ -1,6 +1,6 @@
-import { List } from "./data/collections/List.js";
 import { Item } from "./data/Item.js";
 import { Type } from "./data/Type.js";
+import { Collection } from "./data/Collection.js";
 import { Space } from "./user/interaction/Space.js";
 import { User } from "./user/User.js";
 
@@ -18,8 +18,8 @@ export class GeoPoseSandbox extends Item {
 		super("root");
 
 		// Create the child items
-		this._spaces = new List([Space.type], this);
-		this._users = new List([User.type], this);
+		this._spaces = new Collection([Space.type], this);
+		this._users = new Collection([User.type], this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -42,10 +42,10 @@ export class GeoPoseSandbox extends Item {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The name of the Geopose Sandbox. */
+	/** The name of the GeoPose Sandbox. */
 	static get id() { return "GeoPose Sandbox"; }
 
-	/** The version number of the Geopose Sandbox. */
+	/** The version number of the GeoPose Sandbox. */
 	static get version() { return "0.1"; }
 
 	/** The list of GeoPoseSandbox instances. */

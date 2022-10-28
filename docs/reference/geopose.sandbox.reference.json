@@ -104,38 +104,6 @@
 						}
 					],
 					"type": { "name": "ItemType" }
-				}
-			},
-			"imports": [ "Item", "Type" ]
-		},
-		"List": {
-			"name": "List",
-			"comment": { "description": "Defines a generic list of data items." },
-			"type": {
-				"name": "Collection",
-				"subtype": { "name": "ItemType" }
-			},
-			"file": "data/collections/List.ts",
-			"members": {
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new instance of the List instance.",
-						"params": { "types": "The types of items in the collection.", "owner": "The owner the data collection." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "types",
-							"type": { "name": "Type" }
-						},
-						{
-							"name": "owner",
-							"optional": true,
-							"type": { "name": "Item" }
-						}
-					]
 				},
 				"add": {
 					"name": "add",
@@ -157,9 +125,24 @@
 							"type": { "name": "number" }
 						}
 					]
+				},
+				"remove": {
+					"name": "remove",
+					"comment": {
+						"description": "Removes an item from the list.",
+						"params": { "item": "The item to remove." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "item",
+							"type": { "name": "ItemType" }
+						}
+					]
 				}
 			},
-			"imports": [ "Collection", "Item", "Type" ]
+			"imports": [ "Item", "Type" ]
 		},
 		"Item": {
 			"name": "Item",
@@ -200,7 +183,17 @@
 					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
+						"subtype": { "name": "Item" }
+					}
+				},
+				"_links": {
+					"name": "_links",
+					"comment": { "description": "The linked data items." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": {
+						"name": "Collection",
 						"subtype": { "name": "Item" }
 					}
 				},
@@ -217,16 +210,6 @@
 					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": { "name": "number" }
-				},
-				"_relationships": {
-					"name": "_relationships",
-					"comment": { "description": "The additional relationships of the data item." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": {
-						"name": "Record",
-						"subtype": { "name": "string" }
-					}
 				},
 				"_onModified": {
 					"name": "_onModified",
@@ -285,15 +268,15 @@
 						"subtype": { "name": "Item" }
 					}
 				},
-				"relationships": {
-					"name": "relationships",
-					"comment": { "description": "The additional relationships of the data item." },
+				"links": {
+					"name": "links",
+					"comment": { "description": "The linked data items." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "Record",
-						"subtype": { "name": "string" }
+						"name": "Collection",
+						"subtype": { "name": "Item" }
 					}
 				},
 				"updated": {
@@ -392,6 +375,16 @@
 						}
 					]
 				},
+				"destroy": {
+					"name": "destroy",
+					"comment": {
+						"description": "Updates the Item instance.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": []
+				},
 				"serialize": {
 					"name": "serialize",
 					"comment": {
@@ -427,7 +420,7 @@
 					]
 				}
 			},
-			"imports": [ "Type", "Event", "Collection", "Relationship", "List", "Serialization" ]
+			"imports": [ "Type", "Event", "Collection", "Serialization" ]
 		},
 		"Color": {
 			"name": "Color",
@@ -2476,33 +2469,43 @@
 			},
 			"imports": [ "Item", "Type", "Shape" ]
 		},
-		"GeoFrame": {
-			"name": "GeoFrame",
-			"comment": { "description": "Defines a geographical frame." },
+		"GeodeticFrame": {
+			"name": "GeodeticFrame",
+			"comment": { "description": "Defines a geodetic (elliptical) frame." },
 			"type": { "name": "Frame" },
-			"file": "data/model/frames/GeoFrame.ts",
+			"file": "data/model/frames/GeodeticFrame.ts",
 			"members": {
 				"Type": {
 					"name": "Type",
-					"comment": { "description": "The data type associated to the GeoFrame class." },
+					"comment": { "description": "The data type associated to the GeodeticFrame class." },
 					"modifiers": [ "public" ],
 					"kind": "field",
 					"parameters": [
-						{ "name": "\"geo-frame\"" },
-						{ "name": "GeoFrame" },
+						{ "name": "\"geodetic-frame\"" },
+						{ "name": "GeodeticFrame" },
 						{ "name": "Frame" }
 					]
 				},
-				"_semiMajorAxis": {
-					"name": "_semiMajorAxis",
-					"comment": { "description": "The semi major axis." },
+				"defaultFrame": {
+					"name": "defaultFrame",
+					"comment": { "description": "The data type associated to the GeodeticFrame class." },
+					"modifiers": [ "static", "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"Earth\"" },
+						{ "name": "undefined" }
+					]
+				},
+				"_equatorialRadius": {
+					"name": "_equatorialRadius",
+					"comment": { "description": "The equatorial radius (the semi-major axis)." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "Distance" }
 				},
-				"_semiMinorAxis": {
-					"name": "_semiMinorAxis",
-					"comment": { "description": "The semi minor axis." },
+				"_polarRadius": {
+					"name": "_polarRadius",
+					"comment": { "description": "The polar radius (the semi-minor axis)." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "Distance" }
@@ -2514,17 +2517,17 @@
 					"kind": "field",
 					"type": { "name": "Number" }
 				},
-				"semiMajorAxis": {
-					"name": "semiMajorAxis",
-					"comment": { "description": "The semi major axis." },
+				"equatorialRadius": {
+					"name": "equatorialRadius",
+					"comment": { "description": "The equatorial radius (the semi-major axis)." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "Distance" }
 				},
-				"semiMinorAxis": {
-					"name": "semiMinorAxis",
-					"comment": { "description": "The semi minor axis." },
+				"polarRadius": {
+					"name": "polarRadius",
+					"comment": { "description": "The polar radius (the semi-minor axis)." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
@@ -2541,7 +2544,7 @@
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
-						"description": "Initializes a new instance of the GeoFrame class.",
+						"description": "Initializes a new instance of the GeodeticFrame class.",
 						"params": { "name": "The parent data item.", "data": "The initialization data." }
 					},
 					"modifiers": [ "public" ],
@@ -2559,8 +2562,8 @@
 						},
 						{
 							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
+							"type": { "name": "any" },
+							"defaultValue": "{"
 						}
 					]
 				}
@@ -2570,7 +2573,7 @@
 		"GeoPose": {
 			"name": "GeoPose",
 			"comment": { "description": "Defines the GeoPose of an object." },
-			"type": { "name": "Item" },
+			"type": { "name": "Pose" },
 			"file": "data/model/GeoPose.ts",
 			"members": {
 				"Type": {
@@ -2581,15 +2584,15 @@
 					"parameters": [
 						{ "name": "\"geopose\"" },
 						{ "name": "GeoPose" },
-						{ "name": "Item" }
+						{ "name": "Pose" }
 					]
 				},
 				"_frame": {
 					"name": "_frame",
-					"comment": { "description": "The frame of the GeoPose." },
+					"comment": { "description": "The geodetic frame of the GeoPose." },
 					"modifiers": [ "private" ],
 					"kind": "field",
-					"type": { "name": "GeoFrame" }
+					"type": { "name": "GeodeticFrame" }
 				},
 				"_extensions": {
 					"name": "_extensions",
@@ -2597,17 +2600,17 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Extension" }
 					}
 				},
 				"frame": {
 					"name": "frame",
-					"comment": { "description": "The frame of the GeoPose." },
+					"comment": { "description": "The geodetic frame of the GeoPose." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
-					"type": { "name": "GeoFrame" }
+					"type": { "name": "GeodeticFrame" }
 				},
 				"extensions": {
 					"name": "extensions",
@@ -2616,7 +2619,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Extension" }
 					}
 				},
@@ -2647,159 +2650,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "List", "GeoFrame", "Extension" ]
-		},
-		"GeoPoseBasicQuaternion": {
-			"name": "GeoPoseBasicQuaternion",
-			"comment": { "description": "Defines a basic GeoPose with Quaternion-based orientation." },
-			"type": { "name": "GeoPose" },
-			"file": "data/model/geoposes/GeoPoseBasicQuaternion.ts",
-			"members": {
-				"Type": {
-					"name": "Type",
-					"comment": { "description": "The data type associated to the GeoPoseBasicQuaternion class." },
-					"modifiers": [ "public" ],
-					"kind": "field",
-					"parameters": [
-						{ "name": "\"geopose-basic-quaternion\"" },
-						{ "name": "GeoPoseBasicQuaternion" },
-						{ "name": "GeoPose" }
-					]
-				},
-				"_position": {
-					"name": "_position",
-					"comment": { "description": "The position of the GeoPose." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "GeoPosition" }
-				},
-				"_orientation": {
-					"name": "_orientation",
-					"comment": { "description": "The orientation of the GeoPose." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "QuaternionOrientation" }
-				},
-				"position": {
-					"name": "position",
-					"comment": { "description": "The position of the GeoPose." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "GeoPosition" }
-				},
-				"orientation": {
-					"name": "orientation",
-					"comment": { "description": "The orientation of the GeoPose." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "QuaternionOrientation" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new instance of the GeoPoseBasicQuaternion class.",
-						"params": { "name": "The parent data item.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Item" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				}
-			},
-			"imports": [ "Item", "Type", "GeoPose", "GeoPosition", "QuaternionOrientation" ]
-		},
-		"GeoPoseBasicYPR": {
-			"name": "GeoPoseBasicYPR",
-			"comment": { "description": "Defines a basic GeoPose with Yaw-Pitch-Roll orientation." },
-			"type": { "name": "GeoPose" },
-			"file": "data/model/geoposes/GeoPoseBasicYPR.ts",
-			"members": {
-				"Type": {
-					"name": "Type",
-					"comment": { "description": "The data type associated to the GeoPoseBasicYPR class." },
-					"modifiers": [ "public" ],
-					"kind": "field",
-					"parameters": [
-						{ "name": "\"geopose-basic-ypr\"" },
-						{ "name": "GeoPoseBasicYPR" },
-						{ "name": "GeoPose" }
-					]
-				},
-				"_position": {
-					"name": "_position",
-					"comment": { "description": "The position of the GeoPose." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "GeoPosition" }
-				},
-				"_orientation": {
-					"name": "_orientation",
-					"comment": { "description": "The orientation of the GeoPose." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "YawPitchRollOrientation" }
-				},
-				"position": {
-					"name": "position",
-					"comment": { "description": "The position of the GeoPose." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "GeoPosition" }
-				},
-				"orientation": {
-					"name": "orientation",
-					"comment": { "description": "The orientation of the GeoPose." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "YawPitchRollOrientation" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new instance of the YawPitchRollOrientation class.",
-						"params": { "name": "The parent data item.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Item" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				}
-			},
-			"imports": [ "Item", "Type", "GeoPose", "GeoPosition", "YawPitchRollOrientation" ]
+			"imports": [ "Item", "Type", "Pose", "Collection", "GeodeticFrame", "Extension" ]
 		},
 		"Orientation": {
 			"name": "Orientation",
@@ -2874,6 +2725,82 @@
 				}
 			},
 			"imports": [ "Item", "Type", "Quaternion" ]
+		},
+		"AxisAngleOrientation": {
+			"name": "AxisAngleOrientation",
+			"comment": { "description": "Defines an orientation based on an axis vector and an angle." },
+			"type": { "name": "Orientation" },
+			"file": "data/model/orientations/AxisAngleOrientation.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the AxisAngleOrientation class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"axis-angle-orientation\"" },
+						{ "name": "AxisAngleOrientation" },
+						{ "name": "Orientation" }
+					]
+				},
+				"_axis": {
+					"name": "_axis",
+					"comment": { "description": "The axis vector." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Vector" }
+				},
+				"_angle": {
+					"name": "_angle",
+					"comment": { "description": "The angle around the axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Angle" }
+				},
+				"axis": {
+					"name": "axis",
+					"comment": { "description": "The axis vector." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Vector" }
+				},
+				"angle": {
+					"name": "angle",
+					"comment": { "description": "The angle around the axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Angle" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the AxisAngleOrientation class.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "Item", "Type", "Orientation", "Angle", "Vector" ]
 		},
 		"LookAtOrientation": {
 			"name": "LookAtOrientation",
@@ -2950,6 +2877,67 @@
 				}
 			},
 			"imports": [ "Item", "Type", "Orientation", "String", "Vector" ]
+		},
+		"MatrixOrientation": {
+			"name": "MatrixOrientation",
+			"comment": { "description": "Defines an orientation based on a 3x3 rotation matrix." },
+			"type": { "name": "Orientation" },
+			"file": "data/model/orientations/MatrixOrientation.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the MatrixOrientation class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"matrix-orientation\"" },
+						{ "name": "MatrixOrientation" },
+						{ "name": "Orientation" }
+					]
+				},
+				"_values": {
+					"name": "_values",
+					"comment": { "description": "The numeric values of the rotation matrix." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"values": {
+					"name": "values",
+					"comment": { "description": "The numeric values of the rotation matrix." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the MatrixOrientation class.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "Item", "Type", "Orientation", "Number" ]
 		},
 		"QuaternionOrientation": {
 			"name": "QuaternionOrientation",
@@ -3053,20 +3041,20 @@
 			},
 			"imports": [ "Item", "Type", "Orientation", "Number" ]
 		},
-		"YawPitchRollOrientation": {
-			"name": "YawPitchRollOrientation",
-			"comment": { "description": "Defines an orientation with Yaw, Pitch and Roll angles." },
+		"TaitBryanOrientation": {
+			"name": "TaitBryanOrientation",
+			"comment": { "description": "Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles." },
 			"type": { "name": "Orientation" },
-			"file": "data/model/orientations/YawPitchRollOrientation.ts",
+			"file": "data/model/orientations/TaitBryanOrientation.ts",
 			"members": {
 				"Type": {
 					"name": "Type",
-					"comment": { "description": "The data type associated to the YawPitchRollOrientation class." },
+					"comment": { "description": "The data type associated to the TaitBryanOrientation class." },
 					"modifiers": [ "public" ],
 					"kind": "field",
 					"parameters": [
-						{ "name": "\"yaw-pitch-roll-orientation\"" },
-						{ "name": "YawPitchRollOrientation" },
+						{ "name": "\"Tait-Bryan-orientation\"" },
+						{ "name": "TaitBryanOrientation" },
 						{ "name": "Orientation" }
 					]
 				},
@@ -3115,7 +3103,7 @@
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
-						"description": "Initializes a new instance of the YawPitchRollOrientation class.",
+						"description": "Initializes a new instance of the TaitBryanOrientation class.",
 						"params": { "name": "The parent data item.", "data": "The initialization data." }
 					},
 					"modifiers": [ "public" ],
@@ -3161,31 +3149,31 @@
 				"_position": {
 					"name": "_position",
 					"comment": { "description": "The position of the Pose." },
-					"modifiers": [ "private" ],
+					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": { "name": "Position" }
 				},
 				"_orientation": {
 					"name": "_orientation",
 					"comment": { "description": "The orientation of the Pose." },
-					"modifiers": [ "private" ],
+					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": { "name": "Orientation" }
 				},
 				"_parentPose": {
 					"name": "_parentPose",
 					"comment": { "description": "The parent Pose." },
-					"modifiers": [ "private" ],
+					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": { "name": "Pose" }
 				},
 				"_childPoses": {
 					"name": "_childPoses",
 					"comment": { "description": "The children Poses." },
-					"modifiers": [ "private" ],
+					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Pose" }
 					}
 				},
@@ -3220,7 +3208,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Pose" }
 					}
 				},
@@ -3251,7 +3239,255 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Collection", "Frame", "Position", "Orientation", "Extension", "List" ]
+			"imports": [ "Item", "Type", "Collection", "Frame", "Position", "Orientation", "Extension" ]
+		},
+		"EuclideanPoseQuaternion": {
+			"name": "EuclideanPoseQuaternion",
+			"comment": { "description": "Defines a Euclidean pose with a quaternion orientation." },
+			"type": { "name": "Pose" },
+			"file": "data/model/poses/EuclideanPoseQuaternion.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the EuclideanPoseQuaternion class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"euclidean-pose-quaternion\"" },
+						{ "name": "EuclideanPoseQuaternion" },
+						{ "name": "Pose" }
+					]
+				},
+				"position": {
+					"name": "position",
+					"comment": { "description": "The position of the Euclidean Pose." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "EuclideanPosition" }
+				},
+				"orientation": {
+					"name": "orientation",
+					"comment": { "description": "The orientation of the Euclidean Pose." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "QuaternionOrientation" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the EuclideanPoseQuaternion class.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "Item", "Type", "Pose", "EuclideanPosition", "QuaternionOrientation" ]
+		},
+		"EuclideanPoseYPR": {
+			"name": "EuclideanPoseYPR",
+			"comment": { "description": "Defines a Euclidean pose with Yaw-Pitch-Roll orientation." },
+			"type": { "name": "Pose" },
+			"file": "data/model/poses/EuclideanPoseYPR.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the EuclideanPoseYPR class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"euclidean-basic-ypr\"" },
+						{ "name": "EuclideanPoseYPR" },
+						{ "name": "Pose" }
+					]
+				},
+				"position": {
+					"name": "position",
+					"comment": { "description": "The position of the Euclidean Pose." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "EuclideanPosition" }
+				},
+				"orientation": {
+					"name": "orientation",
+					"comment": { "description": "The orientation of the Euclidean Pose." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "TaitBryanOrientation" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the EuclideanPoseYPR class.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "Item", "Type", "Pose", "EuclideanPosition", "TaitBryanOrientation" ]
+		},
+		"GeoPoseBasicQuaternion": {
+			"name": "GeoPoseBasicQuaternion",
+			"comment": { "description": "Defines a basic GeoPose with Quaternion-based orientation." },
+			"type": { "name": "GeoPose" },
+			"file": "data/model/poses/GeoPoseBasicQuaternion.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the GeoPoseBasicQuaternion class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"geopose-basic-quaternion\"" },
+						{ "name": "GeoPoseBasicQuaternion" },
+						{ "name": "GeoPose" }
+					]
+				},
+				"position": {
+					"name": "position",
+					"comment": { "description": "The position of the GeoPose." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "GeodeticPosition" }
+				},
+				"orientation": {
+					"name": "orientation",
+					"comment": { "description": "The orientation of the GeoPose." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "QuaternionOrientation" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the GeoPoseBasicQuaternion class.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "Item", "Type", "GeoPose", "GeodeticPosition", "QuaternionOrientation", "Quaternion" ]
+		},
+		"GeoPoseBasicYPR": {
+			"name": "GeoPoseBasicYPR",
+			"comment": { "description": "Defines a basic GeoPose with Tait-Bryan (Yaw-Pitch-Roll) orientation." },
+			"type": { "name": "GeoPose" },
+			"file": "data/model/poses/GeoPoseBasicYPR.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the GeoPoseBasicYPR class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"geopose-basic-ypr\"" },
+						{ "name": "GeoPoseBasicYPR" },
+						{ "name": "GeoPose" }
+					]
+				},
+				"position": {
+					"name": "position",
+					"comment": { "description": "The position of the GeoPose." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "GeodeticPosition" }
+				},
+				"orientation": {
+					"name": "orientation",
+					"comment": { "description": "The orientation of the GeoPose." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "TaitBryanOrientation" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the YawPitchRollOrientation class.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "Item", "Type", "GeoPose", "GeodeticPosition", "TaitBryanOrientation" ]
 		},
 		"Position": {
 			"name": "Position",
@@ -3357,7 +3593,7 @@
 		},
 		"EuclideanPosition": {
 			"name": "EuclideanPosition",
-			"comment": { "description": "Defines a location in an euclidean coordinate system." },
+			"comment": { "description": "Defines a position in an euclidean coordinate system." },
 			"type": { "name": "Position" },
 			"file": "data/model/positions/EuclideanPosition.ts",
 			"members": {
@@ -3439,65 +3675,100 @@
 							"type": { "name": "any" }
 						}
 					]
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the Item instance.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						}
+					]
 				}
 			},
 			"imports": [ "Item", "Type", "Position", "Distance" ]
 		},
-		"GeoPosition": {
-			"name": "GeoPosition",
-			"comment": { "description": "Defines a location in global (elliptical) coordinate system. (Based on PICE and LPT-ENU)." },
+		"GeodeticPosition": {
+			"name": "GeodeticPosition",
+			"comment": { "description": "Defines a position in geodetic (elliptical) coordinate system. (Based on SPICE and Local Tangent Plane - East North Up)." },
 			"type": { "name": "Position" },
-			"file": "data/model/positions/GeoPosition.ts",
+			"file": "data/model/positions/GeodeticPosition.ts",
 			"members": {
 				"Type": {
 					"name": "Type",
-					"comment": { "description": "The data type associated to the EuclideanPosition class." },
+					"comment": { "description": "The data type associated to the GeodeticPosition class." },
 					"modifiers": [ "public" ],
 					"kind": "field",
 					"parameters": [
-						{ "name": "\"geo-position\"" },
-						{ "name": "GeoPosition" },
+						{ "name": "\"geodetic-position\"" },
+						{ "name": "GeodeticPosition" },
 						{ "name": "Position" }
 					]
 				},
+				"_frame": {
+					"name": "_frame",
+					"comment": { "description": "The geodetic frame necessary to calculate the position." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "GeodeticFrame" }
+				},
 				"_longitude": {
 					"name": "_longitude",
-					"comment": { "description": "The Angle in degrees around the equator of the globe." },
+					"comment": { "description": "The angle around the equator of the ellipsoid." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "Angle" }
 				},
 				"_latitude": {
 					"name": "_latitude",
-					"comment": { "description": "The Angle in degrees around the prime meridian of the globe." },
+					"comment": { "description": "The angle around the prime meridian of the ellipsoid." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "Angle" }
 				},
 				"_altitude": {
 					"name": "_altitude",
-					"comment": { "description": "The vertical Distance relative to the surface to the globe." },
+					"comment": { "description": "The vertical distance relative to the surface to the ellipsoid." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "Distance" }
 				},
+				"frame": {
+					"name": "frame",
+					"comment": { "description": "The vertical distance relative to the surface to the ellipsoid." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": []
+				},
 				"longitude": {
 					"name": "longitude",
-					"comment": { "description": "The Angle in degrees around the equator of the globe." },
+					"comment": { "description": "The angle around the equator of the ellipsoid." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": []
 				},
 				"latitude": {
 					"name": "latitude",
-					"comment": { "description": "The Angle in degrees around the prime meridian of the globe." },
+					"comment": { "description": "The angle around the prime meridian of the ellipsoid." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": []
 				},
 				"altitude": {
 					"name": "altitude",
-					"comment": { "description": "The vertical Distance relative to the surface to the globe." },
+					"comment": { "description": "The vertical distance relative to the surface to the ellipsoid." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": []
@@ -3527,13 +3798,34 @@
 							"type": { "name": "any" }
 						}
 					]
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the GeoPosition.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						}
+					]
 				}
 			},
-			"imports": [ "Item", "Type", "Position", "Angle", "Distance" ]
+			"imports": [ "Item", "Type", "Position", "Angle", "Distance", "GeodeticFrame" ]
 		},
 		"OrbitalPosition": {
 			"name": "OrbitalPosition",
-			"comment": { "description": "Defines a location in an orbital coordinate system." },
+			"comment": { "description": "Defines a position in an orbital coordinate system." },
 			"type": { "name": "Position" },
 			"file": "data/model/positions/OrbitalPosition.ts",
 			"members": {
@@ -3576,52 +3868,6 @@
 				}
 			},
 			"imports": [ "Item", "Type", "Position" ]
-		},
-		"Relationship": {
-			"name": "Relationship",
-			"comment": { "description": "Defines a relationship between data items." },
-			"type": null,
-			"file": "data/Relationship.ts",
-			"members": {
-				"_name": {
-					"name": "_name",
-					"comment": { "description": "The name of the relationship." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "string" }
-				},
-				"_origin": {
-					"name": "_origin",
-					"comment": { "description": "The origin items of the relationship." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Item" }
-				},
-				"name": {
-					"name": "name",
-					"comment": { "description": "The name of the relationship." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "string" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new instance of the Node class.",
-						"params": { "name": "The name(s) of the relationship." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"type": { "name": "string" }
-						}
-					]
-				}
-			},
-			"imports": [ "Item" ]
 		},
 		"Serialization": {
 			"name": "Serialization",
@@ -3811,6 +4057,13 @@
 					"kind": "field",
 					"type": { "name": "any" }
 				},
+				"_instances": {
+					"name": "_instances",
+					"comment": { "description": "The list of instances of the data type." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Item" }
+				},
 				"_parent": {
 					"name": "_parent",
 					"comment": { "description": "The parent data type." },
@@ -3843,6 +4096,14 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "string" }
+				},
+				"instances": {
+					"name": "instances",
+					"comment": { "description": "The list of instances of the data type." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Item" }
 				},
 				"parent": {
 					"name": "parent",
@@ -3902,7 +4163,7 @@
 					"type": { "name": "boolean" }
 				}
 			},
-			"imports": []
+			"imports": [ "Item" ]
 		},
 		"GeoPoseSandbox": {
 			"name": "GeoPoseSandbox",
@@ -3941,7 +4202,7 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Space" }
 					}
 				},
@@ -3951,13 +4212,13 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "User" }
 					}
 				},
 				"id": {
 					"name": "id",
-					"comment": { "description": "The name of the Geopose Sandbox." },
+					"comment": { "description": "The name of the GeoPose Sandbox." },
 					"modifiers": [ "get", "static", "public" ],
 					"kind": "accessor",
 					"parameters": [],
@@ -3965,7 +4226,7 @@
 				},
 				"version": {
 					"name": "version",
-					"comment": { "description": "The version number of the Geopose Sandbox." },
+					"comment": { "description": "The version number of the GeoPose Sandbox." },
 					"modifiers": [ "get", "static", "public" ],
 					"kind": "accessor",
 					"parameters": [],
@@ -3998,7 +4259,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Space" }
 					}
 				},
@@ -4009,7 +4270,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "User" }
 					}
 				},
@@ -4043,7 +4304,7 @@
 					]
 				}
 			},
-			"imports": [ "List", "Item", "Type", "Space", "User" ]
+			"imports": [ "Item", "Type", "Collection", "Space", "User" ]
 		},
 		"Behavior": {
 			"name": "Behavior",
@@ -4085,6 +4346,348 @@
 				}
 			},
 			"imports": [ "Item", "Type" ]
+		},
+		"AtmosphereEntity": {
+			"name": "AtmosphereEntity",
+			"comment": { "description": "Defines a Atmosphere Entity." },
+			"type": { "name": "Entity" },
+			"file": "logic/entities/AtmosphereEntity.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the AtmosphereEntity class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"atmosphere-entity\"" },
+						{ "name": "AtmosphereEntity" },
+						{ "name": "Entity" }
+					]
+				},
+				"_mesh": {
+					"name": "_mesh",
+					"comment": { "description": "The mesh of the terrain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.Mesh" }
+				},
+				"_ellipsoid": {
+					"name": "_ellipsoid",
+					"comment": { "description": "The shape of the terrain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Ellipsoid" }
+				},
+				"_clouds": {
+					"name": "_clouds",
+					"comment": { "description": "The normal texture of the terrain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"ellipsoid": {
+					"name": "ellipsoid",
+					"comment": { "description": "The shape of the terrain." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Ellipsoid" }
+				},
+				"clouds": {
+					"name": "clouds",
+					"comment": { "description": "The normal texture of the terrain." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new AtmosphereEntity instance.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the AtmosphereEntity instance.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						}
+					]
+				}
+			},
+			"imports": [ "three", "Item", "Type", "Entity", "Ellipsoid", "String" ]
+		},
+		"BackgroundEntity": {
+			"name": "BackgroundEntity",
+			"comment": { "description": "Defines a Background Entity." },
+			"type": { "name": "Entity" },
+			"file": "logic/entities/BackgroundEntity.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the BackgroundEntity class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"background-entity\"" },
+						{ "name": "BackgroundEntity" },
+						{ "name": "Entity" }
+					]
+				},
+				"_mesh": {
+					"name": "_mesh",
+					"comment": { "description": "The mesh of the background." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.Mesh" }
+				},
+				"_shape": {
+					"name": "_shape",
+					"comment": { "description": "The shape of the terrain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Ellipsoid" }
+				},
+				"_texture": {
+					"name": "_texture",
+					"comment": { "description": "The texture of the terrain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"shape": {
+					"name": "shape",
+					"comment": { "description": "The shape of the component." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Ellipsoid" }
+				},
+				"texture": {
+					"name": "texture",
+					"comment": { "description": "The shape of the component." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new BackgroundEntity instance.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the BackgroundEntity instance.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						}
+					]
+				}
+			},
+			"imports": [ "three", "Item", "Type", "Entity", "Ellipsoid", "String" ]
+		},
+		"GraticuleEntity": {
+			"name": "GraticuleEntity",
+			"comment": { "description": "Defines a Graticule Entity." },
+			"type": { "name": "Entity" },
+			"file": "logic/entities/GraticuleEntity.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the GraticuleEntity class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"graticule-entity\"" },
+						{ "name": "GraticuleEntity" },
+						{ "name": "Entity" }
+					]
+				},
+				"_lines": {
+					"name": "_lines",
+					"comment": { "description": "The lines of the graticule." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.LineSegments" }
+				},
+				"_ellipsoid": {
+					"name": "_ellipsoid",
+					"comment": { "description": "The shape of the graticule." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Ellipsoid" }
+				},
+				"ellipsoid": {
+					"name": "ellipsoid",
+					"comment": { "description": "The shape of the graticule." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Ellipsoid" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new GraticuleEntity instance.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the GraticuleEntity instance.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						}
+					]
+				}
+			},
+			"imports": [ "three", "Item", "Type", "Entity", "Ellipsoid", "String" ]
+		},
+		"GridEntity": {
+			"name": "GridEntity",
+			"comment": { "description": "Defines a Grid entity." },
+			"type": { "name": "Entity" },
+			"file": "logic/entities/GridEntity.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the GridEntity class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"grid-entity\"" },
+						{ "name": "GridEntity" },
+						{ "name": "Entity" }
+					]
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new GridEntity instance.",
+						"params": { "name": "The name of the entity.", "parentNode": "The parent entity." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Entity" }
+						},
+						{
+							"name": "radius",
+							"type": { "name": "number" },
+							"defaultValue": "1"
+						}
+					]
+				}
+			},
+			"imports": [ "three", "Item", "Type", "Entity" ]
 		},
 		"PresenceEntity": {
 			"name": "PresenceEntity",
@@ -4263,7 +4866,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Item", "Type", "Entity" ]
+			"imports": [ "three", "three", "Item", "Type", "Entity" ]
 		},
 		"SpaceEntity": {
 			"name": "SpaceEntity",
@@ -4313,7 +4916,7 @@
 		},
 		"TerrainEntity": {
 			"name": "TerrainEntity",
-			"comment": { "description": "Defines a TerrainEntity Entity." },
+			"comment": { "description": "Defines a Terrain Entity." },
 			"type": { "name": "Entity" },
 			"file": "logic/entities/TerrainEntity.ts",
 			"members": {
@@ -4335,31 +4938,46 @@
 					"kind": "field",
 					"type": { "name": "THREE.Mesh" }
 				},
-				"_shape": {
-					"name": "_shape",
+				"_ellipsoid": {
+					"name": "_ellipsoid",
 					"comment": { "description": "The shape of the terrain." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "Ellipsoid" }
 				},
-				"_texture": {
-					"name": "_texture",
-					"comment": { "description": "The texture of the terrain." },
+				"_diffuse": {
+					"name": "_diffuse",
+					"comment": { "description": "The diffuse texture of the terrain." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "String" }
 				},
-				"shape": {
-					"name": "shape",
-					"comment": { "description": "The shape of the component." },
+				"_normal": {
+					"name": "_normal",
+					"comment": { "description": "The normal texture of the terrain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"ellipsoid": {
+					"name": "ellipsoid",
+					"comment": { "description": "The shape of the terrain." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "Ellipsoid" }
 				},
-				"texture": {
-					"name": "texture",
-					"comment": { "description": "The shape of the component." },
+				"diffuse": {
+					"name": "diffuse",
+					"comment": { "description": "The diffuse texture of the terrain." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"normal": {
+					"name": "normal",
+					"comment": { "description": "The normal texture of the terrain." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
@@ -4457,10 +5075,14 @@
 				"pose": {
 					"name": "pose",
 					"comment": { "description": "The pose of the entity." },
-					"modifiers": [ "get", "public" ],
+					"modifiers": [ "set", "public" ],
 					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Pose" }
+					"parameters": [
+						{
+							"name": "p",
+							"type": { "name": "Pose" }
+						}
+					]
 				},
 				"<constructor>": {
 					"name": "constructor",
@@ -4766,227 +5388,6 @@
 			},
 			"imports": [ "three", "Presence" ]
 		},
-		"Component": {
-			"name": "Component",
-			"comment": { "description": "Defines an interaction component" },
-			"type": { "name": "Item" },
-			"file": "user/interaction/Component.ts",
-			"members": {
-				"Type": {
-					"name": "Type",
-					"comment": { "description": "The data type associated to the Component class." },
-					"modifiers": [ "public" ],
-					"kind": "field",
-					"parameters": [
-						{ "name": "\"component\"" },
-						{ "name": "Component" },
-						{ "name": "Item" }
-					]
-				},
-				"_entity": {
-					"name": "_entity",
-					"comment": { "description": "The entity of the component." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "Entity" }
-				},
-				"_parentEntity": {
-					"name": "_parentEntity",
-					"comment": { "description": "The parent entity of the component." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "Entity" }
-				},
-				"entity": {
-					"name": "entity",
-					"comment": { "description": "The entity of the component." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Entity" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new Component instance.",
-						"params": { "name": "The parent data item.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Item" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				},
-				"update": {
-					"name": "update",
-					"comment": {
-						"description": "Updates the Component.",
-						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "deltaTime",
-							"type": { "name": "number" },
-							"defaultValue": "0"
-						},
-						{
-							"name": "forced",
-							"type": { "name": "boolean" },
-							"defaultValue": "false"
-						}
-					]
-				}
-			},
-			"imports": [ "Item", "Type", "Entity", "Widget" ]
-		},
-		"PlanetComponent": {
-			"name": "PlanetComponent",
-			"comment": { "description": "Defines a planet component for a user interaction widget." },
-			"type": { "name": "Component" },
-			"file": "user/interaction/components/PlanetComponent.ts",
-			"members": {
-				"Type": {
-					"name": "Type",
-					"comment": { "description": "The data type associated to the Component class." },
-					"modifiers": [ "public" ],
-					"kind": "field",
-					"parameters": [
-						{ "name": "\"planet-component\"" },
-						{ "name": "Component" },
-						{ "name": "Component" }
-					]
-				},
-				"_terrain": {
-					"name": "_terrain",
-					"comment": { "description": "The shape of the component." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "TerrainEntity" }
-				},
-				"shape": {
-					"name": "shape",
-					"comment": { "description": "The shape of the component." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Ellipsoid" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new PlanetComponent instance.",
-						"params": { "name": "The parent data item.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Item" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				}
-			},
-			"imports": [ "Item", "Type", "Component", "TerrainEntity", "Ellipsoid" ]
-		},
-		"ShapeComponent": {
-			"name": "ShapeComponent",
-			"comment": { "description": "Defines a shape component for a user interaction widget." },
-			"type": { "name": "Component" },
-			"file": "user/interaction/components/ShapeComponent.ts",
-			"members": {
-				"_shape": {
-					"name": "_shape",
-					"comment": { "description": "The shape of the component." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Shape" }
-				},
-				"shape": {
-					"name": "shape",
-					"comment": { "description": "The shape of the component." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Shape" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new ShapeComponent instance.",
-						"params": { "name": "The parent data item.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Item" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				},
-				"update": {
-					"name": "update",
-					"comment": {
-						"description": "Updates the ShapeComponent instance.",
-						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "deltaTime",
-							"type": { "name": "number" },
-							"defaultValue": "0"
-						},
-						{
-							"name": "forced",
-							"type": { "name": "boolean" },
-							"defaultValue": "false"
-						}
-					]
-				}
-			},
-			"imports": [ "Item", "Type", "Component", "ShapeEntity", "Shape" ]
-		},
 		"Layer": {
 			"name": "Layer",
 			"comment": { "description": "Defines an user interaction (view) layer ." },
@@ -5010,7 +5411,7 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Widget" }
 					}
 				},
@@ -5035,7 +5436,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Widget" }
 					}
 				},
@@ -5089,7 +5490,7 @@
 				"update": {
 					"name": "update",
 					"comment": {
-						"description": "Updates the space.",
+						"description": "Updates the layer.",
 						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
 					},
 					"modifiers": [ "public" ],
@@ -5108,7 +5509,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "List", "Presence", "Space", "Widget", "Entity" ]
+			"imports": [ "Item", "Type", "Collection", "Presence", "Space", "Widget", "Entity" ]
 		},
 		"Presence": {
 			"name": "Presence",
@@ -5214,13 +5615,13 @@
 					"kind": "field",
 					"type": { "name": "SpaceEntity" }
 				},
-				"_spaces": {
-					"name": "_spaces",
+				"_subspaces": {
+					"name": "_subspaces",
 					"comment": { "description": "The subspaces of the space." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Space" }
 					}
 				},
@@ -5230,7 +5631,7 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Presence" }
 					}
 				},
@@ -5240,7 +5641,7 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Widget" }
 					}
 				},
@@ -5252,14 +5653,14 @@
 					"parameters": [],
 					"type": { "name": "SpaceEntity" }
 				},
-				"spaces": {
-					"name": "spaces",
+				"subspaces": {
+					"name": "subspaces",
 					"comment": { "description": "The subspaces of the space." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Space" }
 					}
 				},
@@ -5270,7 +5671,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Presence" }
 					}
 				},
@@ -5281,7 +5682,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Widget" }
 					}
 				},
@@ -5333,7 +5734,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "List", "SpaceEntity", "Presence", "Widget" ]
+			"imports": [ "Item", "Type", "Collection", "SpaceEntity", "Presence", "Widget" ]
 		},
 		"View": {
 			"name": "View",
@@ -5400,7 +5801,7 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Layer" }
 					}
 				},
@@ -5500,7 +5901,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Layer" }
 					}
 				},
@@ -5626,7 +6027,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Number", "String", "List", "Layer", "User", "ViewPort" ]
+			"imports": [ "Item", "Type", "Number", "String", "Collection", "Layer", "User", "ViewPort" ]
 		},
 		"Widget": {
 			"name": "Widget",
@@ -5648,35 +6049,25 @@
 				"_entity": {
 					"name": "_entity",
 					"comment": { "description": "The entity of the widget." },
-					"modifiers": [ "private" ],
+					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": { "name": "Entity" }
 				},
 				"_parentEntity": {
 					"name": "_parentEntity",
 					"comment": { "description": "The parent entity of the widget." },
-					"modifiers": [ "private" ],
+					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": { "name": "Entity" }
 				},
 				"_widgets": {
 					"name": "_widgets",
 					"comment": { "description": "The list of child widgets." },
-					"modifiers": [ "private" ],
+					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Widget" }
-					}
-				},
-				"_components": {
-					"name": "_components",
-					"comment": { "description": "The components of the widget." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": {
-						"name": "List",
-						"subtype": { "name": "Component" }
 					}
 				},
 				"entity": {
@@ -5694,19 +6085,8 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Widget" }
-					}
-				},
-				"components": {
-					"name": "components",
-					"comment": { "description": "The components of the widget." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": {
-						"name": "List",
-						"subtype": { "name": "Component" }
 					}
 				},
 				"<constructor>": {
@@ -5757,39 +6137,24 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "List", "Entity", "Component", "Space" ]
+			"imports": [ "Collection", "Item", "Type", "Entity", "Layer", "Space" ]
 		},
-		"PlanetWidget": {
-			"name": "PlanetWidget",
-			"comment": { "description": "Defines a widget for a planet." },
+		"BackgroundWidget": {
+			"name": "BackgroundWidget",
+			"comment": { "description": "Defines a widget for the background." },
 			"type": { "name": "Widget" },
-			"file": "user/interaction/widgets/PlanetWidget.ts",
+			"file": "user/interaction/widgets/BackgroundWidget.ts",
 			"members": {
 				"Type": {
 					"name": "Type",
-					"comment": { "description": "The data type associated to the GeoPoseWidget class." },
+					"comment": { "description": "The data type associated to the Widget class." },
 					"modifiers": [ "public" ],
 					"kind": "field",
 					"parameters": [
-						{ "name": "\"planet-widget\"" },
-						{ "name": "PlanetWidget" },
+						{ "name": "\"background-widget\"" },
+						{ "name": "BackgroundWidget" },
 						{ "name": "Widget" }
 					]
-				},
-				"_planet": {
-					"name": "_planet",
-					"comment": { "description": "The component of the widget." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "PlanetComponent" }
-				},
-				"planet": {
-					"name": "planet",
-					"comment": { "description": "The component of the widget." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "PlanetComponent" }
 				},
 				"<constructor>": {
 					"name": "constructor",
@@ -5818,7 +6183,150 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Widget", "PlanetComponent" ]
+			"imports": [ "Item", "Type", "BackgroundEntity", "ShapeEntity", "Widget" ]
+		},
+		"GeoPoseWidget": {
+			"name": "GeoPoseWidget",
+			"comment": { "description": "Defines a widget for a GeoPose." },
+			"type": { "name": "Widget" },
+			"file": "user/interaction/widgets/GeoPoseWidget.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the Widget class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"GeoPose-widget\"" },
+						{ "name": "GeoPoseWidget" },
+						{ "name": "Widget" }
+					]
+				},
+				"_marker": {
+					"name": "_marker",
+					"comment": { "description": "The marker of the widget." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "ShapeEntity" }
+				},
+				"_grid": {
+					"name": "_grid",
+					"comment": { "description": "The grid of the widget." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "GridEntity" }
+				},
+				"marker": {
+					"name": "marker",
+					"comment": { "description": "The marker of the widget." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "ShapeEntity" }
+				},
+				"grid": {
+					"name": "grid",
+					"comment": { "description": "The grid of the widget." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "GridEntity" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new PlanetWidget instance.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "Item", "Type", "Widget", "ShapeEntity", "GeoPoseBasicYPR", "Layer", "GridEntity" ]
+		},
+		"PlanetWidget": {
+			"name": "PlanetWidget",
+			"comment": { "description": "Defines a widget for a planet." },
+			"type": { "name": "Widget" },
+			"file": "user/interaction/widgets/PlanetWidget.ts",
+			"members": {
+				"Type": {
+					"name": "Type",
+					"comment": { "description": "The data type associated to the Widget class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"planet-widget\"" },
+						{ "name": "PlanetWidget" },
+						{ "name": "Widget" }
+					]
+				},
+				"_terrain": {
+					"name": "_terrain",
+					"comment": { "description": "The component of the widget." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "TerrainEntity" }
+				},
+				"_atmosphere": {
+					"name": "_atmosphere",
+					"comment": { "description": "The component of the widget." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "AtmosphereEntity" }
+				},
+				"_graticule": {
+					"name": "_graticule",
+					"comment": { "description": "The component of the widget." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "GraticuleEntity" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new PlanetWidget instance.",
+						"params": { "name": "The parent data item.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Item" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "Item", "Type", "Widget", "TerrainEntity", "AtmosphereEntity", "GraticuleEntity" ]
 		},
 		"User": {
 			"name": "User",
@@ -5843,7 +6351,7 @@
 					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Presence" }
 					}
 				},
@@ -5853,7 +6361,7 @@
 					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "View" }
 					}
 				},
@@ -5864,7 +6372,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "Presence" }
 					}
 				},
@@ -5875,7 +6383,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-						"name": "List",
+						"name": "Collection",
 						"subtype": { "name": "View" }
 					}
 				},
@@ -5906,7 +6414,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "List", "Presence", "View" ]
+			"imports": [ "Item", "Type", "Collection", "Presence", "View" ]
 		}
 	},
 	"files": {
@@ -5916,27 +6424,19 @@
 		},
 		"data/Type.ts": {
 			"classes": [ "Type" ],
-			"links": []
+			"links": [ "data/Item.ts" ]
 		},
 		"data/Item.ts": {
 			"classes": [ "Item" ],
-			"links": [ "data/Type.ts", "logic/Event.ts", "data/Collection.ts", "data/Relationship.ts", "data/collections/List.ts", "data/Serialization.ts" ]
+			"links": [ "data/Type.ts", "logic/Event.ts", "data/Collection.ts", "data/Serialization.ts" ]
 		},
 		"GeoPoseSandbox.ts": {
 			"classes": [ "GeoPoseSandbox" ],
-			"links": [ "data/collections/List.ts", "data/Item.ts", "data/Type.ts", "user/interaction/Space.ts", "user/User.ts" ]
+			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "user/interaction/Space.ts", "user/User.ts" ]
 		},
 		"data/Collection.ts": {
 			"classes": [ "Collection" ],
 			"links": [ "data/Item.ts", "data/Type.ts" ]
-		},
-		"data/Relationship.ts": {
-			"classes": [ "Relationship" ],
-			"links": [ "data/Item.ts" ]
-		},
-		"data/collections/List.ts": {
-			"classes": [ "List" ],
-			"links": [ "data/Collection.ts", "data/Item.ts", "data/Type.ts" ]
 		},
 		"data/Serialization.ts": {
 			"classes": [ "Serialization" ],
@@ -6022,53 +6522,69 @@
 			"classes": [ "Frame" ],
 			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Shape.ts" ]
 		},
-		"data/model/frames/GeoFrame.ts": {
-			"classes": [ "GeoFrame" ],
+		"data/model/frames/GeodeticFrame.ts": {
+			"classes": [ "GeodeticFrame" ],
 			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Frame.ts", "data/items/measures/Distance.ts", "data/items/simple/Number.ts" ]
 		},
-		"data/model/GeoPose.ts": {
-			"classes": [ "GeoPose" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/collections/List.ts", "data/model/frames/GeoFrame.ts", "data/model/Extension.ts" ]
-		},
-		"data/model/geoposes/GeoPoseBasicQuaternion.ts": {
-			"classes": [ "GeoPoseBasicQuaternion" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/GeoPose.ts", "data/model/positions/GeoPosition.ts", "data/model/orientations/QuaternionOrientation.ts" ]
+		"data/model/Pose.ts": {
+			"classes": [ "Pose" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "data/model/Frame.ts", "data/model/Position.ts", "data/model/Orientation.ts", "data/model/Extension.ts" ]
 		},
 		"data/model/Position.ts": {
 			"classes": [ "Position" ],
 			"links": [ "data/Item.ts", "data/Type.ts", "data/items/complex/Vector.ts" ]
 		},
-		"data/model/positions/GeoPosition.ts": {
-			"classes": [ "GeoPosition" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Position.ts", "data/items/measures/Angle.ts", "data/items/measures/Distance.ts" ]
-		},
 		"data/model/Orientation.ts": {
 			"classes": [ "Orientation" ],
 			"links": [ "data/Item.ts", "data/Type.ts", "data/items/complex/Quaternion.ts" ]
 		},
-		"data/model/orientations/QuaternionOrientation.ts": {
-			"classes": [ "QuaternionOrientation" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/simple/Number.ts" ]
+		"data/model/GeoPose.ts": {
+			"classes": [ "GeoPose" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Pose.ts", "data/Collection.ts", "data/model/frames/GeodeticFrame.ts", "data/model/Extension.ts" ]
 		},
-		"data/model/geoposes/GeoPoseBasicYPR.ts": {
-			"classes": [ "GeoPoseBasicYPR" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/GeoPose.ts", "data/model/positions/GeoPosition.ts", "data/model/orientations/YawPitchRollOrientation.ts" ]
-		},
-		"data/model/orientations/YawPitchRollOrientation.ts": {
-			"classes": [ "YawPitchRollOrientation" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/measures/Angle.ts" ]
+		"data/model/orientations/AxisAngleOrientation.ts": {
+			"classes": [ "AxisAngleOrientation" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/measures/Angle.ts", "data/items/complex/Vector.ts" ]
 		},
 		"data/model/orientations/LookAtOrientation.ts": {
 			"classes": [ "LookAtOrientation" ],
 			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/simple/String.ts", "data/items/complex/Vector.ts" ]
 		},
-		"data/model/Pose.ts": {
-			"classes": [ "Pose" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "data/model/Frame.ts", "data/model/Position.ts", "data/model/Orientation.ts", "data/model/Extension.ts", "data/collections/List.ts" ]
+		"data/model/orientations/MatrixOrientation.ts": {
+			"classes": [ "MatrixOrientation" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/simple/Number.ts" ]
+		},
+		"data/model/orientations/QuaternionOrientation.ts": {
+			"classes": [ "QuaternionOrientation" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/simple/Number.ts" ]
+		},
+		"data/model/orientations/TaitBryanOrientation.ts": {
+			"classes": [ "TaitBryanOrientation" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/measures/Angle.ts" ]
+		},
+		"data/model/poses/EuclideanPoseQuaternion.ts": {
+			"classes": [ "EuclideanPoseQuaternion" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Pose.ts", "data/model/positions/EuclideanPosition.ts", "data/model/orientations/QuaternionOrientation.ts" ]
 		},
 		"data/model/positions/EuclideanPosition.ts": {
 			"classes": [ "EuclideanPosition" ],
 			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Position.ts", "data/items/measures/Distance.ts" ]
+		},
+		"data/model/poses/EuclideanPoseYPR.ts": {
+			"classes": [ "EuclideanPoseYPR" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Pose.ts", "data/model/positions/EuclideanPosition.ts", "data/model/orientations/TaitBryanOrientation.ts" ]
+		},
+		"data/model/poses/GeoPoseBasicQuaternion.ts": {
+			"classes": [ "GeoPoseBasicQuaternion" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/GeoPose.ts", "data/model/positions/GeodeticPosition.ts", "data/model/orientations/QuaternionOrientation.ts", "data/items/complex/Quaternion.ts" ]
+		},
+		"data/model/positions/GeodeticPosition.ts": {
+			"classes": [ "GeodeticPosition" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Position.ts", "data/items/measures/Angle.ts", "data/items/measures/Distance.ts", "data/model/frames/GeodeticFrame.ts" ]
+		},
+		"data/model/poses/GeoPoseBasicYPR.ts": {
+			"classes": [ "GeoPoseBasicYPR" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/model/GeoPose.ts", "data/model/positions/GeodeticPosition.ts", "data/model/orientations/TaitBryanOrientation.ts" ]
 		},
 		"data/model/positions/OrbitalPosition.ts": {
 			"classes": [ "OrbitalPosition" ],
@@ -6076,7 +6592,7 @@
 		},
 		"user/interaction/Space.ts": {
 			"classes": [ "Space" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/collections/List.ts", "logic/entities/SpaceEntity.ts", "user/interaction/Presence.ts", "user/interaction/Widget.ts" ]
+			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "logic/entities/SpaceEntity.ts", "user/interaction/Presence.ts", "user/interaction/Widget.ts" ]
 		},
 		"logic/Entity.ts": {
 			"classes": [ "Entity" ],
@@ -6096,23 +6612,19 @@
 		},
 		"user/interaction/Widget.ts": {
 			"classes": [ "Widget" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/collections/List.ts", "logic/Entity.ts", "user/interaction/Component.ts", "user/interaction/Space.ts" ]
-		},
-		"user/interaction/Component.ts": {
-			"classes": [ "Component" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "user/interaction/Widget.ts" ]
-		},
-		"user/User.ts": {
-			"classes": [ "User" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/collections/List.ts", "user/interaction/Presence.ts", "user/interaction/View.ts" ]
-		},
-		"user/interaction/View.ts": {
-			"classes": [ "View" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/simple/Number.ts", "data/items/simple/String.ts", "data/collections/List.ts", "user/interaction/Layer.ts", "user/User.ts", "logic/ViewPort.ts" ]
+			"links": [ "data/Collection.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "user/interaction/Layer.ts", "user/interaction/Space.ts" ]
 		},
 		"user/interaction/Layer.ts": {
 			"classes": [ "Layer" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/collections/List.ts", "user/interaction/Presence.ts", "user/interaction/Space.ts", "user/interaction/Widget.ts", "logic/Entity.ts" ]
+			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "user/interaction/Presence.ts", "user/interaction/Space.ts", "user/interaction/Widget.ts", "logic/Entity.ts" ]
+		},
+		"user/User.ts": {
+			"classes": [ "User" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "user/interaction/Presence.ts", "user/interaction/View.ts" ]
+		},
+		"user/interaction/View.ts": {
+			"classes": [ "View" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "data/items/simple/Number.ts", "data/items/simple/String.ts", "data/Collection.ts", "user/interaction/Layer.ts", "user/User.ts", "logic/ViewPort.ts" ]
 		},
 		"logic/ViewPort.ts": {
 			"classes": [ "ViewPort" ],
@@ -6122,25 +6634,41 @@
 			"classes": [ "Behavior" ],
 			"links": [ "data/Item.ts", "data/Type.ts" ]
 		},
+		"logic/entities/AtmosphereEntity.ts": {
+			"classes": [ "AtmosphereEntity" ],
+			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "data/items/shapes/Ellipsoid.ts", "data/items/simple/String.ts" ]
+		},
+		"logic/entities/BackgroundEntity.ts": {
+			"classes": [ "BackgroundEntity" ],
+			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "data/items/shapes/Ellipsoid.ts", "data/items/simple/String.ts" ]
+		},
+		"logic/entities/GraticuleEntity.ts": {
+			"classes": [ "GraticuleEntity" ],
+			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "data/items/shapes/Ellipsoid.ts", "data/items/simple/String.ts" ]
+		},
+		"logic/entities/GridEntity.ts": {
+			"classes": [ "GridEntity" ],
+			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts" ]
+		},
 		"logic/entities/ShapeEntity.ts": {
 			"classes": [ "ShapeEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts" ]
+			"links": [ "logic/entities/three.ts", "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts" ]
 		},
 		"logic/entities/TerrainEntity.ts": {
 			"classes": [ "TerrainEntity" ],
 			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "data/items/shapes/Ellipsoid.ts", "data/items/simple/String.ts" ]
 		},
-		"user/interaction/components/PlanetComponent.ts": {
-			"classes": [ "PlanetComponent" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "user/interaction/Component.ts", "logic/entities/TerrainEntity.ts", "data/items/shapes/Ellipsoid.ts" ]
+		"user/interaction/widgets/BackgroundWidget.ts": {
+			"classes": [ "BackgroundWidget" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "logic/entities/BackgroundEntity.ts", "logic/entities/ShapeEntity.ts", "user/interaction/Widget.ts" ]
 		},
-		"user/interaction/components/ShapeComponent.ts": {
-			"classes": [ "ShapeComponent" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "user/interaction/Component.ts", "logic/entities/ShapeEntity.ts", "data/items/Shape.ts" ]
+		"user/interaction/widgets/GeoPoseWidget.ts": {
+			"classes": [ "GeoPoseWidget" ],
+			"links": [ "data/Item.ts", "data/Type.ts", "user/interaction/Widget.ts", "logic/entities/ShapeEntity.ts", "data/model/poses/GeoPoseBasicYPR.ts", "user/interaction/Layer.ts", "logic/entities/GridEntity.ts" ]
 		},
 		"user/interaction/widgets/PlanetWidget.ts": {
 			"classes": [ "PlanetWidget" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "user/interaction/Widget.ts", "user/interaction/components/PlanetComponent.ts" ]
+			"links": [ "data/Item.ts", "data/Type.ts", "user/interaction/Widget.ts", "logic/entities/TerrainEntity.ts", "logic/entities/AtmosphereEntity.ts", "logic/entities/GraticuleEntity.ts" ]
 		}
 	}
 }

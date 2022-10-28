@@ -45,7 +45,9 @@ export class ViewPort {
 		this._canvas = canvas; 
 
 		// Create the renderer
-		this._renderer = new THREE.WebGLRenderer( { canvas:this._canvas} );
+		this._renderer = new THREE.WebGLRenderer( { canvas:this._canvas,
+			antialias: true, logarithmicDepthBuffer: true} );
+		this._renderer.setPixelRatio(window.devicePixelRatio);
 		this._renderer.xr.enabled = true;
 		this._renderer.setAnimationLoop(updateFunction);
 	}

@@ -1,6 +1,6 @@
 import { Item } from "../data/Item";
 import { Type } from "../data/Type";
-import { List } from "../data/collections/List";
+import { Collection } from "../data/Collection";
 import { Presence } from "./interaction/Presence";
 import { View } from "./interaction/View";
 
@@ -17,18 +17,19 @@ export class User extends Item {
 	// ------------------------------------------------------- PROTECTED FIELDS
 
 	/** The presences of the user in the interaction spaces. */
-	protected _presences: List<Presence>;
+	protected _presences: Collection<Presence>;
 
 	/** The view of the user. */
-	protected _views: List<View>;
+	protected _views: Collection<View>;
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The presences of the user in the interaction spaces. */
-	get presences(): List<Presence> { return this._presences; }
+	get presences(): Collection<Presence> { return this._presences; }
 
 	/** The point of views of the user. */
-	get views(): List<View> { return this._views; }
+	get views(): Collection<View> { return this._views; }
 
 	
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -43,8 +44,8 @@ export class User extends Item {
 		super(name, parent);
 
 		// Create the child items
-		this._presences = new List<Presence>([Presence.type], this);
-		this._views = new List<View>([View.type], this);
+		this._presences = new Collection<Presence>([Presence.type], this);
+		this._views = new Collection<View>([View.type], this);
 
 		// Deserialize the initialization data
 		if (data !== undefined) this.deserialize(data);

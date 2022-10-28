@@ -1,34 +1,35 @@
 import { Item } from "../Item";
 import { Type } from "../Type";
-import { List } from "../collections/List";
-import { GeoFrame } from "./frames/GeoFrame";
+import { Pose } from "./Pose";
+import { Collection } from "../Collection";
+import { GeodeticFrame } from "./frames/GeodeticFrame";
 import { Extension } from "./Extension";
 
 /** Defines the GeoPose of an object. */
-export abstract class GeoPose extends Item {
+export abstract class GeoPose extends Pose {
 
 	// -------------------------------------------------------- PUBLIC METADATA
 
 	/** The data type associated to the Pose class. */
-	public static type: Type = new Type("geopose", GeoPose, Item.type);
+	public static type: Type = new Type("geopose", GeoPose, Pose.type);
 
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The frame of the GeoPose. */
-	private _frame: GeoFrame;
+	/** The geodetic frame of the GeoPose. */
+	private _frame: GeodeticFrame;
 
 	/** The extensions of the GeoPose. */
-	private _extensions: List<Extension>;
+	private _extensions: Collection<Extension>;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The frame of the GeoPose. */
-	get frame(): GeoFrame { return this._frame; }
+	/** The geodetic frame of the GeoPose. */
+	get frame(): GeodeticFrame { return this._frame; }
 
 	/** The extensions of the GeoPose. */
-	get extensions(): List<Extension> { return this._extensions; }
+	get extensions(): Collection<Extension> { return this._extensions; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -40,11 +41,11 @@ export abstract class GeoPose extends Item {
 	 constructor(name?: string, parent?: Item, data?: any) { 
 		
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child nodes
-		this._frame = new GeoFrame("frame", this);
-		this._extensions = new List<Extension>([Extension.type], this);
+		this._frame = new GeodeticFrame("frame", this);
+		this._extensions = new Collection<Extension>([Extension.type], this);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

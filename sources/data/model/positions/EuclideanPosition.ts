@@ -4,7 +4,7 @@ import { Position } from "../Position";
 import { Distance } from "../../items/measures/Distance";
 
 
-/** Defines a location in an euclidean coordinate system. */
+/** Defines a position in an euclidean coordinate system. */
 export class EuclideanPosition extends Position {
 
 	// -------------------------------------------------------- PUBLIC METADATA
@@ -24,7 +24,6 @@ export class EuclideanPosition extends Position {
 
 	/** The distance from the origin in the Z axis. */
 	private _z : Distance;
-	
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -45,7 +44,7 @@ export class EuclideanPosition extends Position {
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	 constructor(name?: string, parent?: Item, data?: any) { 
+	constructor(name?: string, parent?: Item, data?: any) { 
 		
 		// Call the base class constructor
 		super(name, parent);
@@ -58,4 +57,13 @@ export class EuclideanPosition extends Position {
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
 	}
+
+	/** Updates the Item instance. 
+	 * @param deltaTime The update time. 
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime: number = 0, forced: boolean = false) {
+
+		console.log("EuclideanPosition");
+	}
+
 }

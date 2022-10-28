@@ -1,8 +1,6 @@
 import { Item } from "../Item.js";
 import { Type } from "../Type.js";
-import { Position } from "./Position.js";
-import { Orientation } from "./Orientation.js";
-import { List } from "../collections/List.js";
+import { Collection } from "../Collection.js";
 
 /** Defines a Pose of an object. */
 export class Pose extends Item {
@@ -20,9 +18,9 @@ export class Pose extends Item {
 		super(name, parent);
 
 		// Create the child items
-		this._position = new Position("position", this);
-		this._orientation = new Orientation("orientation", this);
-		this._childPoses = new List([Pose.type], this);
+		// this._position = new Position("position", this);
+		// this._orientation = new Orientation("orientation", this);
+		this._childPoses = new Collection([Pose.type], this);
 
 		// Deserialize the initialization data
 		if (data != undefined)

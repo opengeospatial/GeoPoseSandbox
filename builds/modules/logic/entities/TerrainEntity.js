@@ -4,7 +4,8 @@ import { Entity } from "../Entity.js";
 import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
 import { String } from "../../data/items/simple/String.js";
 
-/** Defines a TerrainEntity Entity. */
+
+/** Defines a Terrain Entity. */
 export class TerrainEntity extends Entity {
 
 
@@ -20,27 +21,30 @@ export class TerrainEntity extends Entity {
 		super(name, parent);
 
 		// Create the child items
-		this._shape = new Ellipsoid("shape", this);
-		this._texture = new String("texture", this);
+		this._ellipsoid = new Ellipsoid("shape", this, data);
+		this._diffuse = new String("diffuse", this);
+		this._normal = new String("normal", this);
 
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
 
 		// Add the mesh geometry
-		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), new THREE.MeshPhongMaterial({ color: 0xffff00 }));
+		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), new THREE.MeshPhongMaterial({ color: 0xffffff }));
 		this._representation.add(this._mesh);
 
 	}
 
-
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The shape of the component. */
-	get shape() { return this._shape; }
+	/** The shape of the terrain. */
+	get ellipsoid() { return this._ellipsoid; }
 
-	/** The shape of the component. */
-	get texture() { return this._texture; }
+	/** The diffuse texture of the terrain. */
+	get diffuse() { return this._diffuse; }
+
+	/** The normal texture of the terrain. */
+	get normal() { return this._normal; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -51,26 +55,24 @@ export class TerrainEntity extends Entity {
 	update(deltaTime = 0, forced = false) {
 
 		// Show a message on console
-		console.log("Updated TerrainEntity");
+		// console.log("Updated TerrainEntity")
 
-		// if (!this._shape.updated) {
-		// 	this._mesh.scale.set(this._shape.radiusX.value,
-		// 		this._shape.radiusY.value, this._shape.radiusZ.value);
-		// }
+		if (!this._ellipsoid.updated) {
+			this._mesh.scale.set(this._ellipsoid.radiusX.value, this._ellipsoid.radiusY.value, this._ellipsoid.radiusZ.value);
+		}
 
-		if (!this._texture.updated) {
-			let textureURL = this._texture.value;
-			if (textureURL) {
-				const texture = new THREE.TextureLoader().load(textureURL);
-				this._mesh.material = new THREE.MeshPhongMaterial({ map: texture });
-			}
+		if (!this._diffuse.updated && this._diffuse.value) {
+			const texture = new THREE.TextureLoader().load(this._diffuse.value);
+			this._mesh.material.map = texture;
+		}
+
+		if (!this._normal.updated && this._normal.value) {
+			const texture = new THREE.TextureLoader().load(this._normal.value);
+			this._mesh.material.normalMap = texture;
 		}
 
 		// Call the base class function
 		super.update(deltaTime, forced);
-
-		// TEMPORAL
-		this._representation.rotateY(-Math.PI / 2);
 	}
 }
 

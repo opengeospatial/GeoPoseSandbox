@@ -50,8 +50,4 @@ export class Presence extends Item {
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
 }

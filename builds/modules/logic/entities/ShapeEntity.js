@@ -16,7 +16,8 @@ export class ShapeEntity extends Entity {
 		super(name, parent);
 
 		// Create 
-		this.representation.add(new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.2, 64, 64), new THREE.MeshLambertMaterial({ color: 0xffff00 })));
+		this.representation.add(new THREE.Mesh(new THREE.ConeGeometry(100000, 100000, 64, 64), new THREE.MeshLambertMaterial({ color: 0xffff00 })));
+
 	}
 }
 

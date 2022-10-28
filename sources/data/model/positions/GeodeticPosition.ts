@@ -1,42 +1,49 @@
-
 import { Item } from "../../Item";
 import { Type } from "../../Type";
 import { Position } from "../Position";
 import { Angle } from "../../items/measures/Angle";
 import { Distance } from "../../items/measures/Distance";
+import { GeodeticFrame } from "../frames/GeodeticFrame";
 
 
-/** Defines a location in global (elliptical) coordinate system.
-* (Based on PICE and LPT-ENU). */
-export class GeoPosition extends Position {
+/** Defines a position in geodetic (elliptical) coordinate system.
+* (Based on SPICE and Local Tangent Plane - East North Up). */
+export class GeodeticPosition extends Position {
 
 	// -------------------------------------------------------- PUBLIC METADATA
 
-	/** The data type associated to the EuclideanPosition class. */
-	public static type: Type = new Type("geo-position", GeoPosition, 
+	/** The data type associated to the GeodeticPosition class. */
+	public static type: Type = new Type("geodetic-position", GeodeticPosition, 
 		Position.type);
+
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The Angle in degrees around the equator of the globe. */
+	/** The geodetic frame necessary to calculate the position. */
+	private _frame : GeodeticFrame;
+
+	/** The angle around the equator of the ellipsoid. */
 	private _longitude : Angle;
 
-	/** The Angle in degrees around the prime meridian of the globe. */
+	/** The angle around the prime meridian of the ellipsoid. */
 	private _latitude : Angle;
 
-	/** The vertical Distance relative to the surface to the globe. */
+	/** The vertical distance relative to the surface to the ellipsoid. */
 	private _altitude : Distance;
 	
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The Angle in degrees around the equator of the globe. */
+	/** The vertical distance relative to the surface to the ellipsoid. */
+	get frame() { return this._frame; }
+
+	/** The angle around the equator of the ellipsoid. */
 	get longitude() { return this._longitude; }
 
-	/** The Angle in degrees around the prime meridian of the globe. */
+	/** The angle around the prime meridian of the ellipsoid. */
 	get latitude() { return this._latitude; }
 
-	/** The vertical Distance relative to the surface to the globe. */
+	/** The vertical distance relative to the surface to the ellipsoid. */
 	get altitude() { return this._altitude; }
 
 
@@ -56,14 +63,32 @@ export class GeoPosition extends Position {
 		this._latitude = new Angle("latitude", this);
 		this._altitude = new Distance("h", this);
 
-		// TODO Improve this
+		// Store the frame
+		if(!data) data = {};
+		this._frame = data.frame || GeodeticFrame.defaultFrame;
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the GeoPosition.
+	 * @param deltaTime The update time. 
+	 * @param forced Indicates whether the update is forced or not. */
+	 update(deltaTime: number = 0, forced: boolean = false) {
+
+		// If the update is not forced, skip it when the item is already updated
+		if (this._updated && !forced) return;
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+
+		// Calculate the relative location
 		let lng = -this._longitude.value  * (Math.PI/180), 
 			lat = this._latitude.value * (Math.PI/180),
-			alt = this._altitude.value,//  + 6378137,
+			alt = this._altitude.value + this._frame.equatorialRadius.value,
 			lngSin = Math.sin(lng), lngCos = Math.cos(lng),
 			latSin = Math.sin(lat), latCos = Math.cos(lat);
 
-		// Calculate the relative location
 		this.relativeValues.x.value = (lngCos * latCos * alt);
 		this.relativeValues.y.value = (latSin * alt);
 		this.relativeValues.z.value = (lngSin * latCos * alt);
@@ -72,6 +97,7 @@ export class GeoPosition extends Position {
 		this.verticalVector.x.value = (0);
 		this.verticalVector.y.value = (-lng );
 		this.verticalVector.z.value = (lat - Math.PI/2);
-	}
 
+
+	}
 }

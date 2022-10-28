@@ -4,6 +4,7 @@ import { Orientation } from "../Orientation";
 import { String } from "../../items/simple/String";
 import { Vector } from "../../items/complex/Vector";
 
+
 /** Defines an orientation with a target. */
 export class LookAtOrientation extends Orientation {
 

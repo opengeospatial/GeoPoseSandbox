@@ -1,6 +1,6 @@
 import { Item } from "../../data/Item";
 import { Type } from "../../data/Type";
-import { List } from "../../data/collections/List";
+import { Collection } from "../../data/Collection";
 import { SpaceEntity } from "../../logic/entities/SpaceEntity";
 import { Presence } from "./Presence";
 import { Widget } from "./Widget";
@@ -20,13 +20,13 @@ export class Space extends Item {
 	private _entity: SpaceEntity;
 
 	/** The subspaces of the space. */
-	private _spaces: List<Space>;
+	private _subspaces: Collection<Space>;
 
 	/** The user presences in the space. */
-	private _presences: List<Presence>;
+	private _presences: Collection<Presence>;
 
 	/** The widgets in the space. */
-	private _widgets: List<Widget>;
+	private _widgets: Collection<Widget>;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -35,13 +35,13 @@ export class Space extends Item {
 	get entity(): SpaceEntity { return this._entity; }
 
 	/** The subspaces of the space. */
-	get spaces(): List<Space> { return this._spaces; }
+	get subspaces(): Collection<Space> { return this._subspaces; }
 
 	/** The user presences in the space. */
-	get presences(): List<Presence> { return this._presences; }
+	get presences(): Collection<Presence> { return this._presences; }
 
 	/** The widgets of the space. */
-	get widgets(): List<Widget> { return this._widgets; }
+	get widgets(): Collection<Widget> { return this._widgets; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -57,9 +57,9 @@ export class Space extends Item {
 
 		// Create the child nodes
 		this._entity = new SpaceEntity(this.name);
-		this._spaces = new List<Space>([Space.type], this);
-		this._presences = new List<Presence>([Presence.type], this);
-		this._widgets = new List<Widget>([Widget.type], this);
+		this._subspaces = new Collection<Space>([Space.type], this);
+		this._presences = new Collection<Presence>([Presence.type], this);
+		this._widgets = new Collection<Widget>([Widget.type], this);
 		
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

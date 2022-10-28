@@ -8,67 +8,161 @@
 		<script src="../node_modules/three/build/three.js"></script>
 		<script src="../builds/geopose.sandbox.js"></script>
 		<style>
-
-.controls {
-	position: absolute; top:0; right:0; background:#0008; color:white;
-	font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 2vh;
-	padding: 1vh; border: 1px solid blue;
+body { font-family: Verdana, Geneva, Tahoma, sans-serif; }
+#title {
+	position: absolute; top: 0; left: 0; color:#0040ff; 
+	font-size: 4vh;padding: 1vh; z-index: 100;  text-shadow: 2px 2px #88888888;
 }
+.controls {
+	position: absolute; background:#0008; color:white; font-size: 2vh;
+	padding: 1vh; border: 1px solid blue; z-index: 100;
+}
+#frameControls { top: 0; right: 0;}
+#cameraControls { bottom: 0; left: 0;}
+#objectControls { bottom: 0; right: 0;}
+
 h3 { margin: 1vh 0; }
-input { float:right }
+input { float:right; width: 100px; }
+.units { float:right; }
 		</style>
 	</head>
 	<body>
+		<div id="title" class="title">OGC GeoPose Sandbox <br>Basic Visualization</div>
+		<div id="frameControls" class="controls">frame</div>
+		<div id="cameraControls" class="controls">camera</div>
+		<div id="objectControls" class="controls">object</div>
 		<script> 
+
+// ----------------------------------------------------------- GLOBAL VARIABLES
+let frameControls = document.getElementById("frameControls"),
+	cameraControls = document.getElementById("cameraControls");
+	objectControls = document.getElementById("objectControls"),
+	elements = {};
+
+// ----------------------------------------------------------- PUBLIC FUNCTIONS
+
+/** Creates a DOM element
+ * @param tag The tag of the element.
+ * @param id The id of the element.
+ * @param parent The parent of the element.
+ * @param classes The classes of the element.
+ * @param style The style of the element.
+ * @param content The HTML content of the element.
+ * @returns The generated element. */
+function createDomElement(tag, id, parent, classes, style, content) {
+	let element = document.createElement(tag);
+	if (id) element.id = id;
+	if (classes) element.className = classes;
+	if (style) element.style.cssText = style;
+	if (content) element.innerHTML = content;
+	((parent) ? parent : document.body).appendChild(element);
+	return element;
+}
+
+function createNumericInput (name, parent, label, units, value, min, max, step, callback) {
+	let labelElement, inputElement, unitsElement;
+
+	if (label) labelElement = createDomElement("label", name + "label", parent, 
+		"name", null, label + ":");
+	if (units) unitsElement = createDomElement("label", name + "units", parent,
+		"units", null, units);
+
+	inputElement = createDomElement("input", name + "input", parent, "input");
+
+	inputElement.setAttribute("type", "number"); 
+	inputElement.setAttribute("value", value || 0); 
+
+	if (min != undefined) inputElement.setAttribute("min", min || 0);
+	if (max != undefined) inputElement.setAttribute("max", max || 100);
+	if (step != undefined) inputElement.setAttribute("step", step || 1);
+
+	if (callback) inputElement.oninput = callback;
+	if (labelElement) labelElement.htmlFor = inputElement;
+	if (unitsElement) unitsElement.htmlFor = inputElement;
+	
+	createDomElement("br", null,  parent);
+	
+	if (elements[name]) throw new Error ("Repeated element name:" + name);
+	elements[name] = inputElement; return inputElement;
+}
+
+function setValue(dataItem, event) { 
+	let value = parseFloat(event.target.value);
+	dataItem.value = (!isNaN(value))? value : 0;
+}
+
+// ------------------------------------------------------------- USER INTERFACE
+
+// --------------------------------------------------------------- ENTRY POINT
 
 // Initialize the sandbox
 let sandbox = GeoPoseSandbox.init(); 
 
+let earth = GeodeticFrame.defaultFrame;
+let radius = GeodeticFrame.defaultFrame.equatorialRadius.value;
+
 // Get the view layer 
 let user = sandbox.users.getByIndex(0);
+let presence = user.presences.getByIndex(0);
 let view = user.views.getByIndex(0);
 let layer = view.layers.getByIndex(0);
 
+let cameraPose = presence.entity.pose = new GeoPoseBasicYPR("pose", presence.entity);
+cameraPose.position.altitude.value = earth.equatorialRadius.value * 2;
+
+// Get the Interaction Space
+let space = sandbox.spaces.getByIndex(0);
+
 // Create a widget for the planet component
- let planetWidget = new PlanetWidget("Earth", layer,
-	{ radiusX: 1, texture: "textures/2k_earth_daymap.jpg"});
+let backgroundWidget = new BackgroundWidget("Background", layer,
+	{ radius: 50000000, texture: "textures/2k_milky_way.jpg"});
+
+console.log("Radius: " + radius);
+// Create a widget for the planet component
+let planetWidget = new PlanetWidget("Earth", layer,
+	{ radiusX: radius, radiusY:radius, radiusZ:radius, 
+		diffuse: "textures/2k_earth_daymap.jpg",
+		normal: "textures/2k_earth_normals.jpg",
+		clouds: "textures/2k_earth_clouds.jpg",
+	});
 
 // Create a widget for the GeoPose
-let geoposeWidget = new GeoPoseWidget("GeoPoseWidget", space.widgets, { 
+let geoposeWidget = new GeoPoseWidget("GeoPoseWidget", layer, { 
 	position: { latitude: 0, longitude: 0, altitude: 0},
-	orientation: { yaw: 0, pitch: 0, roll: 0 }});
+	orientation: { yaw: 0, pitch: 0, roll: 0 }
+});
+let objectPose = geoposeWidget.entity.pose;
 
-		</script>
-		<div class="controls">
-			<h3>GeoPose Basic:</h2>
-			<h3>Location:</h2>
-			<label for="latitude">Latitude: </label>
-			<input id="latitude" name="latitude" type="number" value="0" min="-180" max="180"><br>
-			<label for="longitude">Longitude: </label>
-			<input id="longitude" name="longitude" type="number" value="0" min="-180" max="180"><br>
-			<label for="altitude">Altitude (h): </label>
-			<input id="altitude" name="altitude" type="number" value="0"><br>
-			<h3>Orientation:</h2>
-			<label for="yaw">Yaw: </label>
-			<input id="yaw" name="yaw" type="number" value="0"><br>
-			<label for="pitch">Pitch: </label>
-			<input id="pitch" name="pitch" type="number" value="0"><br>
-			<label for="roll">Roll: </label>
-			<input id="roll" name="roll" type="number" value="0"><br>
-		</div>
-		<script> 
-// let lat = document.getElementById("latitude");
-// lat.onchange = () =>{
-// 	console.log("Lat: " + lat.value);
-// 	geoposeWidget.position.latitude.value = lat.value;
-// }
 
-// let lng = document.getElementById("longitude");
-// lng.onchange = () =>{
-// 	console.log("Lng: " + lng.value);
-// 	geoposeWidget.position.longitude.value = lng.value;
-// }
+frameControls.innerHTML = "<h3>Frame:</h3>";
+createNumericInput("FrameEquatorialRadius", frameControls, "Equatorial Radius");
+createNumericInput("FramePolarRadius", frameControls, "Polar Radius");
+createNumericInput("FrameFalteringRadius", frameControls, "Faltering Factor");
 
+cameraControls.innerHTML = "<h3>Camera:</h3>";
+createNumericInput("CameraLatitude", cameraControls, "Latitude", "ºC", 
+	cameraPose.position.latitude.value, -90, 90, 1,
+	(event) => { setValue(cameraPose.position.latitude, event); });
+createNumericInput("CameraLongitude", cameraControls, "Longitude", "ºC", 
+	cameraPose.position.longitude.value, -180, 180, 1, 
+	(event) => { setValue(cameraPose.position.longitude, event); });
+createNumericInput("CameraAltitude", cameraControls, "Altitude (h)", "m", 
+	cameraPose.position.altitude, 0, null, 10000, 
+	(event) => { setValue(cameraPose.position.altitude, event); });
+createNumericInput("CameraTarget", cameraControls, "Target");
+
+objectControls.innerHTML = "<h3>Object:</h3>";
+createNumericInput("objectLatitude", objectControls, "Latitude", "ºC", 
+	objectPose.position.latitude.value, -90, 90, 1, 
+	(event) => { setValue(objectPose.position.latitude, event); });
+createNumericInput("objectLongitude", objectControls, "Longitude", "ºC", 
+	objectPose.position.longitude.value, -180, 180, 1, 
+	(event) => { setValue(objectPose.position.longitude, event); });
+createNumericInput("objectAltitude", objectControls, "Altitude (h)", "m", 1000000, 0, null, 10000, 
+	(event) => { setValue(objectPose.position.altitude, event); });
+createNumericInput("objectYaw", objectControls, "Yaw", "ºC");
+createNumericInput("objectPitch", objectControls, "Pitch", "ºC");
+createNumericInput("objectRoll", objectControls, "Roll", "ºC");
 		</script> 
 
 	</body>

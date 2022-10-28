@@ -1,3 +1,5 @@
+import { Item } from "./Item";
+
 /** Contains the metadata of a data type. 
  * Provides a way to handle reflection and serialization in different contexts
  * (even after the code is transpiled to Javascript). */
@@ -14,8 +16,8 @@ export class Type {
 	/** The inner type of the data type. */
 	private _innerType: any;
 
-	// /** The list of instances of the data type. */
-	// private _instances: Item[];
+	/** The list of instances of the data type. */
+	private _instances: Item[];
 
 	/** The parent data type. */
 	private _parent: Type;
@@ -33,7 +35,7 @@ export class Type {
 	get name(): string { return this._name; }
 
 	/** The list of instances of the data type. */
-	// get instances(): Item[] { return this._instances; }
+	get instances(): Item[] { return this._instances; }
 
 	/** The parent data type. */
 	get parent(): Type { return this._parent; }

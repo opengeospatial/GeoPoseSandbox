@@ -3,7 +3,7 @@ import { Type } from "../../Type";
 import { Position } from "../Position";
 
 
-/** Defines a location in an orbital coordinate system. */
+/** Defines a position in an orbital coordinate system. */
 export class OrbitalPosition extends Position {
 
 	// -------------------------------------------------------- PUBLIC METADATA

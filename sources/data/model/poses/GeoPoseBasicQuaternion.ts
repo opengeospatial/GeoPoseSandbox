@@ -1,8 +1,9 @@
 import { Item } from "../../Item";
 import { Type } from "../../Type";
 import { GeoPose } from "../GeoPose";
-import { GeoPosition } from "../positions/GeoPosition";
+import { GeodeticPosition } from "../positions/GeodeticPosition";
 import { QuaternionOrientation } from "../orientations/QuaternionOrientation";
+import { Quaternion } from "../../items/complex/Quaternion";
 
 /** Defines a basic GeoPose with Quaternion-based orientation. */
 export class GeoPoseBasicQuaternion extends GeoPose {
@@ -13,23 +14,15 @@ export class GeoPoseBasicQuaternion extends GeoPose {
 	public static type: Type = new Type("geopose-basic-quaternion", 
 		GeoPoseBasicQuaternion, GeoPose.type);
 
-	
-	// --------------------------------------------------------- PRIVATE FIELDS
-	
-	/** The position of the GeoPose. */
-	private _position: GeoPosition;
-
-	/** The orientation of the GeoPose. */
-	private _orientation: QuaternionOrientation;
-
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The position of the GeoPose. */
-	get position(): GeoPosition { return this._position; }
+	get position(): GeodeticPosition { return this._position as GeodeticPosition; }
 
 	/** The orientation of the GeoPose. */
-	get orientation(): QuaternionOrientation { return this._orientation; }
+	get orientation(): QuaternionOrientation 
+	{ return this._orientation as QuaternionOrientation; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -44,7 +37,7 @@ export class GeoPoseBasicQuaternion extends GeoPose {
 		super(name, parent);
 
 		// Create the child items
-		this._position = new GeoPosition("position", this);
+		this._position = new GeodeticPosition("position", this);
 		this._orientation = new QuaternionOrientation("orientation", this);
 
 		// Deserialize the initialization data

@@ -1,10 +1,11 @@
 import { Item } from "../../data/Item.js";
 import { Type } from "../../data/Type.js";
-import { List } from "../../data/collections/List.js";
+import { Collection } from "../../data/Collection.js";
 import { Widget } from "./Widget.js";
 
 /** Defines an user interaction (view) layer . */
 export class Layer extends Item {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -18,9 +19,11 @@ export class Layer extends Item {
 		super(name, parent);
 
 		// Create the child items
-		this._widgets = new List([Widget.type], this);
+		this._widgets = new Collection([Widget.type], this);
 		this._presence = presence;
 		this._space = presence.space;
+		this._presence.links.add(this);
+		this._space.links.add(this);
 	}
 
 
@@ -38,27 +41,31 @@ export class Layer extends Item {
 	/** The entity associated to the layer. */
 	get entity() { return this._space.entity; }
 
+
 	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** Updates the space.
+	/** Updates the layer.
 	 * @param deltaTime The update time.
 	 * @param forced Indicates whether the update is forced or not. */
 	update(deltaTime = 0, forced = false) {
 
 		// If the update is not forced, skip it when the item is already updated
-		// if (this._updated && !forced) return;
+		if (this._updated && !forced)
+			return;
 
-		for (let widget of this.widgets) {
-			widget.update(deltaTime, forced);
-		}
+		// Update the space	and the presence of the user within it
 		this.space.update(deltaTime, forced);
 		this.presence.update(deltaTime, forced);
+
+		// Update the widgets, the space and the user presence
+		for (let widget of this.widgets)
+			widget.update(deltaTime, forced);
 
 		// Call the parent class update function
 		super.update(deltaTime, forced);
 
 		// Show a message on console
-		console.log("Space Updated");
+		console.log("Layer Updated");
 	}
 }
 

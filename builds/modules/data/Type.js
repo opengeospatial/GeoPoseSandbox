@@ -1,3 +1,4 @@
+
 /** Contains the metadata of a data type.
  * Provides a way to handle reflection and serialization in different contexts
  * (even after the code is transpiled to Javascript). */
@@ -42,7 +43,7 @@ export class Type {
 	get name() { return this._name; }
 
 	/** The list of instances of the data type. */
-	// get instances(): Item[] { return this._instances; }
+	get instances() { return this._instances; }
 
 	/** The parent data type. */
 	get parent() { return this._parent; }

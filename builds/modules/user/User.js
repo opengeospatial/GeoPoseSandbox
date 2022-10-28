@@ -1,6 +1,6 @@
 import { Item } from "../data/Item.js";
 import { Type } from "../data/Type.js";
-import { List } from "../data/collections/List.js";
+import { Collection } from "../data/Collection.js";
 import { Presence } from "./interaction/Presence.js";
 import { View } from "./interaction/View.js";
 
@@ -21,8 +21,8 @@ export class User extends Item {
 		super(name, parent);
 
 		// Create the child items
-		this._presences = new List([Presence.type], this);
-		this._views = new List([View.type], this);
+		this._presences = new Collection([Presence.type], this);
+		this._views = new Collection([View.type], this);
 
 		// Deserialize the initialization data
 		if (data !== undefined)
@@ -40,6 +40,7 @@ export class User extends Item {
 		if (this._views.count == 0)
 			this._views.add(new View("DefaultView", this));
 	}
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 

@@ -1,6 +1,6 @@
 import { Item } from "../../data/Item.js";
 import { Type } from "../../data/Type.js";
-import { List } from "../../data/collections/List.js";
+import { Collection } from "../../data/Collection.js";
 import { SpaceEntity } from "../../logic/entities/SpaceEntity.js";
 import { Presence } from "./Presence.js";
 import { Widget } from "./Widget.js";
@@ -22,9 +22,9 @@ export class Space extends Item {
 
 		// Create the child nodes
 		this._entity = new SpaceEntity(this.name);
-		this._spaces = new List([Space.type], this);
-		this._presences = new List([Presence.type], this);
-		this._widgets = new List([Widget.type], this);
+		this._subspaces = new Collection([Space.type], this);
+		this._presences = new Collection([Presence.type], this);
+		this._widgets = new Collection([Widget.type], this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -38,7 +38,7 @@ export class Space extends Item {
 	get entity() { return this._entity; }
 
 	/** The subspaces of the space. */
-	get spaces() { return this._spaces; }
+	get subspaces() { return this._subspaces; }
 
 	/** The user presences in the space. */
 	get presences() { return this._presences; }

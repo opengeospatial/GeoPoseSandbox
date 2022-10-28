@@ -1,8 +1,8 @@
+import { Collection } from "../../data/Collection";
 import { Item } from "../../data/Item";
 import { Type } from "../../data/Type";
-import { List } from "../../data/collections/List";
 import { Entity } from "../../logic/Entity";
-import { Component } from "./Component";
+import { Layer } from "./Layer";
 import { Space } from "./Space";
 
 /** Defines an user interaction widget. */
@@ -14,19 +14,17 @@ export class Widget extends Item {
 	public static type: Type = new Type("widget", Widget, Item.type);
 
 
-	// --------------------------------------------------------- PRIVATE FIELDS
+	// ------------------------------------------------------- PROTECTED FIELDS
 
 	/** The entity of the widget. */
-	private _entity: Entity;
+	protected _entity: Entity;
 
 	/** The parent entity of the widget. */
-	private _parentEntity: Entity;
+	protected _parentEntity: Entity;
 
 	/** The list of child widgets. */
-	private _widgets: List<Widget>;
+	protected _widgets: Collection<Widget>;
 
-	/** The components of the widget. */
-	private _components: List<Component>;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -35,10 +33,7 @@ export class Widget extends Item {
 	get entity(): Entity { return this._entity; }
 
 	/** The list of child widgets. */
-	get widgets(): List<Widget> { return this._widgets; }
-
-	/** The components of the widget. */
-	get components(): List<Component> { return this._components; }
+	get widgets(): Collection<Widget> { return this._widgets; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -53,18 +48,17 @@ export class Widget extends Item {
 		super(name, parent);
 
 		// Create the child items
-		this._widgets = new List<Widget>([Widget.type], this);
-		this._components = new List<Component>([Component.type], this);
+		this._widgets = new Collection<Widget>([Widget.type], this);
 
 		// Check the parent node and get the parent entity
-		if(parent) {
-			// if(!p || !(p.type == "widget" || p.type == "space")) 
-			// 	throw Error("Invalid parent for Widget " + name);
-			this._parentEntity = (parent as any).entity;
-		}
-
+		if (!parent ||!(parent.type.is(Layer.type) 
+			|| parent.type.is(Widget.type)))
+				throw Error("Invalid parent for Widget " + name);
+		this._parentEntity = (parent as any).entity;
+		
 		// Create the entity
-		this._entity = new Entity(this.name, this);
+		this._entity = new Entity(this.name, this._parentEntity);
+		this._entity.links.add(this);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
@@ -85,8 +79,9 @@ export class Widget extends Item {
 		super.update(deltaTime, forced);
 
 		// Update the associated entity
-		// this._entity.update(forced, deltaTime);
+		this._entity.update(deltaTime, forced);
 
-		// console.log("Widget Updated");
+		// Show a message on console
+		console.log("Widget Updated");
 	}
 }
