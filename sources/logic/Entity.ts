@@ -75,21 +75,18 @@ export class Entity extends Item {
 		if (this.updated && !forced) return;
 
 		// Update the properties of the camera
-		if (this._pose.position && !this._pose.position.updated) {
+		if (!this._pose.updated && this._pose.position) {
 			this._pose.position.update();
+			
 			let p = this._pose.position.relativeValues;
 			this._representation.position.set(p.x.value, p.y.value, p.z.value);
 			console.log("Positioning " + this._name + ": " +
 				p.x.value + ", " + p.y.value  + ", " + p.z.value);
 			
 			let v = this._pose.position.verticalVector;
-			this.representation.rotation.setFromVector3(
-				new THREE.Vector3(-v.x.value,0,0));
-		}
-		if (this._pose.orientation && !this._pose.orientation.updated) {
-			this._pose.orientation.update();
-			let r = this._pose.orientation.relativeValues;
-			this._representation.rotation.set(r.x.value, r.y.value, r.z.value);
+			let vertical = new THREE.Vector3(v.x.value, v.y.value, v.z.value);
+			this.representation.rotation.setFromVector3(vertical);
+				
 		}
 
 		// 

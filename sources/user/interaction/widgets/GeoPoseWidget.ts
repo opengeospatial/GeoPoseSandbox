@@ -1,7 +1,7 @@
 import { Item } from "../../../data/Item";
 import { Type } from "../../../data/Type";
 import { Widget } from "../Widget";
-import { ShapeEntity } from "../../../logic/entities/ShapeEntity";
+import { ShapeEntity as ArrowEntity } from "../../../logic/entities/ShapeEntity";
 import { GeoPoseBasicYPR } from "../../../data/model/poses/GeoPoseBasicYPR";
 import { Layer } from "../Layer";
 import { GridEntity } from "../../../logic/entities/GridEntity";
@@ -18,8 +18,8 @@ export class GeoPoseWidget extends Widget {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The marker of the widget. */
-	private _marker: ShapeEntity;
+	/** The arrow of the widget. */
+	private _arrow: ArrowEntity;
 
 	/** The grid of the widget. */
 	private _grid: GridEntity;
@@ -27,11 +27,11 @@ export class GeoPoseWidget extends Widget {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** The marker of the widget. */
-	get marker(): ShapeEntity { return this._marker; }
+	/** The arrow of the widget. */
+	get arrow(): ArrowEntity { return this._arrow; }
 
 	/** The grid of the widget. */
-	get grid(): GridEntity { return this._marker; }
+	get grid(): GridEntity { return this._arrow; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -46,8 +46,8 @@ export class GeoPoseWidget extends Widget {
 		super(name, parent);
 
 		// Add the entities
-		this._grid = new GridEntity(this._name + "Grid", this._entity, data);
-		this._marker = new ShapeEntity(this._name + "Marker", this._entity, data);
+		this._grid = new GridEntity(this._name + "Grid", this._entity);
+		this._arrow = new ArrowEntity(this._name + "Arrow", this._entity);
 
 		// Set the pose of the entity as a pose entity
 		this._entity.pose = new GeoPoseBasicYPR("pose", this._entity);

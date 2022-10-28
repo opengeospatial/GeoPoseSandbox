@@ -56,7 +56,7 @@
 
 ==== logic/entities
 
-<<AtmosphereEntity>>, <<BackgroundEntity>>, <<GraticuleEntity>>, <<GridEntity>>, <<PresenceEntity>>, <<ShapeEntity>>, <<SpaceEntity>>, <<TerrainEntity>>
+<<ArrowEntity>>, <<AtmosphereEntity>>, <<BackgroundEntity>>, <<GraticuleEntity>>, <<GridEntity>>, <<PresenceEntity>>, <<ShapeEntity>>, <<SpaceEntity>>, <<TerrainEntity>>
 
 ==== user
 
@@ -72,7 +72,7 @@
 
 === Alphabetical Order:
 
-<<Angle>>, <<AtmosphereEntity>>, <<AxisAngleOrientation>>, <<BackgroundEntity>>, <<BackgroundWidget>>, <<Behavior>>, <<Boolean>>, <<Box>>, <<Collection>>, <<Color>>, <<Complex>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanPoseQuaternion>>, <<EuclideanPoseYPR>>, <<EuclideanPosition>>, <<Euler>>, <<Event>>, <<Extension>>, <<Frame>>, <<GeoPose>>, <<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>, <<GeoPoseSandbox>>, <<GeoPoseWidget>>, <<GeodeticFrame>>, <<GeodeticPosition>>, <<GraticuleEntity>>, <<GridEntity>>, <<Item>>, <<Layer>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<OrbitalPosition>>, <<Orientation>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Serialization>>, <<Shape>>, <<ShapeEntity>>, <<Simple>>, <<Size>>, <<Space>>, <<SpaceEntity>>, <<Sphere>>, <<String>>, <<TaitBryanOrientation>>, <<TerrainEntity>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>, <<Widget>>
+<<Angle>>, <<ArrowEntity>>, <<AtmosphereEntity>>, <<AxisAngleOrientation>>, <<BackgroundEntity>>, <<BackgroundWidget>>, <<Behavior>>, <<Boolean>>, <<Box>>, <<Collection>>, <<Color>>, <<Complex>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanPoseQuaternion>>, <<EuclideanPoseYPR>>, <<EuclideanPosition>>, <<Euler>>, <<Event>>, <<Extension>>, <<Frame>>, <<GeoPose>>, <<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>, <<GeoPoseSandbox>>, <<GeoPoseWidget>>, <<GeodeticFrame>>, <<GeodeticPosition>>, <<GraticuleEntity>>, <<GridEntity>>, <<Item>>, <<Layer>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<OrbitalPosition>>, <<Orientation>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Serialization>>, <<Shape>>, <<ShapeEntity>>, <<Simple>>, <<Size>>, <<Space>>, <<SpaceEntity>>, <<Sphere>>, <<String>>, <<TaitBryanOrientation>>, <<TerrainEntity>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>, <<Widget>>
 
 == Classes
 
@@ -87,6 +87,19 @@ Initializes a new instance of the Angle class. +
 *_name:_* The parent data item. + 
  + 
 *_data:_* The initialization data. 
+
+'''
+
+=== [[ArrowEntity]]*ArrowEntity* *:* <<Entity>>
+
+Defines a Arrow entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Entity>>)** + 
+Initializes a new ArrowEntity instance. + 
+*_name:_* The name of the entity. + 
+ 
 
 '''
 
@@ -740,8 +753,8 @@ Initializes a new PlanetWidget instance. +
 
 ==== Properties:
 
-**marker : <<ShapeEntity>>** + 
-The marker of the widget. 
+**arrow : <<ArrowEntity>>** + 
+The arrow of the widget. 
 
 **grid : <<GridEntity>>** + 
 The grid of the widget. 

@@ -75,9 +75,9 @@ export class View extends Item {
 		this._state.onModified.add(() => { this.resize(); });
 
 		// TEMPORAL Switch to fullscreen with a double click
-		this._element.addEventListener("dblclick", () => {
-			this._state.value = "FullScreen";
-		});
+		// this._element.addEventListener("dblclick", () =>{
+		// 	this._state.value = "FullScreen";
+		// });
 	}
 
 

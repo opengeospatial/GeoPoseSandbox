@@ -70,10 +70,9 @@ export class GeodeticPosition extends Position {
 		this.relativeValues.z.value = (lngSin * latCos * alt);
 
 		// Calculate the vertical vector
-		this.verticalVector.x.value = (0);
+		this.verticalVector.x.value = 0;
 		this.verticalVector.y.value = (-lng);
 		this.verticalVector.z.value = (lat - Math.PI / 2);
-
 
 	}
 }

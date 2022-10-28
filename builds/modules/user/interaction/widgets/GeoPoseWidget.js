@@ -1,6 +1,6 @@
 import { Type } from "../../../data/Type.js";
 import { Widget } from "../Widget.js";
-import { ShapeEntity } from "../../../logic/entities/ShapeEntity.js";
+import { ShapeEntity as ArrowEntity } from "../../../logic/entities/ShapeEntity.js";
 import { GeoPoseBasicYPR } from "../../../data/model/poses/GeoPoseBasicYPR.js";
 import { GridEntity } from "../../../logic/entities/GridEntity.js";
 
@@ -20,8 +20,8 @@ export class GeoPoseWidget extends Widget {
 		super(name, parent);
 
 		// Add the entities
-		this._grid = new GridEntity(this._name + "Grid", this._entity, data);
-		this._marker = new ShapeEntity(this._name + "Marker", this._entity, data);
+		this._grid = new GridEntity(this._name + "Grid", this._entity);
+		this._arrow = new ArrowEntity(this._name + "Arrow", this._entity);
 
 		// Set the pose of the entity as a pose entity
 		this._entity.pose = new GeoPoseBasicYPR("pose", this._entity);
@@ -34,11 +34,11 @@ export class GeoPoseWidget extends Widget {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** The marker of the widget. */
-	get marker() { return this._marker; }
+	/** The arrow of the widget. */
+	get arrow() { return this._arrow; }
 
 	/** The grid of the widget. */
-	get grid() { return this._marker; }
+	get grid() { return this._arrow; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

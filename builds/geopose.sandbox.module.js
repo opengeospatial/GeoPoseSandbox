@@ -2702,10 +2702,9 @@ export class GeodeticPosition extends Position {
 		this.relativeValues.z.value = (lngSin * latCos * alt);
 
 		// Calculate the vertical vector
-		this.verticalVector.x.value = (0);
+		this.verticalVector.x.value = 0;
 		this.verticalVector.y.value = (-lng);
 		this.verticalVector.z.value = (lat - Math.PI / 2);
-
 
 	}
 }
@@ -2945,20 +2944,18 @@ export class Entity extends Item {
 			return;
 
 		// Update the properties of the camera
-		if (this._pose.position && !this._pose.position.updated) {
+		if (!this._pose.updated && this._pose.position) {
 			this._pose.position.update();
+
 			let p = this._pose.position.relativeValues;
 			this._representation.position.set(p.x.value, p.y.value, p.z.value);
 			console.log("Positioning " + this._name + ": " +
 				p.x.value + ", " + p.y.value + ", " + p.z.value);
 
 			let v = this._pose.position.verticalVector;
-			this.representation.rotation.setFromVector3(new THREE.Vector3(-v.x.value, 0, 0));
-		}
-		if (this._pose.orientation && !this._pose.orientation.updated) {
-			this._pose.orientation.update();
-			let r = this._pose.orientation.relativeValues;
-			this._representation.rotation.set(r.x.value, r.y.value, r.z.value);
+			let vertical = new THREE.Vector3(v.x.value, v.y.value, v.z.value);
+			this.representation.rotation.setFromVector3(vertical);
+
 		}
 
 		// 
@@ -3464,9 +3461,9 @@ export class View extends Item {
 		this._state.onModified.add(() => { this.resize(); });
 
 		// TEMPORAL Switch to fullscreen with a double click
-		this._element.addEventListener("dblclick", () => {
-			this._state.value = "FullScreen";
-		});
+		// this._element.addEventListener("dblclick", () =>{
+		// 	this._state.value = "FullScreen";
+		// });
 	}
 
 
@@ -3742,6 +3739,46 @@ Behavior.type = new Type("behavior", Behavior, Item.type);
 
 
 
+/** Defines a Arrow entity. */
+export class ArrowEntity extends Entity {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new ArrowEntity instance.
+	 * @param name The name of the entity.
+	 * @param parentNode The parent entity. */
+	constructor(name, parent) {
+
+		// Call the base class constructor
+		super(name, parent);
+
+		// Create 
+		let radius = 100000, length = 500000;
+		let material = new THREE.MeshLambertMaterial({ color: 0xffff00 });
+		let center = new THREE.Mesh(new THREE.SphereGeometry(radius, 16, 16), material);
+		let body = new THREE.Mesh(new THREE.CylinderGeometry(radius / 2, radius / 2, length), material);
+		let point = new THREE.Mesh(new THREE.ConeGeometry(radius, radius * 2, 16, 16), material);
+
+		body.position.x = length / 2;
+		body.rotateZ(-Math.PI / 2);
+		point.position.x = length;
+		point.rotateZ(-Math.PI / 2);
+
+		this._representation.add(center, body, point);
+
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the ShapeEntity class. */
+ArrowEntity.type = new Type("arrow-entity", ArrowEntity, Entity.type);
+
+
+
+
+
+
 
 
 
@@ -3922,7 +3959,38 @@ export class GraticuleEntity extends Entity {
 
 		// Add the mesh geometry
 		this._lines = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.SphereGeometry(1, 36, 18), 0.001), new THREE.LineBasicMaterial({ color: 0xffffff }));
-		this._representation.add(this._lines);
+		// this._representation.add(this._lines);1
+
+		let DEG2RAD = (Math.PI / 180), width = 0.001;
+		let red = new THREE.MeshBasicMaterial({ color: 0x880000 });
+		let green = new THREE.MeshBasicMaterial({ color: 0x008800 });
+		let white = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+		let torus = new THREE.TorusGeometry(1, width, 8, 36);
+		let equator = new THREE.Mesh(torus, red);
+		equator.rotateX(Math.PI / 2);
+		this._representation.add(equator);
+		let greenwich = new THREE.Mesh(torus, green);
+		this._representation.add(greenwich);
+
+		// Create the meridian lines
+		for (let lat = 10; lat < 90; lat += 10) {
+			let a = lat * DEG2RAD, sin = Math.sin(a), cos = Math.cos(a);
+			let meridian = new THREE.TorusGeometry(cos, width, 8, 36);
+			let meridianP = new THREE.Mesh(meridian, white), meridianN = new THREE.Mesh(meridian, white);
+			meridianP.rotateX(Math.PI / 2);
+			meridianN.rotateX(Math.PI / 2);
+			meridianP.position.y = sin;
+			meridianN.position.y = -sin;
+			this._representation.add(meridianP, meridianN);
+		}
+
+		// Create the parallel lines
+		for (let lng = 10; lng < 180; lng += 10) {
+			let parallel = new THREE.Mesh(torus, white);
+			parallel.rotateY(lng * DEG2RAD);
+			this._representation.add(parallel);
+		}
 
 	}
 
@@ -3944,7 +4012,7 @@ export class GraticuleEntity extends Entity {
 		// console.log("Updated GraticuleEntity")
 
 		if (!this._ellipsoid.updated) {
-			this._lines.scale.set(this._ellipsoid.radiusX.value * 1.005, this._ellipsoid.radiusY.value * 1.01, this._ellipsoid.radiusZ.value * 1.01);
+			this._representation.scale.set(this._ellipsoid.radiusX.value * 1.005, this._ellipsoid.radiusY.value * 1.01, this._ellipsoid.radiusZ.value * 1.01);
 		}
 
 		// Call the base class function
@@ -3975,10 +4043,26 @@ export class GridEntity extends Entity {
 		// Call the base class constructor
 		super(name, parent);
 
+		let size = 1000000;
+		1;
 		// Create the grid
-		let grid = new THREE.GridHelper(1000000);
-		grid.rotateZ(Math.PI / 2);
+		let grid = new THREE.GridHelper(size);
 		this.representation.add(grid);
+
+		let width = 1000;
+		let red = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+		let green = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+
+		let axis = new THREE.CylinderGeometry(size / 50, size / 50, size);
+
+		let xAxis = new THREE.Mesh(axis, red);
+		xAxis.rotateX(Math.PI / 2);
+		grid.add(xAxis);
+
+		let yAxis = new THREE.Mesh(axis, green);
+		yAxis.rotateZ(Math.PI / 2);
+		grid.add(yAxis);
+
 	}
 }
 
@@ -4167,8 +4251,8 @@ export class GeoPoseWidget extends Widget {
 		super(name, parent);
 
 		// Add the entities
-		this._grid = new GridEntity(this._name + "Grid", this._entity, data);
-		this._marker = new ShapeEntity(this._name + "Marker", this._entity, data);
+		this._grid = new GridEntity(this._name + "Grid", this._entity);
+		this._arrow = new ArrowEntity(this._name + "Arrow", this._entity);
 
 		// Set the pose of the entity as a pose entity
 		this._entity.pose = new GeoPoseBasicYPR("pose", this._entity);
@@ -4181,11 +4265,11 @@ export class GeoPoseWidget extends Widget {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** The marker of the widget. */
-	get marker() { return this._marker; }
+	/** The arrow of the widget. */
+	get arrow() { return this._arrow; }
 
 	/** The grid of the widget. */
-	get grid() { return this._marker; }
+	get grid() { return this._arrow; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
