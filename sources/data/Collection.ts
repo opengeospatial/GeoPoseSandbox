@@ -71,7 +71,7 @@ export class Collection<ItemType extends Item> implements Iterable<ItemType> {
 	 * @param position The position where to add the item (by default, at the
 	 * end). Negative values imply counting from the end of the list.
 	 * @returns The added item.  */
-	 add(item: ItemType, position?: number) {
+	add(item: ItemType, position?: number) {
 
 		// If no position is defined, just add it to the end of the array
 		if (position == undefined) this._items.push(item);
@@ -102,6 +102,15 @@ export class Collection<ItemType extends Item> implements Iterable<ItemType> {
 				this._items.splice(itemIndex,1);
 				itemIndex--; this._count--;
 			}
+		}
+	}
+
+	/** Removes all items from the list. */
+	clear () {
+		while (this._count > 0) {
+			this._items[0].destroy();
+			this._items.splice(0,1);
+			this._count--;
 		}
 	}
 

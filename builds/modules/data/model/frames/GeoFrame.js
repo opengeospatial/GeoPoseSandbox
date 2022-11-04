@@ -5,7 +5,7 @@ import { Number } from "../../items/simple/Number.js";
 
 
 /** Defines a geodetic (elliptical) frame. */
-export class GeodeticFrame extends Frame {
+export class GeoFrame extends Frame {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -47,9 +47,9 @@ export class GeodeticFrame extends Frame {
 // -------------------------------------------------------- PUBLIC METADATA
 
 /** The data type associated to the GeodeticFrame class. */
-GeodeticFrame.type = new Type("geodetic-frame", GeodeticFrame, Frame.type);
+GeoFrame.type = new Type("geo-frame", GeoFrame, Frame.type);
 
-
-GeodeticFrame.defaultFrame = new GeodeticFrame("Earth", undefined);
+/** The default GeoFrame instance */
+GeoFrame.defaultFrame = new GeoFrame("Earth", undefined);
 
 

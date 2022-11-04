@@ -1,6 +1,5 @@
 import { Type } from "../../Type.js";
 import { GeoPose } from "../GeoPose.js";
-import { GeodeticPosition } from "../positions/GeodeticPosition.js";
 import { QuaternionOrientation } from "../orientations/QuaternionOrientation.js";
 
 /** Defines a basic GeoPose with Quaternion-based orientation. */
@@ -19,7 +18,6 @@ export class GeoPoseBasicQuaternion extends GeoPose {
 		super(name, parent);
 
 		// Create the child items
-		this._position = new GeodeticPosition("position", this);
 		this._orientation = new QuaternionOrientation("orientation", this);
 
 		// Deserialize the initialization data
@@ -29,9 +27,6 @@ export class GeoPoseBasicQuaternion extends GeoPose {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The position of the GeoPose. */
-	get position() { return this._position; }
 
 	/** The orientation of the GeoPose. */
 	get orientation() { return this._orientation; }

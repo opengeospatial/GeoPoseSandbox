@@ -151,12 +151,14 @@ export class Item {
 	}
 
 
+	/** Destroys the Item instance. */
 	destroy() {
 		if (this._parent)
 			this._parent._children.remove(this);
-		while (this.children.count > 0)
-			this._children[0].destroy();
+		if (this._children.count > 0)
+			this._children.clear();
 	}
+
 
 	/** Serializes the Item instance.
 	 * @param format The serialization format.

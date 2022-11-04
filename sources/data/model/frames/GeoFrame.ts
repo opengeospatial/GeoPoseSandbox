@@ -6,16 +6,16 @@ import { Number } from "../../items/simple/Number";
 
 
 /** Defines a geodetic (elliptical) frame. */
-export class GeodeticFrame extends Frame {
+export class GeoFrame extends Frame {
 
 	// -------------------------------------------------------- PUBLIC METADATA
 
 	/** The data type associated to the GeodeticFrame class. */
-	public static type: Type = new Type("geodetic-frame", GeodeticFrame, 
-		Frame.type);
+	public static type: Type = new Type("geo-frame", GeoFrame, Frame.type);
 
+	/** The default GeoFrame instance */
+	public static defaultFrame = new GeoFrame("Earth", undefined);
 
-	public static defaultFrame = new GeodeticFrame("Earth", undefined);
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 

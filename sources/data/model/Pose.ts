@@ -5,6 +5,7 @@ import { Frame } from "./Frame";
 import { Position } from "./Position";
 import { Orientation } from "./Orientation";
 import { Extension } from "./Extension";
+import { Vector } from "../items/complex/Vector";
 
 /** Defines a Pose of an object. */
 export class Pose extends Item {
@@ -17,6 +18,9 @@ export class Pose extends Item {
 
 	// ------------------------------------------------------- PROTECTED FIELDS
 	
+	/** The geodetic frame of the Pose. */
+	protected _frame: Frame;
+
 	/** The position of the Pose. */
 	protected _position: Position;
 
@@ -29,8 +33,25 @@ export class Pose extends Item {
 	/** The children Poses. */
 	protected _childPoses: Collection<Pose>;
 
+	/** The extensions of the Pose. */
+	protected _extensions: Collection<Extension>;
+
+	/** The relative position of the Pose. */
+	private _relativePosition: Vector;
+
+	/** The absolute position of the Pose. */
+	private _absolutePosition: Vector;
+
+	/** The vertical vector of the Pose. */
+	private _verticalVector: Vector;
+
+	/** The forward vector of the Pose. */
+	private _forwardVector: Vector;
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The geodetic frame of the Pose. */
+	get frame(): Frame { return this._frame; }
 
 	/** The position of the Pose. */
 	get position(): Position { return this._position; }
@@ -43,6 +64,21 @@ export class Pose extends Item {
 
 	/** The child Poses. */
 	get childPoses(): Collection<Pose> { return this._childPoses; }
+
+	/** The extensions of the Pose. */
+	get extensions(): Collection<Extension> { return this._extensions; }
+
+	/** The relative position of the Pose. */
+	get relativePosition() { return this._relativePosition; }
+
+	/** The absolute position of the Pose. */
+	get absolutePosition() { return this._absolutePosition; }
+
+	/** The vertical vector of the Pose. */
+	get verticalVector() { return this._verticalVector; }
+
+	/** The forward vector of the Pose. */
+	get forwardVector() { return this._forwardVector; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -57,9 +93,14 @@ export class Pose extends Item {
 		super(name, parent);
 
 		// Create the child items
-		// this._position = new Position("position", this);
-		// this._orientation = new Orientation("orientation", this);
+		this._position = new Position("position", this);
+		this._orientation = new Orientation("orientation", this);
 		this._childPoses = new Collection<Pose>([Pose.type], this);
+		this._extensions = new Collection<Extension>([Extension.type], this);
+		this._relativePosition = new Vector("relativePosition", this);
+		this._absolutePosition = new Vector("absolutePosition", this);
+		this._verticalVector = new Vector("verticalVector", this);
+		this._forwardVector = new Vector("forwardVector", this);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

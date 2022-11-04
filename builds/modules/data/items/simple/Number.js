@@ -73,7 +73,7 @@ export class Number extends Simple {
 			this.min = data.min;
 			this.max = data.max;
 			this.defaultValue = data.defaultValue;
-			this.value = data.value;
+			data = this.value = data.value;
 		}
 		else if (typeof data !== "number")
 			this.value = parseFloat(data);

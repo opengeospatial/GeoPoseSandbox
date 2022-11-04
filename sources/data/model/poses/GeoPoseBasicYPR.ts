@@ -1,7 +1,6 @@
 import { Item } from "../../Item";
 import { Type } from "../../Type";
 import { GeoPose } from "../GeoPose";
-import { GeodeticPosition } from "../positions/GeodeticPosition";
 import { TaitBryanOrientation } from "../orientations/TaitBryanOrientation";
 
 /** Defines a basic GeoPose with Tait-Bryan (Yaw-Pitch-Roll) orientation. */
@@ -16,12 +15,10 @@ export class GeoPoseBasicYPR extends GeoPose {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The position of the GeoPose. */
-	get position(): GeodeticPosition { return this._position as GeodeticPosition; }
-
 	/** The orientation of the GeoPose. */
-	get orientation(): TaitBryanOrientation 
-	{ return this._orientation as TaitBryanOrientation; }
+	get orientation(): TaitBryanOrientation {
+		return this._orientation as TaitBryanOrientation;
+	}
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -36,12 +33,9 @@ export class GeoPoseBasicYPR extends GeoPose {
 		super(name, parent);
 
 		// Create the child items
-		this._position = new GeodeticPosition("position", this);
 		this._orientation = new TaitBryanOrientation("orientation", this);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
 	}
-
-
 }

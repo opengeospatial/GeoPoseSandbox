@@ -36,7 +36,7 @@
 
 ==== data/model/frames
 
-<<GeodeticFrame>>
+<<GeoFrame>>
 
 ==== data/model/orientations
 
@@ -48,7 +48,7 @@
 
 ==== data/model/positions
 
-<<EuclideanPosition>>, <<GeodeticPosition>>, <<OrbitalPosition>>
+<<EuclideanPosition>>, <<GeoPosition>>, <<OrbitalPosition>>
 
 ==== logic
 
@@ -72,7 +72,7 @@
 
 === Alphabetical Order:
 
-<<Angle>>, <<ArrowEntity>>, <<AtmosphereEntity>>, <<AxisAngleOrientation>>, <<BackgroundEntity>>, <<BackgroundWidget>>, <<Behavior>>, <<Boolean>>, <<Box>>, <<Collection>>, <<Color>>, <<Complex>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanPoseQuaternion>>, <<EuclideanPoseYPR>>, <<EuclideanPosition>>, <<Euler>>, <<Event>>, <<Extension>>, <<Frame>>, <<GeoPose>>, <<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>, <<GeoPoseSandbox>>, <<GeoPoseWidget>>, <<GeodeticFrame>>, <<GeodeticPosition>>, <<GraticuleEntity>>, <<GridEntity>>, <<Item>>, <<Layer>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<OrbitalPosition>>, <<Orientation>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Serialization>>, <<Shape>>, <<ShapeEntity>>, <<Simple>>, <<Size>>, <<Space>>, <<SpaceEntity>>, <<Sphere>>, <<String>>, <<TaitBryanOrientation>>, <<TerrainEntity>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>, <<Widget>>
+<<Angle>>, <<ArrowEntity>>, <<AtmosphereEntity>>, <<AxisAngleOrientation>>, <<BackgroundEntity>>, <<BackgroundWidget>>, <<Behavior>>, <<Boolean>>, <<Box>>, <<Collection>>, <<Color>>, <<Complex>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanPoseQuaternion>>, <<EuclideanPoseYPR>>, <<EuclideanPosition>>, <<Euler>>, <<Event>>, <<Extension>>, <<Frame>>, <<GeoFrame>>, <<GeoPose>>, <<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>, <<GeoPoseSandbox>>, <<GeoPoseWidget>>, <<GeoPosition>>, <<GraticuleEntity>>, <<GridEntity>>, <<Item>>, <<Layer>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<OrbitalPosition>>, <<Orientation>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Serialization>>, <<Shape>>, <<ShapeEntity>>, <<Simple>>, <<Size>>, <<Space>>, <<SpaceEntity>>, <<Sphere>>, <<String>>, <<TaitBryanOrientation>>, <<TerrainEntity>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>, <<Widget>>
 
 == Classes
 
@@ -307,6 +307,9 @@ Adds a new item to the end of the list. +
 **remove (item : ItemType)** + 
 Removes an item from the list. + 
 *_item:_* The item to remove. 
+
+**clear ()** + 
+Removes all items from the list. 
 
 '''
 
@@ -629,8 +632,36 @@ Initializes a new instance of the Frame class. +
 
 ==== Properties:
 
-**shape** + 
-The shape of the reference frame. 
+**handedness** + 
+The handedness of the reference frame ("right" by default). 
+
+**verticalAxis** + 
+The vertical axis of the reference frame ("Z" by default). 
+
+'''
+
+=== [[GeoFrame]]*GeoFrame* *:* <<Frame>>
+
+Defines a geodetic (elliptical) frame.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the GeodeticFrame class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**equatorialRadius : <<Distance>>** + 
+The equatorial radius (the semi-major axis). 
+
+**polarRadius : <<Distance>>** + 
+The polar radius (the semi-minor axis). 
+
+**flattening : <<Number>>** + 
+The flattening factor. 
 
 '''
 
@@ -648,11 +679,18 @@ Initializes a new instance of the GeoPose class. +
 
 ==== Properties:
 
-**frame : <<GeodeticFrame>>** + 
+**frame : <<GeoFrame>>** + 
 The geodetic frame of the GeoPose. 
 
-**extensions : <<Collection>> <<<Extension>>>** + 
-The extensions of the GeoPose. 
+**position : <<GeoPosition>>** + 
+The position of the GeoPose. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the GeoPosition. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
 
 '''
 
@@ -669,9 +707,6 @@ Initializes a new instance of the GeoPoseBasicQuaternion class. +
 *_data:_* The initialization data. 
 
 ==== Properties:
-
-**position : <<GeodeticPosition>>** + 
-The position of the GeoPose. 
 
 **orientation : <<QuaternionOrientation>>** + 
 The orientation of the GeoPose. 
@@ -691,9 +726,6 @@ Initializes a new instance of the YawPitchRollOrientation class. +
 *_data:_* The initialization data. 
 
 ==== Properties:
-
-**position : <<GeodeticPosition>>** + 
-The position of the GeoPose. 
 
 **orientation : <<TaitBryanOrientation>>** + 
 The orientation of the GeoPose. 
@@ -722,7 +754,7 @@ The version number of the GeoPose Sandbox.
 The list of GeoPoseSandbox instances. 
 
 **autoInit** + 
-The list of GeoPoseSandbox instances. 
+Indicates if the GeoPose Sandbox should be automatically initialized. 
 
 **spaces : <<Collection>> <<<Space>>>** + 
 The interaction spaces of the GeoPoseSandbox instance. 
@@ -761,32 +793,7 @@ The grid of the widget.
 
 '''
 
-=== [[GeodeticFrame]]*GeodeticFrame* *:* <<Frame>>
-
-Defines a geodetic (elliptical) frame.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Item>>, data : any)** + 
-Initializes a new instance of the GeodeticFrame class. + 
-*_name:_* The parent data item. + 
- + 
-*_data:_* The initialization data. 
-
-==== Properties:
-
-**equatorialRadius : <<Distance>>** + 
-The equatorial radius (the semi-major axis). 
-
-**polarRadius : <<Distance>>** + 
-The polar radius (the semi-minor axis). 
-
-**flattening : <<Number>>** + 
-The flattening factor. 
-
-'''
-
-=== [[GeodeticPosition]]*GeodeticPosition* *:* <<Position>>
+=== [[GeoPosition]]*GeoPosition* *:* <<Position>>
 
 Defines a position in geodetic (elliptical) coordinate system. (Based on SPICE and Local Tangent Plane - East North Up).
 
@@ -800,9 +807,6 @@ Initializes a new instance of the GeoPosition class. +
 
 ==== Properties:
 
-**frame** + 
-The vertical distance relative to the surface to the ellipsoid. 
-
 **longitude** + 
 The angle around the equator of the ellipsoid. 
 
@@ -811,13 +815,6 @@ The angle around the prime meridian of the ellipsoid.
 
 **altitude** + 
 The vertical distance relative to the surface to the ellipsoid. 
-
-==== Methods:
-
-**update (deltaTime : number, forced : boolean)** + 
-Updates the GeoPosition. + 
-*_deltaTime:_* The update time. + 
-*_forced:_* Indicates whether the update is forced or not. 
 
 '''
 
@@ -909,7 +906,7 @@ Updates the Item instance. +
 *_forced:_* Indicates whether the update is forced or not. 
 
 **destroy ()** + 
-Updates the Item instance. 
+Destroys the Item instance. 
 
 **serialize (format : SerializationFormat) : object** + 
 Serializes the Item instance. + 
@@ -1162,6 +1159,9 @@ Initializes a new instance of the Pose class. +
 
 ==== Properties:
 
+**frame : <<Frame>>** + 
+The geodetic frame of the Pose. 
+
 **position : <<Position>>** + 
 The position of the Pose. 
 
@@ -1173,6 +1173,21 @@ The parent Pose.
 
 **childPoses : <<Collection>> <<<Pose>>>** + 
 The child Poses. 
+
+**extensions : <<Collection>> <<<Extension>>>** + 
+The extensions of the Pose. 
+
+**relativePosition** + 
+The relative position of the Pose. 
+
+**absolutePosition** + 
+The absolute position of the Pose. 
+
+**verticalVector** + 
+The vertical vector of the Pose. 
+
+**forwardVector** + 
+The forward vector of the Pose. 
 
 '''
 
@@ -1187,20 +1202,6 @@ Initializes a new instance of the Location class. +
 *_name:_* The parent data item. + 
  + 
 *_data:_* The initialization data. 
-
-==== Properties:
-
-**relativeValues** + 
-The relative position. 
-
-**absoluteValues** + 
-The absolute position. 
-
-**verticalVector** + 
-The vertical vector. 
-
-**forwardVector** + 
-The forward vector. 
 
 '''
 

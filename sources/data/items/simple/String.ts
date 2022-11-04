@@ -54,11 +54,11 @@ export class String extends Simple<string> {
 		if (typeof data == "object") {
 			this._validValues = data.validValues;
 			this._validRegEx = data.validRegEx;
-			this._defaultValue = data.default; // Check the default value
+			this._defaultValue = data.defaultValue;
 			data = this.value = data.value; 
 		}
-		if (typeof data !== "string") data = JSON.stringify(data);
-		this.value = data;
+		else if (typeof data !== "string") data = JSON.stringify(data);
+		else this.value = data;
 	}
 
 

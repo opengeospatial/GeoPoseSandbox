@@ -41,7 +41,8 @@ export class Boolean extends Simple<boolean> {
 	 * @param data The data to deserialize. */
 	deserialize(data: any) {
 		if (typeof data == "object") {
-			this.defaultValue = data.default; this.value = data.value; 
+			this._defaultValue = data.defaultValue;
+			data = this.value = data.value; 
 		}
 		else if (typeof data !== "boolean") 
 			this.value = (data == "false" || data == 0)? false: true;

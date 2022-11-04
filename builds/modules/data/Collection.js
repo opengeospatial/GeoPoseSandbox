@@ -98,6 +98,15 @@ export class Collection {
 		}
 	}
 
+	/** Removes all items from the list. */
+	clear() {
+		while (this._count > 0) {
+			this._items[0].destroy();
+			this._items.splice(0, 1);
+			this._count--;
+		}
+	}
+
 
 	[Symbol.iterator]() {
 		let pointer = 0, items = this._items;

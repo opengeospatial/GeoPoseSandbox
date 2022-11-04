@@ -53,7 +53,7 @@ export class GeoPoseSandbox extends Item {
 		return GeoPoseSandbox._instances;
 	}
 
-	/** The list of GeoPoseSandbox instances. */
+	/** Indicates if the GeoPose Sandbox should be automatically initialized. */
 	static get autoInit() { return GeoPoseSandbox._autoInit; }
 	static set autoInit(value) { GeoPoseSandbox._autoInit = value; }
 

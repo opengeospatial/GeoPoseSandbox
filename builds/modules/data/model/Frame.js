@@ -1,9 +1,10 @@
 import { Item } from "../Item.js";
 import { Type } from "../Type.js";
-import { Shape } from "../items/Shape.js";
+import { String } from "../items/Simple/String.js";
 
 /** Defines a reference frame. */
 export class Frame extends Item {
+
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -17,18 +18,23 @@ export class Frame extends Item {
 		// Call the base class constructor
 		super(name, parent);
 
-		// Create the child items
-		this._shape = new Shape("shape", this);
+		this._handedness = new String("handedness", this, { validValues: ["right", "left"], defaultValue: "right" });
+
+		this._verticalAxis = new String("verticalAxis", this, { validValues: ["X", "Y", "Z"], defaultValue: "Z" });
 
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
 	}
 
+
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The shape of the reference frame. */
-	get shape() { return this._shape; }
+	/** The handedness of the reference frame ("right" by default). */
+	get handedness() { return this._handedness; }
+
+	/** The vertical axis of the reference frame ("Z" by default). */
+	get verticalAxis() { return this._verticalAxis; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

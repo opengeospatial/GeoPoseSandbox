@@ -102,9 +102,9 @@ export class View extends Item {
 		super(name, parent);
 
 		// Create the sub nodes
-		this._width = new Number("width", this, { default: 100, min: 0 });
-		this._height = new Number("height", this, { default: 100, min: 0 });
-		this._state = new String("state", this, { default: "Maximized", 
+		this._width = new Number("width", this, { defaultValue: 100, min: 0 });
+		this._height = new Number("height", this, { defaultValue: 100, min: 0 });
+		this._state = new String("state", this, { defaultValue: "Maximized", 
 			validValues: "Normal, Maximized, FullScreen, VR, AR" });
 		this._layers = new Collection<Layer>([Layer.type], this);
 

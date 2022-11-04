@@ -81,7 +81,7 @@
 				<a href="#Pose">Pose</a>
 				<a href="#Position">Position</a>
 				<h3>data/model/frames</h3>
-				<a href="#GeodeticFrame">GeodeticFrame</a>
+				<a href="#GeoFrame">GeoFrame</a>
 				<h3>data/model/orientations</h3>
 				<a href="#AxisAngleOrientation">AxisAngleOrientation</a>
 				<a href="#LookAtOrientation">LookAtOrientation</a>
@@ -95,7 +95,7 @@
 				<a href="#GeoPoseBasicYPR">GeoPoseBasicYPR</a>
 				<h3>data/model/positions</h3>
 				<a href="#EuclideanPosition">EuclideanPosition</a>
-				<a href="#GeodeticPosition">GeodeticPosition</a>
+				<a href="#GeoPosition">GeoPosition</a>
 				<a href="#OrbitalPosition">OrbitalPosition</a>
 				<h3>logic</h3>
 				<a href="#Behavior">Behavior</a>
@@ -148,13 +148,13 @@
 				<a href="#Event">Event</a>
 				<a href="#Extension">Extension</a>
 				<a href="#Frame">Frame</a>
+				<a href="#GeoFrame">GeoFrame</a>
 				<a href="#GeoPose">GeoPose</a>
 				<a href="#GeoPoseBasicQuaternion">GeoPoseBasicQuaternion</a>
 				<a href="#GeoPoseBasicYPR">GeoPoseBasicYPR</a>
 				<a href="#GeoPoseSandbox">GeoPoseSandbox</a>
 				<a href="#GeoPoseWidget">GeoPoseWidget</a>
-				<a href="#GeodeticFrame">GeodeticFrame</a>
-				<a href="#GeodeticPosition">GeodeticPosition</a>
+				<a href="#GeoPosition">GeoPosition</a>
 				<a href="#GraticuleEntity">GraticuleEntity</a>
 				<a href="#GridEntity">GridEntity</a>
 				<a href="#Item">Item</a>
@@ -465,6 +465,10 @@
 							<p class="name">remove (item: ItemType)</p>
 							<p class="description">Removes an item from the list.</p>
 							<p class="description"><em>item</em>: The item to remove.</p>
+						</div>
+						<div class="member">
+							<p class="name">clear ()</p>
+							<p class="description">Removes all items from the list.</p>
 						</div>
 					</div>
 				</div>
@@ -852,8 +856,42 @@
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
-							<p class="name">shape</p>
-							<p class="description">The shape of the reference frame.</p>
+							<p class="name">handedness</p>
+							<p class="description">The handedness of the reference frame ("right" by default).</p>
+						</div>
+						<div class="member">
+							<p class="name">verticalAxis</p>
+							<p class="description">The vertical axis of the reference frame ("Z" by default).</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="GeoFrame" class="class">
+					<p class="name">GeoFrame</p>
+					<p class="type">: <a href="#Frame">Frame</a></p>
+<p class="description">Defines a geodetic (elliptical) frame.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
+							<p class="description">Initializes a new instance of the GeodeticFrame class.</p>
+							<p class="description"><em>name</em>: The parent data item.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">equatorialRadius : <a href="#Distance">Distance</a></p>
+							<p class="description">The equatorial radius (the semi-major axis).</p>
+						</div>
+						<div class="member">
+							<p class="name">polarRadius : <a href="#Distance">Distance</a></p>
+							<p class="description">The polar radius (the semi-minor axis).</p>
+						</div>
+						<div class="member">
+							<p class="name">flattening : <a href="#Number">Number</a></p>
+							<p class="description">The flattening factor.</p>
 						</div>
 					</div>
 				</div>
@@ -874,12 +912,21 @@
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
-							<p class="name">frame : <a href="#GeodeticFrame">GeodeticFrame</a></p>
+							<p class="name">frame : <a href="#GeoFrame">GeoFrame</a></p>
 							<p class="description">The geodetic frame of the GeoPose.</p>
 						</div>
 						<div class="member">
-							<p class="name">extensions : <a href="#Collection">Collection</a> &#60;<a href="#Extension">Extension</a>&#62;</p>
-							<p class="description">The extensions of the GeoPose.</p>
+							<p class="name">position : <a href="#GeoPosition">GeoPosition</a></p>
+							<p class="description">The position of the GeoPose.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
+							<p class="description">Updates the GeoPosition.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
 						</div>
 					</div>
 				</div>
@@ -899,10 +946,6 @@
 					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
-						<div class="member">
-							<p class="name">position : <a href="#GeodeticPosition">GeodeticPosition</a></p>
-							<p class="description">The position of the GeoPose.</p>
-						</div>
 						<div class="member">
 							<p class="name">orientation : <a href="#QuaternionOrientation">QuaternionOrientation</a></p>
 							<p class="description">The orientation of the GeoPose.</p>
@@ -925,10 +968,6 @@
 					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
-						<div class="member">
-							<p class="name">position : <a href="#GeodeticPosition">GeodeticPosition</a></p>
-							<p class="description">The position of the GeoPose.</p>
-						</div>
 						<div class="member">
 							<p class="name">orientation : <a href="#TaitBryanOrientation">TaitBryanOrientation</a></p>
 							<p class="description">The orientation of the GeoPose.</p>
@@ -964,7 +1003,7 @@
 						</div>
 						<div class="member">
 							<p class="name">autoInit</p>
-							<p class="description">The list of GeoPoseSandbox instances.</p>
+							<p class="description">Indicates if the GeoPose Sandbox should be automatically initialized.</p>
 						</div>
 						<div class="member">
 							<p class="name">spaces : <a href="#Collection">Collection</a> &#60;<a href="#Space">Space</a>&#62;</p>
@@ -1012,38 +1051,8 @@
 					</div>
 				</div>
 				<hr>
-				<div id="GeodeticFrame" class="class">
-					<p class="name">GeodeticFrame</p>
-					<p class="type">: <a href="#Frame">Frame</a></p>
-<p class="description">Defines a geodetic (elliptical) frame.</p>
-					<div class="section">
-						<p class="title">Constructor:</p>
-						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
-							<p class="description">Initializes a new instance of the GeodeticFrame class.</p>
-							<p class="description"><em>name</em>: The parent data item.</p>
-							<p class="description"><em>data</em>: The initialization data.</p>
-						</div>
-					</div>
-					<div class="section">
-						<p class="title">Properties:</p>
-						<div class="member">
-							<p class="name">equatorialRadius : <a href="#Distance">Distance</a></p>
-							<p class="description">The equatorial radius (the semi-major axis).</p>
-						</div>
-						<div class="member">
-							<p class="name">polarRadius : <a href="#Distance">Distance</a></p>
-							<p class="description">The polar radius (the semi-minor axis).</p>
-						</div>
-						<div class="member">
-							<p class="name">flattening : <a href="#Number">Number</a></p>
-							<p class="description">The flattening factor.</p>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div id="GeodeticPosition" class="class">
-					<p class="name">GeodeticPosition</p>
+				<div id="GeoPosition" class="class">
+					<p class="name">GeoPosition</p>
 					<p class="type">: <a href="#Position">Position</a></p>
 <p class="description">Defines a position in geodetic (elliptical) coordinate system. (Based on SPICE and Local Tangent Plane - East North Up).</p>
 					<div class="section">
@@ -1058,10 +1067,6 @@
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
-							<p class="name">frame</p>
-							<p class="description">The vertical distance relative to the surface to the ellipsoid.</p>
-						</div>
-						<div class="member">
 							<p class="name">longitude</p>
 							<p class="description">The angle around the equator of the ellipsoid.</p>
 						</div>
@@ -1072,15 +1077,6 @@
 						<div class="member">
 							<p class="name">altitude</p>
 							<p class="description">The vertical distance relative to the surface to the ellipsoid.</p>
-						</div>
-					</div>
-					<div class="section">
-						<p class="title">Methods:</p>
-						<div class="member">
-							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
-							<p class="description">Updates the GeoPosition.</p>
-							<p class="description"><em>deltaTime</em>: The update time.</p>
-							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
 						</div>
 					</div>
 				</div>
@@ -1191,7 +1187,7 @@
 						</div>
 						<div class="member">
 							<p class="name">destroy ()</p>
-							<p class="description">Updates the Item instance.</p>
+							<p class="description">Destroys the Item instance.</p>
 						</div>
 						<div class="member">
 							<p class="name">serialize (format: SerializationFormat) : object</p>
@@ -1491,6 +1487,10 @@
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
+							<p class="name">frame : <a href="#Frame">Frame</a></p>
+							<p class="description">The geodetic frame of the Pose.</p>
+						</div>
+						<div class="member">
 							<p class="name">position : <a href="#Position">Position</a></p>
 							<p class="description">The position of the Pose.</p>
 						</div>
@@ -1506,6 +1506,26 @@
 							<p class="name">childPoses : <a href="#Collection">Collection</a> &#60;<a href="#Pose">Pose</a>&#62;</p>
 							<p class="description">The child Poses.</p>
 						</div>
+						<div class="member">
+							<p class="name">extensions : <a href="#Collection">Collection</a> &#60;<a href="#Extension">Extension</a>&#62;</p>
+							<p class="description">The extensions of the Pose.</p>
+						</div>
+						<div class="member">
+							<p class="name">relativePosition</p>
+							<p class="description">The relative position of the Pose.</p>
+						</div>
+						<div class="member">
+							<p class="name">absolutePosition</p>
+							<p class="description">The absolute position of the Pose.</p>
+						</div>
+						<div class="member">
+							<p class="name">verticalVector</p>
+							<p class="description">The vertical vector of the Pose.</p>
+						</div>
+						<div class="member">
+							<p class="name">forwardVector</p>
+							<p class="description">The forward vector of the Pose.</p>
+						</div>
 					</div>
 				</div>
 				<hr>
@@ -1520,25 +1540,6 @@
 							<p class="description">Initializes a new instance of the Location class.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
-						</div>
-					</div>
-					<div class="section">
-						<p class="title">Properties:</p>
-						<div class="member">
-							<p class="name">relativeValues</p>
-							<p class="description">The relative position.</p>
-						</div>
-						<div class="member">
-							<p class="name">absoluteValues</p>
-							<p class="description">The absolute position.</p>
-						</div>
-						<div class="member">
-							<p class="name">verticalVector</p>
-							<p class="description">The vertical vector.</p>
-						</div>
-						<div class="member">
-							<p class="name">forwardVector</p>
-							<p class="description">The forward vector.</p>
 						</div>
 					</div>
 				</div>

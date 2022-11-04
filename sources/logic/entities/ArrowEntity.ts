@@ -29,11 +29,10 @@ export class ArrowEntity extends Entity {
 		let center = new THREE.Mesh(new THREE.SphereGeometry(radius, 16,16), material);
 		let body = new THREE.Mesh(new THREE.CylinderGeometry(radius/2, radius/2, length), material);
 		let point = new THREE.Mesh(new THREE.ConeGeometry(radius,radius*2,16,16), material);
-
 		body.position.x = length/2; body.rotateZ(-Math.PI/2);
 		point.position.x = length; point.rotateZ(-Math.PI/2);
 
-		this._representation.add(center, body, point);
+		// this._representation.add(center, body, point);
 
 	}
 }

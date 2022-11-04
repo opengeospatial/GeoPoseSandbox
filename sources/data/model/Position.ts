@@ -10,37 +10,6 @@ export class Position extends Item {
 	/** The data type associated to the Position class. */
 	public static type: Type = new Type("position", Position, Item.type);
 
-
-	// --------------------------------------------------------- PRIVATE FIELDS
-
-	/** Define the relative position. */
-	private _relativeValues: Vector;
-
-	/** Define the absolute position. */
-	private _absoluteValues: Vector;
-
-	/** Define the vertical vector. */
-	private _verticalVector: Vector;
-
-	/** Define the forward vector. */
-	private _forwardVector: Vector;
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The relative position. */
-	get relativeValues() { return this._relativeValues; }
-
-	/** The absolute position. */
-	get absoluteValues() { return this._absoluteValues; }
-
-	/** The vertical vector. */
-	get verticalVector() { return this._verticalVector; }
-
-	/** The forward vector. */
-	get forwardVector() { return this._forwardVector; }
-
-
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Location class.
@@ -53,10 +22,6 @@ export class Position extends Item {
 		super(name, parent);
 
 		// Create the child items
-		this._relativeValues = new Vector("relativeValues", this);
-		this._absoluteValues = new Vector("absoluteValues", this);
-		this._verticalVector = new Vector("verticalVector", this);
-		this._forwardVector = new Vector("forwardVector", this);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

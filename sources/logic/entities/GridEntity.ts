@@ -21,25 +21,42 @@ export class GridEntity extends Entity {
 		// Call the base class constructor
 		super(name, parent)
 
-		let size = 1000000;
-		1
+		let size = 1000000, halfSize = size/2;
+		let segments = 16;
+
 		// Create the grid
 		let grid = new THREE.GridHelper(size);
+		grid.rotateX(-Math.PI/2);
 		this.representation.add(grid);
 
-		let width = 1000;
-		let red = new THREE.MeshPhongMaterial({color: 0xff0000})
-		let green = new THREE.MeshPhongMaterial({color: 0x00ff00})
+		// Create the axis
+		let red = new THREE.MeshPhongMaterial({color: 0xff0000}),
+			green = new THREE.MeshPhongMaterial({color: 0x00ff00}),
+			blue = new THREE.MeshPhongMaterial({color: 0x0000ff}),
+			axis = new THREE.CylinderGeometry(size/50, size/50, size, segments),
+			arrow = new THREE.ConeGeometry(size/20, size/10, segments),
+			ball = new THREE.SphereGeometry(size/20, segments, segments),
+			xAxis = new THREE.Mesh(axis, red),
+			xBall = new THREE.Mesh(ball, red),
+			xArrow = new THREE.Mesh(arrow, red),
+			yAxis = new THREE.Mesh(axis, green),
+			yBall = new THREE.Mesh(ball, green),
+			yArrow = new THREE.Mesh(arrow, green),
+			zAxis = new THREE.Mesh(axis, blue),
+			zBall = new THREE.Mesh(ball, blue),
+			zArrow = new THREE.Mesh(arrow, blue);
+	
 
-		let axis = new THREE.CylinderGeometry(size/50, size/50, size)
+		xAxis.rotateZ(-Math.PI/2); xArrow.rotateZ(-Math.PI/2); 
+		xArrow.position.x = halfSize; xBall.position.x = -halfSize;
+		this.representation.add(xAxis, xBall, xArrow);
 
-		let xAxis = new THREE.Mesh(axis, red);
-		xAxis.rotateX(Math.PI/2);
-		grid.add(xAxis);
+		yArrow.position.y = halfSize; yBall.position.y = -halfSize;
+		this.representation.add(yAxis, yBall, yArrow);
 
-		let yAxis = new THREE.Mesh(axis, green);
-		yAxis.rotateZ(Math.PI/2);
-		grid.add(yAxis);
+		zAxis.rotateX(Math.PI/2); zArrow.rotateX(Math.PI/2); 
+		zArrow.position.z = halfSize; zBall.position.z = -halfSize;
+		this.representation.add(zAxis, zBall, zArrow);
 
 	}
 }

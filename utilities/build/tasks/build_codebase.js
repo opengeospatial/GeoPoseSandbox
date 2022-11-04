@@ -360,8 +360,7 @@ function analyzeSourceFile(filePath) {
 }
 
 
-/** Reorder the list of file paths, using the class hierarchy. 
- *  @param initialFilepaths Defines the filepaths to put in the beginning. */
+/** Reorder the list of file paths, using the class hierarchy.  */
 function reorderFilePaths(initialFilepaths) {
 	let classes = module.exports.classes, classNames = Object.keys(classes),
 		classOrder = [], classIndex, classCount = classNames.length;
@@ -372,16 +371,14 @@ function reorderFilePaths(initialFilepaths) {
 	filePaths.forEach(fp => fileNames.push(path.basename(fp)));
 	main.log("List of files: " + fileNames.join(', '), 2, true);
 
-	// Create a copy of the list of file paths and create a new list
-	filePaths = [...initialFilepaths];
-
 	// Recursively insert a new class into the ordered list
-	function insertClass(className) {
-		let classType = classes[className];
+	function insertClass(className, stack = []) {
+		let classType = classes[className]; 
+		if (stack.includes(className)) return; else stack.push(className);
 		if (!classType || classOrder.includes(className)) return;
-		if (classType.type) insertClass(classType.type.name);
+		if (classType.type) insertClass(classType.type.name, stack);
+		for (let i of classType.imports) insertClass(i, stack);
 		classOrder.push(className);
-		for (let i of classType.imports) insertClass(i);
 	}
 
 	// Reorder the name of the classes based on their hierarchy
@@ -399,15 +396,6 @@ function reorderFilePaths(initialFilepaths) {
 	filePaths.forEach(filePath => {
 		if (!filePaths.includes(filePath)) filePaths.push(filePath);
 	});
-
-	// FIX
-	let firstFilePaths = ["logic/Event.ts", "data/Type.ts", "data/Item.ts"]
-	let pathIndex = 0, pathCount = filePaths.length;
-	for(pathIndex = 0; pathIndex < pathCount; pathIndex++)
-		if (firstFilePaths.includes(filePaths[pathIndex]))
-			filePaths.splice(pathIndex--,1);
-	filePaths.splice(0, 0, ...firstFilePaths);
-
 
 	// Save the final list of filepaths
 	module.exports.filePaths = filePaths;
@@ -451,8 +439,7 @@ function build() {
 
 	// Reorder the list of file paths, using the class hierarchy
 	main.log("Reordering source files...", 1);
-	filePaths = reorderFilePaths([main.relativePath(SOURCES_FOLDER_PATH, 
-		SOURCES_MAIN_FILE_PATH)]);
+	filePaths = reorderFilePaths();
 }
 
 

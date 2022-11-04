@@ -1,7 +1,6 @@
 import { Item } from "../../Item";
 import { Type } from "../../Type";
 import { GeoPose } from "../GeoPose";
-import { GeodeticPosition } from "../positions/GeodeticPosition";
 import { QuaternionOrientation } from "../orientations/QuaternionOrientation";
 import { Quaternion } from "../../items/complex/Quaternion";
 
@@ -16,9 +15,6 @@ export class GeoPoseBasicQuaternion extends GeoPose {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The position of the GeoPose. */
-	get position(): GeodeticPosition { return this._position as GeodeticPosition; }
 
 	/** The orientation of the GeoPose. */
 	get orientation(): QuaternionOrientation 
@@ -37,7 +33,6 @@ export class GeoPoseBasicQuaternion extends GeoPose {
 		super(name, parent);
 
 		// Create the child items
-		this._position = new GeodeticPosition("position", this);
 		this._orientation = new QuaternionOrientation("orientation", this);
 
 		// Deserialize the initialization data

@@ -72,7 +72,8 @@ export class Number extends Simple<number> {
 	deserialize(data: any) {
 		if (typeof data == "object") {
 			this.min = data.min; this.max = data.max;
-			this.defaultValue = data.defaultValue; this.value = data.value;
+			this.defaultValue = data.defaultValue; 
+			data = this.value = data.value;
 		}
 		else if (typeof data !== "number") this.value = parseFloat(data);
 		else this.value = data;
