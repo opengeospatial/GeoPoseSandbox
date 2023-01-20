@@ -42,12 +42,16 @@ export class Pose extends Item {
 	/** The absolute position of the Pose. */
 	private _absolutePosition: Vector;
 
+	/** The relative orientation of the Pose. */
+	private _relativeOrientation: Vector;
+
 	/** The vertical vector of the Pose. */
 	private _verticalVector: Vector;
 
 	/** The forward vector of the Pose. */
 	private _forwardVector: Vector;
 
+	
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The geodetic frame of the Pose. */
@@ -74,6 +78,9 @@ export class Pose extends Item {
 	/** The absolute position of the Pose. */
 	get absolutePosition() { return this._absolutePosition; }
 
+	/** The relative orientation of the Pose. */
+	get relativeOrientation() { return this._relativeOrientation; }
+
 	/** The vertical vector of the Pose. */
 	get verticalVector() { return this._verticalVector; }
 
@@ -90,7 +97,7 @@ export class Pose extends Item {
 	constructor(name?: string, parent?: Item, data?: any) { 
 		
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._position = new Position("position", this);
@@ -99,8 +106,10 @@ export class Pose extends Item {
 		this._extensions = new Collection<Extension>([Extension.type], this);
 		this._relativePosition = new Vector("relativePosition", this);
 		this._absolutePosition = new Vector("absolutePosition", this);
+		this._relativeOrientation = new Vector("relativeOrientation", this);
 		this._verticalVector = new Vector("verticalVector", this);
 		this._forwardVector = new Vector("forwardVector", this);
+		this._verticalVector = new Vector("verticalVector", this);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

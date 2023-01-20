@@ -68,7 +68,7 @@ export class Event {
 	/** Triggers the event.
 	 * @param target The object that triggers the event.
 	 * @param data Additional event data. */
-	trigger (target?:any, data?: any) {
+	trigger (target?:any, data: any = {}) {
 		for (let listener of this._listeners) {
 			let captured = listener(this, target, data);
 			if (captured) break; // If captured, stop broadcasting the event

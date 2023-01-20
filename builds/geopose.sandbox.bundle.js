@@ -141,7 +141,7 @@ Type._record = {};
 	/** Triggers the event.
 	 * @param target The object that triggers the event.
 	 * @param data Additional event data. */
-	trigger(target, data) {
+	trigger(target, data = {}) {
 		for (let listener of this._listeners) {
 			let captured = listener(this, target, data);
 			if (captured)
@@ -161,7 +161,8 @@ Type._record = {};
 	 * @return The serialized data. */
 	static serialize(item, format) {
 		let data = {};
-
+		for (let child of item.children)
+			data[child.name] = child.serialize(format);
 		return data;
 	}
 
@@ -301,7 +302,7 @@ Type._record = {};
 	/** Initializes a new instance of the Item class.
 	 * @param name The name of the data item.
 	 * @param parent The parent data item. */
-	constructor(name, parent) {
+	constructor(name, parent, data) {
 
 		// Obtain the type of item from the static property
 		let type = this.constructor["type"], className = this.constructor.name;
@@ -366,8 +367,7 @@ Type._record = {};
 	set updated(value) {
 
 		// If the value is the same as the current update state
-		if (this._updated == value)
-			return;
+		// if (this._updated == value) return;
 
 		// Set the update state and update the time
 		this._updated = value;
@@ -623,7 +623,7 @@ Item.onCreation = new Event("creation");
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		/** The valid values of the simple data item. */
 		this._validValues = undefined;
@@ -740,7 +740,7 @@ Simple.type = new Type("simple", Simple, Item.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Set the values of the properties
 		this._value = undefined;
@@ -789,7 +789,7 @@ Simple.type = new Type("simple", Simple, Item.type);
 
 	/** Serializes the Number instance.
 	 * @return The serialized data. */
-	serialize() { return this._value; }
+	serialize() { return this.value; }
 
 
 	/** Deserializes the Number instance.
@@ -826,7 +826,7 @@ Simple.type = new Type("simple", Simple, Item.type);
 
 	/** Obtains the string representation of the Number instance.
 	 * @returns The string representation of the Number instance. */
-	toString() { return this.value.toFixed() || ""; }
+	toString() { return this.value.toFixed(2) || ""; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
@@ -851,7 +851,7 @@ Number.type = new Type("number", Number, Simple.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -901,7 +901,7 @@ Complex.type = new Type("complex", Complex, Item.type);
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._r = new Number("r", this, { min: 0, max: 1, defaultValue: 0 });
@@ -986,7 +986,7 @@ Color.type = new Type("color", Color, Complex.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -1009,6 +1009,11 @@ Color.type = new Type("color", Color, Complex.type);
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the String instance.
+	 * @return The serialized data. */
+	serialize() { return this.value; }
+
 
 	/** Deserializes the String instance.
 	 * @param data The data to deserialize. */
@@ -1068,7 +1073,7 @@ String.type = new Type("string", String, Simple.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Store the units of the Measure
 		let units = this.constructor["units"], className = this.constructor.name;
@@ -1168,7 +1173,7 @@ Measure.type = new Type("measure", Measure, Number.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -1207,7 +1212,7 @@ Angle.units = [
 	constructor(name, parent, data) {
 
 		// Call the parent constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._x = new Angle("x", this, 0);
@@ -1283,7 +1288,7 @@ Euler.type = new Type("euler", Euler, Complex.type);
 	constructor(name, parent, data) {
 
 		// Call the parent constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children items
 		this._x = new Number("x", this, 0);
@@ -1360,7 +1365,7 @@ Quaternion.type = new Type("quaternion", Quaternion, Complex.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -1385,82 +1390,6 @@ Distance.units = [
 
 
 
-
-/** Defines a three-dimensional vector. */
-       class Vector extends Complex {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Vector3 class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent);
-
-		// Create the child items
-		this._x = new Distance("x", this);
-		this._y = new Distance("y", this);
-		this._z = new Distance("z", this);
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z];
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The vector component in the X axis. */
-	get x() { return this._x; }
-
-	/** The vector component in the Y axis. */
-	get y() { return this._y; }
-
-	/** The vector component in the Z axis. */
-	get z() { return this._z; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Gets the values of the Vector instance.
-	* @returns An object with the values of the Vector instance. */
-	getValues() {
-		return { x: this._x.value, y: this._y.value, z: this._z.value };
-	}
-
-
-	/** Sets the values of the Vector instance.
-	 * @param x The vector component in the X axis.
-	 * @param y The vector component in the Y axis.
-	 * @param z The vector component in the Z axis. */
-	setValues(x = 0, y = 0, z = 0) {
-		this._x.value = x;
-		this._y.value = y;
-		this._z.value = z;
-	}
-
-
-	/** Obtains the string representation of the Vector instance.
-	 * @returns The string representation of the Vector instance. */
-	toString() { return this._components.join(", "); }
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Vector class. */
-Vector.type = new Type("vector", Vector, Complex.type);
-
-
-
-
-
 /** Defines a dimensional measurement. */
        class Size extends Measure {
 
@@ -1474,7 +1403,7 @@ Vector.type = new Type("vector", Vector, Complex.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Sizes can not have negative values
 		this._value = 0;
@@ -1503,6 +1432,102 @@ Size.units = [
 
 
 
+
+
+/** Defines a three-dimensional vector. */
+       class Vector extends Complex {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Vector3 class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._x = new Distance("x", this);
+		this._y = new Distance("y", this);
+		this._z = new Distance("z", this);
+
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z];
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The vector component in the X axis. */
+	get x() { return this._x; }
+
+	/** The vector component in the Y axis. */
+	get y() { return this._y; }
+
+	/** The vector component in the Z axis. */
+	get z() { return this._z; }
+
+	/** The length of the vector. */
+	get length() {
+		let x = this._x.value, y = this._y.value, z = this._z.value;
+		return new Size(this.name + "length", undefined, { value: Math.sqrt((x * x) + (y * y) + (z * z)) });
+	}
+	set length(size) {
+		if (typeof (size) != "number")
+			size = size.value;
+		let x = this._x.value, y = this._y.value, z = this._z.value;
+		let length = Math.sqrt((x * x) + (y * y) + (z * z)), factor = size / length;
+		this._x.value = x * factor;
+		this._y.value = y * factor;
+		this._z.value = z * factor;
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Gets the values of the Vector instance.
+	* @returns An object with the values of the Vector instance. */
+	getValues() {
+		return { x: this._x.value, y: this._y.value, z: this._z.value };
+	}
+
+
+	/** Sets the values of the Vector instance.
+	 * @param x The vector component in the X axis.
+	 * @param y The vector component in the Y axis.
+	 * @param z The vector component in the Z axis. */
+	setValues(x = 0, y = 0, z = 0) {
+		this._x.value = x;
+		this._y.value = y;
+		this._z.value = z;
+	}
+
+
+	/** Normalizes the vector (by setting its length to 1). */
+	normalize() { this.length = 1; }
+
+
+	/** Obtains the string representation of the Vector instance.
+	 * @returns The string representation of the Vector instance. */
+	toString() { return this._components.join(", "); }
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Vector class. */
+Vector.type = new Type("vector", Vector, Complex.type);
+
+
+
+
+
 /** Defines a temporal measurement. */
        class Time extends Measure {
 
@@ -1516,7 +1541,7 @@ Size.units = [
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -1555,7 +1580,7 @@ Time.units = [
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._shaded = new String("shaded", this);
@@ -1608,7 +1633,7 @@ Shape.type = new Type("shape", Shape, Item.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._width = new Size("width", this);
@@ -1656,7 +1681,7 @@ Box.type = new Type("box", Box, Shape.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._radiusX = new Size("radiusX", this);
@@ -1704,7 +1729,7 @@ Ellipsoid.type = new Type("ellipsoid", Ellipsoid, Shape.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._radius = new Size("radius", this);
@@ -1744,7 +1769,7 @@ Sphere.type = new Type("sphere", Sphere, Shape.type);
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Set the values of the properties
 		this._value = undefined;
@@ -1760,7 +1785,7 @@ Sphere.type = new Type("sphere", Sphere, Shape.type);
 
 	/** Serializes the Boolean instance.
 	 * @return The serialized data. */
-	serialize() { return this._value; }
+	serialize() { return this.value; }
 
 
 	/** Deserializes the Boolean instance.
@@ -1809,7 +1834,7 @@ Boolean.type = new Type("boolean", Boolean, Simple.type);
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -1841,7 +1866,7 @@ Extension.type = new Type("extension", Extension, Item.type);
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		this._handedness = new String("handedness", this, { validValues: ["right", "left"], defaultValue: "right" });
 
@@ -1873,9 +1898,9 @@ Frame.type = new Type("frame", Frame, Item.type);
 
 
 
-
 /** Defines a geodetic (elliptical) frame. */
        class GeoFrame extends Frame {
+
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -1887,12 +1912,11 @@ Frame.type = new Type("frame", Frame, Item.type);
 	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children nodes
 		this._equatorialRadius = new Distance("equatorialRadius", this, data.equatorialRadius || 6378137.0);
 		this._polarRadius = new Distance("polarRadius", this, data.equatorialRadius || 6356752.314245);
-		this._flattening = new Number("flattening", this, data.z || 0);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -1909,9 +1933,6 @@ Frame.type = new Type("frame", Frame, Item.type);
 
 	/** The polar radius (the semi-minor axis). */
 	get polarRadius() { return this._polarRadius; }
-
-	/** The flattening factor. */
-	get flattening() { return this._flattening; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
@@ -1928,8 +1949,10 @@ GeoFrame.defaultFrame = new GeoFrame("Earth", undefined);
 
 
 
+
 /** Defines a basic position within a reference frame. */
        class Position extends Item {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -1940,14 +1963,29 @@ GeoFrame.defaultFrame = new GeoFrame("Earth", undefined);
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
+		this._relativeValues = new Vector("relativeValues", this);
+		this._absoluteValues = new Vector("absoluteValues", this);
+		this._additionalRotation = new Vector("additionalRotation", this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
 	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The relative position of the Pose. */
+	get relativeValues() { return this._relativeValues; }
+
+	/** The absolute position of the Pose. */
+	get absoluteValues() { return this._absoluteValues; }
+
+	/** The absolute position of the Pose. */
+	get additionalRotation() { return this._additionalRotation; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
@@ -1973,7 +2011,7 @@ Position.type = new Type("position", Position, Item.type);
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._relativeValues = new Quaternion("relativeValues", this);
@@ -2021,7 +2059,7 @@ Orientation.type = new Type("orientation", Orientation, Item.type);
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._position = new Position("position", this);
@@ -2030,13 +2068,16 @@ Orientation.type = new Type("orientation", Orientation, Item.type);
 		this._extensions = new Collection([Extension.type], this);
 		this._relativePosition = new Vector("relativePosition", this);
 		this._absolutePosition = new Vector("absolutePosition", this);
+		this._relativeOrientation = new Vector("relativeOrientation", this);
 		this._verticalVector = new Vector("verticalVector", this);
 		this._forwardVector = new Vector("forwardVector", this);
+		this._verticalVector = new Vector("verticalVector", this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
 	}
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -2064,6 +2105,9 @@ Orientation.type = new Type("orientation", Orientation, Item.type);
 	/** The absolute position of the Pose. */
 	get absolutePosition() { return this._absolutePosition; }
 
+	/** The relative orientation of the Pose. */
+	get relativeOrientation() { return this._relativeOrientation; }
+
 	/** The vertical vector of the Pose. */
 	get verticalVector() { return this._verticalVector; }
 
@@ -2075,6 +2119,7 @@ Orientation.type = new Type("orientation", Orientation, Item.type);
 
 /** The data type associated to the Pose class. */
 Pose.type = new Type("pose", Pose, Item.type);
+
 
 
 
@@ -2097,12 +2142,14 @@ Pose.type = new Type("pose", Pose, Item.type);
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children nodes
 		this._longitude = new Angle("longitude", this);
 		this._latitude = new Angle("latitude", this);
 		this._altitude = new Distance("h", this);
+		this._tangentVector = new Vector("tangentVector", this);
+		this._verticalVector = new Vector("verticalVector", this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -2120,6 +2167,52 @@ Pose.type = new Type("pose", Pose, Item.type);
 
 	/** The vertical distance relative to the surface to the ellipsoid. */
 	get altitude() { return this._altitude; }
+
+	/** The tangent vector of the GeoPosition. */
+	get tangentVector() { return this._tangentVector; }
+
+	/** The tangent vector of the GeoPosition. */
+	get verticalVector() { return this._verticalVector; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the GeoPosition instance.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the item is already updated
+		if (this._updated && !forced)
+			return;
+
+		// Get the frame from the parent geopose
+		let geoFrame = this.parent.frame, equatorRadius = geoFrame.equatorialRadius.value, polarRadius = geoFrame.polarRadius.value, flatteningFactor = polarRadius / equatorRadius;
+
+		// Perform some basic trigonometric calculations
+		let lng = -this.longitude.value * (Math.PI / 180), lat = this.latitude.value * (Math.PI / 180), lngSin = Math.sin(lng), lngCos = Math.cos(lng), latSin = Math.sin(lat), latCos = Math.cos(lat), alt = this.altitude.value, geoX = lngCos * latCos, geoY = latSin, geoZ = lngSin * latCos;
+
+		// Calculate the relative location on the surface of the GeoFrame
+		let x = geoX * equatorRadius, y = geoY * equatorRadius *
+			flatteningFactor, z = geoZ * equatorRadius;
+
+		// Create the vertical vector
+		this._verticalVector.setValues(geoX, geoY / flatteningFactor, geoZ);
+		this._verticalVector.normalize();
+		let v = this._verticalVector.getValues();
+
+		// Calculate the tangent vector
+		this.relativeValues.setValues(x + v.x * alt, y + v.y * alt, z + v.z * alt);
+
+		// Calculate the tangent vector
+		let x0 = latSin * equatorRadius, x1 = latSin * (equatorRadius + 1), y0 = latCos * equatorRadius * flatteningFactor, y1 = latCos * (equatorRadius + 1) * flatteningFactor, dx = x1 - x0, dy = y1 - y0, l = Math.sqrt((dx * dx) + (dy * dy));
+		this.additionalRotation.x.value = -Math.PI / 2 + Math.acos(dx / l);
+		this.additionalRotation.y.value = Math.PI / 2 - lng;
+		this.additionalRotation.z.value = 0;
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+	}
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
@@ -2143,14 +2236,17 @@ GeoPosition.type = new Type("geo-position", GeoPosition, Position.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
 		super(name, parent, data);
 
 		// Create the child nodes
-		this._frame = new GeoFrame("frame", this);
+		this._frame = data.frame || new GeoFrame("frame", this);
 		this._position = new GeoPosition("position", this);
+
+		if (data.frame)
+			data.frame.links.add(this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -2170,7 +2266,7 @@ GeoPosition.type = new Type("geo-position", GeoPosition, Position.type);
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** Updates the GeoPosition.
+	/** Updates the GeoPose instance.
 	 * @param deltaTime The update time.
 	 * @param forced Indicates whether the update is forced or not. */
 	update(deltaTime = 0, forced = false) {
@@ -2181,22 +2277,6 @@ GeoPosition.type = new Type("geo-position", GeoPosition, Position.type);
 
 		// Call the base class function
 		super.update(deltaTime, forced);
-
-		// Perform some basic trigonometric calculations
-		let pos = this.position, lng = -pos.longitude.value * (Math.PI / 180), lat = pos.latitude.value * (Math.PI / 180), alt = pos.altitude.value + this.frame.equatorialRadius.value, lngSin = Math.sin(lng), lngCos = Math.cos(lng), latSin = Math.sin(lat), latCos = Math.cos(lat);
-
-		// Calculate the relative location
-		this.relativePosition.setValues((lngCos * latCos * alt), (latSin * alt), (lngSin * latCos * alt));
-
-		// Calculate the vertical vector
-		console.log("handedness: " + this.frame.handedness.value);
-		switch (this.frame.handedness.value) {
-			case "right":
-				this.verticalVector.x.value = -lat;
-				this.verticalVector.y.value = Math.PI / 2 - lng;
-				this.verticalVector.z.value = 0;
-				break;
-		}
 	}
 }
 
@@ -2225,7 +2305,7 @@ GeoPose.type = new Type("geopose", GeoPose, Pose.type);
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._axis = new Vector("axis", this, data);
@@ -2271,7 +2351,7 @@ AxisAngleOrientation.type = new Type("axis-angle-orientation", AxisAngleOrientat
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._targetName = new String("target", this);
@@ -2316,7 +2396,7 @@ LookAtOrientation.type = new Type("look-at-orientation", LookAtOrientation, Orie
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._values = new Number("values", this, data);
@@ -2357,7 +2437,7 @@ MatrixOrientation.type = new Type("matrix-orientation", MatrixOrientation, Orien
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._x = new Number("x", this);
@@ -2397,18 +2477,18 @@ QuaternionOrientation.type = new Type("quaternion-orientation", QuaternionOrient
 
 
 /** Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles. */
-       class TaitBryanOrientation extends Orientation {
+       class YawPitchRollOrientation extends Orientation {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-	/** Initializes a new instance of the TaitBryanOrientation class.
+	/** Initializes a new instance of the YawPitchRollOrientation class.
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._yaw = new Angle("yaw", this);
@@ -2435,8 +2515,8 @@ QuaternionOrientation.type = new Type("quaternion-orientation", QuaternionOrient
 
 // -------------------------------------------------------- PUBLIC METADATA
 
-/** The data type associated to the TaitBryanOrientation class. */
-TaitBryanOrientation.type = new Type("Tait-Bryan-orientation", TaitBryanOrientation, Orientation.type);
+/** The data type associated to the YawPitchRollOrientation class. */
+YawPitchRollOrientation.type = new Type("yaw-pitch-roll-orientation", YawPitchRollOrientation, Orientation.type);
 
 
 
@@ -2458,7 +2538,7 @@ TaitBryanOrientation.type = new Type("Tait-Bryan-orientation", TaitBryanOrientat
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children nodes
 		this._x = new Distance("x", this);
@@ -2481,6 +2561,7 @@ TaitBryanOrientation.type = new Type("Tait-Bryan-orientation", TaitBryanOrientat
 
 	/** The distance from the origin in the Z axis. */
 	get z() { return this._z; }
+
 
 	/** Updates the Item instance.
 	 * @param deltaTime The update time.
@@ -2516,7 +2597,7 @@ EuclideanPosition.type = new Type("euclidean-position", EuclideanPosition, Posit
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._position = new EuclideanPosition("position", this, null);
@@ -2565,11 +2646,11 @@ EuclideanPoseQuaternion.type = new Type("euclidean-pose-quaternion", EuclideanPo
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._position = new EuclideanPosition("position", this, null);
-		this._orientation = new TaitBryanOrientation("orientation", this);
+		this._orientation = new YawPitchRollOrientation("orientation", this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -2613,7 +2694,7 @@ EuclideanPoseYPR.type = new Type("euclidean-basic-ypr", EuclideanPoseYPR, Pose.t
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._orientation = new QuaternionOrientation("orientation", this);
@@ -2640,23 +2721,23 @@ GeoPoseBasicQuaternion.type = new Type("geopose-basic-quaternion", GeoPoseBasicQ
 
 
 
-/** Defines a basic GeoPose with Tait-Bryan (Yaw-Pitch-Roll) orientation. */
+/** Defines a basic GeoPose with Yaw-Pitch-Roll (Tait-Bryan) orientation. */
        class GeoPoseBasicYPR extends GeoPose {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the YawPitchRollOrientation class.
+	/** Initializes a new instance of the GeoPoseBasicYPR class.
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
-		this._orientation = new TaitBryanOrientation("orientation", this);
+		this._orientation = new YawPitchRollOrientation("orientation", this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -2669,6 +2750,23 @@ GeoPoseBasicQuaternion.type = new Type("geopose-basic-quaternion", GeoPoseBasicQ
 	/** The orientation of the GeoPose. */
 	get orientation() {
 		return this._orientation;
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the GeoPoseBasicYPR instance.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the item is already updated
+		if (this._updated && !forced)
+			return;
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+
 	}
 }
 
@@ -2704,7 +2802,7 @@ GeoPoseBasicYPR.type = new Type("geopose-basic-ypr", GeoPoseBasicYPR, GeoPose.ty
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children nodes
 		// TODO
@@ -2778,7 +2876,7 @@ OrbitalPosition.type = new Type("orbital-position", OrbitalPosition, Position.ty
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** Updates the Entity.
+	/** Updates the Entity instance.
 	 * @param deltaTime The update time.
 	 * @param forced Indicates whether the update is forced or not. */
 	update(deltaTime = 0, forced = false) {
@@ -2791,18 +2889,24 @@ OrbitalPosition.type = new Type("orbital-position", OrbitalPosition, Position.ty
 		if (!this._pose.updated && this._pose.position) {
 			this._pose.update();
 
-			let p = this._pose.relativePosition;
+			let p = this._pose.position.relativeValues;
 			this._representation.position.set(p.x.value, p.y.value, p.z.value);
-			console.log("Positioning " + this._name + ": " +
-				p.x.value + ", " + p.y.value + ", " + p.z.value);
 
-			let v = this._pose.verticalVector;
+			// The rotation of the obtain the ENU (East-North-Up) frame
+			let v = this._pose.position.additionalRotation;
 			let vertical = new THREE.Vector3(v.x.value, v.y.value, v.z.value);
-			this.representation.rotation.setFromVector3(vertical, "ZYX");
-		}
+			this._representation.rotation.setFromVector3(vertical, "ZYX");
 
-		// 
-		console.log("Updated: " + this.name);
+			// Add another
+			let DegreesToRads = Math.PI / 180;
+			let o = this._pose.orientation;
+			if (o.yaw != undefined)
+				this.representation.rotateZ(o.yaw.value * DegreesToRads);
+			if (o.pitch != undefined)
+				this.representation.rotateY(o.pitch.value * DegreesToRads);
+			if (o.roll != undefined)
+				this.representation.rotateX(o.roll.value * DegreesToRads);
+		}
 
 		// Call the base class function
 		super.update(deltaTime, forced);
@@ -2828,7 +2932,7 @@ Entity.type = new Type("entity", Entity, Item.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
 		super(name, parent, new THREE.Scene());
@@ -2871,7 +2975,7 @@ SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
 		super(name, parent);
@@ -2888,6 +2992,10 @@ SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 
 		// Create the representation
 		this._representation = new THREE.PerspectiveCamera(this._fieldOfView.value, this._aspectRatio.value, this._nearPlane.value, this._farPlane.value);
+
+
+		// let light = new THREE.PointLight(0xffffff,);
+		// this._representation.add(light);
 	}
 
 
@@ -2914,7 +3022,7 @@ SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 	update(deltaTime = 0, forced = false) {
 
 		// Show a message on console
-		console.log("Updated PresenceEntity");
+		// console.log("Updated PresenceEntity")
 
 		// If the update is not forced, skip it when the item is already updated
 		if (this.updated && !forced)
@@ -2980,10 +3088,10 @@ PresenceEntity.type = new Type("presence-entity", PresenceEntity, Entity.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._entity = new PresenceEntity(name + "Entity", this);
@@ -3078,7 +3186,7 @@ Presence.type = new Type("presence", Presence, Item.type);
 		super.update(deltaTime, forced);
 
 		// Show a message on console
-		console.log("Layer Updated");
+		// console.log("Layer Updated");
 	}
 }
 
@@ -3105,10 +3213,10 @@ Layer.type = new Type("layer", Layer, Item.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._widgets = new Collection([Widget.type], this);
@@ -3157,7 +3265,7 @@ Layer.type = new Type("layer", Layer, Item.type);
 		this._entity.update(deltaTime, forced);
 
 		// Show a message on console
-		console.log("Widget Updated");
+		// console.log("Widget Updated");
 	}
 }
 
@@ -3184,10 +3292,10 @@ Widget.type = new Type("widget", Widget, Item.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child nodes
 		this._entity = new SpaceEntity(this.name);
@@ -3327,10 +3435,10 @@ Space.type = new Type("space", Space, Item.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		/** The time between updates. */
 		this._deltaTime = 0;
@@ -3359,7 +3467,6 @@ Space.type = new Type("space", Space, Item.type);
 		this._state = new String("state", this, { defaultValue: "Maximized",
 			validValues: "Normal, Maximized, FullScreen, VR, AR" });
 		this._layers = new Collection([Layer.type], this);
-
 
 		// Create the viewport WebGL renderer
 		this._element = View.createDomElement("div", this.name + "View", undefined, 'CoEditAR-View');
@@ -3579,10 +3686,10 @@ View.type = new Type("view", View, Item.type);
 	 * @param name The name of the data item.
 	 * @param parent The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._presences = new Collection([Presence.type], this);
@@ -3768,7 +3875,7 @@ Behavior.type = new Type("behavior", Behavior, Item.type);
 		// Call the base class constructor
 		super(name, parent);
 
-		// Create 
+		// Create the elements
 		let radius = 100000, length = 500000;
 		let material = new THREE.MeshLambertMaterial({ color: 0xffff00 });
 		let center = new THREE.Mesh(new THREE.SphereGeometry(radius, 16, 16), material);
@@ -3779,8 +3886,8 @@ Behavior.type = new Type("behavior", Behavior, Item.type);
 		point.position.x = length;
 		point.rotateZ(-Math.PI / 2);
 
-		// this._representation.add(center, body, point);
-
+		// Add the entity
+		this._representation.add(center, body, point);
 	}
 }
 
@@ -3807,7 +3914,7 @@ ArrowEntity.type = new Type("arrow-entity", ArrowEntity, Entity.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
 		super(name, parent);
@@ -3882,7 +3989,7 @@ AtmosphereEntity.type = new Type("atmosphere-entity", AtmosphereEntity, Entity.t
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
 		super(name, parent);
@@ -3960,7 +4067,7 @@ BackgroundEntity.type = new Type("background-entity", BackgroundEntity, Entity.t
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
 		super(name, parent);
@@ -3974,14 +4081,14 @@ BackgroundEntity.type = new Type("background-entity", BackgroundEntity, Entity.t
 
 		// Add the mesh geometry
 		this._lines = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.SphereGeometry(1, 36, 18), 0.001), new THREE.LineBasicMaterial({ color: 0xffffff }));
-		// this._representation.add(this._lines);1
 
 		let DEG2RAD = (Math.PI / 180), width = 0.001;
 		let red = new THREE.MeshBasicMaterial({ color: 0x880000 });
 		let green = new THREE.MeshBasicMaterial({ color: 0x008800 });
 		let white = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
-		let torus = new THREE.TorusGeometry(1, width, 8, 36);
+		let detail = 2;
+		let torus = new THREE.TorusGeometry(1, width, 8 * detail, 36 * detail);
 		let equator = new THREE.Mesh(torus, red);
 		equator.rotateX(Math.PI / 2);
 		this._representation.add(equator);
@@ -3991,7 +4098,7 @@ BackgroundEntity.type = new Type("background-entity", BackgroundEntity, Entity.t
 		// Create the meridian lines
 		for (let lat = 10; lat < 90; lat += 10) {
 			let a = lat * DEG2RAD, sin = Math.sin(a), cos = Math.cos(a);
-			let meridian = new THREE.TorusGeometry(cos, width, 8, 36);
+			let meridian = new THREE.TorusGeometry(cos, width, 8 * detail, 36 * detail);
 			let meridianP = new THREE.Mesh(meridian, white), meridianN = new THREE.Mesh(meridian, white);
 			meridianP.rotateX(Math.PI / 2);
 			meridianN.rotateX(Math.PI / 2);
@@ -4066,7 +4173,17 @@ GraticuleEntity.type = new Type("graticule-entity", GraticuleEntity, Entity.type
 		grid.rotateX(-Math.PI / 2);
 		this.representation.add(grid);
 
-		// Create the axis
+		if (parent) {
+			let geopose = parent.pose.position;
+			if (geopose.tangentVector) {
+				let t = geopose.tangentVector.getValues();
+				let p = geopose.relativeValues.getValues();
+				let tangent = new THREE.ArrowHelper(new THREE.Vector3(t.x, t.y, t.z), new THREE.Vector3(p.x, p.y, p.z), 100000);
+				this.representation.add(tangent);
+			}
+		}
+
+		// Create the axes
 		let red = new THREE.MeshPhongMaterial({ color: 0xff0000 }), green = new THREE.MeshPhongMaterial({ color: 0x00ff00 }), blue = new THREE.MeshPhongMaterial({ color: 0x0000ff }), axis = new THREE.CylinderGeometry(size / 50, size / 50, size, segments), arrow = new THREE.ConeGeometry(size / 20, size / 10, segments), ball = new THREE.SphereGeometry(size / 20, segments, segments), xAxis = new THREE.Mesh(axis, red), xBall = new THREE.Mesh(ball, red), xArrow = new THREE.Mesh(arrow, red), yAxis = new THREE.Mesh(axis, green), yBall = new THREE.Mesh(ball, green), yArrow = new THREE.Mesh(arrow, green), zAxis = new THREE.Mesh(axis, blue), zBall = new THREE.Mesh(ball, blue), zArrow = new THREE.Mesh(arrow, blue);
 
 
@@ -4141,7 +4258,7 @@ ShapeEntity.type = new Type("shape-entity", ShapeEntity, Entity.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
 		super(name, parent);
@@ -4223,10 +4340,10 @@ TerrainEntity.type = new Type("terrain-entity", TerrainEntity, Entity.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		if (data.radius) {
 			data.radiusX = data.radius;
@@ -4257,6 +4374,59 @@ BackgroundWidget.type = new Type("background-widget", BackgroundWidget, Widget.t
 
 
 
+/** Defines a widget to control the camera (the presence of the user). */
+       class CameraWidget extends Widget {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new GeoPoseWidget instance.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Check the parent
+		if (!parent || !parent.type.is(Layer.type))
+			throw Error("Invalid parent");
+
+
+		// Get the entity
+		this._entity = parent.presence.entity;
+
+		// Set the pose of the entity as a pose entity
+		this._entity.pose = new GeoPoseBasicYPR("pose", this._entity, data);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this._entity.pose.deserialize(data);
+	}
+
+
+	// --------------------------------------------------------- PRIVATE FIELDS
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The arrow of the widget. */
+	get pose() { return this._entity.pose; }
+}
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Widget class. */
+CameraWidget.type = new Type("Camera-widget", CameraWidget, Widget.type);
+
+
+
+
+
+
+
+
+
 
 /** Defines a widget for a GeoPose. */
        class GeoPoseWidget extends Widget {
@@ -4264,21 +4434,22 @@ BackgroundWidget.type = new Type("background-widget", BackgroundWidget, Widget.t
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new PlanetWidget instance.
+	/** Initializes a new GeoPoseWidget instance.
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
+
+		// Set the pose of the entity as a pose entity
+		this._entity.pose = new GeoPoseBasicYPR("pose", this._entity, data);
 
 		// Add the entities
 		this._grid = new GridEntity(this._name + "Grid", this._entity);
-		this._arrow = new ArrowEntity(this._name + "Arrow", this._entity);
-
-		// Set the pose of the entity as a pose entity
-		this._entity.pose = new GeoPoseBasicYPR("pose", this._entity);
+		this._arrow = new ArrowEntity(this._name + "Arrow", this._grid);
+		this._arrow.pose = new EuclideanPoseYPR("pose", this._arrow, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -4286,7 +4457,7 @@ BackgroundWidget.type = new Type("background-widget", BackgroundWidget, Widget.t
 	}
 
 
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+	// ------------------------------------------------------ PUBLIC PROPERTIES
 
 	/** The arrow of the widget. */
 	get arrow() { return this._arrow; }
@@ -4311,11 +4482,6 @@ GeoPoseWidget.type = new Type("GeoPose-widget", GeoPoseWidget, Widget.type);
 /** Defines a widget for a planet. */
        class PlanetWidget extends Widget {
 
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** The component of the widget. */
-	// get planet(): PlanetComponent { return this._planet; }
-
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -4323,19 +4489,77 @@ GeoPoseWidget.type = new Type("GeoPose-widget", GeoPoseWidget, Widget.type);
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
+
+		this._frame = data.frame;
+		data.radiusX = this._frame.equatorialRadius.value;
+		data.radiusY = this._frame.polarRadius.value;
+		data.radiusZ = this._frame.equatorialRadius.value;
+		this.frame.links.add(this);
 
 		// Add the shape Component
 		this._terrain = new TerrainEntity(name + "Terrain", this._entity, data);
 		this._atmosphere = new AtmosphereEntity(name + "Atmosphere", this._entity, data);
 		this._graticule = new GraticuleEntity(name + "Graticule", this._entity, data);
 
+
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
+	}
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** The component of the widget. */
+	get terrain() { return this._terrain; }
+
+	/** The atmosphere of the planet. */
+	get atmosphere() { return this._atmosphere; }
+
+	/** The graticule of the planet. */
+	get graticule() { return this._graticule; }
+
+	/** The geographic frame of the planet. */
+	get frame() { return this._frame; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the PlanetWidget instance.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the item is already updated
+		if (this.updated && !forced)
+			return;
+
+		// Update the properties of the camera
+		if (!this._frame.updated) {
+			this._frame.update();
+			let radiusX = this._frame.equatorialRadius.value, radiusY = this._frame.polarRadius.value, radiusZ = this._frame.equatorialRadius.value;
+
+			this._terrain.ellipsoid.radiusX.value = radiusX;
+			this._terrain.ellipsoid.radiusY.value = radiusY;
+			this._terrain.ellipsoid.radiusZ.value = radiusZ;
+
+			this._atmosphere.ellipsoid.radiusX.value = radiusX;
+			this._atmosphere.ellipsoid.radiusY.value = radiusY;
+			this._atmosphere.ellipsoid.radiusZ.value = radiusZ;
+
+			this._graticule.ellipsoid.radiusX.value = radiusX;
+			this._graticule.ellipsoid.radiusY.value = radiusY;
+			this._graticule.ellipsoid.radiusZ.value = radiusZ;
+		}
+
+		// Show a message on console
+		// console.log("Updated: " + this.name);
+
+		// Call the base class function
+		super.update(deltaTime, forced);
 	}
 }
 

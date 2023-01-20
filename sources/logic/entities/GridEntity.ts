@@ -1,5 +1,6 @@
 import * as THREE from "three"
 import { Item } from "../../data/Item";
+import { GeoPosition } from "../../data/model/positions/GeoPosition";
 import { Type } from "../../data/Type";
 import { Entity } from "../Entity";
 
@@ -29,7 +30,19 @@ export class GridEntity extends Entity {
 		grid.rotateX(-Math.PI/2);
 		this.representation.add(grid);
 
-		// Create the axis
+		if (parent) {
+			let geopose = parent.pose.position as GeoPosition
+			if (geopose.tangentVector) {
+				let t: any = geopose.tangentVector.getValues();
+				let p: any = geopose.relativeValues.getValues();
+				let tangent = new THREE.ArrowHelper(
+					new THREE.Vector3(t.x,t.y,t.z),
+					new THREE.Vector3(p.x,p.y,p.z), 100000);
+				this.representation.add(tangent);
+			}
+		}
+
+		// Create the axes
 		let red = new THREE.MeshPhongMaterial({color: 0xff0000}),
 			green = new THREE.MeshPhongMaterial({color: 0x00ff00}),
 			blue = new THREE.MeshPhongMaterial({color: 0x0000ff}),

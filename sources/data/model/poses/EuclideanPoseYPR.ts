@@ -2,7 +2,7 @@ import { Item } from "../../Item";
 import { Type } from "../../Type";
 import { Pose } from "../Pose";
 import { EuclideanPosition } from "../positions/EuclideanPosition";
-import { TaitBryanOrientation } from "../orientations/TaitBryanOrientation";
+import { YawPitchRollOrientation } from "../orientations/YawPitchRollOrientation";
 
 /** Defines a Euclidean pose with Yaw-Pitch-Roll orientation. */
 export class EuclideanPoseYPR extends Pose {
@@ -22,8 +22,8 @@ export class EuclideanPoseYPR extends Pose {
 	}
 
 	/** The orientation of the Euclidean Pose. */
-	get orientation(): TaitBryanOrientation { 
-		return this._orientation as TaitBryanOrientation; 
+	get orientation(): YawPitchRollOrientation { 
+		return this._orientation as YawPitchRollOrientation; 
 	}
 
 
@@ -36,11 +36,11 @@ export class EuclideanPoseYPR extends Pose {
 	 constructor(name?: string, parent?: Item, data?: any) { 
 		
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._position = new EuclideanPosition("position", this, null);
-		this._orientation = new TaitBryanOrientation("orientation", this);
+		this._orientation = new YawPitchRollOrientation("orientation", this);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

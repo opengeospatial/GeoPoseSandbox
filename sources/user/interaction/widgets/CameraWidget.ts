@@ -1,40 +1,29 @@
 import { Item } from "../../../data/Item";
-import { Type } from "../../../data/Type";
-import { Widget } from "../Widget";
-import { ShapeEntity as ArrowEntity } from "../../../logic/entities/ShapeEntity";
+import { Pose } from "../../../data/model/Pose";
 import { GeoPoseBasicYPR } from "../../../data/model/poses/GeoPoseBasicYPR";
+import { Type } from "../../../data/Type";
+import { PresenceEntity } from "../../../logic/entities/PresenceEntity";
 import { Layer } from "../Layer";
-import { GridEntity } from "../../../logic/entities/GridEntity";
-import { EuclideanPoseYPR } from "../../../data/model/poses/EuclideanPoseYPR";
+import { Widget } from "../Widget";
 
-/** Defines a widget for a GeoPose. */
-export class GeoPoseWidget extends Widget {
-
+/** Defines a widget to control the camera (the presence of the user). */
+export class CameraWidget extends Widget {
 	// -------------------------------------------------------- PUBLIC METADATA
 
 	/** The data type associated to the Widget class. */
-	public static type: Type = new Type("GeoPose-widget", GeoPoseWidget,
+	public static type: Type = new Type("Camera-widget", CameraWidget,
 		Widget.type);
 
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The arrow of the widget. */
-	private _arrow: ArrowEntity;
-
-	/** The grid of the widget. */
-	private _grid: GridEntity;
-
-
+	
 	// ------------------------------------------------------ PUBLIC PROPERTIES
 
 	/** The arrow of the widget. */
-	get arrow(): ArrowEntity { return this._arrow; }
+	get pose(): Pose { return this._entity.pose; }
 
-	/** The grid of the widget. */
-	get grid(): GridEntity { return this._arrow; }
-
-
+	
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new GeoPoseWidget instance.
@@ -46,16 +35,19 @@ export class GeoPoseWidget extends Widget {
 		// Call the base class constructor
 		super(name, parent, data);
 
+		// Check the parent
+		if (!parent || !parent.type.is(Layer.type))
+			throw Error("Invalid parent");
+		
+
+		// Get the entity
+		this._entity = (parent as Layer).presence.entity;
+
 		// Set the pose of the entity as a pose entity
 		this._entity.pose = new GeoPoseBasicYPR("pose", this._entity, data);
 
-		// Add the entities
-		this._grid = new GridEntity(this._name + "Grid", this._entity);
-		this._arrow = new ArrowEntity(this._name + "Arrow", this._grid);
-		this._arrow.pose = new EuclideanPoseYPR("pose", this._arrow, data);
-
 		// Deserialize the initialization data
-		if (data != undefined) this.deserialize(data);
+		if (data != undefined) this._entity.pose.deserialize(data);
 	}
-	
+
 }

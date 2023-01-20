@@ -14,7 +14,7 @@ export class String extends Simple {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -37,6 +37,11 @@ export class String extends Simple {
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the String instance.
+	 * @return The serialized data. */
+	serialize() { return this.value; }
+
 
 	/** Deserializes the String instance.
 	 * @param data The data to deserialize. */

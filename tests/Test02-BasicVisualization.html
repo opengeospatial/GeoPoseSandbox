@@ -88,8 +88,10 @@ function createNumericInput (name, parent, label, units, value, min, max, step, 
 }
 
 function setValue(dataItem, value) { 
+	// console.log(dataItem + " = " + value);
 	value = parseFloat(value);
 	dataItem.value = (!isNaN(value))? value : 0;
+	
 }
 
 
@@ -100,7 +102,7 @@ function setValue(dataItem, value) {
 let sandbox = GeoPoseSandbox.init(); 
 
 let earth = GeoFrame.defaultFrame;
-let radius = GeoFrame.defaultFrame.equatorialRadius.value;
+earth.polarRadius.value = 1000000;
 
 // Get the view layer 
 let user = sandbox.users.getByIndex(0);
@@ -108,20 +110,34 @@ let presence = user.presences.getByIndex(0);
 let view = user.views.getByIndex(0);
 let layer = view.layers.getByIndex(0);
 
+
 let cameraPose = presence.entity.pose = new GeoPoseBasicYPR("pose", presence.entity);
+cameraPose.position.latitude.value = 30;
 cameraPose.position.altitude.value = earth.equatorialRadius.value * 2;
+
+ 
 
 // Get the Interaction Space
 let space = sandbox.spaces.getByIndex(0);
+
+// Create a widget for the camera
+// let cameraWidget = new CameraWidget("Camera", layer, {
+// 	frame: earth,
+// 	position: { latitude: 30, longitude: 0, 
+// 		altitude: earth.equatorialRadius.value * 2},
+// 	orientation: { yaw: 0, pitch: 0, roll: 0 }
+// });
+// let cameraPose = cameraWidget.entity.pose;
+// console.log(cameraPose.serialize());
 
 // Create a widget for the planet component
 let backgroundWidget = new BackgroundWidget("Background", layer,
 	{ radius: 50000000, texture: "textures/2k_milky_way.jpg"});
 
-console.log("Radius: " + radius);
 // Create a widget for the planet component
 let planetWidget = new PlanetWidget("Earth", layer,
-	{ radiusX: radius, radiusY:radius, radiusZ:radius, 
+	{ 
+		frame: earth,
 		diffuse: "textures/2k_earth_daymap.jpg",
 		normal: "textures/2k_earth_normals.jpg",
 		clouds: "textures/2k_earth_clouds.jpg",
@@ -129,28 +145,41 @@ let planetWidget = new PlanetWidget("Earth", layer,
 
 // Create a widget for the GeoPose
 let geoposeWidget = new GeoPoseWidget("GeoPoseWidget", layer, { 
-	position: { latitude: 0, longitude: 0, altitude: 0},
+	frame: earth,
+	position: { latitude: 30, longitude: 0, altitude: 0},
 	orientation: { yaw: 0, pitch: 0, roll: 0 }
 });
 let objectPose = geoposeWidget.entity.pose;
+geoposeWidget.entity.pose.position.latitude.value = 30;
+let arrowPose = geoposeWidget.arrow.pose;
 
 
 frameControls.innerHTML = "<h3>Frame:</h3>";
 createNumericInput("FrameEquatorialRadius", frameControls, "Equatorial Radius",
-	" m", earth.equatorialRadius.value);
-createNumericInput("FramePolarRadius", frameControls, "Polar Radius");
-createNumericInput("FrameFalteringRadius", frameControls, "Faltering Factor");
+	" m", earth.equatorialRadius.value, 0, 10000000000, 100000,
+	(event) => { setValue(earth.equatorialRadius, event.target.value); });
+createNumericInput("FramePolarRadius", frameControls, "Polar Radius",
+	" m", earth.polarRadius.value, 0, 10000000000, 100000,
+	(event) => { setValue(earth.polarRadius, event.target.value); });
+
+
 
 cameraControls.innerHTML = "<h3>Camera:</h3>";
 let cameraLatitude = createNumericInput("CameraLatitude", cameraControls, 
-	"Latitude", "º", cameraPose.position.latitude.value, -90, 90, 1,
-	(event) => { setValue(cameraPose.position.latitude, event.target.value); });
+	"Latitude", "º", 
+	cameraPose.position.latitude.value, -90, 90, 1,
+	(event) => { setValue(cameraPose.position.latitude, event.target.value); }
+);
 let cameraLongitude = createNumericInput("CameraLongitude", cameraControls,
-	"Longitude", "º", cameraPose.position.longitude.value, -180, 180, 1, 
-	(event) => { setValue(cameraPose.position.longitude, event.target.value); });
+	"Longitude", "º", 
+	cameraPose.position.longitude.value, -180, 180, 1, 
+	(event) => { setValue(cameraPose.position.longitude, event.target.value); }
+);
 let cameraAltitude = createNumericInput("CameraAltitude", cameraControls, 
-	"Altitude (h)", " m", cameraPose.position.altitude, 0, null, 10000, 
-	(event) => { setValue(cameraPose.position.altitude, event.target.value); });
+	 "Altitude (h)", "m",
+	 cameraPose.position.altitude, 0, null, 10000, 
+	(event) => { setValue(cameraPose.position.altitude, event.target.value); }
+);
 createNumericInput("CameraQuaternionX", cameraControls, "Quaternion X", null, 0);
 createNumericInput("CameraQuaternionY", cameraControls, "Quaternion Y", null, 0);
 createNumericInput("CameraQuaternionZ", cameraControls, "Quaternion Z", null, 0);
@@ -166,9 +195,15 @@ let objectLongitude = createNumericInput("objectLongitude", objectControls,
 let objectAltitude = createNumericInput("objectAltitude", objectControls,
 	"Altitude (h)", " m", objectPose.position.altitude.value, 0, null, 10000, 
 	(event) => { setValue(objectPose.position.altitude, event.target.value); });
-createNumericInput("objectYaw", objectControls, "Yaw", "º");
-createNumericInput("objectPitch", objectControls, "Pitch", "º");
-createNumericInput("objectRoll", objectControls, "Roll", "º");
+createNumericInput("objectYaw", objectControls, "Yaw", "º", 
+	arrowPose.orientation.yaw.value, -180, 180, 1, 
+	(event) => { setValue(arrowPose.orientation.yaw, event.target.value); });
+createNumericInput("objectPitch", objectControls, "Pitch", "º",
+	arrowPose.orientation.pitch.value, -180, 180, 1, 
+	(event) => { setValue(arrowPose.orientation.pitch, event.target.value); });
+createNumericInput("objectRoll", objectControls, "Roll", "º",
+	arrowPose.orientation.roll.value, -180, 180, 1, 
+	(event) => { setValue(arrowPose.orientation.roll, event.target.value); });
 
 view.element.onpointermove = (event) => {
 	if (event.buttons == 0) return;

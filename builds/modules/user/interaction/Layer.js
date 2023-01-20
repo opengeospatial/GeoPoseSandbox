@@ -65,7 +65,7 @@ export class Layer extends Item {
 		super.update(deltaTime, forced);
 
 		// Show a message on console
-		console.log("Layer Updated");
+		// console.log("Layer Updated");
 	}
 }
 

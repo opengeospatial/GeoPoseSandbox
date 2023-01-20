@@ -16,7 +16,7 @@ export class EuclideanPosition extends Position {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children nodes
 		this._x = new Distance("x", this);
@@ -39,6 +39,7 @@ export class EuclideanPosition extends Position {
 
 	/** The distance from the origin in the Z axis. */
 	get z() { return this._z; }
+
 
 	/** Updates the Item instance.
 	 * @param deltaTime The update time.

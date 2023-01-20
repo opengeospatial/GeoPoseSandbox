@@ -31,7 +31,7 @@ export class OrbitalPosition extends Position {
 	 constructor(name?: string, parent?: Item, data?: any) { 
 		
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children nodes
 		// TODO

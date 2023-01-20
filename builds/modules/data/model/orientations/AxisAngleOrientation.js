@@ -17,7 +17,7 @@ export class AxisAngleOrientation extends Orientation {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._axis = new Vector("axis", this, data);

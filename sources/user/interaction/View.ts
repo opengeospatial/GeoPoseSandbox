@@ -96,10 +96,10 @@ export class View extends Item {
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	 constructor(name?: string, parent?: Item, data?: any) {
+	 constructor(name?: string, parent?: Item, data: any = {}) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the sub nodes
 		this._width = new Number("width", this, { defaultValue: 100, min: 0 });
@@ -107,7 +107,6 @@ export class View extends Item {
 		this._state = new String("state", this, { defaultValue: "Maximized", 
 			validValues: "Normal, Maximized, FullScreen, VR, AR" });
 		this._layers = new Collection<Layer>([Layer.type], this);
-
 
 		// Create the viewport WebGL renderer
 		this._element = View.createDomElement("div", this.name + "View", 

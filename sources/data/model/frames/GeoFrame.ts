@@ -25,9 +25,6 @@ export class GeoFrame extends Frame {
 	/** The polar radius (the semi-minor axis). */
 	private _polarRadius : Distance;
 
-	/** The flattening factor. */
-	private _flattening : Number;
-
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -37,8 +34,6 @@ export class GeoFrame extends Frame {
 	/** The polar radius (the semi-minor axis). */
 	get polarRadius(): Distance { return this._polarRadius; }
 
-	/** The flattening factor. */
-	get flattening(): Number { return this._flattening; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -50,14 +45,13 @@ export class GeoFrame extends Frame {
 	 constructor(name?: string, parent?: Item, data: any = {}) { 
 		
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children nodes
 		this._equatorialRadius = new Distance("equatorialRadius", this,
 			data.equatorialRadius || 6378137.0);
 		this._polarRadius = new Distance("polarRadius", this,
 			data.equatorialRadius || 6356752.314245);
-		this._flattening = new Number("flattening", this, data.z || 0);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

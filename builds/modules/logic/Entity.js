@@ -55,7 +55,7 @@ export class Entity extends Item {
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** Updates the Entity.
+	/** Updates the Entity instance.
 	 * @param deltaTime The update time.
 	 * @param forced Indicates whether the update is forced or not. */
 	update(deltaTime = 0, forced = false) {
@@ -68,18 +68,24 @@ export class Entity extends Item {
 		if (!this._pose.updated && this._pose.position) {
 			this._pose.update();
 
-			let p = this._pose.relativePosition;
+			let p = this._pose.position.relativeValues;
 			this._representation.position.set(p.x.value, p.y.value, p.z.value);
-			console.log("Positioning " + this._name + ": " +
-				p.x.value + ", " + p.y.value + ", " + p.z.value);
 
-			let v = this._pose.verticalVector;
+			// The rotation of the obtain the ENU (East-North-Up) frame
+			let v = this._pose.position.additionalRotation;
 			let vertical = new THREE.Vector3(v.x.value, v.y.value, v.z.value);
-			this.representation.rotation.setFromVector3(vertical, "ZYX");
-		}
+			this._representation.rotation.setFromVector3(vertical, "ZYX");
 
-		// 
-		console.log("Updated: " + this.name);
+			// Add another
+			let DegreesToRads = Math.PI / 180;
+			let o = this._pose.orientation;
+			if (o.yaw != undefined)
+				this.representation.rotateZ(o.yaw.value * DegreesToRads);
+			if (o.pitch != undefined)
+				this.representation.rotateY(o.pitch.value * DegreesToRads);
+			if (o.roll != undefined)
+				this.representation.rotateX(o.roll.value * DegreesToRads);
+		}
 
 		// Call the base class function
 		super.update(deltaTime, forced);

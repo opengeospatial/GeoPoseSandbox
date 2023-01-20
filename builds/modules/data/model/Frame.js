@@ -16,7 +16,7 @@ export class Frame extends Item {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		this._handedness = new String("handedness", this, { validValues: ["right", "left"], defaultValue: "right" });
 

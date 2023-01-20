@@ -1,7 +1,7 @@
 import { Type } from "../../Type.js";
 import { Pose } from "../Pose.js";
 import { EuclideanPosition } from "../positions/EuclideanPosition.js";
-import { TaitBryanOrientation } from "../orientations/TaitBryanOrientation.js";
+import { YawPitchRollOrientation } from "../orientations/YawPitchRollOrientation.js";
 
 /** Defines a Euclidean pose with Yaw-Pitch-Roll orientation. */
 export class EuclideanPoseYPR extends Pose {
@@ -16,11 +16,11 @@ export class EuclideanPoseYPR extends Pose {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._position = new EuclideanPosition("position", this, null);
-		this._orientation = new TaitBryanOrientation("orientation", this);
+		this._orientation = new YawPitchRollOrientation("orientation", this);
 
 		// Deserialize the initialization data
 		if (data != undefined)

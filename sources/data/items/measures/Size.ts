@@ -28,7 +28,7 @@ export class Size extends Measure {
 	constructor(name?: string, parent?: Item, data?: any) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Sizes can not have negative values
 		this._value = 0; this._min = 0; 

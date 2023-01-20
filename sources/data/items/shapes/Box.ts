@@ -45,7 +45,7 @@ export class Box extends Shape {
 	constructor(name?: string, parent?: Item, data?: any) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._width = new Size("width", this);

@@ -14,7 +14,7 @@ export class Complex extends Item {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)

@@ -47,7 +47,7 @@ export class EuclideanPosition extends Position {
 	constructor(name?: string, parent?: Item, data?: any) { 
 		
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children nodes
 		this._x = new Distance("x", this);
@@ -57,6 +57,7 @@ export class EuclideanPosition extends Position {
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
 	}
+
 
 	/** Updates the Item instance. 
 	 * @param deltaTime The update time. 

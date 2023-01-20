@@ -87,7 +87,7 @@
 				<a href="#LookAtOrientation">LookAtOrientation</a>
 				<a href="#MatrixOrientation">MatrixOrientation</a>
 				<a href="#QuaternionOrientation">QuaternionOrientation</a>
-				<a href="#TaitBryanOrientation">TaitBryanOrientation</a>
+				<a href="#YawPitchRollOrientation">YawPitchRollOrientation</a>
 				<h3>data/model/poses</h3>
 				<a href="#EuclideanPoseQuaternion">EuclideanPoseQuaternion</a>
 				<a href="#EuclideanPoseYPR">EuclideanPoseYPR</a>
@@ -122,6 +122,7 @@
 				<a href="#Widget">Widget</a>
 				<h3>user/interaction/widgets</h3>
 				<a href="#BackgroundWidget">BackgroundWidget</a>
+				<a href="#CameraWidget">CameraWidget</a>
 				<a href="#GeoPoseWidget">GeoPoseWidget</a>
 				<a href="#PlanetWidget">PlanetWidget</a>
 				<hr>
@@ -135,6 +136,7 @@
 				<a href="#Behavior">Behavior</a>
 				<a href="#Boolean">Boolean</a>
 				<a href="#Box">Box</a>
+				<a href="#CameraWidget">CameraWidget</a>
 				<a href="#Collection">Collection</a>
 				<a href="#Color">Color</a>
 				<a href="#Complex">Complex</a>
@@ -182,7 +184,6 @@
 				<a href="#SpaceEntity">SpaceEntity</a>
 				<a href="#Sphere">Sphere</a>
 				<a href="#String">String</a>
-				<a href="#TaitBryanOrientation">TaitBryanOrientation</a>
 				<a href="#TerrainEntity">TerrainEntity</a>
 				<a href="#Time">Time</a>
 				<a href="#Type">Type</a>
@@ -191,6 +192,7 @@
 				<a href="#View">View</a>
 				<a href="#ViewPort">ViewPort</a>
 				<a href="#Widget">Widget</a>
+				<a href="#YawPitchRollOrientation">YawPitchRollOrientation</a>
 			</nav>
 			<section>
 				<div id="Angle" class="class">
@@ -229,7 +231,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new AtmosphereEntity instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -290,7 +292,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new BackgroundEntity instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -325,7 +327,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new PlanetWidget instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -413,6 +415,28 @@
 						<div class="member">
 							<p class="name">depth : <a href="#Size">Size</a></p>
 							<p class="description">The size of the box the Z axis.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="CameraWidget" class="class">
+					<p class="name">CameraWidget</p>
+					<p class="type">: <a href="#Widget">Widget</a></p>
+<p class="description">Defines a widget to control the camera (the presence of the user).</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
+							<p class="description">Initializes a new GeoPoseWidget instance.</p>
+							<p class="description"><em>name</em>: The parent data item.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">pose : <a href="#Pose">Pose</a></p>
+							<p class="description">The arrow of the widget.</p>
 						</div>
 					</div>
 				</div>
@@ -629,7 +653,7 @@
 						<p class="title">Methods:</p>
 						<div class="member">
 							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
-							<p class="description">Updates the Entity.</p>
+							<p class="description">Updates the Entity instance.</p>
 							<p class="description"><em>deltaTime</em>: The update time.</p>
 							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
 						</div>
@@ -682,7 +706,7 @@
 							<p class="description">The position of the Euclidean Pose.</p>
 						</div>
 						<div class="member">
-							<p class="name">orientation : <a href="#TaitBryanOrientation">TaitBryanOrientation</a></p>
+							<p class="name">orientation : <a href="#YawPitchRollOrientation">YawPitchRollOrientation</a></p>
 							<p class="description">The orientation of the Euclidean Pose.</p>
 						</div>
 					</div>
@@ -817,7 +841,7 @@
 							<p class="description"><em>listener</em>: The listener function to add.</p>
 						</div>
 						<div class="member">
-							<p class="name">trigger (target: any, data: any)</p>
+							<p class="name">trigger (target: any, data: any = {)</p>
 							<p class="description">Triggers the event.</p>
 							<p class="description"><em>target</em>: The object that triggers the event.</p>
 							<p class="description"><em>data</em>: Additional event data.</p>
@@ -889,10 +913,6 @@
 							<p class="name">polarRadius : <a href="#Distance">Distance</a></p>
 							<p class="description">The polar radius (the semi-minor axis).</p>
 						</div>
-						<div class="member">
-							<p class="name">flattening : <a href="#Number">Number</a></p>
-							<p class="description">The flattening factor.</p>
-						</div>
 					</div>
 				</div>
 				<hr>
@@ -903,7 +923,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new instance of the GeoPose class.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -924,7 +944,7 @@
 						<p class="title">Methods:</p>
 						<div class="member">
 							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
-							<p class="description">Updates the GeoPosition.</p>
+							<p class="description">Updates the GeoPose instance.</p>
 							<p class="description"><em>deltaTime</em>: The update time.</p>
 							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
 						</div>
@@ -956,12 +976,12 @@
 				<div id="GeoPoseBasicYPR" class="class">
 					<p class="name">GeoPoseBasicYPR</p>
 					<p class="type">: <a href="#GeoPose">GeoPose</a></p>
-<p class="description">Defines a basic GeoPose with Tait-Bryan (Yaw-Pitch-Roll) orientation.</p>
+<p class="description">Defines a basic GeoPose with Yaw-Pitch-Roll (Tait-Bryan) orientation.</p>
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
 							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
-							<p class="description">Initializes a new instance of the YawPitchRollOrientation class.</p>
+							<p class="description">Initializes a new instance of the GeoPoseBasicYPR class.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
 						</div>
@@ -969,8 +989,17 @@
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
-							<p class="name">orientation : <a href="#TaitBryanOrientation">TaitBryanOrientation</a></p>
+							<p class="name">orientation : <a href="#YawPitchRollOrientation">YawPitchRollOrientation</a></p>
 							<p class="description">The orientation of the GeoPose.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
+							<p class="description">Updates the GeoPoseBasicYPR instance.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
 						</div>
 					</div>
 				</div>
@@ -1032,8 +1061,8 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
-							<p class="description">Initializes a new PlanetWidget instance.</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
+							<p class="description">Initializes a new GeoPoseWidget instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
 						</div>
@@ -1078,6 +1107,23 @@
 							<p class="name">altitude</p>
 							<p class="description">The vertical distance relative to the surface to the ellipsoid.</p>
 						</div>
+						<div class="member">
+							<p class="name">tangentVector</p>
+							<p class="description">The tangent vector of the GeoPosition.</p>
+						</div>
+						<div class="member">
+							<p class="name">verticalVector</p>
+							<p class="description">The tangent vector of the GeoPosition.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
+							<p class="description">Updates the GeoPosition instance.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
+						</div>
 					</div>
 				</div>
 				<hr>
@@ -1088,7 +1134,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new GraticuleEntity instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -1132,7 +1178,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
 							<p class="description">Initializes a new instance of the Item class.</p>
 							<p class="description"><em>name</em>: The name of the data item.</p>
 							<p class="description"><em>parent</em>: The parent data item.</p>
@@ -1463,10 +1509,38 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new PlanetWidget instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">terrain : <a href="#TerrainEntity">TerrainEntity</a></p>
+							<p class="description">The component of the widget.</p>
+						</div>
+						<div class="member">
+							<p class="name">atmosphere : <a href="#AtmosphereEntity">AtmosphereEntity</a></p>
+							<p class="description">The atmosphere of the planet.</p>
+						</div>
+						<div class="member">
+							<p class="name">graticule : <a href="#GraticuleEntity">GraticuleEntity</a></p>
+							<p class="description">The graticule of the planet.</p>
+						</div>
+						<div class="member">
+							<p class="name">frame : <a href="#GeoFrame">GeoFrame</a></p>
+							<p class="description">The geographic frame of the planet.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
+							<p class="description">Updates the PlanetWidget instance.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
 						</div>
 					</div>
 				</div>
@@ -1519,6 +1593,10 @@
 							<p class="description">The absolute position of the Pose.</p>
 						</div>
 						<div class="member">
+							<p class="name">relativeOrientation</p>
+							<p class="description">The relative orientation of the Pose.</p>
+						</div>
+						<div class="member">
 							<p class="name">verticalVector</p>
 							<p class="description">The vertical vector of the Pose.</p>
 						</div>
@@ -1542,6 +1620,21 @@
 							<p class="description"><em>data</em>: The initialization data.</p>
 						</div>
 					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">relativeValues</p>
+							<p class="description">The relative position of the Pose.</p>
+						</div>
+						<div class="member">
+							<p class="name">absoluteValues</p>
+							<p class="description">The absolute position of the Pose.</p>
+						</div>
+						<div class="member">
+							<p class="name">additionalRotation</p>
+							<p class="description">The absolute position of the Pose.</p>
+						</div>
+					</div>
 				</div>
 				<hr>
 				<div id="Presence" class="class">
@@ -1551,7 +1644,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new Presence instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -1577,7 +1670,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new PresenceEntity instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -1703,7 +1796,7 @@
 					<div class="section">
 						<p class="title">Methods:</p>
 						<div class="member">
-							<p class="name">serialize (item: <a href="#Item">Item</a>, format: SerializationFormat) : object</p>
+							<p class="name">serialize (item: <a href="#Item">Item</a>, format: SerializationFormat) : any</p>
 							<p class="description">Serializes a Item instance into an object.</p>
 							<p class="description"><em>item</em>: The format to use in the serialization.</p>
 							<p class="description"><em>Returns</em>: The serialized data.</p>
@@ -1884,7 +1977,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new Space instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -1927,7 +2020,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new SpaceEntity instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -1981,6 +2074,11 @@
 					<div class="section">
 						<p class="title">Methods:</p>
 						<div class="member">
+							<p class="name">serialize () : any</p>
+							<p class="description">Serializes the String instance.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
 							<p class="name">deserialize (data: any)</p>
 							<p class="description">Deserializes the String instance.</p>
 							<p class="description"><em>data</em>: The data to deserialize.</p>
@@ -1999,36 +2097,6 @@
 					</div>
 				</div>
 				<hr>
-				<div id="TaitBryanOrientation" class="class">
-					<p class="name">TaitBryanOrientation</p>
-					<p class="type">: <a href="#Orientation">Orientation</a></p>
-<p class="description">Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles.</p>
-					<div class="section">
-						<p class="title">Constructor:</p>
-						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
-							<p class="description">Initializes a new instance of the TaitBryanOrientation class.</p>
-							<p class="description"><em>name</em>: The parent data item.</p>
-							<p class="description"><em>data</em>: The initialization data.</p>
-						</div>
-					</div>
-					<div class="section">
-						<p class="title">Properties:</p>
-						<div class="member">
-							<p class="name">yaw</p>
-							<p class="description">The Angle in degrees around the equator of the globe.</p>
-						</div>
-						<div class="member">
-							<p class="name">pitch</p>
-							<p class="description">The Angle in degrees around the prime meridian of the globe.</p>
-						</div>
-						<div class="member">
-							<p class="name">roll</p>
-							<p class="description">The vertical distance relative to the surface to the globe.</p>
-						</div>
-					</div>
-				</div>
-				<hr>
 				<div id="TerrainEntity" class="class">
 					<p class="name">TerrainEntity</p>
 					<p class="type">: <a href="#Entity">Entity</a></p>
@@ -2036,7 +2104,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new TerrainEntity instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -2137,7 +2205,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new User class instance.</p>
 							<p class="description"><em>name</em>: The name of the data item.</p>
 							<p class="description"><em>parent</em>: The parent data item.</p>
@@ -2184,6 +2252,10 @@
 							<p class="name">z : <a href="#Distance">Distance</a></p>
 							<p class="description">The vector component in the Z axis.</p>
 						</div>
+						<div class="member">
+							<p class="name">length</p>
+							<p class="description">The length of the vector.</p>
+						</div>
 					</div>
 					<div class="section">
 						<p class="title">Methods:</p>
@@ -2200,6 +2272,10 @@
 							<p class="description"><em>z</em>: The vector component in the Z axis.</p>
 						</div>
 						<div class="member">
+							<p class="name">normalize ()</p>
+							<p class="description">Normalizes the vector (by setting its length to 1).</p>
+						</div>
+						<div class="member">
 							<p class="name">toString () : string</p>
 							<p class="description">Obtains the string representation of the Vector instance.</p>
 							<p class="description"><em>Returns</em>: The string representation of the Vector instance.</p>
@@ -2214,7 +2290,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new View instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -2333,6 +2409,7 @@
 						</div>
 					</div>
 				</div>
+				<hr>
 				<div id="Widget" class="class">
 					<p class="name">Widget</p>
 					<p class="type">: <a href="#Item">Item</a></p>
@@ -2340,7 +2417,7 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any = {)</p>
 							<p class="description">Initializes a new Widget instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
@@ -2364,6 +2441,35 @@
 							<p class="description">Updates the Widget instance.</p>
 							<p class="description"><em>deltaTime</em>: The update time.</p>
 							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
+						</div>
+					</div>
+				</div>
+				<div id="YawPitchRollOrientation" class="class">
+					<p class="name">YawPitchRollOrientation</p>
+					<p class="type">: <a href="#Orientation">Orientation</a></p>
+<p class="description">Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the YawPitchRollOrientation class.</p>
+							<p class="description"><em>name</em>: The parent data item.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">yaw</p>
+							<p class="description">The Angle in degrees around the equator of the globe.</p>
+						</div>
+						<div class="member">
+							<p class="name">pitch</p>
+							<p class="description">The Angle in degrees around the prime meridian of the globe.</p>
+						</div>
+						<div class="member">
+							<p class="name">roll</p>
+							<p class="description">The vertical distance relative to the surface to the globe.</p>
 						</div>
 					</div>
 				</div>

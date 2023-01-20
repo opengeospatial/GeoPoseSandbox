@@ -8,7 +8,8 @@ export class Serialization {
 	 * @return The serialized data. */
 	static serialize(item, format) {
 		let data = {};
-
+		for (let child of item.children)
+			data[child.name] = child.serialize(format);
 		return data;
 	}
 

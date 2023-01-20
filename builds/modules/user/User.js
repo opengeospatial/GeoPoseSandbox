@@ -15,10 +15,10 @@ export class User extends Item {
 	 * @param name The name of the data item.
 	 * @param parent The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._presences = new Collection([Presence.type], this);

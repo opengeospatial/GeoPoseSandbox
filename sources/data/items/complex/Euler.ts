@@ -53,7 +53,7 @@ export class Euler extends Complex {
 	constructor(name?: string, parent?: Item, data?: any) {
 
 		// Call the parent constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._x = new Angle("x", this, 0);

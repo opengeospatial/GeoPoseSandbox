@@ -13,7 +13,7 @@ export class Item {
 	/** Initializes a new instance of the Item class.
 	 * @param name The name of the data item.
 	 * @param parent The parent data item. */
-	constructor(name, parent) {
+	constructor(name, parent, data) {
 
 		// Obtain the type of item from the static property
 		let type = this.constructor["type"], className = this.constructor.name;
@@ -78,8 +78,7 @@ export class Item {
 	set updated(value) {
 
 		// If the value is the same as the current update state
-		if (this._updated == value)
-			return;
+		// if (this._updated == value) return;
 
 		// Set the update state and update the time
 		this._updated = value;

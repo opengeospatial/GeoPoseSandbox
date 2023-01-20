@@ -28,7 +28,7 @@ export class Distance extends Measure {
 	constructor(name?: string, parent?: Item, data?: any) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

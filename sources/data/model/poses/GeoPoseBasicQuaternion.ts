@@ -30,7 +30,7 @@ export class GeoPoseBasicQuaternion extends GeoPose {
 	 constructor(name?: string, parent?: Item, data?: any) { 
 		
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._orientation = new QuaternionOrientation("orientation", this);

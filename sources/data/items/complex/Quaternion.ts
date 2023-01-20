@@ -51,7 +51,7 @@ export class Quaternion extends Complex {
 	constructor(name?: string, parent?: Item, data?: any) {
 
 		// Call the parent constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children items
 		this._x = new Number("x", this, 0);

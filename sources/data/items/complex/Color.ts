@@ -51,7 +51,7 @@ export class Color extends Complex {
 	constructor(name?: string, parent?: Item, data?: any) { 
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._r = new Number("r", this, {min: 0, max: 1, defaultValue: 0});

@@ -50,7 +50,7 @@ export class Shape extends Item {
 	constructor(name?: string, parent?: Item, data?: any) { 
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._shaded = new String("shaded", this); 

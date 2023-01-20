@@ -15,7 +15,7 @@ export class Sphere extends Shape {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._radius = new Size("radius", this);

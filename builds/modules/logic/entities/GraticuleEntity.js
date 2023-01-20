@@ -14,7 +14,7 @@ export class GraticuleEntity extends Entity {
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
 		super(name, parent);
@@ -28,14 +28,14 @@ export class GraticuleEntity extends Entity {
 
 		// Add the mesh geometry
 		this._lines = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.SphereGeometry(1, 36, 18), 0.001), new THREE.LineBasicMaterial({ color: 0xffffff }));
-		// this._representation.add(this._lines);1
 
 		let DEG2RAD = (Math.PI / 180), width = 0.001;
 		let red = new THREE.MeshBasicMaterial({ color: 0x880000 });
 		let green = new THREE.MeshBasicMaterial({ color: 0x008800 });
 		let white = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
-		let torus = new THREE.TorusGeometry(1, width, 8, 36);
+		let detail = 2;
+		let torus = new THREE.TorusGeometry(1, width, 8 * detail, 36 * detail);
 		let equator = new THREE.Mesh(torus, red);
 		equator.rotateX(Math.PI / 2);
 		this._representation.add(equator);
@@ -45,7 +45,7 @@ export class GraticuleEntity extends Entity {
 		// Create the meridian lines
 		for (let lat = 10; lat < 90; lat += 10) {
 			let a = lat * DEG2RAD, sin = Math.sin(a), cos = Math.cos(a);
-			let meridian = new THREE.TorusGeometry(cos, width, 8, 36);
+			let meridian = new THREE.TorusGeometry(cos, width, 8 * detail, 36 * detail);
 			let meridianP = new THREE.Mesh(meridian, white), meridianN = new THREE.Mesh(meridian, white);
 			meridianP.rotateX(Math.PI / 2);
 			meridianN.rotateX(Math.PI / 2);

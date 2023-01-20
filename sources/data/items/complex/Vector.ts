@@ -2,6 +2,7 @@ import { Item } from "../../Item";
 import { Type } from "../../Type";
 import { Complex } from "../Complex";
 import { Distance } from "../measures/Distance";
+import { Size } from "../measures/Size";
 
 /** Defines a three-dimensional vector. */
 export class Vector extends Complex {
@@ -35,6 +36,21 @@ export class Vector extends Complex {
 	/** The vector component in the Z axis. */
 	get z(): Distance { return this._z; }
 
+	/** The length of the vector. */
+	get length(): Size { 
+		let x = this._x.value, y = this._y.value, z = this._z.value;
+		return new Size(this.name + "length", undefined,
+		 {value: Math.sqrt((x * x) + (y * y) + (z * z))}); 
+	}
+	set length(size: Size | number) {
+		if (typeof(size) != "number") size = size.value;
+		let x = this._x.value, y = this._y.value, z = this._z.value;
+		let length = Math.sqrt((x * x) + (y * y) + (z * z)),
+			factor = size / length;
+		this._x.value = x * factor; this._y.value = y * factor; 
+		this._z.value = z * factor; 
+	}
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -45,7 +61,7 @@ export class Vector extends Complex {
 	constructor(name?: string, parent?: Item, data?: any) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._x = new Distance("x", this);
@@ -78,7 +94,12 @@ export class Vector extends Complex {
 	}
 
 
+	/** Normalizes the vector (by setting its length to 1). */
+	normalize() { this.length = 1; }
+
+
 	/** Obtains the string representation of the Vector instance. 
 	 * @returns The string representation of the Vector instance. */
 	toString(): string { return this._components.join(", "); }
+
 }

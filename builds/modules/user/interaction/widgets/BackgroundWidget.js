@@ -13,10 +13,10 @@ export class BackgroundWidget extends Widget {
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		if (data.radius) {
 			data.radiusX = data.radius;

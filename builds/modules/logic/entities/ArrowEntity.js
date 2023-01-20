@@ -15,7 +15,7 @@ export class ArrowEntity extends Entity {
 		// Call the base class constructor
 		super(name, parent);
 
-		// Create 
+		// Create the elements
 		let radius = 100000, length = 500000;
 		let material = new THREE.MeshLambertMaterial({ color: 0xffff00 });
 		let center = new THREE.Mesh(new THREE.SphereGeometry(radius, 16, 16), material);
@@ -26,8 +26,8 @@ export class ArrowEntity extends Entity {
 		point.position.x = length;
 		point.rotateZ(-Math.PI / 2);
 
-		// this._representation.add(center, body, point);
-
+		// Add the entity
+		this._representation.add(center, body, point);
 	}
 }
 

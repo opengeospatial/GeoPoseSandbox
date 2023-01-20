@@ -50,7 +50,7 @@ export class Number extends Simple<number> {
 	constructor(name?: string, parent?: Item, data?: any) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Set the values of the properties
 		this._value = undefined; this._defaultValue = 0;
@@ -64,7 +64,7 @@ export class Number extends Simple<number> {
 
 	/** Serializes the Number instance.
 	 * @return The serialized data. */
-	serialize(): any { return this._value; }
+	serialize(): any { return this.value; }
 
 
 	/** Deserializes the Number instance.
@@ -96,5 +96,5 @@ export class Number extends Simple<number> {
 
 	/** Obtains the string representation of the Number instance.
 	 * @returns The string representation of the Number instance. */
-	toString(): string { return this.value.toFixed() || ""; }
+	toString(): string { return this.value.toFixed(2) || ""; }
 }

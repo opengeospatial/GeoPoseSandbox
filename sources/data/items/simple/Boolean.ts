@@ -20,7 +20,7 @@ export class Boolean extends Simple<boolean> {
 	constructor(name?: string, parent?: Item, data?: any) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Set the values of the properties
 		this._value = undefined; this._defaultValue = false; 
@@ -34,7 +34,7 @@ export class Boolean extends Simple<boolean> {
 
 	/** Serializes the Boolean instance.
 	 * @return The serialized data. */
-	serialize(): any { return this._value; }
+	serialize(): any { return this.value; }
 
 
 	/** Deserializes the Boolean instance.

@@ -19,7 +19,7 @@ export class Pose extends Item {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._position = new Position("position", this);
@@ -28,13 +28,16 @@ export class Pose extends Item {
 		this._extensions = new Collection([Extension.type], this);
 		this._relativePosition = new Vector("relativePosition", this);
 		this._absolutePosition = new Vector("absolutePosition", this);
+		this._relativeOrientation = new Vector("relativeOrientation", this);
 		this._verticalVector = new Vector("verticalVector", this);
 		this._forwardVector = new Vector("forwardVector", this);
+		this._verticalVector = new Vector("verticalVector", this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
 	}
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -61,6 +64,9 @@ export class Pose extends Item {
 
 	/** The absolute position of the Pose. */
 	get absolutePosition() { return this._absolutePosition; }
+
+	/** The relative orientation of the Pose. */
+	get relativeOrientation() { return this._relativeOrientation; }
 
 	/** The vertical vector of the Pose. */
 	get verticalVector() { return this._verticalVector; }

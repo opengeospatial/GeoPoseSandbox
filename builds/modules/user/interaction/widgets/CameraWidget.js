@@ -1,12 +1,10 @@
-import { Type } from "../../../data/Type.js";
-import { Widget } from "../Widget.js";
-import { ShapeEntity as ArrowEntity } from "../../../logic/entities/ShapeEntity.js";
 import { GeoPoseBasicYPR } from "../../../data/model/poses/GeoPoseBasicYPR.js";
-import { GridEntity } from "../../../logic/entities/GridEntity.js";
-import { EuclideanPoseYPR } from "../../../data/model/poses/EuclideanPoseYPR.js";
+import { Type } from "../../../data/Type.js";
+import { Layer } from "../Layer.js";
+import { Widget } from "../Widget.js";
 
-/** Defines a widget for a GeoPose. */
-export class GeoPoseWidget extends Widget {
+/** Defines a widget to control the camera (the presence of the user). */
+export class CameraWidget extends Widget {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -20,31 +18,33 @@ export class GeoPoseWidget extends Widget {
 		// Call the base class constructor
 		super(name, parent, data);
 
+		// Check the parent
+		if (!parent || !parent.type.is(Layer.type))
+			throw Error("Invalid parent");
+
+
+		// Get the entity
+		this._entity = parent.presence.entity;
+
 		// Set the pose of the entity as a pose entity
 		this._entity.pose = new GeoPoseBasicYPR("pose", this._entity, data);
 
-		// Add the entities
-		this._grid = new GridEntity(this._name + "Grid", this._entity);
-		this._arrow = new ArrowEntity(this._name + "Arrow", this._grid);
-		this._arrow.pose = new EuclideanPoseYPR("pose", this._arrow, data);
-
 		// Deserialize the initialization data
 		if (data != undefined)
-			this.deserialize(data);
+			this._entity.pose.deserialize(data);
 	}
+
+
+	// --------------------------------------------------------- PRIVATE FIELDS
 
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
 
 	/** The arrow of the widget. */
-	get arrow() { return this._arrow; }
-
-	/** The grid of the widget. */
-	get grid() { return this._arrow; }
+	get pose() { return this._entity.pose; }
 }
-
 // -------------------------------------------------------- PUBLIC METADATA
 
 /** The data type associated to the Widget class. */
-GeoPoseWidget.type = new Type("GeoPose-widget", GeoPoseWidget, Widget.type);
+CameraWidget.type = new Type("Camera-widget", CameraWidget, Widget.type);
 

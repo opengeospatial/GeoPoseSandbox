@@ -1,8 +1,10 @@
 import { Item } from "../Item.js";
 import { Type } from "../Type.js";
+import { Vector } from "../items/complex/Vector.js";
 
 /** Defines a basic position within a reference frame. */
 export class Position extends Item {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -13,14 +15,29 @@ export class Position extends Item {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
+		this._relativeValues = new Vector("relativeValues", this);
+		this._absoluteValues = new Vector("absoluteValues", this);
+		this._additionalRotation = new Vector("additionalRotation", this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
 	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The relative position of the Pose. */
+	get relativeValues() { return this._relativeValues; }
+
+	/** The absolute position of the Pose. */
+	get absoluteValues() { return this._absoluteValues; }
+
+	/** The absolute position of the Pose. */
+	get additionalRotation() { return this._additionalRotation; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

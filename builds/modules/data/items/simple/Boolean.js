@@ -14,7 +14,7 @@ export class Boolean extends Simple {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Set the values of the properties
 		this._value = undefined;
@@ -30,7 +30,7 @@ export class Boolean extends Simple {
 
 	/** Serializes the Boolean instance.
 	 * @return The serialized data. */
-	serialize() { return this._value; }
+	serialize() { return this.value; }
 
 
 	/** Deserializes the Boolean instance.

@@ -15,7 +15,7 @@ export class Simple extends Item {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		/** The valid values of the simple data item. */
 		this._validValues = undefined;

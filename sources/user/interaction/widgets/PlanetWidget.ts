@@ -4,6 +4,7 @@ import { Widget } from "../Widget";
 import { TerrainEntity } from "../../../logic/entities/TerrainEntity";
 import { AtmosphereEntity } from "../../../logic/entities/AtmosphereEntity";
 import { GraticuleEntity } from "../../../logic/entities/GraticuleEntity";
+import { GeoFrame } from "../../../data/model/frames/GeoFrame";
 
 /** Defines a widget for a planet. */
 export class PlanetWidget extends Widget {
@@ -17,19 +18,31 @@ export class PlanetWidget extends Widget {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The component of the widget. */
-	// private _planet: PlanetComponent;
-
+	/** The terrain of the planet. */
 	private _terrain: TerrainEntity;
 	
+	/** The atmosphere of the planet. */
 	private _atmosphere: AtmosphereEntity;
 
+	/** The graticule of the planet. */
 	private _graticule: GraticuleEntity;
+
+	/** The geographic frame of the planet. */
+	private _frame: GeoFrame;
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** The component of the widget. */
-	// get planet(): PlanetComponent { return this._planet; }
+	get terrain(): TerrainEntity { return this._terrain; }
+
+	/** The atmosphere of the planet. */
+	get atmosphere(): AtmosphereEntity { return this._atmosphere; }
+
+	/** The graticule of the planet. */
+	get graticule(): GraticuleEntity { return this._graticule; }
+
+	/** The geographic frame of the planet. */
+	get frame(): GeoFrame { return this._frame; }
 	
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -38,17 +51,62 @@ export class PlanetWidget extends Widget {
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name?: string, parent?: Item, data?: any) { 
+	constructor(name?: string, parent?: Item, data: any = {}) { 
 		
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
+
+		this._frame = data.frame;
+		data.radiusX = this._frame.equatorialRadius.value;
+		data.radiusY = this._frame.polarRadius.value;
+		data.radiusZ = this._frame.equatorialRadius.value;
+		this.frame.links.add(this);
 
 		// Add the shape Component
 		this._terrain = new TerrainEntity(name + "Terrain", this._entity, data);
 		this._atmosphere = new AtmosphereEntity(name + "Atmosphere", this._entity , data);
-		this._graticule = new GraticuleEntity(name + "Graticule", this._entity , data);
-		
+		this._graticule = new GraticuleEntity(name + "Graticule", this._entity, data);
+
+
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the PlanetWidget instance.
+	 * @param deltaTime The update time. 
+	 * @param forced Indicates whether the update is forced or not. */
+	 update(deltaTime: number = 0, forced: boolean = false) {
+
+		// If the update is not forced, skip it when the item is already updated
+		if (this.updated && !forced) return;
+
+		// Update the properties of the camera
+		if (!this._frame.updated) {
+			this._frame.update();
+			let radiusX = this._frame.equatorialRadius.value,
+				radiusY = this._frame.polarRadius.value,
+				radiusZ = this._frame.equatorialRadius.value;
+			
+			this._terrain.ellipsoid.radiusX.value = radiusX;
+			this._terrain.ellipsoid.radiusY.value = radiusY;
+			this._terrain.ellipsoid.radiusZ.value = radiusZ;
+
+			this._atmosphere.ellipsoid.radiusX.value = radiusX;
+			this._atmosphere.ellipsoid.radiusY.value = radiusY;
+			this._atmosphere.ellipsoid.radiusZ.value = radiusZ;
+
+			this._graticule.ellipsoid.radiusX.value = radiusX;
+			this._graticule.ellipsoid.radiusY.value = radiusY;
+			this._graticule.ellipsoid.radiusZ.value = radiusZ;
+		}
+
+		// Show a message on console
+		// console.log("Updated: " + this.name);
+
+		// Call the base class function
+		super.update(deltaTime, forced);
 	}
 }

@@ -1,11 +1,11 @@
 import { Type } from "../../Type.js";
 import { Frame } from "../Frame.js";
 import { Distance } from "../../items/measures/Distance.js";
-import { Number } from "../../items/simple/Number.js";
 
 
 /** Defines a geodetic (elliptical) frame. */
 export class GeoFrame extends Frame {
+
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -17,12 +17,11 @@ export class GeoFrame extends Frame {
 	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the children nodes
 		this._equatorialRadius = new Distance("equatorialRadius", this, data.equatorialRadius || 6378137.0);
 		this._polarRadius = new Distance("polarRadius", this, data.equatorialRadius || 6356752.314245);
-		this._flattening = new Number("flattening", this, data.z || 0);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -39,9 +38,6 @@ export class GeoFrame extends Frame {
 
 	/** The polar radius (the semi-minor axis). */
 	get polarRadius() { return this._polarRadius; }
-
-	/** The flattening factor. */
-	get flattening() { return this._flattening; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

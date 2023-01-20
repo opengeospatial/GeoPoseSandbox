@@ -15,7 +15,7 @@ export class Orientation extends Item {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._relativeValues = new Quaternion("relativeValues", this);

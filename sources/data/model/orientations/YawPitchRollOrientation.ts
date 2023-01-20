@@ -4,13 +4,13 @@ import { Orientation } from "../Orientation";
 import { Angle } from "../../items/measures/Angle";
 
 /** Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles. */
-export class TaitBryanOrientation extends Orientation {
+export class YawPitchRollOrientation extends Orientation {
 
 	// -------------------------------------------------------- PUBLIC METADATA
 
-	/** The data type associated to the TaitBryanOrientation class. */
-	public static type: Type = new Type("Tait-Bryan-orientation", 
-		TaitBryanOrientation, Orientation.type);
+	/** The data type associated to the YawPitchRollOrientation class. */
+	public static type: Type = new Type("yaw-pitch-roll-orientation", 
+		YawPitchRollOrientation, Orientation.type);
 
 
 	// --------------------------------------------------------- PRIVATE FIELDS
@@ -38,14 +38,14 @@ export class TaitBryanOrientation extends Orientation {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-	/** Initializes a new instance of the TaitBryanOrientation class.
+	/** Initializes a new instance of the YawPitchRollOrientation class.
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
 	 constructor(name?: string, parent?: Item, data?: any) { 
 		
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._yaw = new Angle("yaw", this);

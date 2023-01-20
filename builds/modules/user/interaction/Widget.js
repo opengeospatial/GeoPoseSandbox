@@ -14,10 +14,10 @@ export class Widget extends Item {
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._widgets = new Collection([Widget.type], this);
@@ -66,7 +66,7 @@ export class Widget extends Item {
 		this._entity.update(deltaTime, forced);
 
 		// Show a message on console
-		console.log("Widget Updated");
+		// console.log("Widget Updated");
 	}
 }
 

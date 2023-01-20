@@ -40,7 +40,7 @@
 
 ==== data/model/orientations
 
-<<AxisAngleOrientation>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<QuaternionOrientation>>, <<TaitBryanOrientation>>
+<<AxisAngleOrientation>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<QuaternionOrientation>>, <<YawPitchRollOrientation>>
 
 ==== data/model/poses
 
@@ -68,11 +68,11 @@
 
 ==== user/interaction/widgets
 
-<<BackgroundWidget>>, <<GeoPoseWidget>>, <<PlanetWidget>>
+<<BackgroundWidget>>, <<CameraWidget>>, <<GeoPoseWidget>>, <<PlanetWidget>>
 
 === Alphabetical Order:
 
-<<Angle>>, <<ArrowEntity>>, <<AtmosphereEntity>>, <<AxisAngleOrientation>>, <<BackgroundEntity>>, <<BackgroundWidget>>, <<Behavior>>, <<Boolean>>, <<Box>>, <<Collection>>, <<Color>>, <<Complex>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanPoseQuaternion>>, <<EuclideanPoseYPR>>, <<EuclideanPosition>>, <<Euler>>, <<Event>>, <<Extension>>, <<Frame>>, <<GeoFrame>>, <<GeoPose>>, <<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>, <<GeoPoseSandbox>>, <<GeoPoseWidget>>, <<GeoPosition>>, <<GraticuleEntity>>, <<GridEntity>>, <<Item>>, <<Layer>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<OrbitalPosition>>, <<Orientation>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Serialization>>, <<Shape>>, <<ShapeEntity>>, <<Simple>>, <<Size>>, <<Space>>, <<SpaceEntity>>, <<Sphere>>, <<String>>, <<TaitBryanOrientation>>, <<TerrainEntity>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>, <<Widget>>
+<<Angle>>, <<ArrowEntity>>, <<AtmosphereEntity>>, <<AxisAngleOrientation>>, <<BackgroundEntity>>, <<BackgroundWidget>>, <<Behavior>>, <<Boolean>>, <<Box>>, <<CameraWidget>>, <<Collection>>, <<Color>>, <<Complex>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanPoseQuaternion>>, <<EuclideanPoseYPR>>, <<EuclideanPosition>>, <<Euler>>, <<Event>>, <<Extension>>, <<Frame>>, <<GeoFrame>>, <<GeoPose>>, <<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>, <<GeoPoseSandbox>>, <<GeoPoseWidget>>, <<GeoPosition>>, <<GraticuleEntity>>, <<GridEntity>>, <<Item>>, <<Layer>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<OrbitalPosition>>, <<Orientation>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Serialization>>, <<Shape>>, <<ShapeEntity>>, <<Simple>>, <<Size>>, <<Space>>, <<SpaceEntity>>, <<Sphere>>, <<String>>, <<TerrainEntity>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>, <<Widget>>, <<YawPitchRollOrientation>>
 
 == Classes
 
@@ -267,6 +267,25 @@ The size of the box the Z axis.
 
 '''
 
+=== [[CameraWidget]]*CameraWidget* *:* <<Widget>>
+
+Defines a widget to control the camera (the presence of the user).
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new GeoPoseWidget instance. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**pose : <<Pose>>** + 
+The arrow of the widget. 
+
+'''
+
 === [[Collection]]*Collection* *:* <<Item>>
 
 Defines a collection of data items.
@@ -442,7 +461,7 @@ The pose of the entity.
 ==== Methods:
 
 **update (deltaTime : number, forced : boolean)** + 
-Updates the Entity. + 
+Updates the Entity instance. + 
 *_deltaTime:_* The update time. + 
 *_forced:_* Indicates whether the update is forced or not. 
 
@@ -487,7 +506,7 @@ Initializes a new instance of the EuclideanPoseYPR class. +
 **position : <<EuclideanPosition>>** + 
 The position of the Euclidean Pose. 
 
-**orientation : <<TaitBryanOrientation>>** + 
+**orientation : <<YawPitchRollOrientation>>** + 
 The orientation of the Euclidean Pose. 
 
 '''
@@ -660,9 +679,6 @@ The equatorial radius (the semi-major axis).
 **polarRadius : <<Distance>>** + 
 The polar radius (the semi-minor axis). 
 
-**flattening : <<Number>>** + 
-The flattening factor. 
-
 '''
 
 === [[GeoPose]]*GeoPose* *:* <<Pose>>
@@ -688,7 +704,7 @@ The position of the GeoPose.
 ==== Methods:
 
 **update (deltaTime : number, forced : boolean)** + 
-Updates the GeoPosition. + 
+Updates the GeoPose instance. + 
 *_deltaTime:_* The update time. + 
 *_forced:_* Indicates whether the update is forced or not. 
 
@@ -715,20 +731,27 @@ The orientation of the GeoPose.
 
 === [[GeoPoseBasicYPR]]*GeoPoseBasicYPR* *:* <<GeoPose>>
 
-Defines a basic GeoPose with Tait-Bryan (Yaw-Pitch-Roll) orientation.
+Defines a basic GeoPose with Yaw-Pitch-Roll (Tait-Bryan) orientation.
 
 ==== Constructor:
 
 **constructor (name : string, parent : <<Item>>, data : any)** + 
-Initializes a new instance of the YawPitchRollOrientation class. + 
+Initializes a new instance of the GeoPoseBasicYPR class. + 
 *_name:_* The parent data item. + 
  + 
 *_data:_* The initialization data. 
 
 ==== Properties:
 
-**orientation : <<TaitBryanOrientation>>** + 
+**orientation : <<YawPitchRollOrientation>>** + 
 The orientation of the GeoPose. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the GeoPoseBasicYPR instance. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
 
 '''
 
@@ -778,7 +801,7 @@ Defines a widget for a GeoPose.
 ==== Constructor:
 
 **constructor (name : string, parent : <<Item>>, data : any)** + 
-Initializes a new PlanetWidget instance. + 
+Initializes a new GeoPoseWidget instance. + 
 *_name:_* The parent data item. + 
  + 
 *_data:_* The initialization data. 
@@ -815,6 +838,19 @@ The angle around the prime meridian of the ellipsoid.
 
 **altitude** + 
 The vertical distance relative to the surface to the ellipsoid. 
+
+**tangentVector** + 
+The tangent vector of the GeoPosition. 
+
+**verticalVector** + 
+The tangent vector of the GeoPosition. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the GeoPosition instance. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
 
 '''
 
@@ -864,10 +900,11 @@ Defines a data item (often called a datum) in a graph structure . Provides a way
 
 ==== Constructor:
 
-**constructor (name : string, parent : <<Item>>)** + 
+**constructor (name : string, parent : <<Item>>, data : any)** + 
 Initializes a new instance of the Item class. + 
 *_name:_* The name of the data item. + 
-*_parent:_* The parent data item. 
+*_parent:_* The parent data item. + 
+ 
 
 ==== Properties:
 
@@ -1143,6 +1180,27 @@ Initializes a new PlanetWidget instance. +
  + 
 *_data:_* The initialization data. 
 
+==== Properties:
+
+**terrain : <<TerrainEntity>>** + 
+The component of the widget. 
+
+**atmosphere : <<AtmosphereEntity>>** + 
+The atmosphere of the planet. 
+
+**graticule : <<GraticuleEntity>>** + 
+The graticule of the planet. 
+
+**frame : <<GeoFrame>>** + 
+The geographic frame of the planet. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the PlanetWidget instance. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
 '''
 
 === [[Pose]]*Pose* *:* <<Item>>
@@ -1183,6 +1241,9 @@ The relative position of the Pose.
 **absolutePosition** + 
 The absolute position of the Pose. 
 
+**relativeOrientation** + 
+The relative orientation of the Pose. 
+
 **verticalVector** + 
 The vertical vector of the Pose. 
 
@@ -1202,6 +1263,17 @@ Initializes a new instance of the Location class. +
 *_name:_* The parent data item. + 
  + 
 *_data:_* The initialization data. 
+
+==== Properties:
+
+**relativeValues** + 
+The relative position of the Pose. 
+
+**absoluteValues** + 
+The absolute position of the Pose. 
+
+**additionalRotation** + 
+The absolute position of the Pose. 
 
 '''
 
@@ -1337,7 +1409,7 @@ Provides multiple methods to serialize and deserialize data items.
 
 ==== Methods:
 
-**serialize (item : <<Item>>, format : SerializationFormat) : object** + 
+**serialize (item : <<Item>>, format : SerializationFormat) : any** + 
 Serializes a Item instance into an object. + 
 *_item:_* The format to use in the serialization. + 
  + 
@@ -1573,6 +1645,10 @@ The regular expression values of the string.
 
 ==== Methods:
 
+**serialize () : any** + 
+Serializes the String instance. + 
+*_Returns:_* The serialized data. 
+
 **deserialize (data : any)** + 
 Deserializes the String instance. + 
 *_data:_* The data to deserialize. 
@@ -1585,31 +1661,6 @@ Checks if the value is valid for this String instance. +
 **toString () : string** + 
 Obtains the string representation of the Number instance. + 
 *_Returns:_* The string representation of the Number instance. 
-
-'''
-
-=== [[TaitBryanOrientation]]*TaitBryanOrientation* *:* <<Orientation>>
-
-Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Item>>, data : any)** + 
-Initializes a new instance of the TaitBryanOrientation class. + 
-*_name:_* The parent data item. + 
- + 
-*_data:_* The initialization data. 
-
-==== Properties:
-
-**yaw** + 
-The Angle in degrees around the equator of the globe. 
-
-**pitch** + 
-The Angle in degrees around the prime meridian of the globe. 
-
-**roll** + 
-The vertical distance relative to the surface to the globe. 
 
 '''
 
@@ -1742,6 +1793,9 @@ The vector component in the Y axis.
 **z : <<Distance>>** + 
 The vector component in the Z axis. 
 
+**length** + 
+The length of the vector. 
+
 ==== Methods:
 
 **getValues () : object** + 
@@ -1753,6 +1807,9 @@ Sets the values of the Vector instance. +
 *_x:_* The vector component in the X axis. + 
 *_y:_* The vector component in the Y axis. + 
 *_z:_* The vector component in the Z axis. 
+
+**normalize ()** + 
+Normalizes the vector (by setting its length to 1). 
 
 **toString () : string** + 
 Obtains the string representation of the Vector instance. + 
@@ -1889,6 +1946,31 @@ The list of child widgets.
 Updates the Widget instance. + 
 *_deltaTime:_* The update time. + 
 *_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[YawPitchRollOrientation]]*YawPitchRollOrientation* *:* <<Orientation>>
+
+Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Item>>, data : any)** + 
+Initializes a new instance of the YawPitchRollOrientation class. + 
+*_name:_* The parent data item. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**yaw** + 
+The Angle in degrees around the equator of the globe. 
+
+**pitch** + 
+The Angle in degrees around the prime meridian of the globe. 
+
+**roll** + 
+The vertical distance relative to the surface to the globe. 
 
 '''
 

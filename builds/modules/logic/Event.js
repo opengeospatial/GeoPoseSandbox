@@ -57,7 +57,7 @@ export class Event {
 	/** Triggers the event.
 	 * @param target The object that triggers the event.
 	 * @param data Additional event data. */
-	trigger(target, data) {
+	trigger(target, data = {}) {
 		for (let listener of this._listeners) {
 			let captured = listener(this, target, data);
 			if (captured)

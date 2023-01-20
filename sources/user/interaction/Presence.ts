@@ -38,10 +38,10 @@ export class Presence extends Item {
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	 constructor(name?: string, parent?: Item, data?: any) {
+	 constructor(name?: string, parent?: Item, data: any = {}) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 		
 		// Create the child items
 		this._entity = new PresenceEntity(name + "Entity", this);

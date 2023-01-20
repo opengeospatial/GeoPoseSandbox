@@ -13,7 +13,7 @@ export class PresenceEntity extends Entity {
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
 		super(name, parent);
@@ -30,6 +30,10 @@ export class PresenceEntity extends Entity {
 
 		// Create the representation
 		this._representation = new THREE.PerspectiveCamera(this._fieldOfView.value, this._aspectRatio.value, this._nearPlane.value, this._farPlane.value);
+
+
+		// let light = new THREE.PointLight(0xffffff,);
+		// this._representation.add(light);
 	}
 
 
@@ -56,7 +60,7 @@ export class PresenceEntity extends Entity {
 	update(deltaTime = 0, forced = false) {
 
 		// Show a message on console
-		console.log("Updated PresenceEntity");
+		// console.log("Updated PresenceEntity")
 
 		// If the update is not forced, skip it when the item is already updated
 		if (this.updated && !forced)

@@ -42,13 +42,13 @@ export class BackgroundEntity extends Entity {
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	 constructor(name?: string, parent?: Item, data?: any) {
+	 constructor(name?: string, parent?: Item, data: any = {}) {
 
 		// Call the base class constructor
 		super(name, parent);
 		
 		// Create the child items
-		this._shape = new Ellipsoid("shape", this,data);
+		this._shape = new Ellipsoid("shape", this, data);
 		this._texture = new String("texture", this);
 
 		// Deserialize the initialization data

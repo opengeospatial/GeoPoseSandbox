@@ -15,7 +15,7 @@ export class Measure extends Number {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Store the units of the Measure
 		let units = this.constructor["units"], className = this.constructor.name;

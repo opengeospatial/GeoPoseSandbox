@@ -17,7 +17,7 @@ export class EuclideanPoseQuaternion extends Pose {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._position = new EuclideanPosition("position", this, null);

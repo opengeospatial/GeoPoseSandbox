@@ -7,9 +7,10 @@ export class Serialization {
 	 * @param item The item to serialize.
 	 * @param item The format to use in the serialization.
 	 * @return The serialized data. */
-	static serialize(item: Item, format?: SerializationFormat): object {
+	static serialize(item: Item, format?: SerializationFormat): any {
 		let data = {};
-	
+		for (let child of item.children) 
+			data[child.name] = child.serialize(format);
 		return data;
 	}
 

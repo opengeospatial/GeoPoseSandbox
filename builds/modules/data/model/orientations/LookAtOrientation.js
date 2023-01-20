@@ -17,7 +17,7 @@ export class LookAtOrientation extends Orientation {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(name, parent);
+		super(name, parent, data);
 
 		// Create the child items
 		this._targetName = new String("target", this);
