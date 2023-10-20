@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>GeoPose Sandbox: Test 00 - Initialization</title>
+		<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Initialization as basic ES6 script. -->
+		<!-- <script src="../builds/geopose.sandbox.bundle.js"></script> -->
+	</head>
+	<body>
+		<!-- Initialization as a module. -->
+		<script type="module">
+
+// Import the module
+import { GeoPoseSandbox } from "../builds/modules/GeoposeSandbox.js"
+
+// The Sandbox will be automatically initialized, but
+GeoPoseSandbox.init();
+
+
+		</script>
+	</body>
+</html>
