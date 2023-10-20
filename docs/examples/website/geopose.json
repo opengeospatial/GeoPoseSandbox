@@ -1,0 +1,487 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"id": "GeoPose",
+	"title": "GeoPose Website",
+	"description": "The GeoPose Website",
+	"author": "Mikel Salazar",
+	"css": "@font-face {font-family: 'Poppins Medium'; src: url('fonts/Poppins-Medium.eot'); src: url('fonts/Poppins-Medium.woff') format('woff'), url('fonts/Poppins-Medium.ttf') format('truetype'); }" ,
+	"styles": [
+		{
+			"id": "section",
+			"css": "width: 100%; height: 100%; scroll-snap-align: start; padding: 5vmin;"
+		},{
+			"id": "navigator_link",
+			"font": "Poppins Medium, Times New Roman",
+			"font_weight": "bold",
+			"font_size": "3.5vmin",
+			"line_height": "6vmin",
+			"align": "middle_center",
+			"padding": "0 1vmin",
+			"color": "#00B1FF",
+			"css": "white-space: nowrap;"
+		},{
+			"id": "footer_link",
+			"font": "Arial",
+			"font_size": "3vh",
+			"line_height": "5vh",
+			"align": "middle_center",
+			"color": "#00B1FF",
+			"css": "margin-right: 2vmin; white-space: nowrap;"
+		},{
+			"id": "main_header",
+			"font": "Poppins Medium, Arial",
+			"font_size": "4vmin",
+			"font_weight": "bold",
+			"align": "middle_center",
+			"color": "#00B1FF"
+		},{
+			"id": "main_text",
+			"font": "Arial",
+			"font_size": "2.5vmin",
+			"align": "middle_center",
+			"color": "#444444"
+		},{
+			"id": "main_link",
+			"font": "Poppins Medium, Arial",
+			"font_size": "3vmin",
+			"align": "middle_center",
+			"padding": "1vmin",
+			"color": "#00B1FF"
+		},{
+			"id": "main_button",
+			"font": "Poppins Medium, Arial",
+			"font_size": "3.5vmin",
+			"align": "middle_center",
+			"color": "#ffffff",
+			"background": "#00B1FF",
+			"css": "margin:1vmin; border-radius:2vmin; width:auto; height:auto;",
+			"padding": "2vmin"
+		}
+	],
+	"layers": [
+		{
+			"id": "loadingScreen",
+			"captureEvents": true,
+			"context": "loading",
+			"z": 0.4,
+			"items":[ 
+				{
+					"id": "background",
+					"background": "#ffffff",
+					"color": "#000000",
+					"font": "Arial",
+					"font_size": "3vh",
+					"text": "Loading..."
+				}
+			]
+		}, {
+			"id": "hud",
+			"distribution": "vertical separated",
+			"captureEvents": false,
+			"z": 0.5,
+			"items":[ 
+				{
+					"id": "header",
+					"background": "#ffffff",
+					"distribution": "horizontal separated",
+					"height": "8vh",
+					"padding": "1vh",
+					"css": "box-shadow: #cccccc 0 0.5vmin 0.5vmin;",
+					"items": [
+						{ 
+							"id": "logo", 
+							"css": "min-width: 30%;",
+							"items": [
+								{ "type": "image", "image": "img/GeoPoseLogo.png", "link": "#presentation", "height": "100%" }
+							]
+						}, 	{
+							"id": "navigator",
+							"distribution": "horizontal grouped",
+							"portrait": "hidden",
+							"css": "min-width: 60%;",
+							"items": [
+								{ "id": "definition_button", "style": "navigator_link", "text": "Definition", "link": "#definition" },
+								{ "id": "use_cases_button", "style": "navigator_link", "text": "Use Cases", "link": "#use_cases" },
+								{ "id": "supporters_button", "style": "navigator_link", "text": "Supporters", "link": "#supporters" },
+								{ "id": "documentation_button", "style": "navigator_link", "text": "Documentation", "link": "#documentation" }
+							]
+						}
+					]
+				}, {
+					"id": "footer",
+					"background": "#ffffff",
+					"width": "100%",
+					"height": "5%",
+					"distribution": "horizontal separated",
+					"padding": "0 1vh",
+					"css": "position:fixed; left: 0; bottom: 0; box-shadow: #cccccc 0 -0.5vmin 0.5vmin;",
+					"items": [ 
+						{
+							"distribution": "horizontal grouped",
+							"portrait": "hidden",
+							"items": [
+								{ "id": "contact_us_link ", "style": "footer_link", "text": "Contact Us", "link": "https://forms.gle/FDSsBh39RS3f4w9B7"}, 
+								{ "id": "blog_link ", "style": "footer_link", "text": "Blog", "link": "https://medium.com/ogc-geopose"}, 
+								{ "id": "mailing_list_link ", "style": "footer_link", "text": "Mailing List", "link": "https://docs.google.com/forms/d/e/1FAIpQLSe-3e1HAL5D7jkojsIphqNrK2BqlJ5ZB-bKNTXRAFVSHOczzQ/viewform"}
+							]
+						},
+						{
+							"distribution": "horizontal grouped", 
+							"width": "auto",
+							"css": "text-align: right;", 
+							"items": [
+								{ "type": "image", "image": "img/OGC.png", "link": "https://ogc.org", "css":"height:80%; margin: 0.5vh;", "width": "auto"},
+								{ "text": "GeoPose SWG © 2022", "style": "footer_link", "css": "font-weight:bold;", "link": "https://ogc.org", "width": "auto" }
+							]
+						}
+					]
+				}
+			]
+		}, {
+			"id": "sections",
+			"captureEvents": true,
+			"type": "vertical snap",
+			"z": 2,
+			"height": "87%",
+			"css": "top: 8vh; overflow-x:hidden;",
+			"items": [
+				{
+					"id":"presentation",
+					"style": "section",
+					"distribution": "vertical grouped",
+					"portrait": "rotate",
+					"items":[{
+						"id":"presentation_group",
+						"distribution": "horizontal grouped",
+						"portrait": "rotate",
+						"items":[{
+						"id": "presentationItems",
+						"distribution": "vertical grouped",
+						"css": "min-width: 30%; min-height: 30%;",
+						"items":[ {
+								"id": "presentationText",
+								"type": "text",
+								"text": "Standardizing the position and orientation of objects in the real world.",
+								"style": "main_header"
+							},
+							{
+								"id": "motto",
+								"type": "text",
+								"text": "Everything has a GeoPose!",
+								"style": "main_header"
+							},
+							{ "type": "text", "text": "Get your GeoPose", "style": "main_button", "link": "", "context": "false"}
+						]
+						},{
+							"id": "presentationImage",
+							"type": "image",
+							"image": "img/GeoPose.png",
+							"css": "min-width: 30%; min-height: 30%;"
+						},{
+							"id": "presentationOptions",
+							"distribution": "vertical separated",
+							"css": "min-width: 30%; min-height: 30%;",
+							"items":[
+								{ "type": "text", "text": "What is GeoPose?", "style": "main_button", "link": "#definition"},
+								{ "type": "text", "text": "Who uses GeoPose?", "style": "main_button", "link": "#use_cases"},
+								{ "type": "text", "text": "Are you a GeoPose user?", "style": "main_button", "link": "#supporters"},
+								{ "type": "text", "text": "Looking for examples?", "style": "main_button", "link": "#documentation"}
+							]
+						}]
+					}]
+				}, {
+					"id":"definition",
+					"style": "section",
+					"distribution": "vertical grouped",
+					"portrait": "rotate",
+					"items":[{
+						"id":"definition_group",
+						"style": "section",
+						"background": "#ffffff",
+						"distribution": "horizontal",
+						"portrait": "rotate",
+						"items":[{
+							"id": "definitionText",
+							"distribution": "vertical grouped",
+							"css": "min-width: 60%; min-height: 60%;",
+							"items":[
+								{"type": "text", "text": "What is GeoPose?", "style": "main_header", "height":"auto"},
+								{"type": "text", "text": "When a real or digital object's pose is defined relative to a geographical frame of reference, it will be called a geographically-anchored pose, or ''GeoPose'' for short. All physical world objects have a geographically-anchored pose. Digital objects may be assigned/attributed a GeoPose. ", "style": "main_text", "align": "bottom-right", "height":"auto"},
+								{"type": "text", "text": "Why standardize GeoPose?", "style": "main_header",  "height":"auto"},
+								{"type": "text", "text": "OGC GeoPose Standard defines the encodings for the real world position and orientation of a real or a digital object in a machine-readable form. ", "style": "main_text", "align": "bottom-right", "height":"auto"},
+								{"type": "text", "text": "Using GeoPose enables the easy integration of digital elements on and in relation to the surface of the planet. ", "style": "main_text", "align": "bottom-right", "height":"auto"},
+								{
+									"id": "additionalButtons",
+									"distribution": "horizontal grouped", 
+									"items": [							
+										{ "type": "text", "text": "OGC Draft Standard", "style": "main_button", "link": "https://docs.ogc.org/dis/21-056r10/21-056r10.html"},
+										{ "type": "text", "text": "Explainer Videos", "style": "main_button", "link": "https://www.youtube.com/playlist?list=PLQsQNjNIDU86mufMCuDW0rtG2s9tHuoQ5"}
+									]
+								}
+							]
+							}, {
+								"id": "definitionImage",
+								"type": "image",
+								"image": "img/GeoPoseWithLabels.png",
+								"css": "min-width: 40%; min-height: 40%;"
+							}
+						]
+					}]
+				}, {
+					"id":"use_cases",
+					"style": "section",
+					"background": "#ffffff",
+					"distribution": "vertical grouped",
+					"portrait": "rotate",
+					"items":[{
+						"id": "use_case_group",
+						"distribution": "horizontal grouped",
+						"portrait": "rotate",
+						"items":[
+							{
+								"id": "use_case_01", 
+								"distribution": "vertical",
+								"portrait": "rotate",
+								"css": "align-items: center; min-width: 20%;",
+								"padding": "1vmin",
+								"items":[
+									{"id": "use_case_01_image", "type": "image", "image": "img/usecases/AugmentedReality.png", "width":"20vmin", "height":"20vmin", "padding": "1vmin", "css": "min-height: 20vmin;"},
+									{
+										"distribution": "vertical",
+										"items": [
+											{"id": "use_case_01_header", "text": "Augmented Reality", "style": "main_header", "height": "auto", "margin": "2vmin" },
+											{"id": "use_case_01_text", "text": "Geospatial AR experiences can use a common reference frame to position synthetic objects realistically within users the physical environment.", "style": "main_text" , "height": "auto" }
+										]
+									}
+								]
+							},
+							{
+								"id": "use_case_02",
+								"distribution": "vertical",
+								"portrait": "rotate",
+								"css": "align-items: center; min-width: 20%;",
+								"padding": "1vmin",
+								"items":[
+									{"id": "use_case_02_image", "type": "image", "image": "img/usecases/AutonomousVehicles.png", "width":"20vmin", "height":"20vmin", "padding": "1vmin", "css": "min-height: 20vmin;"  },
+									{
+										"distribution": "vertical",
+										"items": [
+											{"id": "use_case_02_header", "text": "Autonomous Vehicles", "style": "main_header", "height": "auto", "margin": "2vmin" },
+											{"id": "use_case_02_text", "text": "The possibility of relating the autonomous vehicle to elements in its environment via a common reference frame is essential for decision making systems.", "style": "main_text", "height": "auto"  }
+										]
+									}
+								]
+							},
+							{
+								"id": "use_case_03", 
+								"distribution": "vertical",
+								"portrait": "rotate",
+								"css": "align-items: center; min-width: 20%;",
+								"padding": "1vmin",
+								"items":[
+									{"id": "use_case_03_image", "type": "image", "image": "img/usecases/BuiltEnvironment.png", "width":"20vmin", "height":"20vmin", "padding": "1vmin", "css": "min-height: 20vmin;" },
+									{
+										"distribution": "vertical",
+										"items": [
+											{"id": "use_case_03_header", "text": "Built Environment", "style": "main_header", "height": "auto", "margin": "2vmin" },
+											{"id": "use_case_03_text", "text": "A common reference frame facilitates the integration of information about built structures when their representations are supplied by different sources.", "style": "main_text", "height": "auto"  }
+										]
+									}
+								]
+							},
+							{
+								"id": "use_case_04", 
+								"distribution": "vertical",
+								"portrait": "rotate",
+								"css": "align-items: center; min-width: 20%;",
+								"padding": "1vmin",
+								"items":[
+									{"id": "use_case_04_image", "type": "image", "image": "img/usecases/SyntheticEnvironments.png", "width":"20vmin", "height":"20vmin", "padding": "1vmin", "css": "min-height: 20vmin;" },
+									{
+										"distribution": "vertical",
+										"items": [
+											{"id": "use_case_04_header", "text": "Synthetic Environments", "style": "main_header", "height": "auto", "margin": "2vmin" },
+											{"id": "use_case_04_text", "text": "Access to one or more common reference frames through a graph of frame transformations permits a coherent assembly of stationary and moving objects in an animated scene.", "style": "main_text", "height": "auto"  }
+										]
+									}
+								]
+							},
+							{
+								"id": "use_case_05", 
+								"distribution": "vertical",
+								"portrait": "rotate",
+								"css": "align-items: center; min-width: 20%;",
+								"padding": "1vmin",
+								"items":[
+									{"id": "use_case_05_image", "type": "image", "image": "img/usecases/ImageUnderstanding.png", "width":"20vmin", "height":"20vmin", "padding": "1vmin", "css": "min-height: 20vmin;" },
+									{
+										"distribution": "vertical",
+										"items": [
+											{"id": "use_case_05_header", "text": "Image Understanding", "style": "main_header", "height": "auto", "margin": "2vmin" },
+											{"id": "use_case_05_text", "text": "When an image or sequence of images is segmented into 3D objects in semantic categories, a common reference frame permits determining or constraining their motion and/or geometry.", "style": "main_text", "height": "auto", "margin": "2vmin" }
+										]
+									}
+								]
+							}
+						]
+					}]
+				}, {
+					"id":"supporters",
+					"style": "section",
+					"distribution": "vertical separated",
+					"items":[
+						{ "id": "contributors", "text": "GeoPose SWG Contributors", "style": "main_header", "css": "min-height: 10%;" },
+						{
+							"id": "contributors_groups",
+							"distribution": "vertical separated",
+							"portrait": "rotate",
+							"items": [
+								{
+									"id": "contributors_group1",
+									"distribution": "horizontal grouped",
+									"css": "min-height: 15%; align-items: center;",
+									"portrait": "rotate",
+									"items": [
+										{"id": "contributors_01", "type": "image", "image": "img/supporters/OrdnanceSurvey.png", "link":"https://www.ordnancesurvey.co.uk/"},
+										{"id": "contributors_02", "type": "image", "image": "img/supporters/OnSiteViewer.png", "link":"https://www.onsiteviewer.com/"},
+										{"id": "contributors_03", "type": "image", "image": "img/supporters/GlobalNomad.png", "link":"https://www.gn-gis.com/"},
+										{"id": "contributors_04", "type": "image", "image": "img/supporters/AugmentedInteraction.png", "link":"https://www.augmentedinteraction.com/"},
+										{"id": "contributors_04b", "type": "image", "image": "img/supporters/AIST.png", "link":"https://www.aist.go.jp", "context": "false"}
+									]
+								},
+								{
+									"id": "contributors_group2",
+									"distribution": "horizontal grouped",
+									"css": "min-height: 15%; align-items: center;",
+									"portrait": "rotate",
+									"items": [
+										{"id": "contributors_05", "type": "image", "image": "img/supporters/OARC.png", "link":"https://www.openarcloud.org/"},
+										{"id": "contributors_06", "type": "image", "image": "img/supporters/Perey.png", "link":"https://www.perey.com" },
+										{"id": "contributors_07", "type": "image", "image": "img/supporters/AwayTeam.png", "link":"https://awayteam.co.uk/"},
+										{"id": "contributors_08", "type": "image", "image": "img/supporters/HEIG-VD.png", "link":"https://heig-vd.ch/"}
+									]
+								}
+							]
+						},
+						{ "id": "implementers", "text": "Implementers", "style": "main_header", "css": "min-height: 10%;"  },
+						{
+							"id": "implementers_groups",
+							"distribution": "vertical separated",
+							"portrait": "rotate",
+							"items": [
+								{
+									"id": "implementers_group",
+									"distribution": "horizontal grouped",
+									"portrait": "rotate",
+									"css": "min-height: 15%; align-items: center;",
+									"items": [
+										{"id": "implementers_01", "type": "image", "align": "middle-center", "image": "img/supporters/OARC.png", "link":"https://www.openarcloud.org/"},
+										{"id": "implementers_02", "type": "image", "align": "middle-center", "image": "img/supporters/OnSiteViewer.png", "link":"https://www.onsiteviewer.com/"},
+										{"id": "implementers_03", "type": "image", "align": "middle-center", "image": "img/supporters/GlobalNomad.png", "link":"https://www.gn-gis.com/"},
+										{"id": "implementers_04", "type": "image", "align": "middle-center", "image": "img/supporters/Ethar.png", "link":"https://www.ethar.com/"}
+									]
+								},
+								{
+									"id": "implementers_group2",
+									"distribution": "horizontal grouped",
+									"css": "min-height: 15%; align-items: center;",
+									"portrait": "rotate",
+									"items": [
+										{"id": "implementers_05", "type": "image", "align": "middle-center", "image": "img/supporters/AuroraViewer.png", "link":"https://www.auroraviewer.org/"},
+										{"id": "implementers_06", "type": "image", "align": "middle-center", "image": "img/supporters/XRMasters.png", "link":"https://xr-masters.com/"},
+										{"id": "implementers_07", "type": "image", "align": "middle-center", "image": "img/supporters/Ecere.png", "link":"https://ecere.com/"},
+										{"id": "implementers_08", "type": "image", "align": "middle-center", "image": "img/supporters/AugmentedInteraction.png", "link":"https://www.augmentedinteraction.com/"}
+									]
+								}
+							]
+						},
+						{ 
+							"id": "implementers_buttons", 
+							"distribution": "horizontal grouped",
+							"css": "min-height: 20%; align-items: center; ",
+							"items": [{
+								"text": "Are you implementing GeoPose? Let us know", "link": "https://forms.gle/FDSsBh39RS3f4w9B7", 
+								"style": "main_button", "width": "auto", "height": "auto"
+							}]
+						}
+					]
+				}, {
+					"id":"documentation",
+					"style": "section",
+					"distribution": "vertical grouped",
+					"portrait": "rotate",
+					"items":[{
+						"id": "documentation_group",
+						"distribution": "horizontal grouped",
+						"portrait": "rotate",
+						"items":[
+							{
+								"id": "documentation_01", 
+								"distribution": "vertical",
+								"portrait": "rotate",
+								"css": "align-items: center; min-width: 33%;",
+								"padding": "1vmin",
+								"link": "https://github.com/opengeospatial/GeoPoseGuides/",
+								"items":[
+									{"id": "documentation_01_image", "type": "image", "image": "img/documentation/guide.png", "width":"30vmin", "height":"30vmin", "padding": "1vmin", "css": "min-height: 30vmin;"},
+									{
+										"distribution": "vertical",
+										"items": [
+											{"id": "documentation_01_header", "text": "Reviewers' Guide", "style": "main_header", "height": "auto", "margin": "2vmin" },
+											{"id": "documentation_01_text", "text": "For reviewers of the standard who need to understand the concepts and geospatial technology landscape.", "style": "main_text", "height": "auto" },
+											{"id": "documentation_01_links", "height": "auto", "distribution": "horizontal grouped", "items": [
+												{ "text":"[PDF]", "style": "main_link", "height": "auto", "link": "https://raw.githubusercontent.com/opengeospatial/GeoPoseGuides/working-draft/GeoPose-Reviewers-Guide.pdf" },
+												{ "text":"[HTML]", "style": "main_link", "height": "auto", "link": "https://htmlpreview.github.io/?https://github.com/opengeospatial/GeoPoseGuides/blob/working-draft/GeoPose-Reviewers-Guide.html" }
+											]}
+										]
+									}
+								]
+							},
+							{
+								"id": "documentation_02",
+								"distribution": "vertical",
+								"portrait": "rotate",
+								"css": "align-items: center; min-width: 33%;",
+								"padding": "1vmin",
+								"link": "https://github.com/opengeospatial/GeoPose/",
+								"items":[
+									{"id": "documentation_02_image", "type": "image", "image": "img/documentation/github.png", "width":"30vmin", "height":"30vmin", "padding": "1vmin", "css": "min-height: 30vmin;"  },
+									{
+										"distribution": "vertical",
+										"items": [
+											{"id": "documentation_02_header", "text": "Github Repositories", "style": "main_header", "height": "auto", "margin": "2vmin" },
+											{"id": "documentation_02_text", "text": "Ask questions, provide feedback and submit new requirements for future versions of GeoPose.", "style": "main_text", "height": "auto" },
+											{"id": "documentation_02_links", "height": "auto", "distribution": "horizontal grouped", "items": [
+												{ "text":"Specification", "style": "main_link", "height": "auto", "link": "https://github.com/opengeospatial/GeoPose" },
+												{ "text":"C# Implementation", "style": "main_link", "height": "auto", "link": "https://github.com/EtharInc/Ethar.GeoPose" }
+											]}
+										]
+									}
+								]
+							},
+							{
+								"id": "documentation_03", 
+								"distribution": "vertical",
+								"portrait": "rotate",
+								"css": "align-items: center; min-width: 33%;",
+								"padding": "1vmin",
+								"link": "https://github.com/opengeospatial/GeoPoseSandbox",
+								"items":[
+									{"id": "documentation_03_image", "type": "image", "image": "img/documentation/sandbox.png", "width":"30vmin", "height":"30vmin", "padding": "1vmin", "css": "min-height: 30vmin;" },
+									{
+										"distribution": "vertical",
+										"items": [
+											{"id": "documentation_03_header", "text": "GeoPose Sandbox", "style": "main_header", "height": "auto", "margin": "2vmin" },
+											{"id": "documentation_03_text", "text": "Explore the different concepts that the Standard is build upon.", "style": "main_text", "height": "auto"  }
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+				}
+			]
+		}
+	]
+}

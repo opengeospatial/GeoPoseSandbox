@@ -1,0 +1,14 @@
+{
+	"buildOptions": {
+	},
+	"compilerOptions": {
+		"module": "ES2020",
+		"target": "ES2020",
+		"outDir": "builds/modules",
+		// "sourceMap": true,
+		"alwaysStrict": true,
+		"moduleResolution": "Node"
+	},
+	"include": ["sources"],
+	"exclude": ["node_modules"]
+}
