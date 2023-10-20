@@ -1,0 +1,13 @@
+{
+	"layers": [
+		{ 
+			"name": "HUD"
+		},
+		{
+			"name": "World"
+		}
+	],
+	"spaces": [
+
+	]
+}
