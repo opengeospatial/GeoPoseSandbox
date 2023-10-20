@@ -2,6 +2,7 @@ import * as THREE from "../../../externals/three.module.js";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
 
+
 /** Defines a Space entity. */
 export class SpaceEntity extends Entity {
 
@@ -20,14 +21,16 @@ export class SpaceEntity extends Entity {
 		if (data)
 			this.deserialize(data);
 
-		// Add a light
+		// Set the lights
 		this._representation.add(new THREE.AmbientLight(0x888888, 0.5));
-
-		// TEMPORAL
 		let light = new THREE.DirectionalLight(0xffffff);
 		light.position.z = 3;
 		this._representation.add(light);
-		this._representation.add(new THREE.Mesh(new THREE.SphereGeometry(100000, 64, 64), new THREE.MeshPhongMaterial({ color: 0x00ff00 })));
+
+		// DEBUG
+		// this._representation.add(new THREE.Mesh(
+		// 	new THREE.SphereGeometry(100000,64,64),
+		// 	new THREE.MeshPhongMaterial({color: 0x00ff00})));
 
 	}
 }

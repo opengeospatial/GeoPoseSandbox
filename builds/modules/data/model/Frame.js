@@ -1,9 +1,19 @@
 import { Item } from "../Item.js";
 import { Type } from "../Type.js";
-import { String } from "../items/Simple/String.js";
+import { String } from "../items/simple/String.js";
+
 
 /** Defines a reference frame. */
 export class Frame extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The handedness of the reference frame ("right" by default). */
+	get handedness() { return this._handedness; }
+
+	/** The vertical axis of the reference frame ("Z" by default). */
+	get verticalAxis() { return this._verticalAxis; }
 
 
 
@@ -26,15 +36,6 @@ export class Frame extends Item {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The handedness of the reference frame ("right" by default). */
-	get handedness() { return this._handedness; }
-
-	/** The vertical axis of the reference frame ("Z" by default). */
-	get verticalAxis() { return this._verticalAxis; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

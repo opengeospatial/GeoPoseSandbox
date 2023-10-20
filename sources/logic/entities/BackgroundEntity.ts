@@ -1,9 +1,10 @@
 import * as THREE from "three"
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Entity } from "../Entity";
-import { Ellipsoid } from "../../data/items/shapes/Ellipsoid";
-import { String } from "../../data/items/simple/String";
+import { Item } from "../../data/Item.js";
+import { Type } from "../../data/Type.js";
+import { Entity } from "../Entity.js";
+import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
+import { String } from "../../data/items/simple/String.js";
+
 
 /** Defines a Background Entity. */
 export class BackgroundEntity extends Entity {
@@ -60,7 +61,6 @@ export class BackgroundEntity extends Entity {
 				{color: 0xffffff, side: THREE.BackSide}));
 		this._representation.add(this._mesh);
 		this._mesh.renderOrder = -100;
-		
 	}
 
 	

@@ -1,7 +1,7 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Shape } from '../Shape'
-import { Size } from '../measures/Size';
+import { Item } from "../../Item.js"
+import { Type } from "../../Type.js"
+import { Shape } from "../Shape.js"
+import { Size } from "../measures/Size.js"
 
 /** Defines a three-dimensional box Shape (global). */
 export class Box extends Shape {

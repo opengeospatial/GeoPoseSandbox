@@ -4,8 +4,72 @@ import { Collection } from "./Collection.js";
 import { Serialization } from "./Serialization.js";
 
 /** Defines a data item (often called a datum) in a graph structure .
- * Provides a way to store information in a complex way. */
+ * Provides a way to store information in a mainly hierarchical way. */
 export class Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The type of the data item. */
+	get type() { return this._type; }
+
+	/** The name of the data item. */
+	get name() { return this._name; }
+
+	/** The parent of the data item. */
+	get parent() { return this._parent; }
+
+	/** The child data items. */
+	get children() { return this._children; }
+
+	/** The linked data items. */
+	get links() { return this._links; }
+
+	/** The update state of the item. */
+	get updated() { return this._updated; }
+	set updated(value) {
+
+		// If the value is the same as the current update state
+		if (this._updated == value)
+			return;
+
+		// Set the update state and update the time
+		this._updated = value;
+		this._updateTime = Date.now();
+
+		// Trigger the "modified" event
+		this.onModified.trigger(this, value);
+		Item.onModified.trigger(this, value);
+
+		// Propagate the event upwards in the hierarchy and to the links
+		if (value == false) {
+			if (this._parent)
+				this._parent.updated = false;
+			for (let link of this._links)
+				link.updated = false;
+		}
+	}
+
+	/** The last update time. */
+	get updateTime() { return this._updateTime; }
+
+	/** A global event triggered when the item is modified. */
+	get onModified() { return this._onModified; }
+
+	/** An event triggered before the item is updated. */
+	get onPreUpdate() { return this._onPreUpdate; }
+
+	/** An event triggered after the item is updated. */
+	get onPostUpdate() { return this._onPostUpdate; }
+
+	/** A global event triggered when a item is modified. */
+	static get onModified() { return Item._onModified; }
+
+	/** An event triggered before a item is updated. */
+	static get onPreUpdate() { return Item._onPreUpdate; }
+
+	/** An event triggered after a item is updated. */
+	static get onPostUpdate() { return Item._onPostUpdate; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -48,78 +112,9 @@ export class Item {
 		this.updated = false;
 		this._updateTime = Date.now();
 
-		// Register this instance in the list of instances of the data type
-		// this._type.register(this);
-
 		// Trigger the onCreation event
 		Item.onCreation.trigger(this);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The type of the data item. */
-	get type() { return this._type; }
-
-	/** The name of the data item. */
-	get name() { return this._name; }
-
-	/** The parent of the data item. */
-	get parent() { return this._parent; }
-
-	/** The child data items. */
-	get children() { return this._children; }
-
-	/** The linked data items. */
-	get links() { return this._links; }
-
-	/** The update state of the item. */
-	get updated() { return this._updated; }
-	set updated(value) {
-
-		// If the value is the same as the current update state
-		// if (this._updated == value) return;
-
-		// Set the update state and update the time
-		this._updated = value;
-		this._updateTime = Date.now();
-
-		// Trigger the "modified" event
-		this.onModified.trigger(this, value);
-		Item.onModified.trigger(this, value);
-
-		// Show a message on console
-		// console.log("Needs update: " + this._name);
-
-		// Propagate the event upwards in the hierarchy and to the links
-		if (value == false) {
-			if (this._parent)
-				this._parent.updated = false;
-			for (let link of this._links)
-				link.updated = false;
-		}
-	}
-
-	/** The last update time. */
-	get updateTime() { return this._updateTime; }
-
-	/** A global event triggered when the item is modified. */
-	get onModified() { return this._onModified; }
-
-	/** An event triggered before the item is updated. */
-	get onPreUpdate() { return this._onPreUpdate; }
-
-	/** An event triggered after the item is updated. */
-	get onPostUpdate() { return this._onPostUpdate; }
-
-	/** A global event triggered when a item is modified. */
-	static get onModified() { return Item._onModified; }
-
-	/** An event triggered before a item is updated. */
-	static get onPreUpdate() { return Item._onPreUpdate; }
-
-	/** An event triggered after a item is updated. */
-	static get onPostUpdate() { return Item._onPostUpdate; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

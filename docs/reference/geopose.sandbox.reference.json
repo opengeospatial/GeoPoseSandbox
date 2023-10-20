@@ -108,8 +108,8 @@
 				"add": {
 					"name": "add",
 					"comment": {
-						"description": "Adds a new item to the end of the list.",
-						"params": { "item": "The item to add.", "position": "The position where to add the item (by default, at the end). Negative values imply counting from the end of the list." },
+						"description": "Adds a new item to the end of the collection.",
+						"params": { "item": "The item to add.", "position": "The position where to add the item (by default, at the end). Negative values imply counting from the end of the collection." },
 						"return": "The added item."
 					},
 					"modifiers": [ "public" ],
@@ -129,7 +129,7 @@
 				"remove": {
 					"name": "remove",
 					"comment": {
-						"description": "Removes an item from the list.",
+						"description": "Removes an item from the collection.",
 						"params": { "item": "The item to remove." }
 					},
 					"modifiers": [ "public" ],
@@ -143,17 +143,17 @@
 				},
 				"clear": {
 					"name": "clear",
-					"comment": { "description": "Removes all items from the list." },
+					"comment": { "description": "Removes all items from the collection." },
 					"modifiers": [ "public" ],
 					"kind": "method",
 					"parameters": []
 				}
 			},
-			"imports": [ "Item", "Type" ]
+			"imports": [ "GeoPoseSandbox.js" ]
 		},
 		"Item": {
 			"name": "Item",
-			"comment": { "description": "Defines a data item (often called a datum) in a graph structure . Provides a way to store information in a complex way." },
+			"comment": { "description": "Defines a data item (often called a datum) in a graph structure . Provides a way to store information in a mainly hierarchical way." },
 			"type": null,
 			"file": "data/Item.ts",
 			"members": {
@@ -429,7 +429,7 @@
 					]
 				}
 			},
-			"imports": [ "Type", "Event", "Collection", "Serialization" ]
+			"imports": [ "Type.js", "Event.js", "Collection.js", "Serialization.js" ]
 		},
 		"Color": {
 			"name": "Color",
@@ -582,7 +582,7 @@
 					"type": { "name": "string" }
 				}
 			},
-			"imports": [ "Item", "Type", "Complex", "Number" ]
+			"imports": [ "Item.js", "Type.js", "Complex.js", "Number.js" ]
 		},
 		"Euler": {
 			"name": "Euler",
@@ -722,7 +722,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Complex", "String", "Angle" ]
+			"imports": [ "Item.js", "Type.js", "Complex.js", "String.js", "Angle.js" ]
 		},
 		"Quaternion": {
 			"name": "Quaternion",
@@ -867,7 +867,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Complex", "Number" ]
+			"imports": [ "Item.js", "Type.js", "Complex.js", "Number.js" ]
 		},
 		"Vector": {
 			"name": "Vector",
@@ -1019,7 +1019,7 @@
 					"type": { "name": "string" }
 				}
 			},
-			"imports": [ "Item", "Type", "Complex", "Distance", "Size" ]
+			"imports": [ "Item.js", "Type.js", "Complex.js", "Distance.js", "Size.js" ]
 		},
 		"Complex": {
 			"name": "Complex",
@@ -1088,7 +1088,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Number" ]
+			"imports": [ "Item.js", "Type.js", "Number.js" ]
 		},
 		"Measure": {
 			"name": "Measure",
@@ -1176,7 +1176,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Number" ]
+			"imports": [ "Item.js", "Type.js", "Number.js" ]
 		},
 		"MeasurementUnit": {
 			"name": "MeasurementUnit",
@@ -1312,7 +1312,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Number" ]
+			"imports": [ "Item.js", "Type.js", "Number.js" ]
 		},
 		"Angle": {
 			"name": "Angle",
@@ -1372,7 +1372,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Measure" ]
+			"imports": [ "Item.js", "Type.js", "Measure.js" ]
 		},
 		"Distance": {
 			"name": "Distance",
@@ -1431,7 +1431,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Measure" ]
+			"imports": [ "Item.js", "Type.js", "Measure.js" ]
 		},
 		"Size": {
 			"name": "Size",
@@ -1490,7 +1490,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Measure" ]
+			"imports": [ "Item.js", "Type.js", "Measure.js" ]
 		},
 		"Time": {
 			"name": "Time",
@@ -1549,7 +1549,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Measure" ]
+			"imports": [ "Item.js", "Type.js", "Measure.js" ]
 		},
 		"Shape": {
 			"name": "Shape",
@@ -1655,7 +1655,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "String" ]
+			"imports": [ "Item.js", "Type.js", "String.js" ]
 		},
 		"Box": {
 			"name": "Box",
@@ -1746,7 +1746,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Shape", "Size" ]
+			"imports": [ "Item.js", "Type.js", "Shape.js", "Size.js" ]
 		},
 		"Ellipsoid": {
 			"name": "Ellipsoid",
@@ -1837,7 +1837,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Shape", "Size" ]
+			"imports": [ "Item.js", "Type.js", "Shape.js", "Size.js" ]
 		},
 		"Sphere": {
 			"name": "Sphere",
@@ -1898,7 +1898,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Shape", "Size" ]
+			"imports": [ "Item.js", "Type.js", "Shape.js", "Size.js" ]
 		},
 		"Boolean": {
 			"name": "Boolean",
@@ -1986,7 +1986,7 @@
 					"type": { "name": "boolean" }
 				}
 			},
-			"imports": [ "Item", "Type", "Simple" ]
+			"imports": [ "Item.js", "Type.js", "Simple.js" ]
 		},
 		"Number": {
 			"name": "Number",
@@ -2121,7 +2121,7 @@
 					"type": { "name": "string" }
 				}
 			},
-			"imports": [ "Item", "Type", "Simple" ]
+			"imports": [ "Item.js", "Type.js", "Simple.js" ]
 		},
 		"String": {
 			"name": "String",
@@ -2237,7 +2237,7 @@
 					"type": { "name": "string" }
 				}
 			},
-			"imports": [ "Item", "Type", "Simple" ]
+			"imports": [ "Item.js", "Type.js", "Simple.js" ]
 		},
 		"Simple": {
 			"name": "Simple",
@@ -2397,7 +2397,7 @@
 					"type": { "name": "boolean" }
 				}
 			},
-			"imports": [ "Item", "Type", "Event" ]
+			"imports": [ "Item.js", "Type.js", "Event.js" ]
 		},
 		"Extension": {
 			"name": "Extension",
@@ -2443,7 +2443,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type" ]
+			"imports": [ "Item.js", "Type.js" ]
 		},
 		"Frame": {
 			"name": "Frame",
@@ -2517,7 +2517,15 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "String", "Shape" ]
+			"imports": [ "Item.js", "Type.js", "String.js" ]
+		},
+		"EuclideanFrame": {
+			"name": "EuclideanFrame",
+			"comment": { "description": "Defines an euclidean (Flat-Earth) frame." },
+			"type": { "name": "Frame" },
+			"file": "data/model/frames/EuclideanFrame.ts",
+			"members": {},
+			"imports": [ "Frame.js" ]
 		},
 		"GeoFrame": {
 			"name": "GeoFrame",
@@ -2603,7 +2611,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Frame", "Distance", "Number" ]
+			"imports": [ "Item.js", "Type.js", "Distance.js", "Frame.js" ]
 		},
 		"GeoPose": {
 			"name": "GeoPose",
@@ -2686,7 +2694,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Pose", "GeoFrame", "GeoPosition" ]
+			"imports": [ "Item.js", "Type.js", "Pose.js", "GeoFrame.js", "GeoPosition.js" ]
 		},
 		"Orientation": {
 			"name": "Orientation",
@@ -2760,7 +2768,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Quaternion" ]
+			"imports": [ "Item.js", "Type.js", "Quaternion.js" ]
 		},
 		"AxisAngleOrientation": {
 			"name": "AxisAngleOrientation",
@@ -2836,7 +2844,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Orientation", "Angle", "Vector" ]
+			"imports": [ "Item.js", "Type.js", "Orientation.js", "Angle.js", "Vector.js" ]
 		},
 		"LookAtOrientation": {
 			"name": "LookAtOrientation",
@@ -2912,7 +2920,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Orientation", "String", "Vector" ]
+			"imports": [ "Item.js", "Type.js", "Orientation.js", "String.js", "Vector.js" ]
 		},
 		"MatrixOrientation": {
 			"name": "MatrixOrientation",
@@ -2973,7 +2981,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Orientation", "Number" ]
+			"imports": [ "Item.js", "Type.js", "Orientation.js", "Number.js" ]
 		},
 		"QuaternionOrientation": {
 			"name": "QuaternionOrientation",
@@ -3075,7 +3083,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Orientation", "Number" ]
+			"imports": [ "Item.js", "Type.js", "Orientation.js", "Number.js" ]
 		},
 		"YawPitchRollOrientation": {
 			"name": "YawPitchRollOrientation",
@@ -3163,7 +3171,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Orientation", "Angle" ]
+			"imports": [ "Item.js", "Type.js", "Orientation.js", "Angle.js" ]
 		},
 		"Pose": {
 			"name": "Pose",
@@ -3381,7 +3389,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Collection", "Frame", "Position", "Orientation", "Extension", "Vector" ]
+			"imports": [ "Item.js", "Type.js", "Collection.js", "Frame.js", "Position.js", "Orientation.js", "Extension.js", "Vector.js" ]
 		},
 		"EuclideanPoseQuaternion": {
 			"name": "EuclideanPoseQuaternion",
@@ -3443,7 +3451,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Pose", "EuclideanPosition", "QuaternionOrientation" ]
+			"imports": [ "Item.js", "Type.js", "Pose.js", "EuclideanPosition.js", "QuaternionOrientation.js" ]
 		},
 		"EuclideanPoseYPR": {
 			"name": "EuclideanPoseYPR",
@@ -3505,7 +3513,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Pose", "EuclideanPosition", "YawPitchRollOrientation" ]
+			"imports": [ "Item.js", "Type.js", "Pose.js", "EuclideanPosition.js", "YawPitchRollOrientation.js" ]
 		},
 		"GeoPoseBasicQuaternion": {
 			"name": "GeoPoseBasicQuaternion",
@@ -3559,7 +3567,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "GeoPose", "QuaternionOrientation", "Quaternion" ]
+			"imports": [ "Item.js", "Type.js", "GeoPose.js", "QuaternionOrientation.js", "Quaternion.js" ]
 		},
 		"GeoPoseBasicYPR": {
 			"name": "GeoPoseBasicYPR",
@@ -3634,7 +3642,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "GeoPose", "YawPitchRollOrientation" ]
+			"imports": [ "Item.js", "Type.js", "GeoPose.js", "YawPitchRollOrientation.js" ]
 		},
 		"Position": {
 			"name": "Position",
@@ -3722,7 +3730,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Vector" ]
+			"imports": [ "Item.js", "Type.js", "Vector.js" ]
 		},
 		"EuclideanPosition": {
 			"name": "EuclideanPosition",
@@ -3808,30 +3816,9 @@
 							"type": { "name": "any" }
 						}
 					]
-				},
-				"update": {
-					"name": "update",
-					"comment": {
-						"description": "Updates the Item instance.",
-						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "deltaTime",
-							"type": { "name": "number" },
-							"defaultValue": "0"
-						},
-						{
-							"name": "forced",
-							"type": { "name": "boolean" },
-							"defaultValue": "false"
-						}
-					]
 				}
 			},
-			"imports": [ "Item", "Type", "Position", "Distance" ]
+			"imports": [ "Item.js", "Type.js", "Position.js", "Distance.js" ]
 		},
 		"GeoPosition": {
 			"name": "GeoPosition",
@@ -3968,53 +3955,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Position", "Angle", "Distance", "GeoFrame", "GeoPose", "Vector" ]
-		},
-		"OrbitalPosition": {
-			"name": "OrbitalPosition",
-			"comment": { "description": "Defines a position in an orbital coordinate system." },
-			"type": { "name": "Position" },
-			"file": "data/model/positions/OrbitalPosition.ts",
-			"members": {
-				"Type": {
-					"name": "Type",
-					"comment": { "description": "The data type associated to the OrbitalPosition class." },
-					"modifiers": [ "public" ],
-					"kind": "field",
-					"parameters": [
-						{ "name": "\"orbital-position\"" },
-						{ "name": "OrbitalPosition" },
-						{ "name": "Position" }
-					]
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new instance of the OrbitalPosition class.",
-						"params": { "name": "The parent data item.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Item" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				}
-			},
-			"imports": [ "Item", "Type", "Position" ]
+			"imports": [ "Item.js", "Type.js", "Position.js", "Angle.js", "Distance.js", "GeoFrame.js", "GeoPose.js", "Vector.js" ]
 		},
 		"Serialization": {
 			"name": "Serialization",
@@ -4308,9 +4249,24 @@
 						}
 					],
 					"type": { "name": "boolean" }
+				},
+				"register": {
+					"name": "register",
+					"comment": {
+						"description": "Registers an instance of the type to the list.",
+						"params": { "instance": "The instance to register." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "instance",
+							"type": { "name": "Item" }
+						}
+					]
 				}
 			},
-			"imports": [ "Item" ]
+			"imports": [ "Item.js" ]
 		},
 		"GeoPoseSandbox": {
 			"name": "GeoPoseSandbox",
@@ -4363,16 +4319,16 @@
 						"subtype": { "name": "User" }
 					}
 				},
-				"id": {
-					"name": "id",
+				"frameworkName": {
+					"name": "frameworkName",
 					"comment": { "description": "The name of the GeoPose Sandbox." },
 					"modifiers": [ "get", "static", "public" ],
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "string" }
 				},
-				"version": {
-					"name": "version",
+				"frameworkVersion": {
+					"name": "frameworkVersion",
 					"comment": { "description": "The version number of the GeoPose Sandbox." },
 					"modifiers": [ "get", "static", "public" ],
 					"kind": "accessor",
@@ -4451,48 +4407,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Collection", "Space", "User" ]
-		},
-		"Behavior": {
-			"name": "Behavior",
-			"comment": { "description": "Defines an logic behavior," },
-			"type": { "name": "Item" },
-			"file": "logic/Behavior.ts",
-			"members": {
-				"Type": {
-					"name": "Type",
-					"comment": { "description": "The data type associated to the Behavior class." },
-					"modifiers": [ "public" ],
-					"kind": "field",
-					"parameters": [
-						{ "name": "\"behavior\"" },
-						{ "name": "Behavior" },
-						{ "name": "Item" }
-					]
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new Behavior instance.",
-						"params": { "name": "The name of the logic behavior.", "parent": "The parent item." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Item" }
-						}
-					]
-				}
-			},
-			"imports": [ "Item", "Type" ]
+			"imports": [ "Item.js", "Type.js", "Collection.js", "Serialization.js", "Simple.js", "Boolean.js", "Number.js", "String.js", "Measure.js", "Angle.js", "Distance.js", "Size.js", "Time.js", "Complex.js", "Vector.js", "Color.js", "Euler.js", "Quaternion.js", "Shape.js", "Box.js", "Ellipsoid.js", "Sphere.js", "Frame.js", "EuclideanFrame.js", "GeoFrame.js", "Position.js", "EuclideanPosition.js", "GeoPosition.js", "Orientation.js", "AxisAngleOrientation.js", "LookAtOrientation.js", "MatrixOrientation.js", "QuaternionOrientation.js", "YawPitchRollOrientation.js", "Pose.js", "EuclideanPoseQuaternion.js", "EuclideanPoseYPR.js", "GeoPoseBasicQuaternion.js", "GeoPoseBasicYPR.js", "Extension.js", "GeoPose.js", "Event.js", "Entity.js", "ArrowEntity.js", "AtmosphereEntity.js", "BackgroundEntity.js", "GraticuleEntity.js", "GridEntity.js", "PresenceEntity.js", "ShapeEntity.js", "SpaceEntity.js", "TerrainEntity.js", "User.js", "View.js", "Layer.js", "Space.js", "Presence.js", "Widget.js", "BackgroundWidget.js", "CameraWidget.js", "GeoPoseWidget.js", "PlanetWidget.js", "Item.js", "Type.js", "Collection.js", "Space.js", "User.js" ]
 		},
 		"ArrowEntity": {
 			"name": "ArrowEntity",
@@ -4515,7 +4430,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new ArrowEntity instance.",
-						"params": { "name": "The name of the entity.", "parentNode": "The parent entity." }
+						"params": { "name": "The name of the entity.", "parent": "The parent entity." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -4532,7 +4447,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "three", "Item", "Type", "Entity" ]
+			"imports": [ "three", "Type.js", "Entity.js" ]
 		},
 		"AtmosphereEntity": {
 			"name": "AtmosphereEntity",
@@ -4636,7 +4551,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Item", "Type", "Entity", "Ellipsoid", "String" ]
+			"imports": [ "three", "Item.js", "Type.js", "Entity.js", "Ellipsoid.js", "String.js" ]
 		},
 		"BackgroundEntity": {
 			"name": "BackgroundEntity",
@@ -4740,7 +4655,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Item", "Type", "Entity", "Ellipsoid", "String" ]
+			"imports": [ "three", "Item.js", "Type.js", "Entity.js", "Ellipsoid.js", "String.js" ]
 		},
 		"GraticuleEntity": {
 			"name": "GraticuleEntity",
@@ -4829,7 +4744,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Item", "Type", "Entity", "Ellipsoid", "String" ]
+			"imports": [ "three", "Item.js", "Type.js", "Entity.js", "Ellipsoid.js", "String.js" ]
 		},
 		"GridEntity": {
 			"name": "GridEntity",
@@ -4874,7 +4789,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Item", "GeoPosition", "Type", "Entity" ]
+			"imports": [ "three", "Item.js", "GeoPosition.js", "Type.js", "Entity.js" ]
 		},
 		"PresenceEntity": {
 			"name": "PresenceEntity",
@@ -5008,7 +4923,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Item", "Type", "Entity", "Number" ]
+			"imports": [ "three", "Item.js", "Type.js", "Entity.js", "Number.js" ]
 		},
 		"ShapeEntity": {
 			"name": "ShapeEntity",
@@ -5053,7 +4968,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "three", "Item", "Type", "Entity" ]
+			"imports": [ "three", "Type.js", "Entity.js" ]
 		},
 		"SpaceEntity": {
 			"name": "SpaceEntity",
@@ -5099,7 +5014,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Item", "Type", "Entity" ]
+			"imports": [ "three", "Item.js", "Type.js", "Entity.js" ]
 		},
 		"TerrainEntity": {
 			"name": "TerrainEntity",
@@ -5218,7 +5133,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Item", "Type", "Entity", "Ellipsoid", "String" ]
+			"imports": [ "three", "Item.js", "Type.js", "Entity.js", "Ellipsoid.js", "String.js" ]
 		},
 		"Entity": {
 			"name": "Entity",
@@ -5319,7 +5234,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Item", "Type", "Pose" ]
+			"imports": [ "three", "Item.js", "Type.js", "Pose.js" ]
 		},
 		"Event": {
 			"name": "Event",
@@ -5445,13 +5360,13 @@
 					"name": "trigger",
 					"comment": {
 						"description": "Triggers the event.",
-						"params": { "target": "The object that triggers the event.", "data": "Additional event data." }
+						"params": { "source": "The object that triggers the event.", "data": "Additional event data." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "method",
 					"parameters": [
 						{
-							"name": "target",
+							"name": "source",
 							"optional": true,
 							"type": { "name": "any" }
 						},
@@ -5464,116 +5379,6 @@
 				}
 			},
 			"imports": []
-		},
-		"ViewPort": {
-			"name": "ViewPort",
-			"comment": { "description": "Defines a Viewport." },
-			"type": null,
-			"file": "logic/ViewPort.ts",
-			"members": {
-				"_canvas": {
-					"name": "_canvas",
-					"comment": { "description": "The canvas element of the viewport." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "HTMLCanvasElement" }
-				},
-				"_renderer": {
-					"name": "_renderer",
-					"comment": { "description": "The renderer of the viewport." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "THREE.WebGLRenderer" }
-				},
-				"_width": {
-					"name": "_width",
-					"comment": { "description": "The width of the viewport." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "number" }
-				},
-				"_height": {
-					"name": "_height",
-					"comment": { "description": "The height of the viewport." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "number" }
-				},
-				"canvas": {
-					"name": "canvas",
-					"comment": { "description": "The canvas element of the viewport." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "HTMLCanvasElement" }
-				},
-				"renderer": {
-					"name": "renderer",
-					"comment": { "description": "The renderer of the viewport." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "THREE.WebGLRenderer" }
-				},
-				"width": {
-					"name": "width",
-					"comment": { "description": "The width of the viewport." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "number" }
-				},
-				"height": {
-					"name": "height",
-					"comment": { "description": "The height of the viewport." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "number" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new ViewPort instance.",
-						"params": { "canvas": "The canvas of the viewport.", "updateFunction": "The callback for the." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{ "name": "canvas" },
-						{ "name": "updateFunction" }
-					]
-				},
-				"resize": {
-					"name": "resize",
-					"comment": {
-						"description": "Resizes the viewport.",
-						"params": { "width": "The new width of the viewport.", "height": "The new height of the viewport." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{ "name": "width" },
-						{ "name": "height" }
-					]
-				},
-				"render": {
-					"name": "render",
-					"comment": {
-						"description": "Renders the viewport.",
-						"params": { "presence": "The presence of a user in a interaction space" }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "presence",
-							"type": { "name": "Presence" }
-						}
-					]
-				}
-			},
-			"imports": [ "three", "Presence" ]
 		},
 		"Layer": {
 			"name": "Layer",
@@ -5696,7 +5501,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Collection", "Presence", "Space", "Widget", "Entity" ]
+			"imports": [ "Item.js", "Type.js", "Collection.js", "Presence.js", "Space.js", "Widget.js", "Entity.js" ]
 		},
 		"Presence": {
 			"name": "Presence",
@@ -5776,7 +5581,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "PresenceEntity", "Space" ]
+			"imports": [ "Item.js", "Type.js", "PresenceEntity.js", "Space.js" ]
 		},
 		"Space": {
 			"name": "Space",
@@ -5921,7 +5726,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Collection", "SpaceEntity", "Presence", "Widget" ]
+			"imports": [ "Item.js", "Type.js", "Collection.js", "SpaceEntity.js", "Presence.js", "Widget.js" ]
 		},
 		"View": {
 			"name": "View",
@@ -6214,7 +6019,117 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Number", "String", "Collection", "Layer", "User", "ViewPort" ]
+			"imports": [ "Item.js", "Type.js", "Number.js", "String.js", "Collection.js", "Layer.js", "User.js", "ViewPort.js" ]
+		},
+		"ViewPort": {
+			"name": "ViewPort",
+			"comment": { "description": "Defines a Viewport." },
+			"type": null,
+			"file": "user/interaction/ViewPort.ts",
+			"members": {
+				"_canvas": {
+					"name": "_canvas",
+					"comment": { "description": "The canvas element of the viewport." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "HTMLCanvasElement" }
+				},
+				"_renderer": {
+					"name": "_renderer",
+					"comment": { "description": "The renderer of the viewport." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.WebGLRenderer" }
+				},
+				"_width": {
+					"name": "_width",
+					"comment": { "description": "The width of the viewport." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_height": {
+					"name": "_height",
+					"comment": { "description": "The height of the viewport." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"canvas": {
+					"name": "canvas",
+					"comment": { "description": "The canvas element of the viewport." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "HTMLCanvasElement" }
+				},
+				"renderer": {
+					"name": "renderer",
+					"comment": { "description": "The renderer of the viewport." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "THREE.WebGLRenderer" }
+				},
+				"width": {
+					"name": "width",
+					"comment": { "description": "The width of the viewport." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"height": {
+					"name": "height",
+					"comment": { "description": "The height of the viewport." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new ViewPort instance.",
+						"params": { "canvas": "The canvas of the viewport.", "updateFunction": "The callback for the." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{ "name": "canvas" },
+						{ "name": "updateFunction" }
+					]
+				},
+				"resize": {
+					"name": "resize",
+					"comment": {
+						"description": "Resizes the viewport.",
+						"params": { "width": "The new width of the viewport.", "height": "The new height of the viewport." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{ "name": "width" },
+						{ "name": "height" }
+					]
+				},
+				"render": {
+					"name": "render",
+					"comment": {
+						"description": "Renders the viewport.",
+						"params": { "presence": "The presence of a user in a interaction space" }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "presence",
+							"type": { "name": "Presence" }
+						}
+					]
+				}
+			},
+			"imports": [ "three", "Presence.js" ]
 		},
 		"Widget": {
 			"name": "Widget",
@@ -6324,7 +6239,7 @@
 					]
 				}
 			},
-			"imports": [ "Collection", "Item", "Type", "Entity", "Layer", "Space" ]
+			"imports": [ "Collection.js", "Item.js", "Type.js", "Entity.js", "Layer.js" ]
 		},
 		"BackgroundWidget": {
 			"name": "BackgroundWidget",
@@ -6370,7 +6285,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "BackgroundEntity", "ShapeEntity", "Widget" ]
+			"imports": [ "Item.js", "Type.js", "BackgroundEntity.js", "Widget.js" ]
 		},
 		"CameraWidget": {
 			"name": "CameraWidget",
@@ -6424,7 +6339,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Pose", "GeoPoseBasicYPR", "Type", "PresenceEntity", "Layer", "Widget" ]
+			"imports": [ "Item.js", "Pose.js", "GeoPoseBasicYPR.js", "Type.js", "PresenceEntity.js", "Layer.js", "Widget.js" ]
 		},
 		"GeoPoseWidget": {
 			"name": "GeoPoseWidget",
@@ -6457,6 +6372,13 @@
 					"kind": "field",
 					"type": { "name": "GridEntity" }
 				},
+				"_frame": {
+					"name": "_frame",
+					"comment": { "description": "The geographic frame of the widget." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "GeoFrame" }
+				},
 				"arrow": {
 					"name": "arrow",
 					"comment": { "description": "The arrow of the widget." },
@@ -6472,6 +6394,14 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "GridEntity" }
+				},
+				"frame": {
+					"name": "frame",
+					"comment": { "description": "The geographic frame of the widget." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "GeoFrame" }
 				},
 				"<constructor>": {
 					"name": "constructor",
@@ -6498,9 +6428,30 @@
 							"defaultValue": "{"
 						}
 					]
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the GeoPoseWidget instance.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						}
+					]
 				}
 			},
-			"imports": [ "Item", "Type", "Widget", "ShapeEntity", "GeoPoseBasicYPR", "Layer", "GridEntity", "EuclideanPoseYPR" ]
+			"imports": [ "Item.js", "Type.js", "Widget.js", "ArrowEntity.js", "GeoPoseBasicYPR.js", "GridEntity.js", "EuclideanPoseYPR.js", "GeoFrame.js" ]
 		},
 		"PlanetWidget": {
 			"name": "PlanetWidget",
@@ -6627,7 +6578,7 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Widget", "TerrainEntity", "AtmosphereEntity", "GraticuleEntity", "GeoFrame" ]
+			"imports": [ "Item.js", "Type.js", "Widget.js", "TerrainEntity.js", "AtmosphereEntity.js", "GraticuleEntity.js", "GeoFrame.js" ]
 		},
 		"User": {
 			"name": "User",
@@ -6715,269 +6666,265 @@
 					]
 				}
 			},
-			"imports": [ "Item", "Type", "Collection", "Presence", "View" ]
+			"imports": [ "Item.js", "Type.js", "Collection.js", "Presence.js", "View.js" ]
 		}
 	},
 	"files": {
-		"data/Type.ts": {
-			"classes": [ "Type" ],
-			"links": [ "data/Item.ts" ]
+		"data/Item.ts": {
+			"classes": [ "Item" ],
+			"links": [ "data/Type.js.ts", "logic/Event.js.ts", "data/Collection.js.ts", "data/Serialization.js.ts" ]
 		},
-		"logic/Event.ts": {
-			"classes": [ "Event" ],
-			"links": []
+		"data/Collection.ts": {
+			"classes": [ "Collection" ],
+			"links": [ "GeoPoseSandbox.js.ts" ]
+		},
+		"data/items/Complex.ts": {
+			"classes": [ "Complex" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/simple/Number.js.ts" ]
+		},
+		"data/items/complex/Color.ts": {
+			"classes": [ "Color" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Complex.js.ts", "data/items/simple/Number.js.ts" ]
+		},
+		"data/items/complex/Euler.ts": {
+			"classes": [ "Euler" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Complex.js.ts", "data/items/simple/String.js.ts", "data/items/measures/Angle.js.ts" ]
+		},
+		"data/items/complex/Quaternion.ts": {
+			"classes": [ "Quaternion" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Complex.js.ts", "data/items/simple/Number.js.ts" ]
+		},
+		"data/items/complex/Vector.ts": {
+			"classes": [ "Vector" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Complex.js.ts", "data/items/measures/Distance.js.ts", "data/items/measures/Size.js.ts" ]
+		},
+		"data/items/Simple.ts": {
+			"classes": [ "Simple" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "logic/Event.js.ts" ]
+		},
+		"data/items/simple/Number.ts": {
+			"classes": [ "Number" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Simple.js.ts" ]
+		},
+		"data/items/Measure.ts": {
+			"classes": [ "Measure", "MeasurementUnit" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/simple/Number.js.ts" ]
+		},
+		"data/items/measures/Angle.ts": {
+			"classes": [ "Angle" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Measure.js.ts" ]
+		},
+		"data/items/measures/Distance.ts": {
+			"classes": [ "Distance" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Measure.js.ts" ]
+		},
+		"data/items/measures/Size.ts": {
+			"classes": [ "Size" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Measure.js.ts" ]
+		},
+		"data/items/measures/Time.ts": {
+			"classes": [ "Time" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Measure.js.ts" ]
+		},
+		"data/items/Shape.ts": {
+			"classes": [ "Shape" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/simple/String.js.ts" ]
+		},
+		"data/items/shapes/Box.ts": {
+			"classes": [ "Box" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Shape.js.ts", "data/items/measures/Size.js.ts" ]
+		},
+		"data/items/shapes/Ellipsoid.ts": {
+			"classes": [ "Ellipsoid" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Shape.js.ts", "data/items/measures/Size.js.ts" ]
+		},
+		"data/items/shapes/Sphere.ts": {
+			"classes": [ "Sphere" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Shape.js.ts", "data/items/measures/Size.js.ts" ]
+		},
+		"data/items/simple/Boolean.ts": {
+			"classes": [ "Boolean" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Simple.js.ts" ]
+		},
+		"data/items/simple/String.ts": {
+			"classes": [ "String" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/Simple.js.ts" ]
+		},
+		"data/model/Extension.ts": {
+			"classes": [ "Extension" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts" ]
+		},
+		"data/model/Frame.ts": {
+			"classes": [ "Frame" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/simple/String.js.ts" ]
+		},
+		"data/model/frames/EuclideanFrame.ts": {
+			"classes": [ "EuclideanFrame" ],
+			"links": [ "data/model/Frame.js.ts" ]
+		},
+		"data/model/frames/GeoFrame.ts": {
+			"classes": [ "GeoFrame" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/measures/Distance.js.ts", "data/model/Frame.js.ts" ]
+		},
+		"data/model/Pose.ts": {
+			"classes": [ "Pose" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/Collection.js.ts", "data/model/Frame.js.ts", "data/model/Position.js.ts", "data/model/Orientation.js.ts", "data/model/Extension.js.ts", "data/items/complex/Vector.js.ts" ]
+		},
+		"data/model/GeoPose.ts": {
+			"classes": [ "GeoPose" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Pose.js.ts", "data/model/frames/GeoFrame.js.ts", "data/model/positions/GeoPosition.js.ts" ]
+		},
+		"data/model/Orientation.ts": {
+			"classes": [ "Orientation" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/complex/Quaternion.js.ts" ]
+		},
+		"data/model/orientations/AxisAngleOrientation.ts": {
+			"classes": [ "AxisAngleOrientation" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Orientation.js.ts", "data/items/measures/Angle.js.ts", "data/items/complex/Vector.js.ts" ]
+		},
+		"data/model/orientations/LookAtOrientation.ts": {
+			"classes": [ "LookAtOrientation" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Orientation.js.ts", "data/items/simple/String.js.ts", "data/items/complex/Vector.js.ts" ]
+		},
+		"data/model/orientations/MatrixOrientation.ts": {
+			"classes": [ "MatrixOrientation" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Orientation.js.ts", "data/items/simple/Number.js.ts" ]
+		},
+		"data/model/orientations/QuaternionOrientation.ts": {
+			"classes": [ "QuaternionOrientation" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Orientation.js.ts", "data/items/simple/Number.js.ts" ]
+		},
+		"data/model/orientations/YawPitchRollOrientation.ts": {
+			"classes": [ "YawPitchRollOrientation" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Orientation.js.ts", "data/items/measures/Angle.js.ts" ]
+		},
+		"data/model/poses/EuclideanPoseQuaternion.ts": {
+			"classes": [ "EuclideanPoseQuaternion" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Pose.js.ts", "data/model/positions/EuclideanPosition.js.ts", "data/model/orientations/QuaternionOrientation.js.ts" ]
+		},
+		"data/model/poses/EuclideanPoseYPR.ts": {
+			"classes": [ "EuclideanPoseYPR" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Pose.js.ts", "data/model/positions/EuclideanPosition.js.ts", "data/model/orientations/YawPitchRollOrientation.js.ts" ]
+		},
+		"data/model/poses/GeoPoseBasicQuaternion.ts": {
+			"classes": [ "GeoPoseBasicQuaternion" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/GeoPose.js.ts", "data/model/orientations/QuaternionOrientation.js.ts", "data/items/complex/Quaternion.js.ts" ]
+		},
+		"data/model/poses/GeoPoseBasicYPR.ts": {
+			"classes": [ "GeoPoseBasicYPR" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/GeoPose.js.ts", "data/model/orientations/YawPitchRollOrientation.js.ts" ]
+		},
+		"data/model/Position.ts": {
+			"classes": [ "Position" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/complex/Vector.js.ts" ]
+		},
+		"data/model/positions/EuclideanPosition.ts": {
+			"classes": [ "EuclideanPosition" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Position.js.ts", "data/items/measures/Distance.js.ts" ]
+		},
+		"data/model/positions/GeoPosition.ts": {
+			"classes": [ "GeoPosition" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/model/Position.js.ts", "data/items/measures/Angle.js.ts", "data/items/measures/Distance.js.ts", "data/model/frames/GeoFrame.js.ts", "data/model/GeoPose.js.ts", "data/items/complex/Vector.js.ts" ]
 		},
 		"data/Serialization.ts": {
 			"classes": [ "Serialization" ],
 			"links": [ "data/Item.ts" ]
 		},
-		"data/Item.ts": {
-			"classes": [ "Item" ],
-			"links": [ "data/Type.ts", "logic/Event.ts", "data/Collection.ts", "data/Serialization.ts" ]
-		},
-		"data/Collection.ts": {
-			"classes": [ "Collection" ],
-			"links": [ "data/Item.ts", "data/Type.ts" ]
-		},
-		"data/items/Simple.ts": {
-			"classes": [ "Simple" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "logic/Event.ts" ]
-		},
-		"data/items/simple/Number.ts": {
-			"classes": [ "Number" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Simple.ts" ]
-		},
-		"data/items/Complex.ts": {
-			"classes": [ "Complex" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/simple/Number.ts" ]
-		},
-		"data/items/complex/Color.ts": {
-			"classes": [ "Color" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Complex.ts", "data/items/simple/Number.ts" ]
-		},
-		"data/items/simple/String.ts": {
-			"classes": [ "String" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Simple.ts" ]
-		},
-		"data/items/Measure.ts": {
-			"classes": [ "Measure", "MeasurementUnit" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/simple/Number.ts" ]
-		},
-		"data/items/measures/Angle.ts": {
-			"classes": [ "Angle" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Measure.ts" ]
-		},
-		"data/items/complex/Euler.ts": {
-			"classes": [ "Euler" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Complex.ts", "data/items/simple/String.ts", "data/items/measures/Angle.ts" ]
-		},
-		"data/items/complex/Quaternion.ts": {
-			"classes": [ "Quaternion" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Complex.ts", "data/items/simple/Number.ts" ]
-		},
-		"data/items/measures/Distance.ts": {
-			"classes": [ "Distance" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Measure.ts" ]
-		},
-		"data/items/measures/Size.ts": {
-			"classes": [ "Size" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Measure.ts" ]
-		},
-		"data/items/complex/Vector.ts": {
-			"classes": [ "Vector" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Complex.ts", "data/items/measures/Distance.ts", "data/items/measures/Size.ts" ]
-		},
-		"data/items/measures/Time.ts": {
-			"classes": [ "Time" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Measure.ts" ]
-		},
-		"data/items/Shape.ts": {
-			"classes": [ "Shape" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/simple/String.ts" ]
-		},
-		"data/items/shapes/Box.ts": {
-			"classes": [ "Box" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Shape.ts", "data/items/measures/Size.ts" ]
-		},
-		"data/items/shapes/Ellipsoid.ts": {
-			"classes": [ "Ellipsoid" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Shape.ts", "data/items/measures/Size.ts" ]
-		},
-		"data/items/shapes/Sphere.ts": {
-			"classes": [ "Sphere" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Shape.ts", "data/items/measures/Size.ts" ]
-		},
-		"data/items/simple/Boolean.ts": {
-			"classes": [ "Boolean" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Simple.ts" ]
-		},
-		"data/model/Extension.ts": {
-			"classes": [ "Extension" ],
-			"links": [ "data/Item.ts", "data/Type.ts" ]
-		},
-		"data/model/Frame.ts": {
-			"classes": [ "Frame" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/Simple/String.ts", "data/items/Shape.ts" ]
-		},
-		"data/model/frames/GeoFrame.ts": {
-			"classes": [ "GeoFrame" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Frame.ts", "data/items/measures/Distance.ts", "data/items/simple/Number.ts" ]
-		},
-		"data/model/Position.ts": {
-			"classes": [ "Position" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/complex/Vector.ts" ]
-		},
-		"data/model/Orientation.ts": {
-			"classes": [ "Orientation" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/complex/Quaternion.ts" ]
-		},
-		"data/model/Pose.ts": {
-			"classes": [ "Pose" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "data/model/Frame.ts", "data/model/Position.ts", "data/model/Orientation.ts", "data/model/Extension.ts", "data/items/complex/Vector.ts" ]
-		},
-		"data/model/positions/GeoPosition.ts": {
-			"classes": [ "GeoPosition" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Position.ts", "data/items/measures/Angle.ts", "data/items/measures/Distance.ts", "data/model/frames/GeoFrame.ts", "data/model/GeoPose.ts", "data/items/complex/Vector.ts" ]
-		},
-		"data/model/GeoPose.ts": {
-			"classes": [ "GeoPose" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Pose.ts", "data/model/frames/GeoFrame.ts", "data/model/positions/GeoPosition.ts" ]
-		},
-		"data/model/orientations/AxisAngleOrientation.ts": {
-			"classes": [ "AxisAngleOrientation" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/measures/Angle.ts", "data/items/complex/Vector.ts" ]
-		},
-		"data/model/orientations/LookAtOrientation.ts": {
-			"classes": [ "LookAtOrientation" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/simple/String.ts", "data/items/complex/Vector.ts" ]
-		},
-		"data/model/orientations/MatrixOrientation.ts": {
-			"classes": [ "MatrixOrientation" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/simple/Number.ts" ]
-		},
-		"data/model/orientations/QuaternionOrientation.ts": {
-			"classes": [ "QuaternionOrientation" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/simple/Number.ts" ]
-		},
-		"data/model/orientations/YawPitchRollOrientation.ts": {
-			"classes": [ "YawPitchRollOrientation" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Orientation.ts", "data/items/measures/Angle.ts" ]
-		},
-		"data/model/positions/EuclideanPosition.ts": {
-			"classes": [ "EuclideanPosition" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Position.ts", "data/items/measures/Distance.ts" ]
-		},
-		"data/model/poses/EuclideanPoseQuaternion.ts": {
-			"classes": [ "EuclideanPoseQuaternion" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Pose.ts", "data/model/positions/EuclideanPosition.ts", "data/model/orientations/QuaternionOrientation.ts" ]
-		},
-		"data/model/poses/EuclideanPoseYPR.ts": {
-			"classes": [ "EuclideanPoseYPR" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Pose.ts", "data/model/positions/EuclideanPosition.ts", "data/model/orientations/YawPitchRollOrientation.ts" ]
-		},
-		"data/model/poses/GeoPoseBasicQuaternion.ts": {
-			"classes": [ "GeoPoseBasicQuaternion" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/GeoPose.ts", "data/model/orientations/QuaternionOrientation.ts", "data/items/complex/Quaternion.ts" ]
-		},
-		"data/model/poses/GeoPoseBasicYPR.ts": {
-			"classes": [ "GeoPoseBasicYPR" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/GeoPose.ts", "data/model/orientations/YawPitchRollOrientation.ts" ]
-		},
-		"data/model/positions/OrbitalPosition.ts": {
-			"classes": [ "OrbitalPosition" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/model/Position.ts" ]
-		},
-		"logic/Entity.ts": {
-			"classes": [ "Entity" ],
-			"links": [ "logic/three.ts", "data/Item.ts", "data/Type.ts", "data/model/Pose.ts" ]
-		},
-		"logic/entities/SpaceEntity.ts": {
-			"classes": [ "SpaceEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts" ]
-		},
-		"logic/entities/PresenceEntity.ts": {
-			"classes": [ "PresenceEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "data/items/simple/Number.ts" ]
-		},
-		"user/interaction/Presence.ts": {
-			"classes": [ "Presence" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "logic/entities/PresenceEntity.ts", "user/interaction/Space.ts" ]
-		},
-		"user/interaction/Layer.ts": {
-			"classes": [ "Layer" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "user/interaction/Presence.ts", "user/interaction/Space.ts", "user/interaction/Widget.ts", "logic/Entity.ts" ]
-		},
-		"user/interaction/Widget.ts": {
-			"classes": [ "Widget" ],
-			"links": [ "data/Collection.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "user/interaction/Layer.ts", "user/interaction/Space.ts" ]
-		},
-		"user/interaction/Space.ts": {
-			"classes": [ "Space" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "logic/entities/SpaceEntity.ts", "user/interaction/Presence.ts", "user/interaction/Widget.ts" ]
-		},
-		"logic/ViewPort.ts": {
-			"classes": [ "ViewPort" ],
-			"links": [ "logic/three.ts", "user/interaction/Presence.ts" ]
-		},
-		"user/interaction/View.ts": {
-			"classes": [ "View" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/items/simple/Number.ts", "data/items/simple/String.ts", "data/Collection.ts", "user/interaction/Layer.ts", "user/User.ts", "logic/ViewPort.ts" ]
-		},
-		"user/User.ts": {
-			"classes": [ "User" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "user/interaction/Presence.ts", "user/interaction/View.ts" ]
+		"data/Type.ts": {
+			"classes": [ "Type" ],
+			"links": [ "data/Item.js.ts" ]
 		},
 		"GeoPoseSandbox.ts": {
 			"classes": [ "GeoPoseSandbox" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "data/Collection.ts", "user/interaction/Space.ts", "user/User.ts" ]
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/Collection.js.ts", "data/Serialization.js.ts", "data/items/Simple.js.ts", "data/items/simple/Boolean.js.ts", "data/items/simple/Number.js.ts", "data/items/simple/String.js.ts", "data/items/Measure.js.ts", "data/items/measures/Angle.js.ts", "data/items/measures/Distance.js.ts", "data/items/measures/Size.js.ts", "data/items/measures/Time.js.ts", "data/items/Complex.js.ts", "data/items/complex/Vector.js.ts", "data/items/complex/Color.js.ts", "data/items/complex/Euler.js.ts", "data/items/complex/Quaternion.js.ts", "data/items/Shape.js.ts", "data/items/shapes/Box.js.ts", "data/items/shapes/Ellipsoid.js.ts", "data/items/shapes/Sphere.js.ts", "data/model/Frame.js.ts", "data/model/frames/EuclideanFrame.js.ts", "data/model/frames/GeoFrame.js.ts", "data/model/Position.js.ts", "data/model/positions/EuclideanPosition.js.ts", "data/model/positions/GeoPosition.js.ts", "data/model/Orientation.js.ts", "data/model/orientations/AxisAngleOrientation.js.ts", "data/model/orientations/LookAtOrientation.js.ts", "data/model/orientations/MatrixOrientation.js.ts", "data/model/orientations/QuaternionOrientation.js.ts", "data/model/orientations/YawPitchRollOrientation.js.ts", "data/model/Pose.js.ts", "data/model/poses/EuclideanPoseQuaternion.js.ts", "data/model/poses/EuclideanPoseYPR.js.ts", "data/model/poses/GeoPoseBasicQuaternion.js.ts", "data/model/poses/GeoPoseBasicYPR.js.ts", "data/model/Extension.js.ts", "data/model/GeoPose.js.ts", "logic/Event.js.ts", "logic/Entity.js.ts", "logic/entities/ArrowEntity.js.ts", "logic/entities/AtmosphereEntity.js.ts", "logic/entities/BackgroundEntity.js.ts", "logic/entities/GraticuleEntity.js.ts", "logic/entities/GridEntity.js.ts", "logic/entities/PresenceEntity.js.ts", "logic/entities/ShapeEntity.js.ts", "logic/entities/SpaceEntity.js.ts", "logic/entities/TerrainEntity.js.ts", "user/User.js.ts", "user/interaction/View.js.ts", "user/interaction/Layer.js.ts", "user/interaction/Space.js.ts", "user/interaction/Presence.js.ts", "user/interaction/Widget.js.ts", "user/interaction/widgets/BackgroundWidget.js.ts", "user/interaction/widgets/CameraWidget.js.ts", "user/interaction/widgets/GeoPoseWidget.js.ts", "user/interaction/widgets/PlanetWidget.js.ts", "data/Item.js.ts", "data/Type.js.ts", "data/Collection.js.ts", "user/interaction/Space.js.ts", "user/User.js.ts" ]
 		},
-		"logic/Behavior.ts": {
-			"classes": [ "Behavior" ],
-			"links": [ "data/Item.ts", "data/Type.ts" ]
+		"logic/Entity.ts": {
+			"classes": [ "Entity" ],
+			"links": [ "logic/three.ts", "data/Item.js.ts", "data/Type.js.ts", "data/model/Pose.js.ts" ]
 		},
 		"logic/entities/ArrowEntity.ts": {
 			"classes": [ "ArrowEntity" ],
-			"links": [ "logic/entities/three.ts", "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts" ]
+			"links": [ "logic/entities/three.ts", "data/Type.js.ts", "logic/Entity.js.ts" ]
 		},
 		"logic/entities/AtmosphereEntity.ts": {
 			"classes": [ "AtmosphereEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "data/items/shapes/Ellipsoid.ts", "data/items/simple/String.ts" ]
+			"links": [ "logic/entities/three.ts", "data/Item.js.ts", "data/Type.js.ts", "logic/Entity.js.ts", "data/items/shapes/Ellipsoid.js.ts", "data/items/simple/String.js.ts" ]
 		},
 		"logic/entities/BackgroundEntity.ts": {
 			"classes": [ "BackgroundEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "data/items/shapes/Ellipsoid.ts", "data/items/simple/String.ts" ]
+			"links": [ "logic/entities/three.ts", "data/Item.js.ts", "data/Type.js.ts", "logic/Entity.js.ts", "data/items/shapes/Ellipsoid.js.ts", "data/items/simple/String.js.ts" ]
 		},
 		"logic/entities/GraticuleEntity.ts": {
 			"classes": [ "GraticuleEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "data/items/shapes/Ellipsoid.ts", "data/items/simple/String.ts" ]
+			"links": [ "logic/entities/three.ts", "data/Item.js.ts", "data/Type.js.ts", "logic/Entity.js.ts", "data/items/shapes/Ellipsoid.js.ts", "data/items/simple/String.js.ts" ]
 		},
 		"logic/entities/GridEntity.ts": {
 			"classes": [ "GridEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/model/positions/GeoPosition.ts", "data/Type.ts", "logic/Entity.ts" ]
+			"links": [ "logic/entities/three.ts", "data/Item.js.ts", "data/model/positions/GeoPosition.js.ts", "data/Type.js.ts", "logic/Entity.js.ts" ]
+		},
+		"logic/entities/PresenceEntity.ts": {
+			"classes": [ "PresenceEntity" ],
+			"links": [ "logic/entities/three.ts", "data/Item.js.ts", "data/Type.js.ts", "logic/Entity.js.ts", "data/items/simple/Number.js.ts" ]
 		},
 		"logic/entities/ShapeEntity.ts": {
 			"classes": [ "ShapeEntity" ],
-			"links": [ "logic/entities/three.ts", "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts" ]
+			"links": [ "logic/entities/three.ts", "data/Type.js.ts", "logic/Entity.js.ts" ]
+		},
+		"logic/entities/SpaceEntity.ts": {
+			"classes": [ "SpaceEntity" ],
+			"links": [ "logic/entities/three.ts", "data/Item.js.ts", "data/Type.js.ts", "logic/Entity.js.ts" ]
 		},
 		"logic/entities/TerrainEntity.ts": {
 			"classes": [ "TerrainEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Item.ts", "data/Type.ts", "logic/Entity.ts", "data/items/shapes/Ellipsoid.ts", "data/items/simple/String.ts" ]
+			"links": [ "logic/entities/three.ts", "data/Item.js.ts", "data/Type.js.ts", "logic/Entity.js.ts", "data/items/shapes/Ellipsoid.js.ts", "data/items/simple/String.js.ts" ]
+		},
+		"logic/Event.ts": {
+			"classes": [ "Event" ],
+			"links": []
+		},
+		"user/interaction/Layer.ts": {
+			"classes": [ "Layer" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/Collection.js.ts", "user/interaction/Presence.js.ts", "user/interaction/Space.js.ts", "user/interaction/Widget.js.ts", "logic/Entity.js.ts" ]
+		},
+		"user/interaction/Presence.ts": {
+			"classes": [ "Presence" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "logic/entities/PresenceEntity.js.ts", "user/interaction/Space.js.ts" ]
+		},
+		"user/interaction/Space.ts": {
+			"classes": [ "Space" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/Collection.js.ts", "logic/entities/SpaceEntity.js.ts", "user/interaction/Presence.js.ts", "user/interaction/Widget.js.ts" ]
+		},
+		"user/interaction/View.ts": {
+			"classes": [ "View" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/items/simple/Number.js.ts", "data/items/simple/String.js.ts", "data/Collection.js.ts", "user/interaction/Layer.js.ts", "user/User.js.ts", "user/interaction/ViewPort.js.ts" ]
+		},
+		"user/interaction/ViewPort.ts": {
+			"classes": [ "ViewPort" ],
+			"links": [ "user/interaction/three.ts", "user/interaction/Presence.js.ts" ]
+		},
+		"user/interaction/Widget.ts": {
+			"classes": [ "Widget" ],
+			"links": [ "data/Collection.js.ts", "data/Item.js.ts", "data/Type.js.ts", "logic/Entity.js.ts", "user/interaction/Layer.js.ts" ]
 		},
 		"user/interaction/widgets/BackgroundWidget.ts": {
 			"classes": [ "BackgroundWidget" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "logic/entities/BackgroundEntity.ts", "logic/entities/ShapeEntity.ts", "user/interaction/Widget.ts" ]
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "logic/entities/BackgroundEntity.js.ts", "user/interaction/Widget.js.ts" ]
 		},
 		"user/interaction/widgets/CameraWidget.ts": {
 			"classes": [ "CameraWidget" ],
-			"links": [ "data/Item.ts", "data/model/Pose.ts", "data/model/poses/GeoPoseBasicYPR.ts", "data/Type.ts", "logic/entities/PresenceEntity.ts", "user/interaction/Layer.ts", "user/interaction/Widget.ts" ]
+			"links": [ "data/Item.js.ts", "data/model/Pose.js.ts", "data/model/poses/GeoPoseBasicYPR.js.ts", "data/Type.js.ts", "logic/entities/PresenceEntity.js.ts", "user/interaction/Layer.js.ts", "user/interaction/Widget.js.ts" ]
 		},
 		"user/interaction/widgets/GeoPoseWidget.ts": {
 			"classes": [ "GeoPoseWidget" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "user/interaction/Widget.ts", "logic/entities/ShapeEntity.ts", "data/model/poses/GeoPoseBasicYPR.ts", "user/interaction/Layer.ts", "logic/entities/GridEntity.ts", "data/model/poses/EuclideanPoseYPR.ts" ]
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "user/interaction/Widget.js.ts", "logic/entities/ArrowEntity.js.ts", "data/model/poses/GeoPoseBasicYPR.js.ts", "logic/entities/GridEntity.js.ts", "data/model/poses/EuclideanPoseYPR.js.ts", "data/model/frames/GeoFrame.js.ts" ]
 		},
 		"user/interaction/widgets/PlanetWidget.ts": {
 			"classes": [ "PlanetWidget" ],
-			"links": [ "data/Item.ts", "data/Type.ts", "user/interaction/Widget.ts", "logic/entities/TerrainEntity.ts", "logic/entities/AtmosphereEntity.ts", "logic/entities/GraticuleEntity.ts", "data/model/frames/GeoFrame.ts" ]
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "user/interaction/Widget.js.ts", "logic/entities/TerrainEntity.js.ts", "logic/entities/AtmosphereEntity.js.ts", "logic/entities/GraticuleEntity.js.ts", "data/model/frames/GeoFrame.js.ts" ]
+		},
+		"user/User.ts": {
+			"classes": [ "User" ],
+			"links": [ "data/Item.js.ts", "data/Type.js.ts", "data/Collection.js.ts", "user/interaction/Presence.js.ts", "user/interaction/View.js.ts" ]
 		}
 	}
 }

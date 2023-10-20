@@ -6,6 +6,18 @@ import { Angle } from "../../items/measures/Angle.js";
 export class YawPitchRollOrientation extends Orientation {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The Angle in degrees around the equator of the globe. */
+	get yaw() { return this._yaw; }
+
+	/** The Angle in degrees around the prime meridian of the globe. */
+	get pitch() { return this._pitch; }
+
+	/** The vertical distance relative to the surface to the globe. */
+	get roll() { return this._roll; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 	/** Initializes a new instance of the YawPitchRollOrientation class.
 	 * @param name The name of the data item.
@@ -25,18 +37,6 @@ export class YawPitchRollOrientation extends Orientation {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The Angle in degrees around the equator of the globe. */
-	get yaw() { return this._yaw; }
-
-	/** The Angle in degrees around the prime meridian of the globe. */
-	get pitch() { return this._pitch; }
-
-	/** The vertical distance relative to the surface to the globe. */
-	get roll() { return this._roll; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

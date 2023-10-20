@@ -3,8 +3,24 @@ import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
 import { Number } from "../../data/items/simple/Number.js";
 
+
 /** Defines a user Presence entity. */
 export class PresenceEntity extends Entity {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The field of view of the Camera. */
+	get fieldOfView() { return this._fieldOfView; }
+
+	/** The aspect ratio of the Camera. */
+	get aspectRatio() { return this._aspectRatio; }
+
+	/** The near plane of the Camera frustum. */
+	get nearPlane() { return this._nearPlane; }
+
+	/** The far plane of the Camera frustum. */
+	get farPlane() { return this._farPlane; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -30,26 +46,7 @@ export class PresenceEntity extends Entity {
 
 		// Create the representation
 		this._representation = new THREE.PerspectiveCamera(this._fieldOfView.value, this._aspectRatio.value, this._nearPlane.value, this._farPlane.value);
-
-
-		// let light = new THREE.PointLight(0xffffff,);
-		// this._representation.add(light);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The field of view of the Camera. */
-	get fieldOfView() { return this._fieldOfView; }
-
-	/** The aspect ratio of the Camera. */
-	get aspectRatio() { return this._aspectRatio; }
-
-	/** The near plane of the Camera frustum. */
-	get nearPlane() { return this._nearPlane; }
-
-	/** The far plane of the Camera frustum. */
-	get farPlane() { return this._farPlane; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -58,9 +55,6 @@ export class PresenceEntity extends Entity {
 	 * @param deltaTime The update time.
 	 * @param forced Indicates whether the update is forced or not. */
 	update(deltaTime = 0, forced = false) {
-
-		// Show a message on console
-		// console.log("Updated PresenceEntity")
 
 		// If the update is not forced, skip it when the item is already updated
 		if (this.updated && !forced)
@@ -91,17 +85,8 @@ export class PresenceEntity extends Entity {
 		if (updateMatrix)
 			camera.updateProjectionMatrix();
 
-
 		// Call the base class function
 		super.update(deltaTime, forced);
-
-		// TEMPORAL
-		// if (camera.position.z == 0) {
-		// console.log("REPOSITIONED CAMERA");
-		// camera.position.z = 100000000;
-		camera.lookAt(0, 0, 0);
-		// }
-
 	}
 }
 

@@ -5,6 +5,20 @@ import { Simple } from "../Simple.js";
 export class String extends Simple {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The regular expression values of the string.*/
+	get validRegEx() { return this._validRegEx; }
+	set validRegEx(newValidRegEx) {
+		this._validRegEx = newValidRegEx;
+		if (!this._value)
+			return;
+		if (!this.checkValue(this._value))
+			throw Error('Invalid value "' + this._value + '" for: ' + this.name);
+		this._onModified.trigger(this);
+	}
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the String class.
@@ -19,20 +33,6 @@ export class String extends Simple {
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The regular expression values of the string.*/
-	get validRegEx() { return this._validRegEx; }
-	set validRegEx(newValidRegEx) {
-		this._validRegEx = newValidRegEx;
-		if (!this._value)
-			return;
-		if (!this.checkValue(this._value))
-			throw Error('Invalid value "' + this._value + '" for: ' + this.name);
-		this._onModified.trigger(this);
 	}
 
 

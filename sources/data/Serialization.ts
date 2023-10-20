@@ -110,4 +110,5 @@ export class Serialization {
 	}
 }
 
+/** Enumerates the different serialization formats. */
 export enum SerializationFormat { CSV, JSON, XML }

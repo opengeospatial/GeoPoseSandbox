@@ -1,6 +1,7 @@
 import { Item } from "../Item.js";
 import { Type } from "../Type.js";
 
+
 /** Defines the basic class of a Pose Extension. */
 export class Extension extends Item {
 

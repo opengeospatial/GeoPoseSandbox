@@ -3,8 +3,16 @@ import { Type } from "../../../data/Type.js";
 import { Layer } from "../Layer.js";
 import { Widget } from "../Widget.js";
 
+
 /** Defines a widget to control the camera (the presence of the user). */
 export class CameraWidget extends Widget {
+
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The arrow of the widget. */
+	get pose() { return this._entity.pose; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -22,7 +30,6 @@ export class CameraWidget extends Widget {
 		if (!parent || !parent.type.is(Layer.type))
 			throw Error("Invalid parent");
 
-
 		// Get the entity
 		this._entity = parent.presence.entity;
 
@@ -33,15 +40,6 @@ export class CameraWidget extends Widget {
 		if (data != undefined)
 			this._entity.pose.deserialize(data);
 	}
-
-
-	// --------------------------------------------------------- PRIVATE FIELDS
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The arrow of the widget. */
-	get pose() { return this._entity.pose; }
 }
 // -------------------------------------------------------- PUBLIC METADATA
 

@@ -2,6 +2,7 @@ import * as THREE from "../../../externals/three.module.js";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
 
+
 /** Defines a Grid entity. */
 export class GridEntity extends Entity {
 

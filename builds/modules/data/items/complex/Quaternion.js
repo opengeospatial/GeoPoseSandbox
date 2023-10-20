@@ -2,8 +2,24 @@ import { Type } from "../../Type.js";
 import { Complex } from "../Complex.js";
 import { Number } from "../simple/Number.js";
 
+
 /** Defines a four-dimensional complex number to describe rotations. */
 export class Quaternion extends Complex {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The value of the quaternion vector in the X(i) axis. */
+	get x() { return this._x; }
+
+	/** The value of the quaternion vector in the Y(j) axis. */
+	get y() { return this._y; }
+
+	/** The value of the quaternion vector in the Z(k) axis. */
+	get z() { return this._z; }
+
+	/** The rotation half-angle around the quaternion vector. */
+	get w() { return this._w; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -30,21 +46,6 @@ export class Quaternion extends Complex {
 		if (data)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The value of the quaternion vector in the X(i) axis. */
-	get x() { return this._x; }
-
-	/** The value of the quaternion vector in the Y(j) axis. */
-	get y() { return this._y; }
-
-	/** The value of the quaternion vector in the Z(k) axis. */
-	get z() { return this._z; }
-
-	/** The rotation half-angle around the quaternion vector. */
-	get w() { return this._w; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

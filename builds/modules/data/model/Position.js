@@ -2,8 +2,21 @@ import { Item } from "../Item.js";
 import { Type } from "../Type.js";
 import { Vector } from "../items/complex/Vector.js";
 
+
 /** Defines a basic position within a reference frame. */
 export class Position extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The relative position of the Pose. */
+	get relativeValues() { return this._relativeValues; }
+
+	/** The absolute position of the Pose. */
+	get absoluteValues() { return this._absoluteValues; }
+
+	/** The absolute position of the Pose. */
+	get additionalRotation() { return this._additionalRotation; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -26,18 +39,6 @@ export class Position extends Item {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The relative position of the Pose. */
-	get relativeValues() { return this._relativeValues; }
-
-	/** The absolute position of the Pose. */
-	get absoluteValues() { return this._absoluteValues; }
-
-	/** The absolute position of the Pose. */
-	get additionalRotation() { return this._additionalRotation; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

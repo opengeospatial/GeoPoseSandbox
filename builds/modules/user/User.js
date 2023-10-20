@@ -9,6 +9,15 @@ import { View } from "./interaction/View.js";
 export class User extends Item {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The presences of the user in the interaction spaces. */
+	get presences() { return this._presences; }
+
+	/** The point of views of the user. */
+	get views() { return this._views; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new User class instance.
@@ -40,15 +49,6 @@ export class User extends Item {
 		if (this._views.count == 0)
 			this._views.add(new View("DefaultView", this));
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The presences of the user in the interaction spaces. */
-	get presences() { return this._presences; }
-
-	/** The point of views of the user. */
-	get views() { return this._views; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

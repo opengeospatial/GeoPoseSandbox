@@ -1,8 +1,9 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Complex } from "../Complex";
-import { Distance } from "../measures/Distance";
-import { Size } from "../measures/Size";
+import { Item } from "../../Item.js"
+import { Type } from "../../Type.js"
+import { Complex } from "../Complex.js"
+import { Distance } from "../measures/Distance.js"
+import { Size } from "../measures/Size.js"
+
 
 /** Defines a three-dimensional vector. */
 export class Vector extends Complex {

@@ -1,9 +1,9 @@
-import { Collection } from "../../data/Collection";
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Entity } from "../../logic/Entity";
-import { Layer } from "./Layer";
-import { Space } from "./Space";
+import { Collection } from "../../data/Collection.js";
+import { Item } from "../../data/Item.js";
+import { Type } from "../../data/Type.js";
+import { Entity } from "../../logic/Entity.js";
+import { Layer } from "./Layer.js";
+
 
 /** Defines an user interaction widget. */
 export class Widget extends Item {
@@ -24,8 +24,6 @@ export class Widget extends Item {
 
 	/** The list of child widgets. */
 	protected _widgets: Collection<Widget>;
-
-
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 

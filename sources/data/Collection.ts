@@ -1,5 +1,5 @@
-import { Item } from "./Item";
-import { Type } from "./Type";
+import { Item , Type } from "../GeoPoseSandbox.js";
+
 
 /** Defines a collection of data items. */
 export class Collection<ItemType extends Item> implements Iterable<ItemType> {
@@ -66,10 +66,10 @@ export class Collection<ItemType extends Item> implements Iterable<ItemType> {
 	}
 
 	
-	/** Adds a new item to the end of the list.
+	/** Adds a new item to the end of the collection.
 	 * @param item The item to add.
 	 * @param position The position where to add the item (by default, at the
-	 * end). Negative values imply counting from the end of the list.
+	 * end). Negative values imply counting from the end of the collection.
 	 * @returns The added item.  */
 	add(item: ItemType, position?: number) {
 
@@ -94,7 +94,7 @@ export class Collection<ItemType extends Item> implements Iterable<ItemType> {
 	}
 
 	
-	/** Removes an item from the list. 
+	/** Removes an item from the collection. 
 	 * @param item The item to remove. */
 	remove (item: ItemType) {
 		for (let itemIndex = 0; itemIndex < this._count; itemIndex++ ) {
@@ -105,7 +105,7 @@ export class Collection<ItemType extends Item> implements Iterable<ItemType> {
 		}
 	}
 
-	/** Removes all items from the list. */
+	/** Removes all items from the collection. */
 	clear () {
 		while (this._count > 0) {
 			this._items[0].destroy();
@@ -115,6 +115,7 @@ export class Collection<ItemType extends Item> implements Iterable<ItemType> {
 	}
 
 
+	/** Iteration through the collection. */
 	[Symbol.iterator]() {
 		let pointer = 0, items = this._items;
 		return {

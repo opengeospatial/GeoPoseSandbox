@@ -2,8 +2,24 @@ import { Type } from "../../Type.js";
 import { Complex } from "../Complex.js";
 import { Number } from "../simple/Number.js";
 
+
 /** Defines an RGBA color. */
 export class Color extends Complex {
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The red component of the color. */
+	get r() { return this._r; }
+
+	/** The green component of the color. */
+	get g() { return this._g; }
+
+	/** The blue component of the color. */
+	get b() { return this._b; }
+
+	/** The alpha component of the color. */
+	get a() { return this._a; }
 
 
 	// ------------------------------------------------------------ CONSTRUCTOR
@@ -30,21 +46,6 @@ export class Color extends Complex {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The red component of the color. */
-	get r() { return this._r; }
-
-	/** The green component of the color. */
-	get g() { return this._g; }
-
-	/** The blue component of the color. */
-	get b() { return this._b; }
-
-	/** The alpha component of the color. */
-	get a() { return this._a; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

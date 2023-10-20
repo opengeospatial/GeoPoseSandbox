@@ -1,8 +1,8 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Orientation } from "../Orientation";
-import { String } from "../../items/simple/String";
-import { Vector } from "../../items/complex/Vector";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { Orientation } from "../Orientation.js";
+import { String } from "../../items/simple/String.js";
+import { Vector } from "../../items/complex/Vector.js";
 
 
 /** Defines an orientation with a target. */

@@ -2,14 +2,16 @@ import * as THREE from "../../../externals/three.module.js";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
 
+
 /** Defines a Arrow entity. */
 export class ArrowEntity extends Entity {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new ArrowEntity instance.
 	 * @param name The name of the entity.
-	 * @param parentNode The parent entity. */
+	 * @param parent The parent entity. */
 	constructor(name, parent) {
 
 		// Call the base class constructor
@@ -25,6 +27,7 @@ export class ArrowEntity extends Entity {
 		body.rotateZ(-Math.PI / 2);
 		point.position.x = length;
 		point.rotateZ(-Math.PI / 2);
+		this._representation.renderOrder = 1000;
 
 		// Add the entity
 		this._representation.add(center, body, point);

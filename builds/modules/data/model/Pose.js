@@ -6,37 +6,9 @@ import { Orientation } from "./Orientation.js";
 import { Extension } from "./Extension.js";
 import { Vector } from "../items/complex/Vector.js";
 
+
 /** Defines a Pose of an object. */
 export class Pose extends Item {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Pose class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._position = new Position("position", this);
-		this._orientation = new Orientation("orientation", this);
-		this._childPoses = new Collection([Pose.type], this);
-		this._extensions = new Collection([Extension.type], this);
-		this._relativePosition = new Vector("relativePosition", this);
-		this._absolutePosition = new Vector("absolutePosition", this);
-		this._relativeOrientation = new Vector("relativeOrientation", this);
-		this._verticalVector = new Vector("verticalVector", this);
-		this._forwardVector = new Vector("forwardVector", this);
-		this._verticalVector = new Vector("verticalVector", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -73,6 +45,35 @@ export class Pose extends Item {
 
 	/** The forward vector of the Pose. */
 	get forwardVector() { return this._forwardVector; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Pose class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._position = new Position("position", this);
+		this._orientation = new Orientation("orientation", this);
+		this._childPoses = new Collection([Pose.type], this);
+		this._extensions = new Collection([Extension.type], this);
+		this._relativePosition = new Vector("relativePosition", this);
+		this._absolutePosition = new Vector("absolutePosition", this);
+		this._relativeOrientation = new Vector("relativeOrientation", this);
+		this._verticalVector = new Vector("verticalVector", this);
+		this._forwardVector = new Vector("forwardVector", this);
+		this._verticalVector = new Vector("verticalVector", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

@@ -1,7 +1,8 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Complex } from "../Complex";
-import { Number } from "../simple/Number";
+import { Item } from "../../Item.js"
+import { Type } from "../../Type.js"
+import { Complex } from "../Complex.js"
+import { Number } from "../simple/Number.js"
+
 
 /** Defines a four-dimensional complex number to describe rotations. */
 export class Quaternion extends Complex {

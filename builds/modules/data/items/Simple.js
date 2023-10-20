@@ -6,26 +6,6 @@ import { Type } from "../Type.js";
 export class Simple extends Item {
 
 
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Simple class.
-	 * @param name The name of the data item.
-	 * @param parent The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		/** The valid values of the simple data item. */
-		this._validValues = undefined;
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-
 	// ------------------------------------------------------ PUBLIC PROPERTIES
 
 	/** The current value of the Simple data type.*/
@@ -82,6 +62,26 @@ export class Simple extends Item {
 
 	/** An event triggered if the value is modified. */
 	get onModified() { return this._onModified; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Simple class.
+	 * @param name The name of the data item.
+	 * @param parent The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		/** The valid values of the simple data item. */
+		this._validValues = undefined;
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

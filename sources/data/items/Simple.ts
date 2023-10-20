@@ -1,6 +1,6 @@
-import { Item } from "../Item";
-import { Type } from "../Type";
-import { Event } from "../../logic/Event";
+import { Item } from "../Item.js"
+import { Type } from "../Type.js"
+import { Event } from "../../logic/Event.js"
 
 
 /** Defines a simple data item. */

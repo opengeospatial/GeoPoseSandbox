@@ -8,6 +8,15 @@ import { Vector } from "../../items/complex/Vector.js";
 export class LookAtOrientation extends Orientation {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The target to point towards. */
+	get targetName() { return this._targetName; }
+
+	/** The target position. */
+	get targetPosition() { return this._targetPosition; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the YawPitchRollOrientation class.
@@ -27,15 +36,6 @@ export class LookAtOrientation extends Orientation {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The target to point towards. */
-	get targetName() { return this._targetName; }
-
-	/** The target position. */
-	get targetPosition() { return this._targetPosition; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

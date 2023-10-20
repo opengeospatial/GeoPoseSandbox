@@ -1,9 +1,25 @@
 import { Item } from "../Item.js";
 import { Type } from "../Type.js";
-import { String } from './simple/String.js';
+import { String } from "./simple/String.js";
+
 
 /** Defines a three dimensional shape. */
 export class Shape extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** Indicates if the Shape should be shaded or not. */
+	get shaded() { return this._shaded; }
+
+	/** The color of the Shape. */
+	get color() { return this._color; }
+
+	/** The diffuse texture of the Shape. */
+	get texture() { return this._texture; }
+
+	/** The emissive texture of the Shape. */
+	get emissive() { return this._emissive; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -27,21 +43,6 @@ export class Shape extends Item {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** Indicates if the Shape should be shaded or not. */
-	get shaded() { return this._shaded; }
-
-	/** The color of the Shape. */
-	get color() { return this._color; }
-
-	/** The diffuse texture of the Shape. */
-	get texture() { return this._texture; }
-
-	/** The emissive texture of the Shape. */
-	get emissive() { return this._emissive; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

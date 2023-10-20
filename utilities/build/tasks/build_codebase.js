@@ -1,5 +1,5 @@
 /******************************************************************************
-  Build System - Codebase
+ GeoPose Sandbox Build System - Codebase
 ******************************************************************************/
 
 'use strict' // Make sure that we are working on strict mode

@@ -8,6 +8,19 @@ import { QuaternionOrientation } from "../orientations/QuaternionOrientation.js"
 export class EuclideanPoseQuaternion extends Pose {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The position of the Euclidean Pose. */
+	get position() {
+		return this._position;
+	}
+
+	/** The orientation of the Euclidean Pose. */
+	get orientation() {
+		return this._orientation;
+	}
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the EuclideanPoseQuaternion class.
@@ -26,19 +39,6 @@ export class EuclideanPoseQuaternion extends Pose {
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The position of the Euclidean Pose. */
-	get position() {
-		return this._position;
-	}
-
-	/** The orientation of the Euclidean Pose. */
-	get orientation() {
-		return this._orientation;
 	}
 }
 

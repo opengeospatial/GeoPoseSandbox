@@ -8,6 +8,15 @@ import { Vector } from "../../items/complex/Vector.js";
 export class AxisAngleOrientation extends Orientation {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The axis vector. */
+	get axis() { return this._axis; }
+
+	/** The angle around the axis. */
+	get angle() { return this._angle; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the AxisAngleOrientation class.
@@ -27,15 +36,6 @@ export class AxisAngleOrientation extends Orientation {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The axis vector. */
-	get axis() { return this._axis; }
-
-	/** The angle around the axis. */
-	get angle() { return this._angle; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

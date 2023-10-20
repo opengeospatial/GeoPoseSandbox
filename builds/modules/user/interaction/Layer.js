@@ -7,6 +7,21 @@ import { Widget } from "./Widget.js";
 export class Layer extends Item {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The widgets of the layer. */
+	get widgets() { return this._widgets; }
+
+	/** The Interaction Space associated to the layer. */
+	get space() { return this._space; }
+
+	/** The user Presence in the layer. */
+	get presence() { return this._presence; }
+
+	/** The entity associated to the layer. */
+	get entity() { return this._space.entity; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Layer instance.
@@ -25,21 +40,6 @@ export class Layer extends Item {
 		this._presence.links.add(this);
 		this._space.links.add(this);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The widgets of the layer. */
-	get widgets() { return this._widgets; }
-
-	/** The Interaction Space associated to the layer. */
-	get space() { return this._space; }
-
-	/** The user Presence in the layer. */
-	get presence() { return this._presence; }
-
-	/** The entity associated to the layer. */
-	get entity() { return this._space.entity; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -63,9 +63,6 @@ export class Layer extends Item {
 
 		// Call the parent class update function
 		super.update(deltaTime, forced);
-
-		// Show a message on console
-		// console.log("Layer Updated");
 	}
 }
 

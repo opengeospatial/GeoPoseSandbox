@@ -1,10 +1,11 @@
-import { Item } from "../../../data/Item";
-import { Pose } from "../../../data/model/Pose";
-import { GeoPoseBasicYPR } from "../../../data/model/poses/GeoPoseBasicYPR";
-import { Type } from "../../../data/Type";
-import { PresenceEntity } from "../../../logic/entities/PresenceEntity";
-import { Layer } from "../Layer";
-import { Widget } from "../Widget";
+import { Item } from "../../../data/Item.js";
+import { Pose } from "../../../data/model/Pose.js";
+import { GeoPoseBasicYPR } from "../../../data/model/poses/GeoPoseBasicYPR.js";
+import { Type } from "../../../data/Type.js";
+import { PresenceEntity } from "../../../logic/entities/PresenceEntity.js";
+import { Layer } from "../Layer.js";
+import { Widget } from "../Widget.js";
+
 
 /** Defines a widget to control the camera (the presence of the user). */
 export class CameraWidget extends Widget {
@@ -14,8 +15,6 @@ export class CameraWidget extends Widget {
 	public static type: Type = new Type("Camera-widget", CameraWidget,
 		Widget.type);
 
-
-	// --------------------------------------------------------- PRIVATE FIELDS
 
 	
 	// ------------------------------------------------------ PUBLIC PROPERTIES
@@ -39,7 +38,6 @@ export class CameraWidget extends Widget {
 		if (!parent || !parent.type.is(Layer.type))
 			throw Error("Invalid parent");
 		
-
 		// Get the entity
 		this._entity = (parent as Layer).presence.entity;
 

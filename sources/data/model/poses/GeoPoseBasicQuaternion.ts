@@ -1,8 +1,8 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { GeoPose } from "../GeoPose";
-import { QuaternionOrientation } from "../orientations/QuaternionOrientation";
-import { Quaternion } from "../../items/complex/Quaternion";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { GeoPose } from "../GeoPose.js";
+import { QuaternionOrientation } from "../orientations/QuaternionOrientation.js";
+import { Quaternion } from "../../items/complex/Quaternion.js";
 
 /** Defines a basic GeoPose with Quaternion-based orientation. */
 export class GeoPoseBasicQuaternion extends GeoPose {

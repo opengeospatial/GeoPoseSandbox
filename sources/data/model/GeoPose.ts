@@ -1,8 +1,9 @@
-import { Item } from "../Item";
-import { Type } from "../Type";
-import { Pose } from "./Pose";
-import { GeoFrame } from "./frames/GeoFrame";
-import { GeoPosition } from "./positions/GeoPosition";
+import { Item } from "../Item.js"
+import { Type } from "../Type.js"
+import { Pose } from "./Pose.js"
+import { GeoFrame } from "./frames/GeoFrame.js"
+import { GeoPosition } from "./positions/GeoPosition.js"
+
 
 /** Defines the GeoPose of an object. */
 export abstract class GeoPose extends Pose {

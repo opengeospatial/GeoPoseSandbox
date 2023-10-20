@@ -1,8 +1,7 @@
 import * as THREE from "three"
-import { GridHelper } from "three";
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Entity } from "../Entity";
+import { Type } from "../../data/Type.js";
+import { Entity } from "../Entity.js";
+
 
 /** Defines a Arrow entity. */
 export class ArrowEntity extends Entity {
@@ -13,11 +12,12 @@ export class ArrowEntity extends Entity {
 	public static type: Type = new Type("arrow-entity", ArrowEntity, 
 		Entity.type);
 
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new ArrowEntity instance.
 	 * @param name The name of the entity. 
-	 * @param parentNode The parent entity. */
+	 * @param parent The parent entity. */
 	constructor (name: string, parent?: Entity) {
 		
 		// Call the base class constructor
@@ -31,6 +31,7 @@ export class ArrowEntity extends Entity {
 		let point = new THREE.Mesh(new THREE.ConeGeometry(radius,radius*2,16,16), material);
 		body.position.x = length/2; body.rotateZ(-Math.PI/2);
 		point.position.x = length; point.rotateZ(-Math.PI/2);
+		this._representation.renderOrder = 1000;
 
 		// Add the entity
 		this._representation.add(center, body, point);

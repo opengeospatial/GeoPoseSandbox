@@ -1,8 +1,9 @@
 import * as THREE from "three"
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Entity } from "../Entity";
-import { Number } from "../../data/items/simple/Number";
+import { Item } from "../../data/Item.js";
+import { Type } from "../../data/Type.js";
+import { Entity } from "../Entity.js";
+import { Number } from "../../data/items/simple/Number.js";
+
 
 /** Defines a user Presence entity. */
 export class PresenceEntity extends Entity {
@@ -72,10 +73,6 @@ export class PresenceEntity extends Entity {
 		this._representation = new THREE.PerspectiveCamera(
 			this._fieldOfView.value, this._aspectRatio.value,
 			this._nearPlane.value, this._farPlane.value);
-
-
-		// let light = new THREE.PointLight(0xffffff,);
-		// this._representation.add(light);
 	}
 
 
@@ -85,9 +82,6 @@ export class PresenceEntity extends Entity {
 	 * @param deltaTime The update time. 
 	 * @param forced Indicates whether the update is forced or not. */
 	update(deltaTime: number = 0, forced: boolean = false) {
-
-		// Show a message on console
-		// console.log("Updated PresenceEntity")
 
 		// If the update is not forced, skip it when the item is already updated
 		if (this.updated && !forced) return;
@@ -112,16 +106,7 @@ export class PresenceEntity extends Entity {
 		// Update the projection matrix, if required
 		if (updateMatrix) camera.updateProjectionMatrix();
 
-
 		// Call the base class function
 		super.update(deltaTime, forced);
-
-		// TEMPORAL
-		// if (camera.position.z == 0) {
-			// console.log("REPOSITIONED CAMERA");
-			// camera.position.z = 100000000;
-			camera.lookAt(0,0,0);
-		// }
-
 	}
 }

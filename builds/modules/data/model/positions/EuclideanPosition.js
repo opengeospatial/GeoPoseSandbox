@@ -7,6 +7,18 @@ import { Distance } from "../../items/measures/Distance.js";
 export class EuclideanPosition extends Position {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The distance from the origin in the X axis. */
+	get x() { return this._x; }
+
+	/** The distance from the origin in the Y axis. */
+	get y() { return this._y; }
+
+	/** The distance from the origin in the Z axis. */
+	get z() { return this._z; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the EuclideanPosition class.
@@ -26,27 +38,6 @@ export class EuclideanPosition extends Position {
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The distance from the origin in the X axis. */
-	get x() { return this._x; }
-
-	/** The distance from the origin in the Y axis. */
-	get y() { return this._y; }
-
-	/** The distance from the origin in the Z axis. */
-	get z() { return this._z; }
-
-
-	/** Updates the Item instance.
-	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime = 0, forced = false) {
-
-		console.log("EuclideanPosition");
 	}
 }
 

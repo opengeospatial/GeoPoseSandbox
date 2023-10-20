@@ -1,6 +1,7 @@
-import { Item } from "../Item";
-import { Type } from "../Type";
-import { String } from './simple/String';
+import { Item } from "../Item.js"
+import { Type } from "../Type.js"
+import { String } from "./simple/String.js"
+
 
 /** Defines a three dimensional shape. */ 
 export class Shape extends Item {

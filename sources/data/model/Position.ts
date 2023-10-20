@@ -1,6 +1,7 @@
-import { Item } from "../Item";
-import { Type } from "../Type";
-import { Vector } from "../items/complex/Vector";
+import { Item } from "../Item.js"
+import { Type } from "../Type.js"
+import { Vector } from "../items/complex/Vector.js"
+
 
 /** Defines a basic position within a reference frame. */
 export class Position extends Item {

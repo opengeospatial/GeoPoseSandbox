@@ -126,6 +126,7 @@ export class Serialization {
 	}
 }
 
+/** Enumerates the different serialization formats. */
 export var SerializationFormat;
 (function (SerializationFormat) {
 	SerializationFormat[SerializationFormat["CSV"] = 0] = "CSV";

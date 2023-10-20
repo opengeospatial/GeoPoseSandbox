@@ -5,27 +5,6 @@ import { Simple } from "../Simple.js";
 export class Number extends Simple {
 
 
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Number class.
-	 * @param name The name of the data item.
-	 * @param parent The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Set the values of the properties
-		this._value = undefined;
-		this._defaultValue = 0;
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The minimum possible value of Number. */
@@ -56,6 +35,27 @@ export class Number extends Simple {
 			this._value = newMax;
 		this._max = newMax;
 		this.updated = false;
+	}
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Number class.
+	 * @param name The name of the data item.
+	 * @param parent The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Set the values of the properties
+		this._value = undefined;
+		this._defaultValue = 0;
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
 	}
 
 

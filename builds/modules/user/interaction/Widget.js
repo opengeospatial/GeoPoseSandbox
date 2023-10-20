@@ -4,8 +4,17 @@ import { Type } from "../../data/Type.js";
 import { Entity } from "../../logic/Entity.js";
 import { Layer } from "./Layer.js";
 
+
 /** Defines an user interaction widget. */
 export class Widget extends Item {
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The entity of the space. */
+	get entity() { return this._entity; }
+
+	/** The list of child widgets. */
+	get widgets() { return this._widgets; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -36,16 +45,6 @@ export class Widget extends Item {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The entity of the space. */
-	get entity() { return this._entity; }
-
-	/** The list of child widgets. */
-	get widgets() { return this._widgets; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

@@ -81,6 +81,7 @@
 				<a href="#Pose">Pose</a>
 				<a href="#Position">Position</a>
 				<h3>data/model/frames</h3>
+				<a href="#EuclideanFrame">EuclideanFrame</a>
 				<a href="#GeoFrame">GeoFrame</a>
 				<h3>data/model/orientations</h3>
 				<a href="#AxisAngleOrientation">AxisAngleOrientation</a>
@@ -96,12 +97,9 @@
 				<h3>data/model/positions</h3>
 				<a href="#EuclideanPosition">EuclideanPosition</a>
 				<a href="#GeoPosition">GeoPosition</a>
-				<a href="#OrbitalPosition">OrbitalPosition</a>
 				<h3>logic</h3>
-				<a href="#Behavior">Behavior</a>
 				<a href="#Entity">Entity</a>
 				<a href="#Event">Event</a>
-				<a href="#ViewPort">ViewPort</a>
 				<h3>logic/entities</h3>
 				<a href="#ArrowEntity">ArrowEntity</a>
 				<a href="#AtmosphereEntity">AtmosphereEntity</a>
@@ -119,6 +117,7 @@
 				<a href="#Presence">Presence</a>
 				<a href="#Space">Space</a>
 				<a href="#View">View</a>
+				<a href="#ViewPort">ViewPort</a>
 				<a href="#Widget">Widget</a>
 				<h3>user/interaction/widgets</h3>
 				<a href="#BackgroundWidget">BackgroundWidget</a>
@@ -133,7 +132,6 @@
 				<a href="#AxisAngleOrientation">AxisAngleOrientation</a>
 				<a href="#BackgroundEntity">BackgroundEntity</a>
 				<a href="#BackgroundWidget">BackgroundWidget</a>
-				<a href="#Behavior">Behavior</a>
 				<a href="#Boolean">Boolean</a>
 				<a href="#Box">Box</a>
 				<a href="#CameraWidget">CameraWidget</a>
@@ -143,6 +141,7 @@
 				<a href="#Distance">Distance</a>
 				<a href="#Ellipsoid">Ellipsoid</a>
 				<a href="#Entity">Entity</a>
+				<a href="#EuclideanFrame">EuclideanFrame</a>
 				<a href="#EuclideanPoseQuaternion">EuclideanPoseQuaternion</a>
 				<a href="#EuclideanPoseYPR">EuclideanPoseYPR</a>
 				<a href="#EuclideanPosition">EuclideanPosition</a>
@@ -166,7 +165,6 @@
 				<a href="#Measure">Measure</a>
 				<a href="#MeasurementUnit">MeasurementUnit</a>
 				<a href="#Number">Number</a>
-				<a href="#OrbitalPosition">OrbitalPosition</a>
 				<a href="#Orientation">Orientation</a>
 				<a href="#PlanetWidget">PlanetWidget</a>
 				<a href="#Pose">Pose</a>
@@ -220,6 +218,7 @@
 							<p class="name">constructor (name: string, parent: <a href="#Entity">Entity</a>)</p>
 							<p class="description">Initializes a new ArrowEntity instance.</p>
 							<p class="description"><em>name</em>: The name of the entity.</p>
+							<p class="description"><em>parent</em>: The parent entity.</p>
 						</div>
 					</div>
 				</div>
@@ -331,21 +330,6 @@
 							<p class="description">Initializes a new PlanetWidget instance.</p>
 							<p class="description"><em>name</em>: The parent data item.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div id="Behavior" class="class">
-					<p class="name">Behavior</p>
-					<p class="type">: <a href="#Item">Item</a></p>
-<p class="description">Defines an logic behavior,</p>
-					<div class="section">
-						<p class="title">Constructor:</p>
-						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>)</p>
-							<p class="description">Initializes a new Behavior instance.</p>
-							<p class="description"><em>name</em>: The name of the logic behavior.</p>
-							<p class="description"><em>parent</em>: The parent item.</p>
 						</div>
 					</div>
 				</div>
@@ -480,19 +464,19 @@
 						</div>
 						<div class="member">
 							<p class="name">add (item: ItemType, position: number)</p>
-							<p class="description">Adds a new item to the end of the list.</p>
+							<p class="description">Adds a new item to the end of the collection.</p>
 							<p class="description"><em>item</em>: The item to add.</p>
-							<p class="description"><em>position</em>: The position where to add the item (by default, at the end). Negative values imply counting from the end of the list.</p>
+							<p class="description"><em>position</em>: The position where to add the item (by default, at the end). Negative values imply counting from the end of the collection.</p>
 							<p class="description"><em>Returns</em>: The added item.</p>
 						</div>
 						<div class="member">
 							<p class="name">remove (item: ItemType)</p>
-							<p class="description">Removes an item from the list.</p>
+							<p class="description">Removes an item from the collection.</p>
 							<p class="description"><em>item</em>: The item to remove.</p>
 						</div>
 						<div class="member">
 							<p class="name">clear ()</p>
-							<p class="description">Removes all items from the list.</p>
+							<p class="description">Removes all items from the collection.</p>
 						</div>
 					</div>
 				</div>
@@ -660,6 +644,12 @@
 					</div>
 				</div>
 				<hr>
+				<div id="EuclideanFrame" class="class">
+					<p class="name">EuclideanFrame</p>
+					<p class="type">: <a href="#Frame">Frame</a></p>
+<p class="description">Defines an euclidean (Flat-Earth) frame.</p>
+				</div>
+				<hr>
 				<div id="EuclideanPoseQuaternion" class="class">
 					<p class="name">EuclideanPoseQuaternion</p>
 					<p class="type">: <a href="#Pose">Pose</a></p>
@@ -738,15 +728,6 @@
 						<div class="member">
 							<p class="name">z</p>
 							<p class="description">The distance from the origin in the Z axis.</p>
-						</div>
-					</div>
-					<div class="section">
-						<p class="title">Methods:</p>
-						<div class="member">
-							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
-							<p class="description">Updates the Item instance.</p>
-							<p class="description"><em>deltaTime</em>: The update time.</p>
-							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
 						</div>
 					</div>
 				</div>
@@ -841,9 +822,9 @@
 							<p class="description"><em>listener</em>: The listener function to add.</p>
 						</div>
 						<div class="member">
-							<p class="name">trigger (target: any, data: any = {)</p>
+							<p class="name">trigger (source: any, data: any = {)</p>
 							<p class="description">Triggers the event.</p>
-							<p class="description"><em>target</em>: The object that triggers the event.</p>
+							<p class="description"><em>source</em>: The object that triggers the event.</p>
 							<p class="description"><em>data</em>: Additional event data.</p>
 						</div>
 					</div>
@@ -1019,11 +1000,11 @@
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
-							<p class="name">id : string</p>
+							<p class="name">frameworkName : string</p>
 							<p class="description">The name of the GeoPose Sandbox.</p>
 						</div>
 						<div class="member">
-							<p class="name">version : string</p>
+							<p class="name">frameworkVersion : string</p>
 							<p class="description">The version number of the GeoPose Sandbox.</p>
 						</div>
 						<div class="member">
@@ -1076,6 +1057,19 @@
 						<div class="member">
 							<p class="name">grid : <a href="#GridEntity">GridEntity</a></p>
 							<p class="description">The grid of the widget.</p>
+						</div>
+						<div class="member">
+							<p class="name">frame : <a href="#GeoFrame">GeoFrame</a></p>
+							<p class="description">The geographic frame of the widget.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
+							<p class="description">Updates the GeoPoseWidget instance.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
 						</div>
 					</div>
 				</div>
@@ -1174,7 +1168,7 @@
 				<hr>
 				<div id="Item" class="class">
 					<p class="name">Item</p>
-<p class="description">Defines a data item (often called a datum) in a graph structure . Provides a way to store information in a complex way.</p>
+<p class="description">Defines a data item (often called a datum) in a graph structure . Provides a way to store information in a mainly hierarchical way.</p>
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
@@ -1457,21 +1451,6 @@
 							<p class="name">toString () : string</p>
 							<p class="description">Obtains the string representation of the Number instance.</p>
 							<p class="description"><em>Returns</em>: The string representation of the Number instance.</p>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div id="OrbitalPosition" class="class">
-					<p class="name">OrbitalPosition</p>
-					<p class="type">: <a href="#Position">Position</a></p>
-<p class="description">Defines a position in an orbital coordinate system.</p>
-					<div class="section">
-						<p class="title">Constructor:</p>
-						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Item">Item</a>, data: any)</p>
-							<p class="description">Initializes a new instance of the OrbitalPosition class.</p>
-							<p class="description"><em>name</em>: The parent data item.</p>
-							<p class="description"><em>data</em>: The initialization data.</p>
 						</div>
 					</div>
 				</div>
@@ -2194,6 +2173,11 @@
 							<p class="description">Check if the type is (or inherits from) another.</p>
 							<p class="description"><em>type</em>: The type to check against.</p>
 							<p class="description"><em>Returns</em>: A boolean indicating whether the types are the same or not.</p>
+						</div>
+						<div class="member">
+							<p class="name">register (instance: <a href="#Item">Item</a>)</p>
+							<p class="description">Registers an instance of the type to the list.</p>
+							<p class="description"><em>instance</em>: The instance to register.</p>
 						</div>
 					</div>
 				</div>

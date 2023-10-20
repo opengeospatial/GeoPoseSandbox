@@ -2,8 +2,18 @@ import { Item } from "../Item.js";
 import { Type } from "../Type.js";
 import { Quaternion } from "../items/complex/Quaternion.js";
 
+
 /** Define the basic class of a three dimensional orientation. */
 export class Orientation extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The relative orientation. */
+	get relativeValues() { return this._relativeValues; }
+
+	/** The absolute orientation. */
+	get absoluteValues() { return this._absoluteValues; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -25,15 +35,6 @@ export class Orientation extends Item {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The relative orientation. */
-	get relativeValues() { return this._relativeValues; }
-
-	/** The absolute orientation. */
-	get absoluteValues() { return this._absoluteValues; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

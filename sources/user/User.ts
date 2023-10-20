@@ -1,8 +1,8 @@
-import { Item } from "../data/Item";
-import { Type } from "../data/Type";
-import { Collection } from "../data/Collection";
-import { Presence } from "./interaction/Presence";
-import { View } from "./interaction/View";
+import { Item } from "../data/Item.js";
+import { Type } from "../data/Type.js";
+import { Collection } from "../data/Collection.js";
+import { Presence } from "./interaction/Presence.js";
+import { View } from "./interaction/View.js";
 
 
 /** Defines a user. */

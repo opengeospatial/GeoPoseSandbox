@@ -1,10 +1,10 @@
-import { Item } from "../../../data/Item";
-import { Type } from "../../../data/Type";
-import { Widget } from "../Widget";
-import { TerrainEntity } from "../../../logic/entities/TerrainEntity";
-import { AtmosphereEntity } from "../../../logic/entities/AtmosphereEntity";
-import { GraticuleEntity } from "../../../logic/entities/GraticuleEntity";
-import { GeoFrame } from "../../../data/model/frames/GeoFrame";
+import { Item } from "../../../data/Item.js";
+import { Type } from "../../../data/Type.js";
+import { Widget } from "../Widget.js";
+import { TerrainEntity } from "../../../logic/entities/TerrainEntity.js";
+import { AtmosphereEntity } from "../../../logic/entities/AtmosphereEntity.js";
+import { GraticuleEntity } from "../../../logic/entities/GraticuleEntity.js";
+import { GeoFrame } from "../../../data/model/frames/GeoFrame.js";
 
 /** Defines a widget for a planet. */
 export class PlanetWidget extends Widget {
@@ -29,6 +29,7 @@ export class PlanetWidget extends Widget {
 
 	/** The geographic frame of the planet. */
 	private _frame: GeoFrame;
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -56,6 +57,7 @@ export class PlanetWidget extends Widget {
 		// Call the base class constructor
 		super(name, parent, data);
 
+		// Create a link with the GeoFrame
 		this._frame = data.frame;
 		data.radiusX = this._frame.equatorialRadius.value;
 		data.radiusY = this._frame.polarRadius.value;
@@ -66,7 +68,6 @@ export class PlanetWidget extends Widget {
 		this._terrain = new TerrainEntity(name + "Terrain", this._entity, data);
 		this._atmosphere = new AtmosphereEntity(name + "Atmosphere", this._entity , data);
 		this._graticule = new GraticuleEntity(name + "Graticule", this._entity, data);
-
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

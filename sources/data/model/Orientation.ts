@@ -1,6 +1,7 @@
-import { Item } from "../Item";
-import { Type } from "../Type";
-import { Quaternion } from "../items/complex/Quaternion";
+import { Item } from "../Item.js"
+import { Type } from "../Type.js"
+import { Quaternion } from "../items/complex/Quaternion.js"
+
 
 /** Define the basic class of a three dimensional orientation. */
 export class Orientation extends Item {

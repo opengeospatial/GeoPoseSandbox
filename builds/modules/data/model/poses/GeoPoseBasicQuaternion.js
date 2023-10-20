@@ -6,6 +6,12 @@ import { QuaternionOrientation } from "../orientations/QuaternionOrientation.js"
 export class GeoPoseBasicQuaternion extends GeoPose {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The orientation of the GeoPose. */
+	get orientation() { return this._orientation; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the GeoPoseBasicQuaternion class.
@@ -24,12 +30,6 @@ export class GeoPoseBasicQuaternion extends GeoPose {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The orientation of the GeoPose. */
-	get orientation() { return this._orientation; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

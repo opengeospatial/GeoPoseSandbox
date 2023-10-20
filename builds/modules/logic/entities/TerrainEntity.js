@@ -8,6 +8,17 @@ import { String } from "../../data/items/simple/String.js";
 /** Defines a Terrain Entity. */
 export class TerrainEntity extends Entity {
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The shape of the terrain. */
+	get ellipsoid() { return this._ellipsoid; }
+
+	/** The diffuse texture of the terrain. */
+	get diffuse() { return this._diffuse; }
+
+	/** The normal texture of the terrain. */
+	get normal() { return this._normal; }
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -35,17 +46,6 @@ export class TerrainEntity extends Entity {
 
 	}
 
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The shape of the terrain. */
-	get ellipsoid() { return this._ellipsoid; }
-
-	/** The diffuse texture of the terrain. */
-	get diffuse() { return this._diffuse; }
-
-	/** The normal texture of the terrain. */
-	get normal() { return this._normal; }
-
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
@@ -53,9 +53,6 @@ export class TerrainEntity extends Entity {
 	 * @param deltaTime The update time.
 	 * @param forced Indicates whether the update is forced or not. */
 	update(deltaTime = 0, forced = false) {
-
-		// Show a message on console
-		// console.log("Updated TerrainEntity")
 
 		if (!this._ellipsoid.updated) {
 			this._mesh.scale.set(this._ellipsoid.radiusX.value, this._ellipsoid.radiusY.value, this._ellipsoid.radiusZ.value);

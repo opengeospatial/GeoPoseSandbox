@@ -3,33 +3,9 @@ import { Complex } from "../Complex.js";
 import { Distance } from "../measures/Distance.js";
 import { Size } from "../measures/Size.js";
 
+
 /** Defines a three-dimensional vector. */
 export class Vector extends Complex {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Vector3 class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._x = new Distance("x", this);
-		this._y = new Distance("y", this);
-		this._z = new Distance("z", this);
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z];
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -56,6 +32,31 @@ export class Vector extends Complex {
 		this._x.value = x * factor;
 		this._y.value = y * factor;
 		this._z.value = z * factor;
+	}
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Vector3 class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._x = new Distance("x", this);
+		this._y = new Distance("y", this);
+		this._z = new Distance("z", this);
+
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z];
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
 	}
 
 

@@ -1,10 +1,10 @@
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Collection } from "../../data/Collection";
-import { Presence } from "./Presence";
-import { Space } from "./Space";
-import { Widget } from "./Widget";
-import { Entity } from "../../logic/Entity";
+import { Item } from "../../data/Item.js";
+import { Type } from "../../data/Type.js";
+import { Collection } from "../../data/Collection.js";
+import { Presence } from "./Presence.js";
+import { Space } from "./Space.js";
+import { Widget } from "./Widget.js";
+import { Entity } from "../../logic/Entity.js";
 
 /** Defines an user interaction (view) layer . */
 export class Layer extends Item {
@@ -79,8 +79,5 @@ export class Layer extends Item {
 
 		// Call the parent class update function
 		super.update(deltaTime, forced);
-		
-		// Show a message on console
-		// console.log("Layer Updated");
 	}
 }

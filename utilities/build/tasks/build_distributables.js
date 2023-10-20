@@ -1,5 +1,5 @@
 /******************************************************************************
-  Build System - Distributables
+ GeoPose Sandbox Build System - Distributables
 ******************************************************************************/
 
 'use strict' // Make sure that we are working on strict mode

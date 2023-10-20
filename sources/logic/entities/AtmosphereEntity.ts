@@ -1,9 +1,9 @@
 import * as THREE from "three"
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Entity } from "../Entity";
-import { Ellipsoid } from "../../data/items/shapes/Ellipsoid";
-import { String } from "../../data/items/simple/String";
+import { Item } from "../../data/Item.js";
+import { Type } from "../../data/Type.js";
+import { Entity } from "../Entity.js";
+import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
+import { String } from "../../data/items/simple/String.js";
 
 
 /** Defines a Atmosphere Entity. */
@@ -55,10 +55,9 @@ export class AtmosphereEntity extends Entity {
 		if (data) this.deserialize(data);
 
 		// Add the mesh geometry
-		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(10000000,64,64),
+		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1,64,64),
 			new THREE.MeshPhongMaterial({color: 0xffffff, transparent: true}));
 		this._representation.add(this._mesh);
-		
 	}
 
 	
@@ -69,17 +68,14 @@ export class AtmosphereEntity extends Entity {
 	 * @param forced Indicates whether the update is forced or not. */
 	 update(deltaTime: number = 0, forced: boolean = false) {
 
-		// Show a message on console
-		console.log("Updated AtmosphereEntity")
-
 		if (!this._ellipsoid.updated) {
-			this._mesh.scale.set(this._ellipsoid.radiusX.value *1.01,
-				this._ellipsoid.radiusY.value  *1.01, 
-				this._ellipsoid.radiusZ.value  *1.01);
+			this._mesh.scale.set(this._ellipsoid.radiusX.value * 1.001,
+				this._ellipsoid.radiusY.value * 1.001, 
+				this._ellipsoid.radiusZ.value * 1.001);
 		}
 
+		// Apply the cloud texture
 		if (!this._clouds.updated && this._clouds.value) {
-			console.log("clouds");
 			const texture = new THREE.TextureLoader().load(this._clouds.value);
 			(this._mesh.material as THREE.MeshPhongMaterial).alphaMap = texture;
 		}

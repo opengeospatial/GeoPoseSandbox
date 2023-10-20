@@ -1,37 +1,9 @@
 
+
 /** Contains the metadata of a data type.
  * Provides a way to handle reflection and serialization in different contexts
  * (even after the code is transpiled to Javascript). */
 export class Type {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Type class.
-	 * @param name The name of the data type.
-	 * @param innerType The Javascript type.
-	 * @param parent The parent data type. */
-	constructor(name, innerType, parent) {
-
-		// Store the given name and add this instance to the global record
-		this._name = name;
-		if (!Type._record[name])
-			Type._record[name] = this;
-		else
-			throw Error('Repeated data type name: "' + name + '"');
-
-		// If there is a parent type, store the reference and create a link
-		if (parent) {
-			this._parent = parent;
-			this._parent.children.push(this);
-		}
-
-		// Initialize the list of child types
-		this._children = [];
-
-		// Initialize the list of instances of the data type
-		// this._instances = [];
-	}
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -52,6 +24,34 @@ export class Type {
 	get children() { return this._children; }
 
 
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Type class.
+	 * @param name The name of the data type.
+	 * @param innerType The Javascript type.
+	 * @param parent The parent data type. */
+	constructor(name, innerType, parent) {
+
+		// Store the given name and add this instance to the global record
+		this._name = name;
+		if (!Type._record[name])
+			Type._record[name] = this;
+		// else throw Error ('Repeated data type name: "' + name + '"');
+
+		// If there is a parent type, store the reference and create a link
+		if (parent) {
+			this._parent = parent;
+			this._parent.children.push(this);
+		}
+
+		// Initialize the list of child types
+		this._children = [];
+
+		// Initialize the list of instances of the data type
+		// this._instances = [];
+	}
+
+
 	// --------------------------------------------------------- PUBLIC METHODS
 
 	/** Check if the type is (or inherits from) another.
@@ -65,6 +65,17 @@ export class Type {
 			t = t._parent;
 		}
 		return false;
+	}
+
+
+	/** Registers an instance of the type to the list.
+	 * @param instance The instance to register. */
+	register(instance) {
+		let type = instance.type;
+		while (type) {
+			type._instances.push(instance);
+			type = type._parent;
+		}
 	}
 }
 

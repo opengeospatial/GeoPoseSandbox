@@ -10,6 +10,24 @@ import { Vector } from "../../items/complex/Vector.js";
 export class GeoPosition extends Position {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The angle around the equator of the ellipsoid. */
+	get longitude() { return this._longitude; }
+
+	/** The angle around the prime meridian of the ellipsoid. */
+	get latitude() { return this._latitude; }
+
+	/** The vertical distance relative to the surface to the ellipsoid. */
+	get altitude() { return this._altitude; }
+
+	/** The tangent vector of the GeoPosition. */
+	get tangentVector() { return this._tangentVector; }
+
+	/** The tangent vector of the GeoPosition. */
+	get verticalVector() { return this._verticalVector; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the GeoPosition class.
@@ -32,24 +50,6 @@ export class GeoPosition extends Position {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The angle around the equator of the ellipsoid. */
-	get longitude() { return this._longitude; }
-
-	/** The angle around the prime meridian of the ellipsoid. */
-	get latitude() { return this._latitude; }
-
-	/** The vertical distance relative to the surface to the ellipsoid. */
-	get altitude() { return this._altitude; }
-
-	/** The tangent vector of the GeoPosition. */
-	get tangentVector() { return this._tangentVector; }
-
-	/** The tangent vector of the GeoPosition. */
-	get verticalVector() { return this._verticalVector; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

@@ -1,8 +1,8 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Orientation } from "../Orientation";
-import { Angle } from "../../items/measures/Angle";
-import { Vector } from "../../items/complex/Vector";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { Orientation } from "../Orientation.js";
+import { Angle } from "../../items/measures/Angle.js";
+import { Vector } from "../../items/complex/Vector.js";
 
 
 /** Defines an orientation based on an axis vector and an angle. */

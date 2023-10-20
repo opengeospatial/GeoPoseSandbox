@@ -1,10 +1,19 @@
 import { Type } from "../../Type.js";
-import { Frame } from "../Frame.js";
 import { Distance } from "../../items/measures/Distance.js";
+import { Frame } from "../Frame.js";
 
 
 /** Defines a geodetic (elliptical) frame. */
 export class GeoFrame extends Frame {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The equatorial radius (the semi-major axis). */
+	get equatorialRadius() { return this._equatorialRadius; }
+
+	/** The polar radius (the semi-minor axis). */
+	get polarRadius() { return this._polarRadius; }
 
 
 
@@ -29,15 +38,6 @@ export class GeoFrame extends Frame {
 
 		// TODO Map projections
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The equatorial radius (the semi-major axis). */
-	get equatorialRadius() { return this._equatorialRadius; }
-
-	/** The polar radius (the semi-minor axis). */
-	get polarRadius() { return this._polarRadius; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

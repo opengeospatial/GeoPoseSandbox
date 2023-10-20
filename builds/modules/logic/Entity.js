@@ -8,6 +8,21 @@ import { Pose } from "../data/model/Pose.js";
 export class Entity extends Item {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The representation of the entity. */
+	get representation() { return this._representation; }
+
+	/** The pose of the entity. */
+	get pose() { return this._pose; }
+	set pose(p) {
+		if (this._pose)
+			this._pose.destroy();
+		this._pose = p;
+		this.updated = false;
+	}
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Entity instance.
@@ -35,21 +50,6 @@ export class Entity extends Item {
 			parentEntity._representation.add(this._representation);
 			console.log("Parenting: " + this.name + " to " + parentEntity.name);
 		}
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The representation of the entity. */
-	get representation() { return this._representation; }
-
-	/** The pose of the entity. */
-	get pose() { return this._pose; }
-	set pose(p) {
-		if (this._pose)
-			this._pose.destroy();
-		this._pose = p;
-		this.updated = false;
 	}
 
 

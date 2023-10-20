@@ -36,7 +36,7 @@
 
 ==== data/model/frames
 
-<<GeoFrame>>
+<<EuclideanFrame>>, <<GeoFrame>>
 
 ==== data/model/orientations
 
@@ -48,11 +48,11 @@
 
 ==== data/model/positions
 
-<<EuclideanPosition>>, <<GeoPosition>>, <<OrbitalPosition>>
+<<EuclideanPosition>>, <<GeoPosition>>
 
 ==== logic
 
-<<Behavior>>, <<Entity>>, <<Event>>, <<ViewPort>>
+<<Entity>>, <<Event>>
 
 ==== logic/entities
 
@@ -64,7 +64,7 @@
 
 ==== user/interaction
 
-<<Layer>>, <<Presence>>, <<Space>>, <<View>>, <<Widget>>
+<<Layer>>, <<Presence>>, <<Space>>, <<View>>, <<ViewPort>>, <<Widget>>
 
 ==== user/interaction/widgets
 
@@ -72,7 +72,7 @@
 
 === Alphabetical Order:
 
-<<Angle>>, <<ArrowEntity>>, <<AtmosphereEntity>>, <<AxisAngleOrientation>>, <<BackgroundEntity>>, <<BackgroundWidget>>, <<Behavior>>, <<Boolean>>, <<Box>>, <<CameraWidget>>, <<Collection>>, <<Color>>, <<Complex>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanPoseQuaternion>>, <<EuclideanPoseYPR>>, <<EuclideanPosition>>, <<Euler>>, <<Event>>, <<Extension>>, <<Frame>>, <<GeoFrame>>, <<GeoPose>>, <<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>, <<GeoPoseSandbox>>, <<GeoPoseWidget>>, <<GeoPosition>>, <<GraticuleEntity>>, <<GridEntity>>, <<Item>>, <<Layer>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<OrbitalPosition>>, <<Orientation>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Serialization>>, <<Shape>>, <<ShapeEntity>>, <<Simple>>, <<Size>>, <<Space>>, <<SpaceEntity>>, <<Sphere>>, <<String>>, <<TerrainEntity>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>, <<Widget>>, <<YawPitchRollOrientation>>
+<<Angle>>, <<ArrowEntity>>, <<AtmosphereEntity>>, <<AxisAngleOrientation>>, <<BackgroundEntity>>, <<BackgroundWidget>>, <<Boolean>>, <<Box>>, <<CameraWidget>>, <<Collection>>, <<Color>>, <<Complex>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanFrame>>, <<EuclideanPoseQuaternion>>, <<EuclideanPoseYPR>>, <<EuclideanPosition>>, <<Euler>>, <<Event>>, <<Extension>>, <<Frame>>, <<GeoFrame>>, <<GeoPose>>, <<GeoPoseBasicQuaternion>>, <<GeoPoseBasicYPR>>, <<GeoPoseSandbox>>, <<GeoPoseWidget>>, <<GeoPosition>>, <<GraticuleEntity>>, <<GridEntity>>, <<Item>>, <<Layer>>, <<LookAtOrientation>>, <<MatrixOrientation>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<Orientation>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Serialization>>, <<Shape>>, <<ShapeEntity>>, <<Simple>>, <<Size>>, <<Space>>, <<SpaceEntity>>, <<Sphere>>, <<String>>, <<TerrainEntity>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>, <<Widget>>, <<YawPitchRollOrientation>>
 
 == Classes
 
@@ -99,7 +99,7 @@ Defines a Arrow entity.
 **constructor (name : string, parent : <<Entity>>)** + 
 Initializes a new ArrowEntity instance. + 
 *_name:_* The name of the entity. + 
- 
+*_parent:_* The parent entity. 
 
 '''
 
@@ -194,19 +194,6 @@ Initializes a new PlanetWidget instance. +
 *_name:_* The parent data item. + 
  + 
 *_data:_* The initialization data. 
-
-'''
-
-=== [[Behavior]]*Behavior* *:* <<Item>>
-
-Defines an logic behavior,
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Item>>)** + 
-Initializes a new Behavior instance. + 
-*_name:_* The name of the logic behavior. + 
-*_parent:_* The parent item. 
 
 '''
 
@@ -318,17 +305,17 @@ Gets a data item by name. +
 *_Returns:_* The item with the specified name. 
 
 **add (item : ItemType, position : number)** + 
-Adds a new item to the end of the list. + 
+Adds a new item to the end of the collection. + 
 *_item:_* The item to add. + 
-*_position:_* The position where to add the item (by default, at the end). Negative values imply counting from the end of the list. + 
+*_position:_* The position where to add the item (by default, at the end). Negative values imply counting from the end of the collection. + 
 *_Returns:_* The added item. 
 
 **remove (item : ItemType)** + 
-Removes an item from the list. + 
+Removes an item from the collection. + 
 *_item:_* The item to remove. 
 
 **clear ()** + 
-Removes all items from the list. 
+Removes all items from the collection. 
 
 '''
 
@@ -467,6 +454,12 @@ Updates the Entity instance. +
 
 '''
 
+=== [[EuclideanFrame]]*EuclideanFrame* *:* <<Frame>>
+
+Defines an euclidean (Flat-Earth) frame.
+
+'''
+
 === [[EuclideanPoseQuaternion]]*EuclideanPoseQuaternion* *:* <<Pose>>
 
 Defines a Euclidean pose with a quaternion orientation.
@@ -533,13 +526,6 @@ The distance from the origin in the Y axis.
 
 **z** + 
 The distance from the origin in the Z axis. 
-
-==== Methods:
-
-**update (deltaTime : number, forced : boolean)** + 
-Updates the Item instance. + 
-*_deltaTime:_* The update time. + 
-*_forced:_* Indicates whether the update is forced or not. 
 
 '''
 
@@ -616,9 +602,9 @@ Adds a listener for the event. +
 Removes a listener for the event. + 
 *_listener:_* The listener function to add. 
 
-**trigger (target : any, data : any)** + 
+**trigger (source : any, data : any)** + 
 Triggers the event. + 
-*_target:_* The object that triggers the event. + 
+*_source:_* The object that triggers the event. + 
 *_data:_* Additional event data. 
 
 '''
@@ -767,10 +753,10 @@ Initializes a new GeoPoseSandbox instance. +
 
 ==== Properties:
 
-**id : string** + 
+**frameworkName : string** + 
 The name of the GeoPose Sandbox. 
 
-**version : string** + 
+**frameworkVersion : string** + 
 The version number of the GeoPose Sandbox. 
 
 **instances : <<GeoPoseSandbox>>** + 
@@ -813,6 +799,16 @@ The arrow of the widget.
 
 **grid : <<GridEntity>>** + 
 The grid of the widget. 
+
+**frame : <<GeoFrame>>** + 
+The geographic frame of the widget. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the GeoPoseWidget instance. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
 
 '''
 
@@ -896,7 +892,7 @@ Initializes a new GridEntity instance. +
 
 === [[Item]]*Item*
 
-Defines a data item (often called a datum) in a graph structure . Provides a way to store information in a complex way.
+Defines a data item (often called a datum) in a graph structure . Provides a way to store information in a mainly hierarchical way.
 
 ==== Constructor:
 
@@ -1129,20 +1125,6 @@ Checks if the value is valid for this Number instance. +
 **toString () : string** + 
 Obtains the string representation of the Number instance. + 
 *_Returns:_* The string representation of the Number instance. 
-
-'''
-
-=== [[OrbitalPosition]]*OrbitalPosition* *:* <<Position>>
-
-Defines a position in an orbital coordinate system.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Item>>, data : any)** + 
-Initializes a new instance of the OrbitalPosition class. + 
-*_name:_* The parent data item. + 
- + 
-*_data:_* The initialization data. 
 
 '''
 
@@ -1745,6 +1727,10 @@ The children data types.
 Check if the type is (or inherits from) another. + 
 *_type:_* The type to check against. + 
 *_Returns:_* A boolean indicating whether the types are the same or not. 
+
+**register (instance : <<Item>>)** + 
+Registers an instance of the type to the list. + 
+*_instance:_* The instance to register. 
 
 '''
 

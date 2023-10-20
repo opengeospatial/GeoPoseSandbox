@@ -1,7 +1,7 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Orientation } from "../Orientation";
-import { Angle } from "../../items/measures/Angle";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { Orientation } from "../Orientation.js";
+import { Angle } from "../../items/measures/Angle.js";
 
 /** Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles. */
 export class YawPitchRollOrientation extends Orientation {

@@ -8,6 +8,12 @@ import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
 export class GraticuleEntity extends Entity {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The shape of the graticule. */
+	get ellipsoid() { return this._ellipsoid; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new GraticuleEntity instance.
@@ -60,14 +66,7 @@ export class GraticuleEntity extends Entity {
 			parallel.rotateY(lng * DEG2RAD);
 			this._representation.add(parallel);
 		}
-
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The shape of the graticule. */
-	get ellipsoid() { return this._ellipsoid; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -76,9 +75,6 @@ export class GraticuleEntity extends Entity {
 	 * @param deltaTime The update time.
 	 * @param forced Indicates whether the update is forced or not. */
 	update(deltaTime = 0, forced = false) {
-
-		// Show a message on console
-		// console.log("Updated GraticuleEntity")
 
 		if (!this._ellipsoid.updated) {
 			this._representation.scale.set(this._ellipsoid.radiusX.value * 1.005, this._ellipsoid.radiusY.value * 1.01, this._ellipsoid.radiusZ.value * 1.01);

@@ -1,8 +1,7 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Frame } from "../Frame";
-import { Distance } from "../../items/measures/Distance";
-import { Number } from "../../items/simple/Number";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { Distance } from "../../items/measures/Distance.js";
+import { Frame } from "../Frame.js";
 
 
 /** Defines a geodetic (elliptical) frame. */

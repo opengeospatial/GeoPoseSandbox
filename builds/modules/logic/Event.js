@@ -2,6 +2,21 @@
 export class Event {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The event type. */
+	get type() { return this._type; }
+
+	/** The event owner. */
+	get owner() { return this._owner; }
+
+	/** The event data. */
+	get data() { return this._data; }
+
+	/** The event listeners. */
+	get listeners() { return this._listeners; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Event instance.
@@ -22,21 +37,6 @@ export class Event {
 	}
 
 
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The event type. */
-	get type() { return this._type; }
-
-	/** The event owner. */
-	get owner() { return this._owner; }
-
-	/** The event data. */
-	get data() { return this._data; }
-
-	/** The event listeners. */
-	get listeners() { return this._listeners; }
-
-
 	// --------------------------------------------------------- PUBLIC METHODS
 
 	/** Adds a listener for the event.
@@ -55,11 +55,11 @@ export class Event {
 
 
 	/** Triggers the event.
-	 * @param target The object that triggers the event.
+	 * @param source The object that triggers the event.
 	 * @param data Additional event data. */
-	trigger(target, data = {}) {
+	trigger(source, data = {}) {
 		for (let listener of this._listeners) {
-			let captured = listener(this, target, data);
+			let captured = listener(this, source, data);
 			if (captured)
 				break; // If captured, stop broadcasting the event
 		}

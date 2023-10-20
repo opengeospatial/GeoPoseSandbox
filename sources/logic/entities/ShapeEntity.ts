@@ -1,8 +1,7 @@
 import * as THREE from "three"
-import { GridHelper } from "three";
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Entity } from "../Entity";
+import { Type } from "../../data/Type.js";
+import { Entity } from "../Entity.js";
+
 
 /** Defines a Shape entity. */
 export class ShapeEntity extends Entity {
@@ -23,7 +22,7 @@ export class ShapeEntity extends Entity {
 		// Call the base class constructor
 		super(name, parent)
 
-		// Create 
+		// Create a cone
 		this.representation.add(new THREE.Mesh(
 			new THREE.ConeGeometry(100000,100000,64,64),
 			new THREE.MeshLambertMaterial({color: 0xffff00})));

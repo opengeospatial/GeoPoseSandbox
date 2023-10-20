@@ -1,9 +1,9 @@
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Collection } from "../../data/Collection";
-import { SpaceEntity } from "../../logic/entities/SpaceEntity";
-import { Presence } from "./Presence";
-import { Widget } from "./Widget";
+import { Item } from "../../data/Item.js";
+import { Type } from "../../data/Type.js";
+import { Collection } from "../../data/Collection.js";
+import { SpaceEntity } from "../../logic/entities/SpaceEntity.js";
+import { Presence } from "./Presence.js";
+import { Widget } from "./Widget.js";
 
 /** Defines an Interaction Space. */
 export class Space extends Item {
@@ -78,8 +78,5 @@ export class Space extends Item {
 
 		// Call the parent class update function
 		super.update(deltaTime, forced);
-		
-		// Show a message on console
-		// console.log("Space Updated");
 	}
 }

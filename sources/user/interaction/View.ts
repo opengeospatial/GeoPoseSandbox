@@ -1,11 +1,11 @@
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Number } from "../../data/items/simple/Number";
-import { String } from "../../data/items/simple/String";
-import { Collection } from "../../data/Collection";
-import { Layer } from "./Layer";
-import { User } from "../User";
-import { ViewPort } from "../../logic/ViewPort";
+import { Item } from "../../data/Item.js";
+import { Type } from "../../data/Type.js";
+import { Number } from "../../data/items/simple/Number.js";
+import { String } from "../../data/items/simple/String.js";
+import { Collection } from "../../data/Collection.js";
+import { Layer } from "./Layer.js";
+import { User } from "../User.js";
+import { ViewPort } from "./ViewPort.js";
 
 
 

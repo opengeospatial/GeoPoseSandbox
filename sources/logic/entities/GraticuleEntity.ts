@@ -1,9 +1,9 @@
 import * as THREE from "three"
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { Entity } from "../Entity";
-import { Ellipsoid } from "../../data/items/shapes/Ellipsoid";
-import { String } from "../../data/items/simple/String";
+import { Item } from "../../data/Item.js";
+import { Type } from "../../data/Type.js";
+import { Entity } from "../Entity.js";
+import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
+import { String } from "../../data/items/simple/String.js";
 
 
 /** Defines a Graticule Entity. */
@@ -83,7 +83,6 @@ export class GraticuleEntity extends Entity {
 			parallel.rotateY(lng * DEG2RAD);
 			this._representation.add(parallel);
 		}
-
 	}
 
 	
@@ -93,9 +92,6 @@ export class GraticuleEntity extends Entity {
 	 * @param deltaTime The update time. 
 	 * @param forced Indicates whether the update is forced or not. */
 	 update(deltaTime: number = 0, forced: boolean = false) {
-
-		// Show a message on console
-		// console.log("Updated GraticuleEntity")
 
 		if (!this._ellipsoid.updated) {
 			this._representation.scale.set(this._ellipsoid.radiusX.value * 1.005,

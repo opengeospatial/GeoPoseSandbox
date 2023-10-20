@@ -1,9 +1,15 @@
 import { Type } from "../../Type.js";
-import { Shape } from '../Shape.js';
-import { Size } from '../measures/Size.js';
+import { Shape } from "../Shape.js";
+import { Size } from "../measures/Size.js";
 
 /** Defines a three-dimensional spherical Shape. */
 export class Sphere extends Shape {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The Size of the radius in all axes. */
+	get radius() { return this._radius; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -24,12 +30,6 @@ export class Sphere extends Shape {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The Size of the radius in all axes. */
-	get radius() { return this._radius; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

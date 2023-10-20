@@ -1,6 +1,6 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Simple } from "../Simple";
+import { Item } from "../../Item.js"
+import { Type } from "../../Type.js"
+import { Simple } from "../Simple.js"
 
 /** Defines a String data item. */
 export class String extends Simple<string> {

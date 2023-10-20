@@ -1,5 +1,5 @@
 /******************************************************************************
-  Build System - Documentation
+ GeoPose Sandbox Build System - Documentation
 ******************************************************************************/
 
 'use strict' // Make sure that we are working on strict mode

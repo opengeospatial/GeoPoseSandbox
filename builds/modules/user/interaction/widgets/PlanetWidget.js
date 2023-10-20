@@ -10,34 +10,6 @@ export class PlanetWidget extends Widget {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new PlanetWidget instance.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data = {}) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		this._frame = data.frame;
-		data.radiusX = this._frame.equatorialRadius.value;
-		data.radiusY = this._frame.polarRadius.value;
-		data.radiusZ = this._frame.equatorialRadius.value;
-		this.frame.links.add(this);
-
-		// Add the shape Component
-		this._terrain = new TerrainEntity(name + "Terrain", this._entity, data);
-		this._atmosphere = new AtmosphereEntity(name + "Atmosphere", this._entity, data);
-		this._graticule = new GraticuleEntity(name + "Graticule", this._entity, data);
-
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
 	/** The component of the widget. */
 	get terrain() { return this._terrain; }
 
@@ -49,6 +21,35 @@ export class PlanetWidget extends Widget {
 
 	/** The geographic frame of the planet. */
 	get frame() { return this._frame; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new PlanetWidget instance.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create a link with the GeoFrame
+		this._frame = data.frame;
+		data.radiusX = this._frame.equatorialRadius.value;
+		data.radiusY = this._frame.polarRadius.value;
+		data.radiusZ = this._frame.equatorialRadius.value;
+		this.frame.links.add(this);
+
+		// Add the shape Component
+		this._terrain = new TerrainEntity(name + "Terrain", this._entity, data);
+		this._atmosphere = new AtmosphereEntity(name + "Atmosphere", this._entity, data);
+		this._graticule = new GraticuleEntity(name + "Graticule", this._entity, data);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

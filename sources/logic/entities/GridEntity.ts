@@ -1,8 +1,9 @@
 import * as THREE from "three"
-import { Item } from "../../data/Item";
-import { GeoPosition } from "../../data/model/positions/GeoPosition";
-import { Type } from "../../data/Type";
-import { Entity } from "../Entity";
+import { Item } from "../../data/Item.js";
+import { GeoPosition } from "../../data/model/positions/GeoPosition.js";
+import { Type } from "../../data/Type.js";
+import { Entity } from "../Entity.js";
+
 
 /** Defines a Grid entity. */
 export class GridEntity extends Entity {

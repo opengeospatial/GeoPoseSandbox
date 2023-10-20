@@ -1,6 +1,16 @@
 
+
 /** Defines a collection of data items. */
 export class Collection {
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The number of items of the data collection. */
+	get count() { return this._count; }
+
+	/** The owner of the data collection. */
+	get owner() { return this._owner; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -20,15 +30,6 @@ export class Collection {
 		this._items = [];
 		this._count = 0;
 	}
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The number of items of the data collection. */
-	get count() { return this._count; }
-
-	/** The owner of the data collection. */
-	get owner() { return this._owner; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -54,10 +55,10 @@ export class Collection {
 	}
 
 
-	/** Adds a new item to the end of the list.
+	/** Adds a new item to the end of the collection.
 	 * @param item The item to add.
 	 * @param position The position where to add the item (by default, at the
-	 * end). Negative values imply counting from the end of the list.
+	 * end). Negative values imply counting from the end of the collection.
 	 * @returns The added item.  */
 	add(item, position) {
 
@@ -86,7 +87,7 @@ export class Collection {
 	}
 
 
-	/** Removes an item from the list.
+	/** Removes an item from the collection.
 	 * @param item The item to remove. */
 	remove(item) {
 		for (let itemIndex = 0; itemIndex < this._count; itemIndex++) {
@@ -98,7 +99,7 @@ export class Collection {
 		}
 	}
 
-	/** Removes all items from the list. */
+	/** Removes all items from the collection. */
 	clear() {
 		while (this._count > 0) {
 			this._items[0].destroy();
@@ -108,6 +109,7 @@ export class Collection {
 	}
 
 
+	/** Iteration through the collection. */
 	[Symbol.iterator]() {
 		let pointer = 0, items = this._items;
 		return {

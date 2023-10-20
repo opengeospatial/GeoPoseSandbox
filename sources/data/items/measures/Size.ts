@@ -1,6 +1,7 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Measure, MeasurementUnit } from "../Measure";
+import { Item } from "../../Item.js"
+import { Type } from "../../Type.js"
+import { Measure, MeasurementUnit } from "../Measure.js"
+
 
 /** Defines a dimensional measurement. */
 export class Size extends Measure {

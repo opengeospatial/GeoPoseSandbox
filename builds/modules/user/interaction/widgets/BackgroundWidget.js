@@ -6,7 +6,6 @@ import { Widget } from "../Widget.js";
 export class BackgroundWidget extends Widget {
 
 
-
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new PlanetWidget instance.
@@ -26,9 +25,6 @@ export class BackgroundWidget extends Widget {
 
 		// Add the shape Component
 		let mesh = new BackgroundEntity(name + "Mesh", this._entity, data);
-
-		console.log(mesh);
-		// = new ShapeEntity(this._name, this._parentEntity);
 
 		// Deserialize the initialization data
 		if (data != undefined)

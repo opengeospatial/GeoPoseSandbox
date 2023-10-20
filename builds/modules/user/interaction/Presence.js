@@ -7,6 +7,16 @@ import { PresenceEntity } from "../../logic/entities/PresenceEntity.js";
 export class Presence extends Item {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The entity associated with this presence. */
+	get entity() { return this._entity; }
+
+	/** The space associated with the presence. */
+	get space() { return this._space; }
+	set space(space) { this._space = space; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Presence instance.
@@ -26,16 +36,6 @@ export class Presence extends Item {
 		if (data)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The entity associated with this presence. */
-	get entity() { return this._entity; }
-
-	/** The space associated with the presence. */
-	get space() { return this._space; }
-	set space(space) { this._space = space; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

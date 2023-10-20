@@ -3,9 +3,25 @@ import { Complex } from "../Complex.js";
 import { String } from "../simple/String.js";
 import { Angle } from "../measures/Angle.js";
 
+
 /** Defines the Euler orientation.
  * @see https://en.wikipedia.org/wiki/Euler_angles */
 export class Euler extends Complex {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The Angle in the X axis. */
+	get x() { return this._x; }
+
+	/** The Angle in the Y axis. */
+	get y() { return this._y; }
+
+	/** The Angle in the Z axis. */
+	get z() { return this._z; }
+
+	/** The order of application of axis rotation. */
+	get order() { return this._order; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -32,21 +48,6 @@ export class Euler extends Complex {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The Angle in the X axis. */
-	get x() { return this._x; }
-
-	/** The Angle in the Y axis. */
-	get y() { return this._y; }
-
-	/** The Angle in the Z axis. */
-	get z() { return this._z; }
-
-	/** The order of application of axis rotation. */
-	get order() { return this._order; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

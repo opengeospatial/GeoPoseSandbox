@@ -1,9 +1,21 @@
 import { Type } from "../../Type.js";
-import { Shape } from '../Shape.js';
-import { Size } from '../measures/Size.js';
+import { Shape } from "../Shape.js";
+import { Size } from "../measures/Size.js";
 
 /** Defines a three-dimensional box Shape (global). */
 export class Box extends Shape {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The size of the box the X axis. */
+	get width() { return this._width; }
+
+	/** The size of the box in the Y axis. */
+	get height() { return this._height; }
+
+	/** The size of the box the Z axis. */
+	get depth() { return this._depth; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -26,18 +38,6 @@ export class Box extends Shape {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The size of the box the X axis. */
-	get width() { return this._width; }
-
-	/** The size of the box in the Y axis. */
-	get height() { return this._height; }
-
-	/** The size of the box the Z axis. */
-	get depth() { return this._depth; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

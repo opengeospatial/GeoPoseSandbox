@@ -1,7 +1,7 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Position } from "../Position";
-import { Distance } from "../../items/measures/Distance";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { Position } from "../Position.js";
+import { Distance } from "../../items/measures/Distance.js";
 
 
 /** Defines a position in an euclidean coordinate system. */
@@ -57,14 +57,4 @@ export class EuclideanPosition extends Position {
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
 	}
-
-
-	/** Updates the Item instance. 
-	 * @param deltaTime The update time. 
-	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime: number = 0, forced: boolean = false) {
-
-		console.log("EuclideanPosition");
-	}
-
 }

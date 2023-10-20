@@ -1,6 +1,6 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Simple } from "../Simple";
+import { Item } from "../../Item.js"
+import { Type } from "../../Type.js"
+import { Simple } from "../Simple.js"
 
 /** Defines a Numeric data item. */
 export class Number extends Simple<number> {

@@ -1,10 +1,10 @@
-import { Type } from "./Type";
-import { Event } from "../logic/Event"
-import { Collection } from "./Collection";
-import { Serialization, SerializationFormat } from "./Serialization";
+import { Type } from "./Type.js";
+import { Event } from "../logic/Event.js"
+import { Collection } from "./Collection.js";
+import { Serialization, SerializationFormat } from "./Serialization.js";
 
 /** Defines a data item (often called a datum) in a graph structure .
- * Provides a way to store information in a complex way. */
+ * Provides a way to store information in a mainly hierarchical way. */
 export class Item {
 
 	// -------------------------------------------------------- PUBLIC METADATA
@@ -77,7 +77,7 @@ export class Item {
 	set updated(value: boolean) {
 
 		// If the value is the same as the current update state
-		// if (this._updated == value) return;
+		if (this._updated == value) return;
 
 		// Set the update state and update the time
 		this._updated = value; this._updateTime = Date.now();
@@ -85,9 +85,6 @@ export class Item {
 		// Trigger the "modified" event
 		this.onModified.trigger(this, value);
 		Item.onModified.trigger(this, value);
-
-		// Show a message on console
-		// console.log("Needs update: " + this._name);
 
 		// Propagate the event upwards in the hierarchy and to the links
 		if (value == false){
@@ -157,9 +154,6 @@ export class Item {
 
 		// Set the update state to false and set the update time
 		this.updated = false; this._updateTime = Date.now();
-
-		// Register this instance in the list of instances of the data type
-		// this._type.register(this);
 
 		// Trigger the onCreation event
 		Item.onCreation.trigger(this);

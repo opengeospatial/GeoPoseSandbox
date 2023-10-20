@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Presence } from "../user/interaction/Presence";
+import { Presence } from "./Presence.js";
 
 /** Defines a Viewport. */
 export class ViewPort {

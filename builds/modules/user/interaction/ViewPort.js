@@ -1,7 +1,22 @@
-import * as THREE from "../../externals/three.module.js";
+import * as THREE from "../../../externals/three.module.js";
 
 /** Defines a Viewport. */
 export class ViewPort {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The canvas element of the viewport. */
+	get canvas() { return this._canvas; }
+
+	/** The renderer of the viewport. */
+	get renderer() { return this._renderer; }
+
+	/** The width of the viewport. */
+	get width() { return this._width; }
+
+	/** The height of the viewport. */
+	get height() { return this._height; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -21,21 +36,6 @@ export class ViewPort {
 		this._renderer.xr.enabled = true;
 		this._renderer.setAnimationLoop(updateFunction);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The canvas element of the viewport. */
-	get canvas() { return this._canvas; }
-
-	/** The renderer of the viewport. */
-	get renderer() { return this._renderer; }
-
-	/** The width of the viewport. */
-	get width() { return this._width; }
-
-	/** The height of the viewport. */
-	get height() { return this._height; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

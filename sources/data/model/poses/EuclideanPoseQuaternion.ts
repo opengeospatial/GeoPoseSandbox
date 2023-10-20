@@ -1,8 +1,8 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Pose } from "../Pose";
-import { EuclideanPosition } from "../positions/EuclideanPosition";
-import { QuaternionOrientation } from "../orientations/QuaternionOrientation";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { Pose } from "../Pose.js";
+import { EuclideanPosition } from "../positions/EuclideanPosition.js";
+import { QuaternionOrientation } from "../orientations/QuaternionOrientation.js";
 
 
 /** Defines a Euclidean pose with a quaternion orientation. */

@@ -1,7 +1,7 @@
-import { Item } from "../../data/Item";
-import { Type } from "../../data/Type";
-import { PresenceEntity } from "../../logic/entities/PresenceEntity";
-import { Space } from "./Space";
+import { Item } from "../../data/Item.js";
+import { Type } from "../../data/Type.js";
+import { PresenceEntity } from "../../logic/entities/PresenceEntity.js";
+import { Space } from "./Space.js";
 
 
 /** Defines the user Presence in an interaction space. */

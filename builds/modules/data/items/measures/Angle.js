@@ -1,6 +1,7 @@
 import { Type } from "../../Type.js";
 import { Measure, MeasurementUnit } from "../Measure.js";
 
+
 /** Defines a angular measurement. */
 export class Angle extends Measure {
 

@@ -1,7 +1,7 @@
-import { Item } from "../Item";
-import { Type } from "../Type";
-import { String } from "../items/Simple/String";
-import { Shape } from "../items/Shape";
+import { Item } from "../Item.js"
+import { Type } from "../Type.js"
+import { String } from "../items/simple/String.js"
+
 
 /** Defines a reference frame. */
 export class Frame extends Item {

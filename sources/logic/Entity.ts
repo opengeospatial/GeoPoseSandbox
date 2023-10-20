@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { Item } from "../data/Item";
-import { Type } from "../data/Type";
-import { Pose } from "../data/model/Pose";
+import { Item } from "../data/Item.js";
+import { Type } from "../data/Type.js";
+import { Pose } from "../data/model/Pose.js";
 
 
 /** Defines a logic entity. */

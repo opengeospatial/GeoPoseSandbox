@@ -3,8 +3,18 @@ import { Pose } from "./Pose.js";
 import { GeoFrame } from "./frames/GeoFrame.js";
 import { GeoPosition } from "./positions/GeoPosition.js";
 
+
 /** Defines the GeoPose of an object. */
 export class GeoPose extends Pose {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The geodetic frame of the GeoPose. */
+	get frame() { return this._frame; }
+
+	/** The position of the GeoPose. */
+	get position() { return this._position; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -29,15 +39,6 @@ export class GeoPose extends Pose {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The geodetic frame of the GeoPose. */
-	get frame() { return this._frame; }
-
-	/** The position of the GeoPose. */
-	get position() { return this._position; }
 
 
 

@@ -4,8 +4,18 @@ import { Entity } from "../Entity.js";
 import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
 import { String } from "../../data/items/simple/String.js";
 
+
 /** Defines a Background Entity. */
 export class BackgroundEntity extends Entity {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The shape of the component. */
+	get shape() { return this._shape; }
+
+	/** The shape of the component. */
+	get texture() { return this._texture; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -31,17 +41,7 @@ export class BackgroundEntity extends Entity {
 		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide }));
 		this._representation.add(this._mesh);
 		this._mesh.renderOrder = -100;
-
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The shape of the component. */
-	get shape() { return this._shape; }
-
-	/** The shape of the component. */
-	get texture() { return this._texture; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

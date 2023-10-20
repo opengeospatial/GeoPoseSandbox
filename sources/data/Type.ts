@@ -1,4 +1,5 @@
-import { Item } from "./Item";
+import { Item } from "./Item.js";
+
 
 /** Contains the metadata of a data type. 
  * Provides a way to handle reflection and serialization in different contexts
@@ -55,7 +56,7 @@ export class Type {
 		// Store the given name and add this instance to the global record
 		this._name = name;
 		if (!Type._record[name]) Type._record[name] = this;
-		else throw Error ('Repeated data type name: "' + name + '"');
+		// else throw Error ('Repeated data type name: "' + name + '"');
 
 		// If there is a parent type, store the reference and create a link
 		if (parent) { this._parent = parent; this._parent.children.push(this); }
@@ -80,18 +81,10 @@ export class Type {
 	}
 
 
-	// /** Registers an instance of the type to the list.
-	//  * @param instance The instance to register. */
-	// register(instance: Item) { 
-	// 	let type:Type = instance.type;
-	// 	while(type) { type._instances.push(instance); type = type._parent; }
-	// }
-
-
-	// /** Unregisters an instance of the type to the list.
-	//  * @param instance The instance to unregister. */
-	// unregister (instance: Item) { 
-	// 	let type:Type = instance.type;
-	// 	// while(type) { type._instances(instance); type = type._parent; }
-	// }
+	/** Registers an instance of the type to the list.
+	 * @param instance The instance to register. */
+	register(instance: Item) { 
+		let type:Type = instance.type;
+		while(type) { type._instances.push(instance); type = type._parent; }
+	}
 }

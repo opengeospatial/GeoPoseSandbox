@@ -1,6 +1,6 @@
 import { Type } from "../../../data/Type.js";
 import { Widget } from "../Widget.js";
-import { ShapeEntity as ArrowEntity } from "../../../logic/entities/ShapeEntity.js";
+import { ArrowEntity } from "../../../logic/entities/ArrowEntity.js";
 import { GeoPoseBasicYPR } from "../../../data/model/poses/GeoPoseBasicYPR.js";
 import { GridEntity } from "../../../logic/entities/GridEntity.js";
 import { EuclideanPoseYPR } from "../../../data/model/poses/EuclideanPoseYPR.js";
@@ -8,6 +8,17 @@ import { EuclideanPoseYPR } from "../../../data/model/poses/EuclideanPoseYPR.js"
 /** Defines a widget for a GeoPose. */
 export class GeoPoseWidget extends Widget {
 
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The arrow of the widget. */
+	get arrow() { return this._arrow; }
+
+	/** The grid of the widget. */
+	get grid() { return this._arrow; }
+
+	/** The geographic frame of the widget. */
+	get frame() { return this._frame; }
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -19,6 +30,12 @@ export class GeoPoseWidget extends Widget {
 
 		// Call the base class constructor
 		super(name, parent, data);
+
+		// Create a link with the GeoFrame
+		if (data.frame) {
+			this._frame = data.frame;
+			this._frame.links.add(this);
+		}
 
 		// Set the pose of the entity as a pose entity
 		this._entity.pose = new GeoPoseBasicYPR("pose", this._entity, data);
@@ -34,13 +51,29 @@ export class GeoPoseWidget extends Widget {
 	}
 
 
-	// ------------------------------------------------------ PUBLIC PROPERTIES
+	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** The arrow of the widget. */
-	get arrow() { return this._arrow; }
+	/** Updates the GeoPoseWidget instance.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
 
-	/** The grid of the widget. */
-	get grid() { return this._arrow; }
+		// If the update is not forced, skip it when the item is already updated
+		if (this.updated && !forced)
+			return;
+
+		// Update the properties of the camera
+		if (!this._frame.updated) {
+			this._frame.update();
+		}
+
+		// Show a message on console
+		console.log("Updated: " + this.name);
+
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+	}
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

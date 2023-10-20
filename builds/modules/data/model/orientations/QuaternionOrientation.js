@@ -7,6 +7,21 @@ import { Number } from "../../items/simple/Number.js";
 export class QuaternionOrientation extends Orientation {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The value of the quaternion vector in the X(i) axis. */
+	get x() { return this._x; }
+
+	/** The value of the quaternion vector in the Y(j) axis. */
+	get y() { return this._y; }
+
+	/** The value of the quaternion vector in the Z(k) axis. */
+	get z() { return this._z; }
+
+	/** The rotation half-angle around the quaternion vector. */
+	get w() { return this._w; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the QuaternionOrientation class.
@@ -28,21 +43,6 @@ export class QuaternionOrientation extends Orientation {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The value of the quaternion vector in the X(i) axis. */
-	get x() { return this._x; }
-
-	/** The value of the quaternion vector in the Y(j) axis. */
-	get y() { return this._y; }
-
-	/** The value of the quaternion vector in the Z(k) axis. */
-	get z() { return this._z; }
-
-	/** The rotation half-angle around the quaternion vector. */
-	get w() { return this._w; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

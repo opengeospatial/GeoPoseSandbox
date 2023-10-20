@@ -7,6 +7,12 @@ import { Number } from "../../items/simple/Number.js";
 export class MatrixOrientation extends Orientation {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The numeric values of the rotation matrix. */
+	get values() { return this._values; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the MatrixOrientation class.
@@ -25,12 +31,6 @@ export class MatrixOrientation extends Orientation {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The numeric values of the rotation matrix. */
-	get values() { return this._values; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA

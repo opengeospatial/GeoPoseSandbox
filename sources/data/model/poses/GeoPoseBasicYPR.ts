@@ -1,7 +1,7 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { GeoPose } from "../GeoPose";
-import { YawPitchRollOrientation } from "../orientations/YawPitchRollOrientation";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { GeoPose } from "../GeoPose.js";
+import { YawPitchRollOrientation } from "../orientations/YawPitchRollOrientation.js";
 
 /** Defines a basic GeoPose with Yaw-Pitch-Roll (Tait-Bryan) orientation. */
 export class GeoPoseBasicYPR extends GeoPose {

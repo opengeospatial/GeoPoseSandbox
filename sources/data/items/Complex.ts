@@ -1,6 +1,6 @@
-import { Item } from "../Item";
-import { Type } from "../Type";
-import { Number } from "./simple/Number";
+import { Item } from "../Item.js"
+import { Type } from "../Type.js"
+import { Number } from "./simple/Number.js"
 
 /** Defines a complex data item. */
 export class Complex extends Item {
@@ -25,6 +25,7 @@ export class Complex extends Item {
 			if (!component.isDefault) return false;
 		return true;
 	}
+
 
 	/** Indicates whether the value is undefined or not. */
 	get isUndefined(): boolean {

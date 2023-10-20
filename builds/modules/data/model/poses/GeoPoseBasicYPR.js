@@ -6,6 +6,14 @@ import { YawPitchRollOrientation } from "../orientations/YawPitchRollOrientation
 export class GeoPoseBasicYPR extends GeoPose {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The orientation of the GeoPose. */
+	get orientation() {
+		return this._orientation;
+	}
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the GeoPoseBasicYPR class.
@@ -23,14 +31,6 @@ export class GeoPoseBasicYPR extends GeoPose {
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The orientation of the GeoPose. */
-	get orientation() {
-		return this._orientation;
 	}
 
 

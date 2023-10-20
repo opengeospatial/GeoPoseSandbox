@@ -4,12 +4,39 @@ import { Number } from "../../data/items/simple/Number.js";
 import { String } from "../../data/items/simple/String.js";
 import { Collection } from "../../data/Collection.js";
 import { Layer } from "./Layer.js";
-import { ViewPort } from "../../logic/ViewPort.js";
+import { ViewPort } from "./ViewPort.js";
 
 
 
 /** Defines a User Interaction View. */
 export class View extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The main element of the view. */
+	get element() { return this._element; }
+
+	/** The canvas element of the view. */
+	get canvas() { return this._canvas; }
+
+	/** The state of the view. */
+	get state() { return this._state; }
+
+	/** The width of the view. */
+	get width() { return this._width; }
+
+	/** The height of the view. */
+	get height() { return this._height; }
+
+	/** The layers of the view. */
+	get layers() { return this._layers; }
+
+	/** The current Frames Per Second value. */
+	get fpsValue() { return this._fpsValue; }
+
+	/** The list of Frames Per Second values. */
+	get fpsValues() { return this._fpsValues; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -78,33 +105,6 @@ export class View extends Item {
 		// 	this._state.value = "FullScreen";
 		// });
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The main element of the view. */
-	get element() { return this._element; }
-
-	/** The canvas element of the view. */
-	get canvas() { return this._canvas; }
-
-	/** The state of the view. */
-	get state() { return this._state; }
-
-	/** The width of the view. */
-	get width() { return this._width; }
-
-	/** The height of the view. */
-	get height() { return this._height; }
-
-	/** The layers of the view. */
-	get layers() { return this._layers; }
-
-	/** The current Frames Per Second value. */
-	get fpsValue() { return this._fpsValue; }
-
-	/** The list of Frames Per Second values. */
-	get fpsValues() { return this._fpsValues; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

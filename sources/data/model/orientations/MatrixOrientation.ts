@@ -1,7 +1,7 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Orientation } from "../Orientation";
-import { Number } from "../../items/simple/Number";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { Orientation } from "../Orientation.js";
+import { Number } from "../../items/simple/Number.js";
 
 
 /** Defines an orientation based on a 3x3 rotation matrix. */

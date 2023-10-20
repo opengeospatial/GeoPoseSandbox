@@ -1,11 +1,12 @@
-import { Item } from "../Item";
-import { Type } from "../Type";
-import { Collection } from "../Collection";
-import { Frame } from "./Frame";
-import { Position } from "./Position";
-import { Orientation } from "./Orientation";
-import { Extension } from "./Extension";
-import { Vector } from "../items/complex/Vector";
+import { Item } from "../Item.js"
+import { Type } from "../Type.js"
+import { Collection } from "../Collection.js"
+import { Frame } from "./Frame.js"
+import { Position } from "./Position.js"
+import { Orientation } from "./Orientation.js"
+import { Extension } from "./Extension.js"
+import { Vector } from "../items/complex/Vector.js"
+
 
 /** Defines a Pose of an object. */
 export class Pose extends Item {

@@ -9,6 +9,21 @@ import { Widget } from "./Widget.js";
 export class Space extends Item {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The entity of the space. */
+	get entity() { return this._entity; }
+
+	/** The subspaces of the space. */
+	get subspaces() { return this._subspaces; }
+
+	/** The user presences in the space. */
+	get presences() { return this._presences; }
+
+	/** The widgets of the space. */
+	get widgets() { return this._widgets; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Space instance.
@@ -32,21 +47,6 @@ export class Space extends Item {
 	}
 
 
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The entity of the space. */
-	get entity() { return this._entity; }
-
-	/** The subspaces of the space. */
-	get subspaces() { return this._subspaces; }
-
-	/** The user presences in the space. */
-	get presences() { return this._presences; }
-
-	/** The widgets of the space. */
-	get widgets() { return this._widgets; }
-
-
 	// --------------------------------------------------------- PUBLIC METHODS
 
 	/** Updates the space.
@@ -60,9 +60,6 @@ export class Space extends Item {
 
 		// Call the parent class update function
 		super.update(deltaTime, forced);
-
-		// Show a message on console
-		// console.log("Space Updated");
 	}
 }
 

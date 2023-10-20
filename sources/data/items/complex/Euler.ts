@@ -1,8 +1,9 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Complex } from "../Complex";
-import { String } from "../simple/String";
-import { Angle } from "../measures/Angle";
+import { Item } from "../../Item.js"
+import { Type } from "../../Type.js"
+import { Complex } from "../Complex.js"
+import { String } from "../simple/String.js"
+import { Angle } from "../measures/Angle.js"
+
 
 /** Defines the Euler orientation. 
  * @see https://en.wikipedia.org/wiki/Euler_angles */

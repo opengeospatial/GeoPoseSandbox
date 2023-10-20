@@ -1,1 +1,1 @@
-# Getting Started with the Geopose Sandbox
+# Getting Started with the GeoPose Sandbox

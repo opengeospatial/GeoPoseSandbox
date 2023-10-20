@@ -1,11 +1,11 @@
-import { Item } from "../../Item";
-import { Type } from "../../Type";
-import { Position } from "../Position";
-import { Angle } from "../../items/measures/Angle";
-import { Distance } from "../../items/measures/Distance";
-import { GeoFrame } from "../frames/GeoFrame";
-import { GeoPose } from "../GeoPose";
-import { Vector } from "../../items/complex/Vector";
+import { Item } from "../../Item.js";
+import { Type } from "../../Type.js";
+import { Position } from "../Position.js";
+import { Angle } from "../../items/measures/Angle.js";
+import { Distance } from "../../items/measures/Distance.js";
+import { GeoFrame } from "../frames/GeoFrame.js";
+import { GeoPose } from "../GeoPose.js";
+import { Vector } from "../../items/complex/Vector.js";
 
 
 /** Defines a position in geodetic (elliptical) coordinate system.

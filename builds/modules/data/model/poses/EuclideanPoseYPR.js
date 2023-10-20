@@ -7,6 +7,19 @@ import { YawPitchRollOrientation } from "../orientations/YawPitchRollOrientation
 export class EuclideanPoseYPR extends Pose {
 
 
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The position of the Euclidean Pose. */
+	get position() {
+		return this._position;
+	}
+
+	/** The orientation of the Euclidean Pose. */
+	get orientation() {
+		return this._orientation;
+	}
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the EuclideanPoseYPR class.
@@ -25,19 +38,6 @@ export class EuclideanPoseYPR extends Pose {
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The position of the Euclidean Pose. */
-	get position() {
-		return this._position;
-	}
-
-	/** The orientation of the Euclidean Pose. */
-	get orientation() {
-		return this._orientation;
 	}
 }
 

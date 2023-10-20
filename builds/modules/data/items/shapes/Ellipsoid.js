@@ -1,9 +1,21 @@
 import { Type } from "../../Type.js";
-import { Shape } from '../Shape.js';
-import { Size } from '../measures/Size.js';
+import { Shape } from "../Shape.js";
+import { Size } from "../measures/Size.js";
 
 /** Defines a three-dimensional ellipsoid shape. */
 export class Ellipsoid extends Shape {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The radius in the X axis. */
+	get radiusX() { return this._radiusX; }
+
+	/** The radius in the Y axis. */
+	get radiusY() { return this._radiusY; }
+
+	/** The radius in the Z axis. */
+	get radiusZ() { return this._radiusZ; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -26,18 +38,6 @@ export class Ellipsoid extends Shape {
 		if (data != undefined)
 			this.deserialize(data);
 	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The radius in the X axis. */
-	get radiusX() { return this._radiusX; }
-
-	/** The radius in the Y axis. */
-	get radiusY() { return this._radiusY; }
-
-	/** The radius in the Z axis. */
-	get radiusZ() { return this._radiusZ; }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
