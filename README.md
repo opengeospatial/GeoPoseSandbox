@@ -26,8 +26,4 @@ This projects follows a simple folder structure:
 * **tests:** A collection of test that focus on different aspects of the Geopose Sandbox.
 * **utilities:** The custom build system for the project and other external tools.
 
-## Dependencies
-
-* Threejs: (npm install three) 3D library
-* Typescript Compiler: (npm install -g typescript)
-* Terser: (npm install -g terser)
+Note: Right now, the main branch is an stub. The latest version is available in the development branch.
