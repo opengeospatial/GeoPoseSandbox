@@ -1,0 +1,1369 @@
+= GeoPose Sandbox Class Reference
+
+== Index
+
+=== Grouped by folder:
+
+<<GeoPoseSandbox>>
+
+==== data
+
+<<Node>>, <<NodeSet>>, <<Resource>>
+
+==== data/model
+
+<<Extension>>, <<Frame>>, <<GeoPose>>, <<Orientation>>, <<Pose>>, <<Position>>
+
+==== data/model/frames
+
+<<GeoFrame>>
+
+==== data/model/orientations
+
+<<LookAtOrientation>>, <<QuaternionOrientation>>, <<YawPitchRollOrientation>>
+
+==== data/model/positions
+
+<<EuclideanPosition>>, <<GeoPosition>>, <<OrbitalPosition>>
+
+==== data/resources
+
+<<AudioResource>>, <<FontResource>>, <<ModelResource>>, <<ResourceGroup>>
+
+==== data/types
+
+<<Measure>>, <<Shape>>, <<String>>
+
+==== data/types/complex
+
+<<Quaternion>>, <<Vector3>>
+
+==== data/types/measures
+
+<<Angle>>, <<Distance>>, <<Size>>, <<Time>>
+
+==== data/types/shapes
+
+<<Box>>, <<Ellipsoid>>, <<Sphere>>
+
+==== logic
+
+<<Behavior>>, <<Entity>>
+
+==== logic/entities
+
+<<Camera>>, <<SceneEntity>>, <<ShapeEntity>>, <<TerrainEntity>>, <<TextEntity>>
+
+==== user/interaction
+
+<<Component>>, <<Layer>>, <<Presence>>, <<Space>>, <<Viewport>>, <<Widget>>
+
+==== user/interaction/components
+
+<<CameraComponent>>, <<PlanetComponent>>, <<ShapeComponent>>, <<TextComponent>>
+
+==== user/interaction/layers
+
+<<HeadsUpDisplayLayer>>
+
+==== user/interaction/widgets
+
+<<GeoPoseWidget>>, <<PlanetWidget>>
+
+=== Alphabetical Order:
+
+<<Angle>>, <<AudioResource>>, <<Behavior>>, <<Box>>, <<Camera>>, <<CameraComponent>>, <<Component>>, <<Distance>>, <<Ellipsoid>>, <<Entity>>, <<EuclideanPosition>>, <<Extension>>, <<FontResource>>, <<Frame>>, <<GeoFrame>>, <<GeoPose>>, <<GeoPoseSandbox>>, <<GeoPoseWidget>>, <<GeoPosition>>, <<HeadsUpDisplayLayer>>, <<Layer>>, <<LookAtOrientation>>, <<Measure>>, <<ModelResource>>, <<Node>>, <<NodeSet>>, <<OrbitalPosition>>, <<Orientation>>, <<PlanetComponent>>, <<PlanetWidget>>, <<Pose>>, <<Position>>, <<Presence>>, <<Quaternion>>, <<QuaternionOrientation>>, <<Resource>>, <<ResourceGroup>>, <<SceneEntity>>, <<Shape>>, <<ShapeComponent>>, <<ShapeEntity>>, <<Size>>, <<Space>>, <<Sphere>>, <<String>>, <<TerrainEntity>>, <<TextComponent>>, <<TextEntity>>, <<Time>>, <<Vector3>>, <<Viewport>>, <<Widget>>, <<YawPitchRollOrientation>>
+
+== Classes
+
+=== [[Angle]]*Angle* *:* <<Measure>>
+
+Defines a angular measure.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Angle class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a numeric value). 
+
+'''
+
+=== [[AudioResource]]*AudioResource* *:* <<Resource>>
+
+Defines a Audio Resource.
+
+'''
+
+=== [[Behavior]]*Behavior* *:* <<Node>>
+
+Defines an logic Behavior
+
+==== Constructor:
+
+**constructor (name : string, type : string, parentNode : <<Node>>)** + 
+Initializes a new logic behavior. + 
+*_name:_* The name of the logic behavior. + 
+*_type:_* The type of the logic behavior. + 
+*_parentNode:_* The parent node. 
+
+'''
+
+=== [[Box]]*Box* *:* <<Shape>>
+
+Defines a three-dimensional box Shape (global).
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes the Box instance. + 
+*_name:_* The name(s) of the node. + 
+*_parentNode:_* The parent node. + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**width : <<Size>>** + 
+The Size of in the X axis. 
+
+**depth : <<Size>>** + 
+The Size of in the Z axis. 
+
+**height : <<Size>>** + 
+The Size of in the Y axis. 
+
+==== Methods:
+
+**toArray () : number** + 
+Converts the Box instance into an array representation. 
+
+**fromArray (values : number)** + 
+Sets the values of the Box from an array. + 
+*_values:_* An array with the numerical values. 
+
+'''
+
+=== [[Camera]]*Camera* *:* <<Entity>>
+
+Defines a Camera.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Entity>>, params : any)** + 
+Initializes a new Camera instance. + 
+*_name:_* The name of the entity. + 
+*_parent:_* The parent entity. + 
+ 
+
+==== Properties:
+
+**aspectRatio : number** + 
+The aspect ratio of the Camera. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the camera. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[CameraComponent]]*CameraComponent* *:* <<Component>>
+
+Defines a Camera Interaction Component.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, params : any)** + 
+Initializes a new CameraComponent instance. + 
+*_name:_* The name of the component. + 
+ + 
+*_params:_* The initialization parameters. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Initializes a new CameraComponent instance. + 
+ + 
+ 
+
+'''
+
+=== [[Component]]*Component* *:* <<Node>>
+
+Defines an interaction Component
+
+==== Constructor:
+
+**constructor (name : string, type : string, parentNode : <<Node>>, params : any)** + 
+Initializes a new Component instance. + 
+*_name:_* The name of the component. + 
+*_type:_* The type of component. + 
+*_parentNode:_* The parent component or widget. + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**entity : <<Entity>>** + 
+The entity of the component. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the Component. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[Distance]]*Distance* *:* <<Measure>>
+
+Defines a distance (relative dimensional magnitude) measure.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Distance class. + 
+*_name:_* The name(s) of the node. + 
+*_parentNode:_* The parent node. + 
+*_params:_* The initialization parameters (or a numeric value). 
+
+'''
+
+=== [[Ellipsoid]]*Ellipsoid* *:* <<Shape>>
+
+Defines a three-dimensional ellipsoid Shape.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes the Ellipsoid instance. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**radiusX : <<Size>>** + 
+The Size of the radius in the X axis. 
+
+**radiusY : <<Size>>** + 
+The Size of the radius in the Y axis. 
+
+**radiusZ : <<Size>>** + 
+The Size of the radius in the Z axis. 
+
+==== Methods:
+
+**toArray () : number** + 
+Converts the Ellipsoid instance into an array representation. 
+
+**fromArray (values : number)** + 
+Sets the values of the Ellipsoid from an array. + 
+*_values:_* An array with the numerical values. 
+
+'''
+
+=== [[Entity]]*Entity* *:* <<Node>>
+
+Defines a logic Entity.
+
+==== Constructor:
+
+**constructor (name : string, type : string, parent : <<Entity>>, representation : THREE.Object3D)** + 
+Initializes a new Entity instance. + 
+*_name:_* The name of the entity. + 
+*_type:_* The type of the entity. + 
+*_parent:_* The parent entity. + 
+ 
+
+==== Properties:
+
+**representation : THREE.Object3D** + 
+The representation of the entity. 
+
+**pose : <<Pose>>** + 
+The pose of the entity. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the entity. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[EuclideanPosition]]*EuclideanPosition* *:* <<Position>>
+
+Defines a location in an euclidean coordinate system.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the EuclideanPosition class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**x** + 
+The Angle in degrees around the equator of the globe. 
+
+**y** + 
+The Angle in degrees around the prime meridian of the globe. 
+
+**z** + 
+The vertical distance relative to the surface to the globe. 
+
+'''
+
+=== [[Extension]]*Extension* *:* <<Node>>
+
+Defines the basic class of a Pose Extension.
+
+==== Constructor:
+
+**constructor (name : any, type : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Extension class. + 
+*_name:_* The name(s) of the node. + 
+*_type:_* The type of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+'''
+
+=== [[FontResource]]*FontResource* *:* <<Resource>>
+
+Defines a Font Resource.
+
+==== Properties:
+
+**representation : THREE.Font** + 
+The representation of the Font. 
+
+==== Methods:
+
+**parse (data) : <<FontResource>>** + 
+Parses the font from a JSON data. + 
+*_data:_* The font JSON data. + 
+*_Returns:_* The Font Resource. 
+
+'''
+
+=== [[Frame]]*Frame* *:* <<Node>>
+
+Defines a reference frame.
+
+==== Constructor:
+
+**constructor (name : any, type : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Frame class. + 
+*_name:_* The name(s) of the node. + 
+*_type:_* The type of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**shape** + 
+The shape of the reference frame. 
+
+'''
+
+=== [[GeoFrame]]*GeoFrame* *:* <<Frame>>
+
+Defines a geographical frame.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the GeoFrame class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**semiMajorAxis** + 
+The semi major axis. 
+
+**semiMinorAxis** + 
+The semi minor axis. 
+
+**flattening** + 
+The flattening factor. 
+
+'''
+
+=== [[GeoPose]]*GeoPose* *:* <<Pose>>
+
+Defines the GeoPose of an object.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Pose class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**frame : <<Frame>>** + 
+The parent of the Pose. 
+
+**extensions : <<NodeSet>> <<<Extension>>>** + 
+The extensions of the Pose. 
+
+'''
+
+=== [[GeoPoseSandbox]]*GeoPoseSandbox*
+
+Manages the GeoPose Sandbox.
+
+==== Constructor:
+
+**constructor (params : any)** + 
+Initializes a new GeoPoseSandbox instance. + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**appName : string** + 
+The application name of the Geopose Sandbox. 
+
+**version : string** + 
+The version number of the Geopose Sandbox. 
+
+**instances : <<GeoPoseSandbox>>** + 
+The list of GeoPoseSandbox instances. 
+
+**space** + 
+The interaction space. 
+
+**viewports** + 
+The Viewports for user interaction. 
+
+==== Methods:
+
+**init (params)** + 
+Initializes a new GeoPoseSandbox instance. + 
+*_params:_* The initialization parameters. + 
+*_Returns:_* The new GeoPoseSandbox instance. 
+
+'''
+
+=== [[GeoPoseWidget]]*GeoPoseWidget* *:* <<Widget>>
+
+Defines a widget for a geopose.
+
+==== Constructor:
+
+**constructor (name : string, parentNode : <<Node>>, params : any)** + 
+Initializes a new PlanetWidget instance. + 
+*_name:_* The name of the widget. + 
+*_parentNode:_* The parent widget or space. + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**planetComponent : <<ShapeComponent>>** + 
+The component of the widget. 
+
+**position : <<GeoPosition>>** + 
+The position of the GeoPose. 
+
+**orientation : <<YawPitchRollOrientation>>** + 
+The orientation of the GeoPose. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the TextComponent. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[GeoPosition]]*GeoPosition* *:* <<Position>>
+
+Defines a location in global (elliptical) coordinate system. (Based on PICE and LPT-ENU).
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the GeoPosition class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**longitude** + 
+The Angle in degrees around the equator of the globe. 
+
+**latitude** + 
+The Angle in degrees around the prime meridian of the globe. 
+
+**altitude** + 
+The vertical Distance relative to the surface to the globe. 
+
+**frame** + 
+The associated geographic frame. 
+
+'''
+
+=== [[HeadsUpDisplayLayer]]*HeadsUpDisplayLayer* *:* <<Layer>>
+
+Defines a Heads-Up Display Layer.
+
+'''
+
+=== [[Layer]]*Layer* *:* <<Node>>
+
+Defines an Interaction (Viewport) Layer .
+
+==== Constructor:
+
+**constructor (name, parentNode : <<Node>>, params : any)** + 
+Initializes a new Space instance. + 
+*_name:_* The name of the space. + 
+*_parentNode:_* The parent node. + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**widgets : <<NodeSet>> <<<Widget>>>** + 
+The widgets of the Layer. 
+
+**space : <<Space>>** + 
+The Interaction Space associated to the Layer. 
+
+**presence : <<Presence>>** + 
+The user Presence in the Layer. 
+
+'''
+
+=== [[LookAtOrientation]]*LookAtOrientation* *:* <<Orientation>>
+
+Defines an orientation with a target.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the YawPitchRollOrientation class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**targetName : <<String>>** + 
+The target to point towards. 
+
+**targetPosition : <<Vector3>>** + 
+The target position. 
+
+'''
+
+=== [[Measure]]*Measure* *:* <<Node>>
+
+Defines a numeric measure.
+
+==== Constructor:
+
+**constructor (name : any, type : string, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Measure class. + 
+*_name:_* The name of the Measure. + 
+*_type:_* The type of the Measure. + 
+*_parentNode:_* The parent Measure. + 
+*_params:_* The initialization parameters (or a numeric value). 
+
+==== Properties:
+
+**value** + 
+Gets the current value of the Measure. 
+
+**min : number** + 
+Gets the minimum possible value of the Measure. 
+
+**max : number** + 
+Gets the maximum possible value of the Measure. 
+
+**accuracy : number** + 
+Gets the value accuracy of the Measure. 
+
+**unit : string** + 
+Gets the measurement unit of the Measure. 
+
+==== Methods:
+
+**setValue (params : number)** + 
+Sets the value or the properties of the Measure. + 
+*_params:_* The properties to modify (or a numeric value). 
+
+**getValue () : number** + 
+Gets the value of the Measure. + 
+*_Returns:_* The value of the Measure. 
+
+'''
+
+=== [[ModelResource]]*ModelResource* *:* <<Resource>>
+
+Defines a Model Resource.
+
+'''
+
+=== [[Node]]*Node*
+
+Defines a data node (a element in a hierarchy).
+
+==== Constructor:
+
+**constructor (name : string, type : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Node class. + 
+*_name:_* The name(s) of the node. + 
+*_type:_* The type of the node. + 
+*_parentNode:_* The parent node. + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**name : string** + 
+The name of the node. 
+
+**fullName : string** + 
+Gets the full name of the node. 
+
+**parentNode : <<Node>>** + 
+The parent of the node. 
+
+**childNodes : <<Node>>** + 
+The children of the node. 
+
+**updated : boolean** + 
+A boolean indicating if the node has been updated or not. 
+
+==== Methods:
+
+**update (forced, deltaTime : number)** + 
+Updates the Node. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[NodeSet]]*NodeSet* *:* <<Node>>
+
+Define a set of Nodes.
+
+==== Constructor:
+
+**constructor (name, parentNode, params : any, nodeType : any)** + 
+Initializes a new instance of the Node instance. + 
+*_name:_* The name(s) of the node. + 
+*_parentNode:_* The parent node. + 
+*_params:_* The initialization parameters. + 
+ 
+
+==== Methods:
+
+**getIndex (index : number) : NodeType** + 
+Gets a node by index. + 
+*_index:_* The index of the node to get. + 
+*_Returns:_* The node with the given index. 
+
+'''
+
+=== [[OrbitalPosition]]*OrbitalPosition* *:* <<Position>>
+
+Defines a location in an orbital coordinate system.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the OrbitalPosition class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**x** + 
+The Angle in degrees around the equator of the globe. 
+
+'''
+
+=== [[Orientation]]*Orientation* *:* <<Node>>
+
+Define the basic class of a three dimensional orientation.
+
+==== Constructor:
+
+**constructor (name : any, type : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Orientation class. + 
+*_name:_* The name(s) of the node. + 
+*_type:_* The type of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**relativeValues** + 
+The relative orientation. 
+
+**absoluteValues** + 
+The absolute orientation. 
+
+'''
+
+=== [[PlanetComponent]]*PlanetComponent* *:* <<Component>>
+
+Defines a Planet Interaction Component.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, params : any)** + 
+Initializes a new PlanetComponent instance. + 
+*_name:_* The name of the component. + 
+ + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**shape : <<Ellipsoid>>** + 
+The shape of the component. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the ShapeComponent. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[PlanetWidget]]*PlanetWidget* *:* <<Widget>>
+
+Defines a widget for a planet.
+
+==== Constructor:
+
+**constructor (name : string, parentNode : <<Node>>, params : any)** + 
+Initializes a new PlanetWidget instance. + 
+*_name:_* The name of the widget. + 
+*_parentNode:_* The parent widget or space. + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**planet : <<PlanetComponent>>** + 
+The component of the widget. 
+
+'''
+
+=== [[Pose]]*Pose* *:* <<Node>>
+
+Defines a Pose of an object.
+
+==== Constructor:
+
+**constructor (name : any, type : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Pose class. + 
+*_name:_* The name(s) of the node. + 
+*_type:_* The type of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**position : <<Position>>** + 
+The position of the Pose. 
+
+**orientation : <<Orientation>>** + 
+The orientation of the Pose. 
+
+**parent : <<Pose>>** + 
+The parent Pose. 
+
+**childPoses : <<NodeSet>> <<<Pose>>>** + 
+The child Poses. 
+
+'''
+
+=== [[Position]]*Position* *:* <<Node>>
+
+Defines a basic position within a reference frame.
+
+==== Constructor:
+
+**constructor (name : any, type : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Location class. + 
+*_name:_* The name(s) of the node. + 
+*_type:_* The type of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**relativeValues** + 
+The relative position. 
+
+**absoluteValues** + 
+The absolute position. 
+
+**verticalVector** + 
+The vertical vector. 
+
+**forwardVector** + 
+The forward vector. 
+
+'''
+
+=== [[Presence]]*Presence* *:* <<Node>>
+
+Defines the user Presence in an interaction space.
+
+==== Constructor:
+
+**constructor (name : string, parentNode : <<Node>>, viewport : <<Viewport>>, camera : <<Camera>>)** + 
+Initializes a new Presence instance. + 
+*_name:_* The name of the presence. + 
+ + 
+*_viewport:_* The viewport associated to the user presence. + 
+*_camera:_* The camera associated to the user presence. 
+
+==== Properties:
+
+**viewport : <<Viewport>>** + 
+The viewport associated to the user presence. 
+
+**camera : <<Camera>>** + 
+The camera associated to the user presence. 
+
+'''
+
+=== [[Quaternion]]*Quaternion* *:* <<Node>>
+
+Defines a four-dimensional complex number to describe rotations.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Quaternion class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**x** + 
+The value of the quaternion vector in the X(i) axis. 
+
+**y** + 
+The value of the quaternion vector in the Y(j) axis. 
+
+**z** + 
+The value of the quaternion vector in the Z(k) axis. 
+
+**w** + 
+The rotation half-angle around the quaternion vector. 
+
+'''
+
+=== [[QuaternionOrientation]]*QuaternionOrientation* *:* <<Orientation>>
+
+Defines an orientation with a quaternion.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the QuaternionOrientation class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**x** + 
+The value of the quaternion vector in the X(i) axis. 
+
+**y** + 
+The value of the quaternion vector in the Y(j) axis. 
+
+**z** + 
+The value of the quaternion vector in the Z(k) axis. 
+
+**w** + 
+The rotation half-angle around the quaternion vector. 
+
+'''
+
+=== [[Resource]]*Resource* *:* <<Node>>
+
+Defines an external data resource.
+
+==== Constructor:
+
+**constructor (name : string)** + 
+Initializes a new Resource instance. + 
+*_name:_* The name of the resource. 
+
+==== Methods:
+
+**load (url)** + 
+Loads the resource. + 
+*_url:_* The URL of the Resource. 
+
+'''
+
+=== [[ResourceGroup]]*ResourceGroup* *:* <<Node>>
+
+Provides a way to group resources.
+
+==== Constructor:
+
+**constructor (name : string)** + 
+Initializes a new ResourceManager instance. + 
+*_name:_* The name of the interaction space. 
+
+==== Properties:
+
+**models : <<NodeSet>> <<<ModelResource>>>** + 
+The model resources. 
+
+**fonts : <<NodeSet>> <<<FontResource>>>** + 
+The font resources. 
+
+**audios : <<NodeSet>> <<<AudioResource>>>** + 
+The audio resources. 
+
+'''
+
+=== [[SceneEntity]]*SceneEntity* *:* <<Entity>>
+
+Defines a Scene.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Entity>>)** + 
+Define a public constructor. + 
+ + 
+*_parent:_* The parent entity. 
+
+'''
+
+=== [[Shape]]*Shape* *:* <<Node>>
+
+Defines a three dimensional shape.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes the Shape instance. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**shaded : <<String>>** + 
+Indicates if the Shape should be shaded or not. 
+
+**color : <<String>>** + 
+The color of the Shape. 
+
+**texture : <<String>>** + 
+The diffuse texture of the Shape. 
+
+**emissive : <<String>>** + 
+The emissive texture of the Shape. 
+
+'''
+
+=== [[ShapeComponent]]*ShapeComponent* *:* <<Component>>
+
+Defines a Shape Interaction Component.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, params : any)** + 
+Initializes a new ShapeComponent instance. + 
+*_name:_* The name of the component. + 
+ + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**shape : <<Shape>>** + 
+The shape of the component. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the ShapeComponent. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[ShapeEntity]]*ShapeEntity* *:* <<Entity>>
+
+Defines a Shape entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Entity>>, radius : number)** + 
+Initializes a new ShapeEntity instance. + 
+*_name:_* The name of the entity. + 
+ + 
+ 
+
+'''
+
+=== [[Size]]*Size* *:* <<Measure>>
+
+Defines a size (dimensional magnitude) measure.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Size class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a numeric value). 
+
+'''
+
+=== [[Space]]*Space* *:* <<Node>>
+
+Defines an Interaction Space.
+
+==== Constructor:
+
+**constructor (name, parentNode : <<Node>>, params : any)** + 
+Initializes a new Space instance. + 
+*_name:_* The name of the space. + 
+*_parentNode:_* The parent node. + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**entity : <<SceneEntity>>** + 
+The representation of the space. 
+
+**resources : <<NodeSet>> <<<ResourceGroup>>>** + 
+The resources of the space. 
+
+**spaces : <<NodeSet>> <<<Space>>>** + 
+The subspaces of the space. 
+
+**presences : <<NodeSet>> <<<Presence>>>** + 
+The user presences in the space. 
+
+**widgets : <<NodeSet>> <<<Widget>>>** + 
+The widgets of the space. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the space. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[Sphere]]*Sphere* *:* <<Shape>>
+
+Defines a three-dimensional spherical Shape.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes the Sphere instance. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**radius : <<Size>>** + 
+The Size of the radius in all axes. 
+
+'''
+
+=== [[String]]*String* *:* <<Node>>
+
+Defines a numeric measure.
+
+==== Constructor:
+
+**constructor (name : string, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Measure class. + 
+*_name:_* The name of the Measure. + 
+*_parentNode:_* The parent Measure. + 
+*_params:_* The initialization parameters (or a string value). 
+
+==== Properties:
+
+**value : string** + 
+Gets the current value of the Measure. 
+
+==== Methods:
+
+**setValue (params : number)** + 
+Sets the value or the properties of the Measure. + 
+*_params:_* The properties to modify (or a numeric value). 
+
+**getValue () : string** + 
+Gets the value of the Number. + 
+*_Returns:_* The value of the Number. 
+
+'''
+
+=== [[TerrainEntity]]*TerrainEntity* *:* <<Entity>>
+
+Defines a TerrainEntity Entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Entity>>, params : any)** + 
+Initializes a new TerrainEntity instance. + 
+*_name:_* The name of the component. + 
+ + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**shape : <<Ellipsoid>>** + 
+The shape of the component. 
+
+**texture : <<String>>** + 
+The shape of the component. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the TerrainEntity. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[TextComponent]]*TextComponent* *:* <<Component>>
+
+Defines a Text Interaction Component.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, params : any)** + 
+Initializes a new TextComponent instance. + 
+*_name:_* The name of the component. + 
+ + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**text : <<String>>** + 
+The string of characters of the text component. 
+
+**font : <<String>>** + 
+The font name of the text component. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the TextComponent. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[TextEntity]]*TextEntity* *:* <<Entity>>
+
+Defines a Text entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Entity>>, params : any)** + 
+Initializes a new TextEntity instance. + 
+*_name:_* The name of the entity. + 
+*_parent:_* The parent entity. + 
+ 
+
+==== Properties:
+
+**characters : <<String>>** + 
+The string of characters of the text entity. 
+
+**font : <<String>>** + 
+The font name of the text entity. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the entity. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[Time]]*Time* *:* <<Measure>>
+
+Defines a time (dimensional magnitude) measure.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Time class. + 
+*_name:_* The name(s) of the node. + 
+*_parentNode:_* The parent node. + 
+*_params:_* The initialization parameters (or a numeric value). 
+
+'''
+
+=== [[Vector3]]*Vector3* *:* <<Node>>
+
+Defines a three-dimensional vector.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the Vector3 class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**x** + 
+The value in the X axis. 
+
+**y** + 
+The value in the Y axis. 
+
+**z** + 
+The value in the Z axis. 
+
+==== Methods:
+
+**toArray () : number** + 
+Converts the Vector3 instance into an array representation. 
+
+**fromArray (values : number)** + 
+Sets the values of the Vector3 from an array. + 
+*_values:_* An array with the numerical values. 
+
+'''
+
+=== [[Viewport]]*Viewport*
+
+Defines an User Interaction Viewport.
+
+==== Constructor:
+
+**constructor (params : any)** + 
+Initializes a new Viewport instance. + 
+ 
+
+==== Properties:
+
+**element : HTMLElement** + 
+The main element of the viewport. 
+
+**canvas : HTMLCanvasElement** + 
+The canvas element of the viewport. 
+
+**renderer : THREE.WebGLRenderer** + 
+The renderer of the viewport. 
+
+**spaces : Layers** + 
+The spaces of the viewport. 
+
+**width : number** + 
+The width of the viewport. 
+
+**height : number** + 
+The height of the viewport. 
+
+==== Methods:
+
+**update (time : number)** + 
+Updates the Viewport. + 
+*_time:_* The current update time. 
+
+**resize ()** + 
+Resizes the viewport. 
+
+**link (space : Layers)** + 
+Connects this viewport to a interaction Space. + 
+*_space:_* The space to connect. 
+
+**unlink (space : Layers)** + 
+Disconnects an interaction Space from the viewport. + 
+*_space:_* The space to disconnect. 
+
+'''
+
+=== [[Widget]]*Widget* *:* <<Node>>
+
+Defines an Interaction Widget.
+
+==== Constructor:
+
+**constructor (name : string, type : string, parentNode : <<Node>>, params : any)** + 
+Initializes a new Widget instance. + 
+*_name:_* The name of the widget. + 
+*_type:_* The type of widget. + 
+*_parentNode:_* The parent widget or space. + 
+*_params:_* The initialization parameters. 
+
+==== Properties:
+
+**entity : <<Entity>>** + 
+The entity of the space. 
+
+**widgets : <<NodeSet>> <<<Widget>>>** + 
+The list of child widgets. 
+
+**components : <<NodeSet>> <<<Component>>>** + 
+The components of the widget. 
+
+==== Methods:
+
+**update (forced : boolean, deltaTime : number)** + 
+Updates the widget. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_deltaTime:_* The update time. 
+
+'''
+
+=== [[YawPitchRollOrientation]]*YawPitchRollOrientation* *:* <<Orientation>>
+
+Defines an orientation with Yaw, Pitch and Roll angles.
+
+==== Constructor:
+
+**constructor (name : any, parentNode : <<Node>>, params : any)** + 
+Initializes a new instance of the YawPitchRollOrientation class. + 
+*_name:_* The name(s) of the node. + 
+ + 
+*_params:_* The initialization parameters (or a number array). 
+
+==== Properties:
+
+**yaw** + 
+The Angle in degrees around the equator of the globe. 
+
+**pitch** + 
+The Angle in degrees around the prime meridian of the globe. 
+
+**roll** + 
+The vertical distance relative to the surface to the globe. 
+
+'''
+
