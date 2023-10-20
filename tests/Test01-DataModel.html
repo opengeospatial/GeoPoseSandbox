@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>GeoPose Sandbox: Test 01 - Data Model</title>
+		<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<!-- Initialization as a module. -->
+		<script type="module">
+
+// Initialize the development tools
+import { DevTools } from "./js/DevTools.js"
+let test = DevTools.init();
+
+// Import the module as
+import * as GS from "../builds/modules/GeoposeSandbox.js"
+
+test.initializeTest();
+
+console.log("VALIDATING DATA ITEMS:")
+
+test.validate('Boolean data type', () => { 
+	let boolean = new GS.Boolean("bool", null, "true"); 
+	return boolean.value;
+});
+test.validate('Number data type', () => { 
+	let number = new GS.Number("number", null, "42"); 
+	return number.value;
+});
+test.validate('String data type', () => { 
+	let string = new GS.String("string", null, "string"); 
+	return string.value;
+});
+
+console.log("VALIDATING DATA MODEL: ")
+test.validate('Basic Geopose', () => { 
+	let gp = new GS.GeoPose("geopose", null, "string"); 
+	return gp.serialize();
+});
+
+// Finish the test environment
+test.finalizeTest();
+
+		</script>
+	</body>
+</html>
