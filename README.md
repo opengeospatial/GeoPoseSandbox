@@ -1,5 +1,5 @@
 
-![GeoPose Sandbox](docs/images/banner.png)
+![GeoPose Sandbox](banner.png)
 
 (WORK IN PROGRESS)
 

@@ -1,6 +1,6 @@
 import { Item } from "../Item.js"
 import { Type } from "../Type.js"
-import { Vector } from "../items/complex/Vector.js"
+import { Vector } from "../types/complex/Vector.js"
 
 
 /** Defines a basic position within a reference frame. */

@@ -71,3 +71,4 @@ export class Layer extends Item {
 /** The data type associated to the Layer class. */
 Layer.type = new Type("layer", Layer, Item.type);
 
+//# sourceMappingURL=Layer.js.map

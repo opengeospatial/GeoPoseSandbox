@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Data Items - Geopose Sandbox</title>
+		<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style> 
+html { font-family: Arial, Helvetica, sans-serif;}
+		</style>
+	</head>
+	<body>
+		<h1>Data Items:</h1>
+		<p>Test the basic data types of the framework:</p>
+		<script type="module">
+
+// Initialize the development tools
+import { test } from "./js/UnitTesting.js"
+
+
+// Import the modules
+import { Item } from  '../builds/modules/data/Item.js'
+import { Boolean } from  '../builds/modules/data/types/simple/Boolean.js'
+import { Number } from  '../builds/modules/data/types/simple/Number.js'
+import { String } from  '../builds/modules/data/types/simple/String.js'
+import { Angle } from  '../builds/modules/data/types/measures/Angle.js'
+import { Distance } from  '../builds/modules/data/types/measures/Distance.js'
+import { Size } from  '../builds/modules/data/types/measures/Size.js'
+import { Time } from  '../builds/modules/data/types/measures/Time.js'
+
+
+
+test('Basic data item', () => { 
+	let item = new Item("name");
+	return item.name;
+});
+
+test('Basic data without a name', () => { 
+	let item = new Item();
+	return item.name;
+});
+
+test('Boolean data type', () => { 
+	let boolean = new Boolean("bool", null, "true"); 
+	return boolean.value;
+});
+test('Number data type', () => { 
+	let number = new Number("number", null, "42"); 
+	return number.value;
+});
+test('String data type', () => { 
+	let string = new String("string", null, "test"); 
+	return string.value;
+});
+
+test('Angle data type', () => { 
+	let angle = new Angle("angle", null, "1"); 
+	return angle.toString();
+});
+test('Distance data type', () => { 
+	let number = new Distance("distance", null, "42"); 
+	return number.toString();
+});
+test('Size data type', () => { 
+	let string = new String("string", null, "test"); 
+	return string.toString();
+});
+test('Time data type', () => { 
+	let string = new String("string", null, "test"); 
+	return string.toString();
+});
+
+		</script>
+	</body>
+</html>

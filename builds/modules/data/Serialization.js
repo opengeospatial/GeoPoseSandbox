@@ -27,17 +27,17 @@ export class Serialization {
 			try {
 				parsed = Serialization.fromCSV(data);
 			}
-			catch (_a) { }
+			catch { }
 			if (!parsed)
 				try {
 					parsed = Serialization.fromCSV(data);
 				}
-				catch (_b) { }
+				catch { }
 			if (!parsed)
 				try {
 					parsed = Serialization.fromJSON(data);
 				}
-				catch (_c) { }
+				catch { }
 			if (!parsed)
 				return; // If no system has been successful
 			data = parsed;
@@ -133,3 +133,4 @@ export var SerializationFormat;
 	SerializationFormat[SerializationFormat["JSON"] = 1] = "JSON";
 	SerializationFormat[SerializationFormat["XML"] = 2] = "XML";
 })(SerializationFormat || (SerializationFormat = {}));
+//# sourceMappingURL=Serialization.js.map

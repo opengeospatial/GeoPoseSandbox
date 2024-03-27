@@ -1,0 +1,516 @@
+{
+	"title": "GeoPose Sandbox API Reference",
+	"files": {
+		"logic/Event": {
+			"exports": { "Event": "class" }
+		},
+		"data/Type": {
+			"imports": { "Item": "data/Type/Item.js" },
+			"exports": { "Type": "class" }
+		},
+		"data/Item": {
+			"imports": { "Type": "data/Item/Type.js", "Event": "data/logic/Event.js", "Collection": "data/Item/Collection.js", "Serialization": "data/Item/Serialization.js", "SerializationFormat": "data/Item/Serialization.js" },
+			"exports": { "Item": "class" }
+		},
+		"data/Collection": {
+			"imports": { "Item": "data/GeoPoseSandbox.js", "Type": "data/GeoPoseSandbox.js" },
+			"exports": { "Collection": "class" }
+		},
+		"data/Serialization": {
+			"imports": { "Item": "data/Serialization/Item" },
+			"exports": { "Serialization": "class", "SerializationFormat": "enum" }
+		},
+		"data/types/Simple": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Event": "data/logic/Event.js" },
+			"exports": { "Simple": "class" }
+		},
+		"data/types/simple/Boolean": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Simple": "data/types/simple/Simple.js" },
+			"exports": { "Boolean": "class" }
+		},
+		"data/types/simple/Number": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Simple": "data/types/simple/Simple.js" },
+			"exports": { "Number": "class" }
+		},
+		"data/types/simple/String": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Simple": "data/types/simple/Simple.js" },
+			"exports": { "String": "class" }
+		},
+		"data/types/Measure": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Number": "data/types/Measure/simple/Number.js" },
+			"exports": { "Measure": "class", "MeasurementUnit": "class" }
+		},
+		"data/types/measures/Angle": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Measure": "data/types/measures/Measure.js", "MeasurementUnit": "data/types/measures/Measure.js" },
+			"exports": { "Angle": "class" }
+		},
+		"data/types/measures/Distance": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Measure": "data/types/measures/Measure.js", "MeasurementUnit": "data/types/measures/Measure.js" },
+			"exports": { "Distance": "class" }
+		},
+		"data/types/measures/Size": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Measure": "data/types/measures/Measure.js", "MeasurementUnit": "data/types/measures/Measure.js" },
+			"exports": { "Size": "class" }
+		},
+		"data/types/measures/Time": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Measure": "data/types/measures/Measure.js", "MeasurementUnit": "data/types/measures/Measure.js" },
+			"exports": { "Time": "class" }
+		},
+		"data/types/Complex": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Number": "data/types/Complex/simple/Number.js" },
+			"exports": { "Complex": "class" }
+		},
+		"data/types/complex/Vector": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Complex": "data/types/complex/Complex.js", "Distance": "data/types/complex/measures/Distance.js", "Size": "data/types/complex/measures/Size.js" },
+			"exports": { "Vector": "class" }
+		},
+		"data/types/complex/Color": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Complex": "data/types/complex/Complex.js", "Number": "data/types/complex/simple/Number.js" },
+			"exports": { "Color": "class" }
+		},
+		"data/types/complex/Euler": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Complex": "data/types/complex/Complex.js", "String": "data/types/complex/simple/String.js", "Angle": "data/types/complex/measures/Angle.js" },
+			"exports": { "Euler": "class" }
+		},
+		"data/types/complex/Quaternion": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Complex": "data/types/complex/Complex.js", "Number": "data/types/complex/simple/Number.js" },
+			"exports": { "Quaternion": "class" }
+		},
+		"data/types/Shape": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "String": "data/types/Shape/simple/String.js" },
+			"exports": { "Shape": "class" }
+		},
+		"data/types/shapes/Box": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Shape": "data/types/shapes/Shape.js", "Size": "data/types/shapes/measures/Size.js" },
+			"exports": { "Box": "class" }
+		},
+		"data/types/shapes/Ellipsoid": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Shape": "data/types/shapes/Shape.js", "Size": "data/types/shapes/measures/Size.js" },
+			"exports": { "Ellipsoid": "class" }
+		},
+		"data/types/shapes/Sphere": {
+			"imports": { "Item": "data/types/Item.js", "Type": "data/types/Type.js", "Shape": "data/types/shapes/Shape.js", "Size": "data/types/shapes/measures/Size.js" },
+			"exports": { "Sphere": "class" }
+		},
+		"data/model/Frame": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "String": "data/model/types/simple/String.js" },
+			"exports": { "Frame": "class" }
+		},
+		"data/model/frames/EuclideanFrame": {
+			"imports": { "Frame": "data/model/frames/Frame.js" },
+			"exports": { "EuclideanFrame": "class" }
+		},
+		"data/model/frames/GeoFrame": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Distance": "data/model/types/measures/Distance.js", "Frame": "data/model/frames/Frame.js" },
+			"exports": { "GeoFrame": "class" }
+		},
+		"data/model/Position": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Vector": "data/model/types/complex/Vector.js" },
+			"exports": { "Position": "class" }
+		},
+		"data/model/positions/EuclideanPosition": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Position": "data/model/positions/Position.js", "Distance": "data/model/types/measures/Distance.js" },
+			"exports": { "EuclideanPosition": "class" }
+		},
+		"data/model/positions/GeoPosition": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Position": "data/model/positions/Position.js", "Angle": "data/model/types/measures/Angle.js", "Distance": "data/model/types/measures/Distance.js", "GeoFrame": "data/model/positions/frames/GeoFrame.js", "GeoPose": "data/model/positions/GeoPose.js", "Vector": "data/model/types/complex/Vector.js" },
+			"exports": { "GeoPosition": "class" }
+		},
+		"data/model/Orientation": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Quaternion": "data/model/types/complex/Quaternion.js" },
+			"exports": { "Orientation": "class" }
+		},
+		"data/model/orientations/AxisAngleOrientation": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Orientation": "data/model/orientations/Orientation.js", "Angle": "data/model/types/measures/Angle.js", "Vector": "data/model/types/complex/Vector.js" },
+			"exports": { "AxisAngleOrientation": "class" }
+		},
+		"data/model/orientations/LookAtOrientation": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Orientation": "data/model/orientations/Orientation.js", "String": "data/model/types/simple/String.js", "Vector": "data/model/types/complex/Vector.js" },
+			"exports": { "LookAtOrientation": "class" }
+		},
+		"data/model/orientations/MatrixOrientation": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Orientation": "data/model/orientations/Orientation.js", "Number": "data/model/types/simple/Number.js" },
+			"exports": { "MatrixOrientation": "class" }
+		},
+		"data/model/orientations/QuaternionOrientation": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Orientation": "data/model/orientations/Orientation.js", "Number": "data/model/types/simple/Number.js" },
+			"exports": { "QuaternionOrientation": "class" }
+		},
+		"data/model/orientations/YawPitchRollOrientation": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Orientation": "data/model/orientations/Orientation.js", "Angle": "data/model/types/measures/Angle.js" },
+			"exports": { "YawPitchRollOrientation": "class" }
+		},
+		"data/model/Extension": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js" },
+			"exports": { "Extension": "class" }
+		},
+		"data/model/Pose": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Collection": "data/model/Collection.js", "Frame": "data/model/Pose/Frame.js", "Position": "data/model/Pose/Position.js", "Orientation": "data/model/Pose/Orientation.js", "Extension": "data/model/Pose/Extension.js", "Vector": "data/model/types/complex/Vector.js" },
+			"exports": { "Pose": "class" }
+		},
+		"data/model/GeoPose": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Pose": "data/model/GeoPose/Pose.js", "GeoFrame": "data/model/GeoPose/frames/GeoFrame.js", "GeoPosition": "data/model/GeoPose/positions/GeoPosition.js" },
+			"exports": { "GeoPose": "class" }
+		},
+		"data/model/poses/EuclideanPoseQuaternion": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Pose": "data/model/poses/Pose.js", "EuclideanPosition": "data/model/poses/positions/EuclideanPosition.js", "QuaternionOrientation": "data/model/poses/orientations/QuaternionOrientation.js" },
+			"exports": { "EuclideanPoseQuaternion": "class" }
+		},
+		"data/model/poses/EuclideanPoseYPR": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "Pose": "data/model/poses/Pose.js", "EuclideanPosition": "data/model/poses/positions/EuclideanPosition.js", "YawPitchRollOrientation": "data/model/poses/orientations/YawPitchRollOrientation.js" },
+			"exports": { "EuclideanPoseYPR": "class" }
+		},
+		"data/model/poses/GeoPoseBasicQuaternion": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "GeoPose": "data/model/poses/GeoPose.js", "QuaternionOrientation": "data/model/poses/orientations/QuaternionOrientation.js", "Quaternion": "data/model/types/complex/Quaternion.js" },
+			"exports": { "GeoPoseBasicQuaternion": "class" }
+		},
+		"data/model/poses/GeoPoseBasicYPR": {
+			"imports": { "Item": "data/model/Item.js", "Type": "data/model/Type.js", "GeoPose": "data/model/poses/GeoPose.js", "YawPitchRollOrientation": "data/model/poses/orientations/YawPitchRollOrientation.js" },
+			"exports": { "GeoPoseBasicYPR": "class" }
+		},
+		"logic/Entity": {
+			"imports": { "Item": "logic/data/Item.js", "Type": "logic/data/Type.js", "Pose": "logic/data/model/Pose.js" },
+			"exports": { "Entity": "class" }
+		},
+		"logic/entities/ArrowEntity": {
+			"imports": { "Type": "logic/data/Type.js", "Entity": "logic/entities/Entity.js" },
+			"exports": { "ArrowEntity": "class" }
+		},
+		"logic/entities/AtmosphereEntity": {
+			"imports": { "Item": "logic/data/Item.js", "Type": "logic/data/Type.js", "Entity": "logic/entities/Entity.js", "Ellipsoid": "logic/data/types/shapes/Ellipsoid.js", "String": "logic/data/types/simple/String.js" },
+			"exports": { "AtmosphereEntity": "class" }
+		},
+		"logic/entities/BackgroundEntity": {
+			"imports": { "Item": "logic/data/Item.js", "Type": "logic/data/Type.js", "Entity": "logic/entities/Entity.js", "Ellipsoid": "logic/data/types/shapes/Ellipsoid.js", "String": "logic/data/types/simple/String.js" },
+			"exports": { "BackgroundEntity": "class" }
+		},
+		"logic/entities/GraticuleEntity": {
+			"imports": { "Item": "logic/data/Item.js", "Type": "logic/data/Type.js", "Entity": "logic/entities/Entity.js", "Ellipsoid": "logic/data/types/shapes/Ellipsoid.js", "String": "logic/data/types/simple/String.js" },
+			"exports": { "GraticuleEntity": "class" }
+		},
+		"logic/entities/GridEntity": {
+			"imports": { "Item": "logic/data/Item.js", "GeoPosition": "logic/data/model/positions/GeoPosition.js", "Type": "logic/data/Type.js", "Entity": "logic/entities/Entity.js" },
+			"exports": { "GridEntity": "class" }
+		},
+		"logic/entities/PresenceEntity": {
+			"imports": { "Item": "logic/data/Item.js", "Type": "logic/data/Type.js", "Entity": "logic/entities/Entity.js", "Number": "logic/data/types/simple/Number.js" },
+			"exports": { "PresenceEntity": "class" }
+		},
+		"logic/entities/ShapeEntity": {
+			"imports": { "Type": "logic/data/Type.js", "Entity": "logic/entities/Entity.js" },
+			"exports": { "ShapeEntity": "class" }
+		},
+		"logic/entities/SpaceEntity": {
+			"imports": { "Item": "logic/data/Item.js", "Type": "logic/data/Type.js", "Entity": "logic/entities/Entity.js" },
+			"exports": { "SpaceEntity": "class" }
+		},
+		"logic/entities/TerrainEntity": {
+			"imports": { "Item": "logic/data/Item.js", "Type": "logic/data/Type.js", "Entity": "logic/entities/Entity.js", "Ellipsoid": "logic/data/types/shapes/Ellipsoid.js", "String": "logic/data/types/simple/String.js", "Number": "logic/data/types/simple/Number.js" },
+			"exports": { "TerrainEntity": "class" }
+		},
+		"user/User": {
+			"imports": { "Item": "user/data/Item.js", "Type": "user/data/Type.js", "Collection": "user/data/Collection.js", "Presence": "user/User/interaction/Presence.js", "View": "user/User/interaction/View.js" },
+			"exports": { "User": "class" }
+		},
+		"user/interaction/View": {
+			"imports": { "Item": "user/data/Item.js", "Type": "user/data/Type.js", "Number": "user/data/types/simple/Number.js", "String": "user/data/types/simple/String.js", "Collection": "user/data/Collection.js", "Layer": "user/interaction/View/Layer.js", "User": "user/interaction/User.js", "ViewPort": "user/interaction/View/ViewPort.js" },
+			"exports": { "View": "class" }
+		},
+		"user/interaction/ViewPort": {
+			"imports": { "Presence": "user/interaction/ViewPort/Presence.js" },
+			"exports": { "ViewPort": "class" }
+		},
+		"user/interaction/Layer": {
+			"imports": { "Item": "user/data/Item.js", "Type": "user/data/Type.js", "Collection": "user/data/Collection.js", "Presence": "user/interaction/Layer/Presence.js", "Space": "user/interaction/Layer/Space.js", "Widget": "user/interaction/Layer/Widget.js", "Entity": "user/logic/Entity.js" },
+			"exports": { "Layer": "class" }
+		},
+		"user/interaction/Space": {
+			"imports": { "Item": "user/data/Item.js", "Type": "user/data/Type.js", "Collection": "user/data/Collection.js", "SpaceEntity": "user/logic/entities/SpaceEntity.js", "Presence": "user/interaction/Space/Presence.js", "Widget": "user/interaction/Space/Widget.js" },
+			"exports": { "Space": "class" }
+		},
+		"user/interaction/Presence": {
+			"imports": { "Item": "user/data/Item.js", "Type": "user/data/Type.js", "PresenceEntity": "user/logic/entities/PresenceEntity.js", "Space": "user/interaction/Presence/Space.js" },
+			"exports": { "Presence": "class" }
+		},
+		"user/interaction/Widget": {
+			"imports": { "Collection": "user/data/Collection.js", "Item": "user/data/Item.js", "Type": "user/data/Type.js", "Entity": "user/logic/Entity.js", "Layer": "user/interaction/Widget/Layer.js" },
+			"exports": { "Widget": "class" }
+		},
+		"user/interaction/widgets/BackgroundWidget": {
+			"imports": { "Item": "user/data/Item.js", "Type": "user/data/Type.js", "BackgroundEntity": "user/logic/entities/BackgroundEntity.js", "Widget": "user/interaction/widgets/Widget.js" },
+			"exports": { "BackgroundWidget": "class" }
+		},
+		"user/interaction/widgets/CameraWidget": {
+			"imports": { "Item": "user/data/Item.js", "Pose": "user/data/model/Pose.js", "GeoPoseBasicYPR": "user/data/model/poses/GeoPoseBasicYPR.js", "Type": "user/data/Type.js", "PresenceEntity": "user/logic/entities/PresenceEntity.js", "Layer": "user/interaction/widgets/Layer.js", "Widget": "user/interaction/widgets/Widget.js" },
+			"exports": { "CameraWidget": "class" }
+		},
+		"user/interaction/widgets/GeoPoseWidget": {
+			"imports": { "Item": "user/data/Item.js", "Type": "user/data/Type.js", "Widget": "user/interaction/widgets/Widget.js", "ArrowEntity": "user/logic/entities/ArrowEntity.js", "GeoPoseBasicYPR": "user/data/model/poses/GeoPoseBasicYPR.js", "GridEntity": "user/logic/entities/GridEntity.js", "EuclideanPoseYPR": "user/data/model/poses/EuclideanPoseYPR.js", "GeoFrame": "user/data/model/frames/GeoFrame.js" },
+			"exports": { "GeoPoseWidget": "class" }
+		},
+		"user/interaction/widgets/PlanetWidget": {
+			"imports": { "Item": "user/data/Item.js", "Type": "user/data/Type.js", "Widget": "user/interaction/widgets/Widget.js", "TerrainEntity": "user/logic/entities/TerrainEntity.js", "AtmosphereEntity": "user/logic/entities/AtmosphereEntity.js", "GraticuleEntity": "user/logic/entities/GraticuleEntity.js", "GeoFrame": "user/data/model/frames/GeoFrame.js" },
+			"exports": { "PlanetWidget": "class" }
+		},
+		"GeoPoseSandbox": {
+			"imports": { "Item": "GeoPoseSandbox/data/Item.js", "Type": "GeoPoseSandbox/data/Type.js", "Collection": "GeoPoseSandbox/data/Collection.js", "Space": "GeoPoseSandbox/user/interaction/Space.js", "User": "GeoPoseSandbox/user/User.js" },
+			"exports": { "GeoPoseSandbox": "class" }
+		}
+	},
+	"classes": {
+		"Event": {
+			"comment": "Defines a Logic Event"
+		},
+		"Type": {
+			"comment": "Contains the metadata of a data type. Provides a way to handle reflection and serialization in different contexts (even after the code is transpiled to Javascript)."
+		},
+		"Item": {
+			"comment": "Defines a data item (often called a datum) in a graph structure. Provides a way to store information in a mainly hierarchical way."
+		},
+		"Collection": {
+			"comment": "Defines a collection of data items."
+		},
+		"Serialization": {
+			"comment": "Provides multiple methods to serialize and deserialize data items."
+		},
+		"Simple": {
+			"abstract": true,
+			"comment": "Defines a simple data item."
+		},
+		"Boolean": {
+			"comment": "Defines a boolean data item.",
+			"parent": "Simple"
+		},
+		"Number": {
+			"comment": "Defines a Numeric data item.",
+			"parent": "Simple"
+		},
+		"String": {
+			"comment": "Defines a String data item.",
+			"parent": "Simple"
+		},
+		"Measure": {
+			"comment": "Defines a numeric Measure item.",
+			"parent": "Number"
+		},
+		"MeasurementUnit": {
+			"comment": "Defines a Measurement Unit."
+		},
+		"Angle": {
+			"comment": "Defines a angular measurement.",
+			"parent": "Measure"
+		},
+		"Distance": {
+			"comment": "Defines a length measurement.",
+			"parent": "Measure"
+		},
+		"Size": {
+			"comment": "Defines a dimensional measurement.",
+			"parent": "Measure"
+		},
+		"Time": {
+			"comment": "Defines a temporal measurement.",
+			"parent": "Measure"
+		},
+		"Complex": {
+			"comment": "Defines a complex data item.",
+			"parent": "Item"
+		},
+		"Vector": {
+			"comment": "Defines a three-dimensional vector.",
+			"parent": "Complex"
+		},
+		"Color": {
+			"comment": "Defines an RGBA color.",
+			"parent": "Complex"
+		},
+		"Euler": {
+			"comment": "Defines the Euler orientation.",
+			"parent": "Complex"
+		},
+		"Quaternion": {
+			"comment": "Defines a four-dimensional complex number to describe rotations.",
+			"parent": "Complex"
+		},
+		"Shape": {
+			"comment": "Defines a three dimensional shape.",
+			"parent": "Item"
+		},
+		"Box": {
+			"comment": "Defines a three-dimensional box Shape (global).",
+			"parent": "Shape"
+		},
+		"Ellipsoid": {
+			"comment": "Defines a three-dimensional ellipsoid shape.",
+			"parent": "Shape"
+		},
+		"Sphere": {
+			"comment": "Defines a three-dimensional spherical Shape.",
+			"parent": "Shape"
+		},
+		"Frame": {
+			"comment": "Defines a reference frame.",
+			"parent": "Item"
+		},
+		"EuclideanFrame": {
+			"comment": "Defines an euclidean (Flat-Earth) frame.",
+			"parent": "Frame"
+		},
+		"GeoFrame": {
+			"comment": "Defines a geodetic (elliptical) frame.",
+			"parent": "Frame"
+		},
+		"Position": {
+			"comment": "Defines a basic position within a reference frame.",
+			"parent": "Item"
+		},
+		"EuclideanPosition": {
+			"comment": "Defines a position in an euclidean coordinate system.",
+			"parent": "Position"
+		},
+		"GeoPosition": {
+			"comment": "Defines a position in geodetic (elliptical) coordinate system. (Based on SPICE and Local Tangent Plane - East North Up).",
+			"parent": "Position"
+		},
+		"Orientation": {
+			"comment": "Define the basic class of a three dimensional orientation.",
+			"parent": "Item"
+		},
+		"AxisAngleOrientation": {
+			"comment": "Defines an orientation based on an axis vector and an angle.",
+			"parent": "Orientation"
+		},
+		"LookAtOrientation": {
+			"comment": "Defines an orientation with a target.",
+			"parent": "Orientation"
+		},
+		"MatrixOrientation": {
+			"comment": "Defines an orientation based on a 3x3 rotation matrix.",
+			"parent": "Orientation"
+		},
+		"QuaternionOrientation": {
+			"comment": "Defines an orientation with a quaternion.",
+			"parent": "Orientation"
+		},
+		"YawPitchRollOrientation": {
+			"comment": "Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles.",
+			"parent": "Orientation"
+		},
+		"Extension": {
+			"comment": "Defines the basic class of a Pose Extension.",
+			"parent": "Item"
+		},
+		"Pose": {
+			"comment": "Defines a Pose of an object.",
+			"parent": "Item"
+		},
+		"GeoPose": {
+			"abstract": true,
+			"comment": "Defines the GeoPose of an object.",
+			"parent": "Pose"
+		},
+		"EuclideanPoseQuaternion": {
+			"comment": "Defines a Euclidean pose with a quaternion orientation.",
+			"parent": "Pose"
+		},
+		"EuclideanPoseYPR": {
+			"comment": "Defines a Euclidean pose with Yaw-Pitch-Roll orientation.",
+			"parent": "Pose"
+		},
+		"GeoPoseBasicQuaternion": {
+			"comment": "Defines a basic GeoPose with Quaternion-based orientation.",
+			"parent": "GeoPose"
+		},
+		"GeoPoseBasicYPR": {
+			"comment": "Defines a basic GeoPose with Yaw-Pitch-Roll (Tait-Bryan) orientation.",
+			"parent": "GeoPose"
+		},
+		"Entity": {
+			"comment": "Defines a logic entity.",
+			"parent": "Item"
+		},
+		"ArrowEntity": {
+			"comment": "Defines an Arrow entity.",
+			"parent": "Entity"
+		},
+		"AtmosphereEntity": {
+			"comment": "Defines an Atmosphere Entity.",
+			"parent": "Entity"
+		},
+		"BackgroundEntity": {
+			"comment": "Defines a Background Entity.",
+			"parent": "Entity"
+		},
+		"GraticuleEntity": {
+			"comment": "Defines a Graticule Entity.",
+			"parent": "Entity"
+		},
+		"GridEntity": {
+			"comment": "Defines a Grid entity.",
+			"parent": "Entity"
+		},
+		"PresenceEntity": {
+			"comment": "Defines a user Presence entity.",
+			"parent": "Entity"
+		},
+		"ShapeEntity": {
+			"comment": "Defines a Shape entity.",
+			"parent": "Entity"
+		},
+		"SpaceEntity": {
+			"comment": "Defines a Space entity.",
+			"parent": "Entity"
+		},
+		"TerrainEntity": {
+			"comment": "Defines a Terrain Entity.",
+			"parent": "Entity"
+		},
+		"User": {
+			"comment": "Defines a user.",
+			"parent": "Item"
+		},
+		"View": {
+			"comment": "Defines a User Interaction View.",
+			"parent": "Item"
+		},
+		"ViewPort": {
+			"comment": "Defines a Viewport."
+		},
+		"Layer": {
+			"comment": "Defines an user interaction (view) layer .",
+			"parent": "Item"
+		},
+		"Space": {
+			"comment": "Defines an Interaction Space.",
+			"parent": "Item"
+		},
+		"Presence": {
+			"comment": "Defines the user Presence in an interaction space.",
+			"parent": "Item"
+		},
+		"Widget": {
+			"comment": "Defines an user interaction widget.",
+			"parent": "Item"
+		},
+		"BackgroundWidget": {
+			"comment": "Defines a widget for the background.",
+			"parent": "Widget"
+		},
+		"CameraWidget": {
+			"comment": "Defines a widget to control the camera (the presence of the user).",
+			"parent": "Widget"
+		},
+		"GeoPoseWidget": {
+			"comment": "Defines a widget for a GeoPose.",
+			"parent": "Widget"
+		},
+		"PlanetWidget": {
+			"comment": "Defines a widget for a planet.",
+			"parent": "Widget"
+		},
+		"GeoPoseSandbox": {
+			"comment": "Manages the GeoPose Sandbox.",
+			"parent": "Item"
+		}
+	}
+}

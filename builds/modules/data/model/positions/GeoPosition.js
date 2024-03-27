@@ -1,8 +1,8 @@
 import { Type } from "../../Type.js";
 import { Position } from "../Position.js";
-import { Angle } from "../../items/measures/Angle.js";
-import { Distance } from "../../items/measures/Distance.js";
-import { Vector } from "../../items/complex/Vector.js";
+import { Angle } from "../../types/measures/Angle.js";
+import { Distance } from "../../types/measures/Distance.js";
+import { Vector } from "../../types/complex/Vector.js";
 
 
 /** Defines a position in geodetic (elliptical) coordinate system.
@@ -96,3 +96,4 @@ export class GeoPosition extends Position {
 
 /** The data type associated to the GeodeticPosition class. */
 GeoPosition.type = new Type("geo-position", GeoPosition, Position.type);
+//# sourceMappingURL=GeoPosition.js.map

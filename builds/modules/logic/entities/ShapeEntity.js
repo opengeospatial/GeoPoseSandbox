@@ -1,4 +1,4 @@
-import * as THREE from "../../../externals/three.module.js";
+import * as THREE from "three";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
 
@@ -26,3 +26,4 @@ export class ShapeEntity extends Entity {
 
 /** The data type associated to the ShapeEntity class. */
 ShapeEntity.type = new Type("shape-entity", ShapeEntity, Entity.type);
+//# sourceMappingURL=ShapeEntity.js.map

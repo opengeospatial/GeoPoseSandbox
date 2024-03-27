@@ -2,7 +2,7 @@ import * as THREE from "three"
 import { Item } from "../../data/Item.js";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
-import { Number } from "../../data/items/simple/Number.js";
+import { Number } from "../../data/types/simple/Number.js";
 
 
 /** Defines a user Presence entity. */
@@ -17,10 +17,6 @@ export class PresenceEntity extends Entity {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	
-	/** The field of view of the Camera. */
-	private _camera : Number;
-
 	/** The field of view of the Camera. */
 	private _fieldOfView : Number;
 
@@ -33,6 +29,7 @@ export class PresenceEntity extends Entity {
 	/** The far plane of the Camera frustum. */
 	private _farPlane : Number;
 
+	private _light: THREE.DirectionalLight;
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -73,6 +70,7 @@ export class PresenceEntity extends Entity {
 		this._representation = new THREE.PerspectiveCamera(
 			this._fieldOfView.value, this._aspectRatio.value,
 			this._nearPlane.value, this._farPlane.value);
+
 	}
 
 

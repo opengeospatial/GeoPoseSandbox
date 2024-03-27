@@ -27,3 +27,4 @@ export class Extension extends Item {
 
 /** The data type associated to the Extension class. */
 Extension.type = new Type("extension", Extension, Item.type);
+//# sourceMappingURL=Extension.js.map

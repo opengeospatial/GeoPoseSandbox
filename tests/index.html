@@ -15,22 +15,27 @@ iframe { height:100%; flex-grow: 1; background: white; color: white; border: non
 	</head>
 	<body>
 		<nav>
-			<h1>Geopose Sandbox Tests</h1>
-			<ul>
-				<li>
-					<a href="Test00-Initialization.html" target="frame">Initialization</a>
-					<a href="Test00-Initialization.html">&#10697;</a>
-				</li>
-				<li>
-					<a href="Test01-DataModel.html" target="frame">Data Model</a>
-					<a href="Test01-DataModel.html">&#10697;</a>
-				</li>
-				<li>
-					<a href="Test02-BasicVisualization.html" target="frame">Basic Visualization</a>
-					<a href="Test02-BasicVisualization.html">&#10697;</a>
-				</li>
-			</ul>
+			<h1>Geopose Sandbox</h1>
+			<h3>Unit Tests</h3>
+			<ol id="UnitTests"></ol>
 		</nav>
 		<iframe name="frame"></iframe>
+		<script>
+let unitTests = {
+	"Initialization": "Initialization.html",
+	"Data Types": "DataTypes.html",
+	"Basic Visualization": "BasicVisualization.html",
+}
+
+let list = document.getElementById("UnitTests"), testIndex = 0;
+for (let testName in unitTests) {
+	let item = document.createElement('li'), link = 'Test' + 
+		(testIndex < 10? '0' : '') + testIndex + '-' + unitTests[testName];
+	item.innerHTML = '<a href="' + link +'" target="frame">' + testName + 
+		'</a> <a href="' + link +'">&#10697;</a>';
+	list.append(item);
+	testIndex++;
+}
+	</script>
 	</body>
 </html>

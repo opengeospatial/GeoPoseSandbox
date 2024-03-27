@@ -1,6 +1,6 @@
 import { Type } from "../../Type.js";
 import { Position } from "../Position.js";
-import { Distance } from "../../items/measures/Distance.js";
+import { Distance } from "../../types/measures/Distance.js";
 
 
 /** Defines a position in an euclidean coordinate system. */
@@ -45,3 +45,4 @@ export class EuclideanPosition extends Position {
 
 /** The data type associated to the EuclideanPosition class. */
 EuclideanPosition.type = new Type("euclidean-position", EuclideanPosition, Position.type);
+//# sourceMappingURL=EuclideanPosition.js.map

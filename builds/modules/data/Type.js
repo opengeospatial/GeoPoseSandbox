@@ -84,3 +84,4 @@ export class Type {
 /** The global list of Type instances. */
 Type._record = {};
 
+//# sourceMappingURL=Type.js.map

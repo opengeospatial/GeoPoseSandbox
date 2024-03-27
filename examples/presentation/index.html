@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>GeoPose Sandbox Presentation</title>
+		<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<header style="position:fixed; top: 3vmin; left: 10vmin; z-index: 10000;">
+			<img src="./textures/OGC_logo.jpg" alt="">
+		</header>
+		<header style="position:fixed; top: 40vmin; left: 10vmin; z-index: 10000; font-family: Arial; font-size: 200%;">
+			<h1 style="color:#48F; margin:1vmin;">GeoPose Sandbox </h1>
+			<h3 style="color:#48F; margin:1vmin">The 128th OGC Member Meeting</h3>
+		</header>
+		<footer style="position:fixed; bottom: 3vmin; left: 10vmin; z-index: 10000; font-family: Arial; font-size: 200%;">
+			<h3 style="color:#48F; margin:1vmin">Mikel Salazar, IFE (Halden-Norway)</h3>
+			<h3 style="color:#48F; margin:1vmin">March 27th, 2024 (Online presentation)</h3>			
+		</footer>
+		<script type="importmap">
+			{ "imports": { "three" : "../../node_modules/three/build/three.module.js" } }
+		</script>
+		<script type="module"> 
+
+// Initialize the GeoPose Sandbox
+import { GeoPoseSandbox, GeoFrame, GeoPoseBasicYPR, PlanetWidget, GeoPoseWidget } from "../../builds/modules/GeoPoseSandbox.js"
+ 
+// Initialize the sandbox
+let sandbox = GeoPoseSandbox.init(); 
+
+let earth = GeoFrame.defaultFrame;
+earth.polarRadius.value = 6356752;
+
+// Get the view layer 
+let user = sandbox.users.getByIndex(0);
+let presence = user.presences.getByIndex(0);
+let view = user.views.getByIndex(0);
+let layer = view.layers.getByIndex(0);
+
+// Create a camera pose
+let cameraPose = presence.entity.pose = new GeoPoseBasicYPR("pose", presence.entity);
+cameraPose.position.longitude.value = 30;
+cameraPose.position.latitude.value = 30;
+cameraPose.position.altitude.value = earth.equatorialRadius.value * 2;
+
+// Get the Interaction Space
+let space = sandbox.spaces.getByIndex(0);
+
+
+// Create a widget for the planet component
+let planetWidget = new PlanetWidget("Earth", layer,
+	{ 
+		frame: earth,
+		diffuse: "textures/2k_earth_diffuse.jpg",
+		normal: "textures/2k_earth_normals.jpg",
+		specular: "textures/2k_earth_specular.jpg",
+		normalScale: 10
+	});
+
+// Create a widget for the GeoPose
+let geoposeWidget = new GeoPoseWidget("GeoPoseWidget", layer, { 
+	frame: earth,
+	position: { latitude: 52.011667, longitude: 4.359167, altitude: 0},
+	orientation: { yaw: 20, pitch: 20, roll: 0 }
+});
+geoposeWidget.update();
+let objectPose = geoposeWidget.entity.pose;
+geoposeWidget.entity.pose.position.latitude.value = 52.011667;
+geoposeWidget.entity.pose.position.longitude.value = 4.359167;
+
+let arrowPose = geoposeWidget.arrow.pose;
+cameraPose.position.latitude.value = 20;
+function setPosition(time = 0) {
+	let r = -time/50000;
+	layer.entity.representation.position.set(0,0,-8000000);
+	layer.entity.representation.rotation.set(0,r,0);
+	requestAnimationFrame(setPosition)
+}
+setPosition();
+</script>
+	</body>
+</html>

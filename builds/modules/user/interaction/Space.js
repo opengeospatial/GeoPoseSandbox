@@ -67,3 +67,4 @@ export class Space extends Item {
 
 /** The data type associated to the Space class. */
 Space.type = new Type("space", Space, Item.type);
+//# sourceMappingURL=Space.js.map

@@ -2,11 +2,11 @@ import * as THREE from "three"
 import { Item } from "../../data/Item.js";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
-import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
-import { String } from "../../data/items/simple/String.js";
+import { Ellipsoid } from "../../data/types/shapes/Ellipsoid.js";
+import { String } from "../../data/types/simple/String.js";
 
 
-/** Defines a Atmosphere Entity. */
+/** Defines an Atmosphere Entity. */
 export class AtmosphereEntity extends Entity {
 
 	// -------------------------------------------------------- PUBLIC METADATA

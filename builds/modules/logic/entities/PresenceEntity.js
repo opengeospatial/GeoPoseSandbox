@@ -1,12 +1,11 @@
-import * as THREE from "../../../externals/three.module.js";
+import * as THREE from "three";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
-import { Number } from "../../data/items/simple/Number.js";
+import { Number } from "../../data/types/simple/Number.js";
 
 
 /** Defines a user Presence entity. */
 export class PresenceEntity extends Entity {
-
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -46,6 +45,7 @@ export class PresenceEntity extends Entity {
 
 		// Create the representation
 		this._representation = new THREE.PerspectiveCamera(this._fieldOfView.value, this._aspectRatio.value, this._nearPlane.value, this._farPlane.value);
+
 	}
 
 
@@ -94,3 +94,4 @@ export class PresenceEntity extends Entity {
 
 /** The data type associated to the PresenceEntity class. */
 PresenceEntity.type = new Type("presence-entity", PresenceEntity, Entity.type);
+//# sourceMappingURL=PresenceEntity.js.map

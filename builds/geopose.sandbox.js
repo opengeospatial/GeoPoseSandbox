@@ -1,11 +1,174 @@
+// ************************************************************* logic/Event.js
+
+/** Defines a Logic Event */
+	   class Event {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The event type. */
+	get type() { return this._type; }
+
+	/** The event owner. */
+	get owner() { return this._owner; }
+
+	/** The event data. */
+	get data() { return this._data; }
+
+	/** The event listeners. */
+	get listeners() { return this._listeners; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Event instance.
+	 * @param type The event type.
+	 * @param owner The event owner.
+	 * @param data The event data. */
+	constructor(type, owner, data) {
+
+
+		// ---------------------------------------------------------- PUBLIC FIELDS
+
+		/** Marks the object as an Event. */
+		this.isEvent = true;
+		this._type = type;
+		this._owner = owner;
+		this._data = data;
+		this._listeners = [];
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Adds a listener for the event.
+	 * @param listener The listener function to add. */
+	add(listener) {
+		if (!this._listeners.includes(listener))
+			this._listeners.push(listener);
+	}
+
+
+	/** Removes a listener for the event.
+	 * @param listener The listener function to add. */
+	removes(listener) {
+		this._listeners = this._listeners.filter((l) => { return l != listener; });
+	}
+
+
+	/** Triggers the event.
+	 * @param source The object that triggers the event.
+	 * @param data Additional event data. */
+	trigger(source, data = {}) {
+		for (let listener of this._listeners) {
+			let captured = listener(this, source, data);
+			if (captured)
+				break; // If captured, stop broadcasting the event
+		}
+	}
+}
+//# sourceMappingURL=Event.js.map
+
+// *************************************************************** data/Type.js
+
+
+
+/** Contains the metadata of a data type.
+ * Provides a way to handle reflection and serialization in different contexts
+ * (even after the code is transpiled to Javascript). */
+	   class Type {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The global list of Type instances. */
+	static get record() { return this._record; }
+
+	/** The name of the data type. */
+	get name() { return this._name; }
+
+	/** The list of instances of the data type. */
+	get instances() { return this._instances; }
+
+	/** The parent data type. */
+	get parent() { return this._parent; }
+
+	/** The children data types. */
+	get children() { return this._children; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Type class.
+	 * @param name The name of the data type.
+	 * @param innerType The Javascript type.
+	 * @param parent The parent data type. */
+	constructor(name, innerType, parent) {
+
+		// Store the given name and add this instance to the global record
+		this._name = name;
+		if (!Type._record[name])
+			Type._record[name] = this;
+		// else throw Error ('Repeated data type name: "' + name + '"');
+
+		// If there is a parent type, store the reference and create a link
+		if (parent) {
+			this._parent = parent;
+			this._parent.children.push(this);
+		}
+
+		// Initialize the list of child types
+		this._children = [];
+
+		// Initialize the list of instances of the data type
+		// this._instances = [];
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Check if the type is (or inherits from) another.
+	 * @param type The type to check against.
+	 * @returns A boolean indicating whether the types are the same or not. */
+	is(type) {
+		let t = this;
+		while (t) {
+			if (t == type)
+				return true;
+			t = t._parent;
+		}
+		return false;
+	}
+
+
+	/** Registers an instance of the type to the list.
+	 * @param instance The instance to register. */
+	register(instance) {
+		let type = instance.type;
+		while (type) {
+			type._instances.push(instance);
+			type = type._parent;
+		}
+	}
+}
+
+// --------------------------------------------------------- PRIVATE FIELDS
+
+/** The global list of Type instances. */
+Type._record = {};
+
+//# sourceMappingURL=Type.js.map
+
+// *************************************************************** data/Item.js
 
 
 
 
 
-/** Defines a data item (often called a datum) in a graph structure .
+
+/** Defines a data item (often called a datum) in a graph structure.
  * Provides a way to store information in a mainly hierarchical way. */
-       class Item {
+	   class Item {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -38,7 +201,7 @@
 		this._updateTime = Date.now();
 
 		// Trigger the "modified" event
-		this.onModified.trigger(this, value);
+		this._onModified.trigger(this, value);
 		Item.onModified.trigger(this, value);
 
 		// Propagate the event upwards in the hierarchy and to the links
@@ -75,8 +238,9 @@
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Item class.
-	 * @param name The name of the data item.
-	 * @param parent The parent data item. */
+	 * @param {string} name The name of the data item.
+	 * @param {Item} parent The parent data item.
+	 * @param {*} [data] The initialization data. */
 	constructor(name, parent, data) {
 
 		// Obtain the type of item from the static property
@@ -88,10 +252,10 @@
 				"'. Remember to add it through the 'type' static property.");
 
 		// Check the name of the item
-		if (name && typeof (name) && name.length > 0)
+		if (name && typeof name == 'string' && name.length > 0)
 			this._name = name;
 		else
-			name = type.name;
+			this._name = type.name;
 
 		// If there is a parent type, store the reference and create a link
 		if (parent && parent instanceof Item) {
@@ -108,9 +272,14 @@
 		this._onPreUpdate = new Event("pre-update", this);
 		this._onPostUpdate = new Event("post-update", this);
 
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+
 		// Set the update state to false and set the update time
 		this.updated = false;
 		this._updateTime = Date.now();
+
 
 		// Trigger the onCreation event
 		Item.onCreation.trigger(this);
@@ -165,6 +334,11 @@
 	/** Deserializes the Item instance.
 	 * @param data The data to deserialize. */
 	deserialize(data = {}) { Serialization.deserialize(this, data); }
+
+
+	/** Obtains the string representation of the instance.
+	 * @returns The string representation of the instance. */
+	toString() { return JSON.stringify(this.deserialize()); }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
@@ -186,12 +360,14 @@ Item._onPostUpdate = new Event("post-update");
 
 /** A global event triggered when a data item is created. */
 Item.onCreation = new Event("creation");
+//# sourceMappingURL=Item.js.map
 
+// ********************************************************* data/Collection.js
 
 
 
 /** Defines a collection of data items. */
-       class Collection {
+	   class Collection {
 
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
@@ -312,406 +488,155 @@ Item.onCreation = new Event("creation");
 		};
 	}
 }
+//# sourceMappingURL=Collection.js.map
+
+// ****************************************************** data/Serialization.js
 
 
+/** Provides multiple methods to serialize and deserialize data items. */
+	   class Serialization {
 
-
-
-/** Defines a complex data item. */
-       class Complex extends Item {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** Indicates whether all the the values are the default or not. */
-	get isDefault() {
-		for (let component of this._components)
-			if (!component.isDefault)
-				return false;
-		return true;
+	/** Serializes a Item instance into an object.
+	 * @param item The item to serialize.
+	 * @param item The format to use in the serialization.
+	 * @return The serialized data. */
+	static serialize(item, format) {
+		let data = {};
+		for (let child of item.children)
+			data[child.name] = child.serialize(format);
+		return data;
 	}
 
 
-	/** Indicates whether the value is undefined or not. */
-	get isUndefined() {
-		for (let component of this._components)
-			if (!component.isUndefined)
-				return false;
-		return true;
+	/** Deserializes generic data into a data Item.
+	 * @param item The data item to store the data.
+	 * @param data The data to deserialize. */
+	static deserialize(item, data) {
+
+		// If the data is a string, check if it is JSON or CSV data
+		if (typeof data == "string") {
+
+			// Start parsing it as a CSV string
+			let parsed;
+			try {
+				parsed = Serialization.fromCSV(data);
+			}
+			catch { }
+			if (!parsed)
+				try {
+					parsed = Serialization.fromCSV(data);
+				}
+				catch { }
+			if (!parsed)
+				try {
+					parsed = Serialization.fromJSON(data);
+				}
+				catch { }
+			if (!parsed)
+				return; // If no system has been successful
+			data = parsed;
+		}
+
+		// If the data is an array, try to parse it value by value
+		if (Array.isArray(data)) {
+			for (let [index, dataPart] of data) {
+				if (index >= item.children.count)
+					return;
+				item.children[index].deserialize(dataPart);
+			}
+		}
+
+		// If the data is an object, analyze it key by key
+		else
+			for (let key in data) {
+				let dataPart = data[key];
+				if (dataPart == undefined)
+					continue;
+				let child = item.children.getByName(key);
+				if (child)
+					child.deserialize(dataPart);
+			}
+	}
+
+	/** Parses a string.
+	* @param s The string to parse.
+	* @returns The CSV data. */
+	static fromWords(s, separator = ' ') {
+		let data = [];
+
+		return data;
+	}
+
+	/** Parses a CSV (Comma-Separated-Values) string.
+	 * @param s The string to parse.
+	 * @returns The parsed data. */
+	static fromCSV(s) {
+		let data = [];
+
+		return data;
 	}
 
 
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the complex class.
-	 * @param name The name of the data item.
-	 * @param parent The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Complex class. */
-Complex.type = new Type("complex", Complex, Item.type);
+	/** Parses a JSON (JavaScript-Object-Notation) string.
+	 * @param s The string to parse.
+	 * @returns The parsed data. */
+	static fromJSON(s) { return JSON.parse(s); }
 
 
+	/** Converts an object into a CSV (Comma-Separated-Values) string.
+	 * @param data The data object to convert.
+	 * @returns The CSV representation of the object. */
+	static toCSV(data) {
 
+		// Returns the resulting string
+		let string = "";
 
-
-
-
-/** Defines an RGBA color. */
-       class Color extends Complex {
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The red component of the color. */
-	get r() { return this._r; }
-
-	/** The green component of the color. */
-	get g() { return this._g; }
-
-	/** The blue component of the color. */
-	get b() { return this._b; }
-
-	/** The alpha component of the color. */
-	get a() { return this._a; }
-
-
-	// ------------------------------------------------------------ CONSTRUCTOR
-
-	/** Initializes a new instance of the Color class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._r = new Number("r", this, { min: 0, max: 1, defaultValue: 0 });
-		this._g = new Number("g", this, { min: 0, max: 1, defaultValue: 0 });
-		this._b = new Number("b", this, { min: 0, max: 1, defaultValue: 0 });
-		this._a = new Number("a", this, { min: 0, max: 1, defaultValue: 1 });
-
-		// Define the components of the Complex type
-		this._components = [this._r, this._g, this._b, this._a];
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
+		// Returns the resulting string
+		return string;
 	}
 
 
-	// --------------------------------------------------------- PUBLIC METHODS
+	/** Converts an object into a JSON (JavaScript-Object-Notation) string.
+	 * @param data The data object to convert.
+	 * @returns The JSON representation of the object. */
+	static toJSON(data, maxIndentation = 0) {
 
-	/** Gets the values of the Color instance.
-	* @returns An object with the values of the Color instance. */
-	getValues() {
-		return { r: this._r.value, g: this._g.value, b: this._b.value,
-			a: this._a.value };
+		// Returns the resulting string
+		let string = "";
+
+		// Returns the resulting string
+		return string;
 	}
 
 
-	/** Sets the values of the Color instance.
-	 * @param r The value of the Red component.
-	 * @param g The value of the Green component.
-	 * @param b The value of the Blue component.
-	 * @param a The value of the Alpha component. */
-	setValues(r = 0, g = 0, b = 0, a = 1) {
-		this._r.value = r;
-		this._g.value = g;
-		this._b.value = b;
-		this._a.value = a;
-	}
+	/** Serializes a data item into a string.
+	 * @param item The data item to serialize to a string.
+	 * @return The resulting string. */
+	static toString(item) {
+		let s = "";
 
-
-	/** Obtains the string representation of the Color instance.
-	 * @returns The string representation of the Color instance. */
-	toString() {
-		return "rgb(" + this._r + ", " + this._g + ", " + this._b + ")";
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Color class. */
-Color.type = new Type("color", Color, Complex.type);
-
-
-
-
-
-
-
-
-
-/** Defines the Euler orientation.
- * @see https://en.wikipedia.org/wiki/Euler_angles */
-       class Euler extends Complex {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The Angle in the X axis. */
-	get x() { return this._x; }
-
-	/** The Angle in the Y axis. */
-	get y() { return this._y; }
-
-	/** The Angle in the Z axis. */
-	get z() { return this._z; }
-
-	/** The order of application of axis rotation. */
-	get order() { return this._order; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Euler class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._x = new Angle("x", this, 0);
-		this._y = new Angle("y", this, 0);
-		this._z = new Angle("z", this, 0);
-		this._order = new String("order", this, "XYZ");
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z];
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Gets the values of the Euler instance.
-	* @returns An object with the values of the Euler instance. */
-	getValues() {
-		return { x: this._x.value, y: this._y.value, z: this._z.value };
-	}
-
-
-	/** Sets the values of the Euler instance.
-	 * @param x The value in the X axis.
-	 * @param y The value in the Y axis.
-	 * @param z The value in the Z axis. */
-	setValues(x = 0, y = 0, z = 0) {
-		this._x.value = x;
-		this._y.value = y;
-		this._z.value = z;
+		return s;
 	}
 }
 
-// -------------------------------------------------------- PUBLIC METADATA
+/** Enumerates the different serialization formats. */
+	   var SerializationFormat;
+(function (SerializationFormat) {
+	SerializationFormat[SerializationFormat["CSV"] = 0] = "CSV";
+	SerializationFormat[SerializationFormat["JSON"] = 1] = "JSON";
+	SerializationFormat[SerializationFormat["XML"] = 2] = "XML";
+})(SerializationFormat || (SerializationFormat = {}));
+//# sourceMappingURL=Serialization.js.map
 
-/** The data type associated to the Euler class. */
-Euler.type = new Type("euler", Euler, Complex.type);
-
-
-
-
-
-
-
-
-/** Defines a four-dimensional complex number to describe rotations. */
-       class Quaternion extends Complex {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The value of the quaternion vector in the X(i) axis. */
-	get x() { return this._x; }
-
-	/** The value of the quaternion vector in the Y(j) axis. */
-	get y() { return this._y; }
-
-	/** The value of the quaternion vector in the Z(k) axis. */
-	get z() { return this._z; }
-
-	/** The rotation half-angle around the quaternion vector. */
-	get w() { return this._w; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Quaternion class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent constructor
-		super(name, parent, data);
-
-		// Create the children items
-		this._x = new Number("x", this, 0);
-		this._y = new Number("y", this, 0);
-		this._z = new Number("z", this, 0);
-		this._w = new Number("w", this, 1);
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z, this._w];
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Gets the values of the Quaternion instance.
-	 * @returns An object with the values of the Quaternion instance. */
-	getValues() {
-		return { x: this._x.value, y: this._y.value, z: this._z.value,
-			w: this._w.value };
-	}
-
-
-	/** Sets the values of the Quaternion instance.
-	 * @param x The value of the quaternion vector in the X(i) axis.
-	 * @param y The value of the quaternion vector in the Y(j) axis.
-	 * @param z The value of the quaternion vector in the Z(k) axis.
-	 * @param w The rotation half-angle around the quaternion vector. */
-	setValues(x = 0, y = 0, z = 0, w = 1) {
-		this._x.value = x;
-		this._y.value = y;
-		this._y.value = z;
-		this._w.value = w;
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Quaternion class. */
-Quaternion.type = new Type("quaternion", Quaternion, Complex.type);
-
-
-
-
-
-
-
-
-/** Defines a three-dimensional vector. */
-       class Vector extends Complex {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The vector component in the X axis. */
-	get x() { return this._x; }
-
-	/** The vector component in the Y axis. */
-	get y() { return this._y; }
-
-	/** The vector component in the Z axis. */
-	get z() { return this._z; }
-
-	/** The length of the vector. */
-	get length() {
-		let x = this._x.value, y = this._y.value, z = this._z.value;
-		return new Size(this.name + "length", undefined, { value: Math.sqrt((x * x) + (y * y) + (z * z)) });
-	}
-	set length(size) {
-		if (typeof (size) != "number")
-			size = size.value;
-		let x = this._x.value, y = this._y.value, z = this._z.value;
-		let length = Math.sqrt((x * x) + (y * y) + (z * z)), factor = size / length;
-		this._x.value = x * factor;
-		this._y.value = y * factor;
-		this._z.value = z * factor;
-	}
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Vector3 class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._x = new Distance("x", this);
-		this._y = new Distance("y", this);
-		this._z = new Distance("z", this);
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z];
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Gets the values of the Vector instance.
-	* @returns An object with the values of the Vector instance. */
-	getValues() {
-		return { x: this._x.value, y: this._y.value, z: this._z.value };
-	}
-
-
-	/** Sets the values of the Vector instance.
-	 * @param x The vector component in the X axis.
-	 * @param y The vector component in the Y axis.
-	 * @param z The vector component in the Z axis. */
-	setValues(x = 0, y = 0, z = 0) {
-		this._x.value = x;
-		this._y.value = y;
-		this._z.value = z;
-	}
-
-
-	/** Normalizes the vector (by setting its length to 1). */
-	normalize() { this.length = 1; }
-
-
-	/** Obtains the string representation of the Vector instance.
-	 * @returns The string representation of the Vector instance. */
-	toString() { return this._components.join(", "); }
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Vector class. */
-Vector.type = new Type("vector", Vector, Complex.type);
-
+// ******************************************************* data/types/Simple.js
 
 
 
 
 
 /** Defines a simple data item. */
-       class Simple extends Item {
+	   class Simple extends Item {
 
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
@@ -822,13 +747,82 @@ Vector.type = new Type("vector", Vector, Complex.type);
 /** The data type associated to the Simple class. */
 Simple.type = new Type("simple", Simple, Item.type);
 
+//# sourceMappingURL=Simple.js.map
 
+// *********************************************** data/types/simple/Boolean.js
+
+
+
+
+/** Defines a boolean data item. */
+	   class Boolean extends Simple {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Boolean class.
+	 * @param name The name of the data type.
+	 * @param parent The parent data type.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Set the values of the properties
+		this._value = undefined;
+		this._defaultValue = false;
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the Boolean instance.
+	 * @return The serialized data. */
+	serialize() { return this.value; }
+
+
+	/** Deserializes the Boolean instance.
+	 * @param data The data to deserialize. */
+	deserialize(data) {
+		if (typeof data == "object") {
+			this._defaultValue = data.defaultValue;
+			data = this.value = data.value;
+		}
+		else if (typeof data !== "boolean")
+			this.value = (data == "false" || data == 0) ? false : true;
+		else
+			this.value = data;
+	}
+
+
+	/** Obtains the string representation of the Boolean instance.
+	 * @returns The string representation of the Boolean instance. */
+	toString() { return this.value ? "true" : "false"; }
+
+
+	/** Obtains the primitive value of the Boolean instance.
+	 * @returns The primitive value of the Boolean instance. */
+	valueOf() { return this.value; }
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Boolean class. */
+Boolean.type = new Type("boolean", Boolean, Simple.type);
+//# sourceMappingURL=Boolean.js.map
+
+// ************************************************ data/types/simple/Number.js
 
 
 
 
 /** Defines a Numeric data item. */
-       class Number extends Simple {
+	   class Number extends Simple {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -933,528 +927,15 @@ Simple.type = new Type("simple", Simple, Item.type);
 
 /** The data type associated to the Number class. */
 Number.type = new Type("number", Number, Simple.type);
+//# sourceMappingURL=Number.js.map
 
-
-
-
-
-
-/** Defines a numeric Measure item. */
-       class Measure extends Number {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The current unit of the measure. */
-	get unit() { return this._units[this._unitIndex]; }
-
-	/** The units of the measure. */
-	get units() { return this._units; }
-
-	/** The value of the measure in the selected unit.*/
-	get unitIndex() { return this._unitIndex; }
-	set unitIndex(u) {
-		this._unitIndex = u;
-		this._onModified.trigger(this);
-	}
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Type class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Store the units of the Measure
-		let units = this.constructor["units"], className = this.constructor.name;
-		if (units)
-			this._units = units;
-		else
-			throw Error("No units defined for class '" + className + "'.");
-		this._unitIndex = 0;
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Measure class. */
-Measure.type = new Type("measure", Measure, Number.type);
-
-
-/** Defines a Measurement Unit. */
-       class MeasurementUnit {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The name of the Measurement Unit. */
-	get id() { return this._id; }
-
-	/** The list of abbreviations of the Measurement Unit. */
-	get abbrevs() { return this._abbrevs; }
-
-	/** The relative conversion factor of the Measurement Unit. */
-	get factor() { return this._factor; }
-
-	/** The default value of the Measurement Unit. */
-	get default() { return this._default; }
-
-	/** The minimum possible value of the Measurement Unit. */
-	get min() { return this._min; }
-
-	/** The maximum possible value of the Measurement Unit. */
-	get max() { return this._max; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the MeasurementUnit class.
-	 * @param id The id of the Measurement Unit.
-	 * @param abbrevs The abbreviations of the Measurement Unit.
-	 * @param factor The relative conversion factor of the Measurement Unit.
-	 * @param default The default value of the Measurement Unit.
-	 * @param min The minimum possible value of the Measurement Unit.
-	 * @param max The maximum possible value of the Measurement Unit. */
-	constructor(id, abbrevs, factor = 1, defaultValue, min, max) {
-		this._id = id;
-		this._abbrevs = abbrevs;
-		this._factor = factor;
-		this._default = defaultValue;
-		this._min = min;
-		this._max = max;
-	}
-}
-
-
-
-
-
-
-
-/** Defines a angular measurement. */
-       class Angle extends Measure {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Angle class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Angle class. */
-Angle.type = new Type("angle", Angle, Measure.type);
-
-/** The measurement units associated to the Angle class. */
-Angle.units = [
-	new MeasurementUnit("degrees", ["deg", "d", "º"], 1),
-	new MeasurementUnit("radians", ["rad", "RAD"], Math.PI / 180)
-];
-
-
-
-
-
-
-/** Defines a length measurement. */
-       class Distance extends Measure {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Distance class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Distance class. */
-Distance.type = new Type("distance", Distance, Measure.type);
-
-/** The measurement units associated to the Distance class. */
-Distance.units = [
-	new MeasurementUnit("meters", ["m", "ms"], 1),
-	new MeasurementUnit("centimeters", ["cm", "cms"], 0.01),
-	new MeasurementUnit("millimeters", ["mm", "mms"], 0.001),
-	new MeasurementUnit("kilometers", ["km", "kms"], 1000)
-];
-
-
-
-
-
-
-/** Defines a dimensional measurement. */
-       class Size extends Measure {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Size class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Sizes can not have negative values
-		this._value = 0;
-		this._min = 0;
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Size class. */
-Size.type = new Type("size", Size, Measure.type);
-
-/** The measurement units associated to the Size class. */
-Size.units = [
-	new MeasurementUnit("meters", ["m", "ms"], 1),
-	new MeasurementUnit("centimeters", ["cm", "cms"], 0.01),
-	new MeasurementUnit("millimeters", ["mm", "mms"], 0.001),
-	new MeasurementUnit("kilometers", ["km", "kms"], 1000)
-];
-
-
-
-
-
-
-/** Defines a temporal measurement. */
-       class Time extends Measure {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Time class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the time class. */
-Time.type = new Type("Time", Time, Measure.type);
-
-/** The measurement units associated to the Time class. */
-Time.units = [
-	new MeasurementUnit("seconds", ["s", "sec"], 1),
-	new MeasurementUnit("minutes", ["m", "mins"], 1 / 60),
-	new MeasurementUnit("hours", ["h"], 1 / 3600),
-	new MeasurementUnit("milliseconds", ["ms", "millisecs"], 1000),
-];
-
-
-
-
-
-
-
-/** Defines a three dimensional shape. */
-       class Shape extends Item {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** Indicates if the Shape should be shaded or not. */
-	get shaded() { return this._shaded; }
-
-	/** The color of the Shape. */
-	get color() { return this._color; }
-
-	/** The diffuse texture of the Shape. */
-	get texture() { return this._texture; }
-
-	/** The emissive texture of the Shape. */
-	get emissive() { return this._emissive; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes the Shape instance.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._shaded = new String("shaded", this);
-		this._color = new String("color", this);
-		this._texture = new String("texture", this);
-		this._emissive = new String("color", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Shape class. */
-Shape.type = new Type("shape", Shape, Item.type);
-
-
-
-
-
-
-
-/** Defines a three-dimensional box Shape (global). */
-       class Box extends Shape {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The size of the box the X axis. */
-	get width() { return this._width; }
-
-	/** The size of the box in the Y axis. */
-	get height() { return this._height; }
-
-	/** The size of the box the Z axis. */
-	get depth() { return this._depth; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes the Box instance.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._width = new Size("width", this);
-		this._depth = new Size("depth", this);
-		this._height = new Size("height", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Box class. */
-Box.type = new Type("box", Box, Shape.type);
-
-
-
-
-
-
-/** Defines a three-dimensional ellipsoid shape. */
-       class Ellipsoid extends Shape {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The radius in the X axis. */
-	get radiusX() { return this._radiusX; }
-
-	/** The radius in the Y axis. */
-	get radiusY() { return this._radiusY; }
-
-	/** The radius in the Z axis. */
-	get radiusZ() { return this._radiusZ; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes the Ellipsoid instance.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._radiusX = new Size("radiusX", this);
-		this._radiusY = new Size("radiusY", this);
-		this._radiusZ = new Size("radiusZ", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Ellipsoid class. */
-Ellipsoid.type = new Type("ellipsoid", Ellipsoid, Shape.type);
-
-
-
-
-
-
-/** Defines a three-dimensional spherical Shape. */
-       class Sphere extends Shape {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The Size of the radius in all axes. */
-	get radius() { return this._radius; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes the Sphere instance.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._radius = new Size("radius", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Sphere class. */
-Sphere.type = new Type("sphere", Sphere, Shape.type);
-
-
-
-
-
-
-/** Defines a boolean data item. */
-       class Boolean extends Simple {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Boolean class.
-	 * @param name The name of the data type.
-	 * @param parent The parent data type.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Set the values of the properties
-		this._value = undefined;
-		this._defaultValue = false;
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Serializes the Boolean instance.
-	 * @return The serialized data. */
-	serialize() { return this.value; }
-
-
-	/** Deserializes the Boolean instance.
-	 * @param data The data to deserialize. */
-	deserialize(data) {
-		if (typeof data == "object") {
-			this._defaultValue = data.defaultValue;
-			data = this.value = data.value;
-		}
-		else if (typeof data !== "boolean")
-			this.value = (data == "false" || data == 0) ? false : true;
-		else
-			this.value = data;
-	}
-
-
-	/** Obtains the string representation of the Boolean instance.
-	 * @returns The string representation of the Boolean instance. */
-	toString() { return this.value ? "true" : "false"; }
-
-
-	/** Obtains the primitive value of the Boolean instance.
-	 * @returns The primitive value of the Boolean instance. */
-	valueOf() { return this.value; }
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Boolean class. */
-Boolean.type = new Type("boolean", Boolean, Simple.type);
-
+// ************************************************ data/types/simple/String.js
 
 
 
 
 /** Defines a String data item. */
-       class String extends Simple {
+	   class String extends Simple {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -1534,25 +1015,130 @@ Boolean.type = new Type("boolean", Boolean, Simple.type);
 
 /** The data type associated to the String class. */
 String.type = new Type("string", String, Simple.type);
+//# sourceMappingURL=String.js.map
+
+// ****************************************************** data/types/Measure.js
 
 
 
 
 
+/** Defines a numeric Measure item. */
+	   class Measure extends Number {
 
-/** Defines the basic class of a Pose Extension. */
-       class Extension extends Item {
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The current unit of the measure. */
+	get unit() { return this._units[this._unitIndex]; }
+
+	/** The units of the measure. */
+	get units() { return this._units; }
+
+	/** The value of the measure in the selected unit.*/
+	get unitIndex() { return this._unitIndex; }
+	set unitIndex(u) {
+		this._unitIndex = u;
+		this._onModified.trigger(this);
+	}
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the Extension class.
+	/** Initializes a new instance of the Type class.
 	 * @param name The name of the data item.
 	 * @param name The parent data item.
 	 * @param data The initialization data. */
 	constructor(name, parent, data) {
 
-		// Call the base class constructor
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Store the units of the Measure
+		let units = this.constructor["units"], className = this.constructor.name;
+		if (units)
+			this._units = units;
+		else
+			throw Error("No units defined for class '" + className + "'.");
+		this._unitIndex = 0;
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Measure class. */
+Measure.type = new Type("measure", Measure, Number.type);
+
+
+/** Defines a Measurement Unit. */
+	   class MeasurementUnit {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The name of the Measurement Unit. */
+	get id() { return this._id; }
+
+	/** The list of abbreviations of the Measurement Unit. */
+	get abbrevs() { return this._abbrevs; }
+
+	/** The relative conversion factor of the Measurement Unit. */
+	get factor() { return this._factor; }
+
+	/** The default value of the Measurement Unit. */
+	get default() { return this._default; }
+
+	/** The minimum possible value of the Measurement Unit. */
+	get min() { return this._min; }
+
+	/** The maximum possible value of the Measurement Unit. */
+	get max() { return this._max; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the MeasurementUnit class.
+	 * @param id The id of the Measurement Unit.
+	 * @param abbrevs The abbreviations of the Measurement Unit.
+	 * @param factor The relative conversion factor of the Measurement Unit.
+	 * @param default The default value of the Measurement Unit.
+	 * @param min The minimum possible value of the Measurement Unit.
+	 * @param max The maximum possible value of the Measurement Unit. */
+	constructor(id, abbrevs, factor = 1, defaultValue, min, max) {
+		this._id = id;
+		this._abbrevs = abbrevs;
+		this._factor = factor;
+		this._default = defaultValue;
+		this._min = min;
+		this._max = max;
+	}
+}
+
+//# sourceMappingURL=Measure.js.map
+
+// *********************************************** data/types/measures/Angle.js
+
+
+
+
+
+/** Defines a angular measurement. */
+	   class Angle extends Measure {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Angle class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
 		super(name, parent, data);
 
 		// Deserialize the initialization data
@@ -1563,9 +1149,745 @@ String.type = new Type("string", String, Simple.type);
 
 // -------------------------------------------------------- PUBLIC METADATA
 
-/** The data type associated to the Extension class. */
-Extension.type = new Type("extension", Extension, Item.type);
+/** The data type associated to the Angle class. */
+Angle.type = new Type("angle", Angle, Measure.type);
 
+/** The measurement units associated to the Angle class. */
+Angle.units = [
+	new MeasurementUnit("degrees", ["deg", "d", "º"], 1),
+	new MeasurementUnit("radians", ["rad", "RAD"], Math.PI / 180)
+];
+//# sourceMappingURL=Angle.js.map
+
+// ******************************************** data/types/measures/Distance.js
+
+
+
+
+
+/** Defines a length measurement. */
+	   class Distance extends Measure {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Distance class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Distance class. */
+Distance.type = new Type("distance", Distance, Measure.type);
+
+/** The measurement units associated to the Distance class. */
+Distance.units = [
+	new MeasurementUnit("meters", ["m", "ms"], 1),
+	new MeasurementUnit("centimeters", ["cm", "cms"], 0.01),
+	new MeasurementUnit("millimeters", ["mm", "mms"], 0.001),
+	new MeasurementUnit("kilometers", ["km", "kms"], 1000)
+];
+//# sourceMappingURL=Distance.js.map
+
+// ************************************************ data/types/measures/Size.js
+
+
+
+
+
+/** Defines a dimensional measurement. */
+	   class Size extends Measure {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Size class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Sizes can not have negative values
+		this._value = 0;
+		this._min = 0;
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Size class. */
+Size.type = new Type("size", Size, Measure.type);
+
+/** The measurement units associated to the Size class. */
+Size.units = [
+	new MeasurementUnit("meters", ["m", "ms"], 1),
+	new MeasurementUnit("centimeters", ["cm", "cms"], 0.01),
+	new MeasurementUnit("millimeters", ["mm", "mms"], 0.001),
+	new MeasurementUnit("kilometers", ["km", "kms"], 1000)
+];
+//# sourceMappingURL=Size.js.map
+
+// ************************************************ data/types/measures/Time.js
+
+
+
+
+
+/** Defines a temporal measurement. */
+	   class Time extends Measure {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Time class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the time class. */
+Time.type = new Type("Time", Time, Measure.type);
+
+/** The measurement units associated to the Time class. */
+Time.units = [
+	new MeasurementUnit("seconds", ["s", "sec"], 1),
+	new MeasurementUnit("minutes", ["m", "mins"], 1 / 60),
+	new MeasurementUnit("hours", ["h"], 1 / 3600),
+	new MeasurementUnit("milliseconds", ["ms", "millisecs"], 1000),
+];
+//# sourceMappingURL=Time.js.map
+
+// ****************************************************** data/types/Complex.js
+
+
+
+
+/** Defines a complex data item. */
+	   class Complex extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** Indicates whether all the the values are the default or not. */
+	get isDefault() {
+		for (let component of this._components)
+			if (!component.isDefault)
+				return false;
+		return true;
+	}
+
+
+	/** Indicates whether the value is undefined or not. */
+	get isUndefined() {
+		for (let component of this._components)
+			if (!component.isUndefined)
+				return false;
+		return true;
+	}
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the complex class.
+	 * @param name The name of the data item.
+	 * @param parent The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Complex class. */
+Complex.type = new Type("complex", Complex, Item.type);
+//# sourceMappingURL=Complex.js.map
+
+// *********************************************** data/types/complex/Vector.js
+
+
+
+
+
+
+
+/** Defines a three-dimensional vector. */
+	   class Vector extends Complex {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The vector component in the X axis. */
+	get x() { return this._x; }
+
+	/** The vector component in the Y axis. */
+	get y() { return this._y; }
+
+	/** The vector component in the Z axis. */
+	get z() { return this._z; }
+
+	/** The length of the vector. */
+	get length() {
+		let x = this._x.value, y = this._y.value, z = this._z.value;
+		return new Size(this.name + "length", undefined, { value: Math.sqrt((x * x) + (y * y) + (z * z)) });
+	}
+	set length(size) {
+		if (typeof (size) != "number")
+			size = size.value;
+		let x = this._x.value, y = this._y.value, z = this._z.value;
+		let length = Math.sqrt((x * x) + (y * y) + (z * z)), factor = size / length;
+		this._x.value = x * factor;
+		this._y.value = y * factor;
+		this._z.value = z * factor;
+	}
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Vector3 class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._x = new Distance("x", this);
+		this._y = new Distance("y", this);
+		this._z = new Distance("z", this);
+
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z];
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Gets the values of the Vector instance.
+	* @returns An object with the values of the Vector instance. */
+	getValues() {
+		return { x: this._x.value, y: this._y.value, z: this._z.value };
+	}
+
+
+	/** Sets the values of the Vector instance.
+	 * @param x The vector component in the X axis.
+	 * @param y The vector component in the Y axis.
+	 * @param z The vector component in the Z axis. */
+	setValues(x = 0, y = 0, z = 0) {
+		this._x.value = x;
+		this._y.value = y;
+		this._z.value = z;
+	}
+
+
+	/** Normalizes the vector (by setting its length to 1). */
+	normalize() { this.length = 1; }
+
+
+	/** Obtains the string representation of the Vector instance.
+	 * @returns The string representation of the Vector instance. */
+	toString() { return this._components.join(", "); }
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Vector class. */
+Vector.type = new Type("vector", Vector, Complex.type);
+//# sourceMappingURL=Vector.js.map
+
+// ************************************************ data/types/complex/Color.js
+
+
+
+
+
+
+/** Defines an RGBA color. */
+	   class Color extends Complex {
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The red component of the color. */
+	get r() { return this._r; }
+
+	/** The green component of the color. */
+	get g() { return this._g; }
+
+	/** The blue component of the color. */
+	get b() { return this._b; }
+
+	/** The alpha component of the color. */
+	get a() { return this._a; }
+
+
+	// ------------------------------------------------------------ CONSTRUCTOR
+
+	/** Initializes a new instance of the Color class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._r = new Number("r", this, { min: 0, max: 1, defaultValue: 0 });
+		this._g = new Number("g", this, { min: 0, max: 1, defaultValue: 0 });
+		this._b = new Number("b", this, { min: 0, max: 1, defaultValue: 0 });
+		this._a = new Number("a", this, { min: 0, max: 1, defaultValue: 1 });
+
+		// Define the components of the Complex type
+		this._components = [this._r, this._g, this._b, this._a];
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Gets the values of the Color instance.
+	* @returns An object with the values of the Color instance. */
+	getValues() {
+		return { r: this._r.value, g: this._g.value, b: this._b.value,
+			a: this._a.value };
+	}
+
+
+	/** Sets the values of the Color instance.
+	 * @param r The value of the Red component.
+	 * @param g The value of the Green component.
+	 * @param b The value of the Blue component.
+	 * @param a The value of the Alpha component. */
+	setValues(r = 0, g = 0, b = 0, a = 1) {
+		this._r.value = r;
+		this._g.value = g;
+		this._b.value = b;
+		this._a.value = a;
+	}
+
+
+	/** Obtains the string representation of the Color instance.
+	 * @returns The string representation of the Color instance. */
+	toString() {
+		return "rgb(" + this._r + ", " + this._g + ", " + this._b + ")";
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Color class. */
+Color.type = new Type("color", Color, Complex.type);
+
+//# sourceMappingURL=Color.js.map
+
+// ************************************************ data/types/complex/Euler.js
+
+
+
+
+
+
+
+/** Defines the Euler orientation.
+ * @see https://en.wikipedia.org/wiki/Euler_angles */
+	   class Euler extends Complex {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The Angle in the X axis. */
+	get x() { return this._x; }
+
+	/** The Angle in the Y axis. */
+	get y() { return this._y; }
+
+	/** The Angle in the Z axis. */
+	get z() { return this._z; }
+
+	/** The order of application of axis rotation. */
+	get order() { return this._order; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Euler class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._x = new Angle("x", this, 0);
+		this._y = new Angle("y", this, 0);
+		this._z = new Angle("z", this, 0);
+		this._order = new String("order", this, "XYZ");
+
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z];
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Gets the values of the Euler instance.
+	* @returns An object with the values of the Euler instance. */
+	getValues() {
+		return { x: this._x.value, y: this._y.value, z: this._z.value };
+	}
+
+
+	/** Sets the values of the Euler instance.
+	 * @param x The value in the X axis.
+	 * @param y The value in the Y axis.
+	 * @param z The value in the Z axis. */
+	setValues(x = 0, y = 0, z = 0) {
+		this._x.value = x;
+		this._y.value = y;
+		this._z.value = z;
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Euler class. */
+Euler.type = new Type("euler", Euler, Complex.type);
+
+//# sourceMappingURL=Euler.js.map
+
+// ******************************************* data/types/complex/Quaternion.js
+
+
+
+
+
+
+/** Defines a four-dimensional complex number to describe rotations. */
+	   class Quaternion extends Complex {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The value of the quaternion vector in the X(i) axis. */
+	get x() { return this._x; }
+
+	/** The value of the quaternion vector in the Y(j) axis. */
+	get y() { return this._y; }
+
+	/** The value of the quaternion vector in the Z(k) axis. */
+	get z() { return this._z; }
+
+	/** The rotation half-angle around the quaternion vector. */
+	get w() { return this._w; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Quaternion class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent constructor
+		super(name, parent, data);
+
+		// Create the children items
+		this._x = new Number("x", this, 0);
+		this._y = new Number("y", this, 0);
+		this._z = new Number("z", this, 0);
+		this._w = new Number("w", this, 1);
+
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z, this._w];
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Gets the values of the Quaternion instance.
+	 * @returns An object with the values of the Quaternion instance. */
+	getValues() {
+		return { x: this._x.value, y: this._y.value, z: this._z.value,
+			w: this._w.value };
+	}
+
+
+	/** Sets the values of the Quaternion instance.
+	 * @param x The value of the quaternion vector in the X(i) axis.
+	 * @param y The value of the quaternion vector in the Y(j) axis.
+	 * @param z The value of the quaternion vector in the Z(k) axis.
+	 * @param w The rotation half-angle around the quaternion vector. */
+	setValues(x = 0, y = 0, z = 0, w = 1) {
+		this._x.value = x;
+		this._y.value = y;
+		this._y.value = z;
+		this._w.value = w;
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Quaternion class. */
+Quaternion.type = new Type("quaternion", Quaternion, Complex.type);
+//# sourceMappingURL=Quaternion.js.map
+
+// ******************************************************** data/types/Shape.js
+
+
+
+
+
+
+/** Defines a three dimensional shape. */
+	   class Shape extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** Indicates if the Shape should be shaded or not. */
+	get shaded() { return this._shaded; }
+
+	/** The color of the Shape. */
+	get color() { return this._color; }
+
+	/** The diffuse texture of the Shape. */
+	get texture() { return this._texture; }
+
+	/** The emissive texture of the Shape. */
+	get emissive() { return this._emissive; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes the Shape instance.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._shaded = new String("shaded", this);
+		this._color = new String("color", this);
+		this._texture = new String("texture", this);
+		this._emissive = new String("color", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Shape class. */
+Shape.type = new Type("shape", Shape, Item.type);
+
+//# sourceMappingURL=Shape.js.map
+
+// *************************************************** data/types/shapes/Box.js
+
+
+
+
+
+/** Defines a three-dimensional box Shape (global). */
+	   class Box extends Shape {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The size of the box the X axis. */
+	get width() { return this._width; }
+
+	/** The size of the box in the Y axis. */
+	get height() { return this._height; }
+
+	/** The size of the box the Z axis. */
+	get depth() { return this._depth; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes the Box instance.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._width = new Size("width", this);
+		this._depth = new Size("depth", this);
+		this._height = new Size("height", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Box class. */
+Box.type = new Type("box", Box, Shape.type);
+//# sourceMappingURL=Box.js.map
+
+// ********************************************* data/types/shapes/Ellipsoid.js
+
+
+
+
+
+/** Defines a three-dimensional ellipsoid shape. */
+	   class Ellipsoid extends Shape {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The radius in the X axis. */
+	get radiusX() { return this._radiusX; }
+
+	/** The radius in the Y axis. */
+	get radiusY() { return this._radiusY; }
+
+	/** The radius in the Z axis. */
+	get radiusZ() { return this._radiusZ; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes the Ellipsoid instance.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._radiusX = new Size("radiusX", this);
+		this._radiusY = new Size("radiusY", this);
+		this._radiusZ = new Size("radiusZ", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Ellipsoid class. */
+Ellipsoid.type = new Type("ellipsoid", Ellipsoid, Shape.type);
+//# sourceMappingURL=Ellipsoid.js.map
+
+// ************************************************ data/types/shapes/Sphere.js
+
+
+
+
+
+/** Defines a three-dimensional spherical Shape. */
+	   class Sphere extends Shape {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The Size of the radius in all axes. */
+	get radius() { return this._radius; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes the Sphere instance.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._radius = new Size("radius", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Sphere class. */
+Sphere.type = new Type("sphere", Sphere, Shape.type);
+
+//# sourceMappingURL=Sphere.js.map
+
+// ******************************************************** data/model/Frame.js
 
 
 
@@ -1573,7 +1895,7 @@ Extension.type = new Type("extension", Extension, Item.type);
 
 
 /** Defines a reference frame. */
-       class Frame extends Item {
+	   class Frame extends Item {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -1611,15 +1933,19 @@ Extension.type = new Type("extension", Extension, Item.type);
 
 /** The data type associated to the Frame class. */
 Frame.type = new Type("frame", Frame, Item.type);
+//# sourceMappingURL=Frame.js.map
 
+// **************************************** data/model/frames/EuclideanFrame.js
 
 
 
 /** Defines an euclidean (Flat-Earth) frame. */
-       class EuclideanFrame extends Frame {
+	   class EuclideanFrame extends Frame {
 }
 
+//# sourceMappingURL=EuclideanFrame.js.map
 
+// ********************************************** data/model/frames/GeoFrame.js
 
 
 
@@ -1627,7 +1953,7 @@ Frame.type = new Type("frame", Frame, Item.type);
 
 
 /** Defines a geodetic (elliptical) frame. */
-       class GeoFrame extends Frame {
+	   class GeoFrame extends Frame {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -1672,634 +1998,9 @@ GeoFrame.type = new Type("geo-frame", GeoFrame, Frame.type);
 GeoFrame.defaultFrame = new GeoFrame("Earth", undefined);
 
 
+//# sourceMappingURL=GeoFrame.js.map
 
-
-
-
-
-
-
-
-
-
-
-/** Defines a Pose of an object. */
-       class Pose extends Item {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The geodetic frame of the Pose. */
-	get frame() { return this._frame; }
-
-	/** The position of the Pose. */
-	get position() { return this._position; }
-
-	/** The orientation of the Pose. */
-	get orientation() { return this._orientation; }
-
-	/** The parent Pose. */
-	get parent() { return this._parentPose; }
-
-	/** The child Poses. */
-	get childPoses() { return this._childPoses; }
-
-	/** The extensions of the Pose. */
-	get extensions() { return this._extensions; }
-
-	/** The relative position of the Pose. */
-	get relativePosition() { return this._relativePosition; }
-
-	/** The absolute position of the Pose. */
-	get absolutePosition() { return this._absolutePosition; }
-
-	/** The relative orientation of the Pose. */
-	get relativeOrientation() { return this._relativeOrientation; }
-
-	/** The vertical vector of the Pose. */
-	get verticalVector() { return this._verticalVector; }
-
-	/** The forward vector of the Pose. */
-	get forwardVector() { return this._forwardVector; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Pose class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._position = new Position("position", this);
-		this._orientation = new Orientation("orientation", this);
-		this._childPoses = new Collection([Pose.type], this);
-		this._extensions = new Collection([Extension.type], this);
-		this._relativePosition = new Vector("relativePosition", this);
-		this._absolutePosition = new Vector("absolutePosition", this);
-		this._relativeOrientation = new Vector("relativeOrientation", this);
-		this._verticalVector = new Vector("verticalVector", this);
-		this._forwardVector = new Vector("forwardVector", this);
-		this._verticalVector = new Vector("verticalVector", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Pose class. */
-Pose.type = new Type("pose", Pose, Item.type);
-
-
-
-
-
-
-
-
-/** Defines the GeoPose of an object. */
-       class GeoPose extends Pose {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The geodetic frame of the GeoPose. */
-	get frame() { return this._frame; }
-
-	/** The position of the GeoPose. */
-	get position() { return this._position; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the GeoPose class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data = {}) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child nodes
-		this._frame = data.frame || new GeoFrame("frame", this);
-		this._position = new GeoPosition("position", this);
-
-		if (data.frame)
-			data.frame.links.add(this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Updates the GeoPose instance.
-	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime = 0, forced = false) {
-
-		// If the update is not forced, skip it when the item is already updated
-		if (this._updated && !forced)
-			return;
-
-		// Call the base class function
-		super.update(deltaTime, forced);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Pose class. */
-GeoPose.type = new Type("geopose", GeoPose, Pose.type);
-
-
-
-
-
-
-
-/** Define the basic class of a three dimensional orientation. */
-       class Orientation extends Item {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The relative orientation. */
-	get relativeValues() { return this._relativeValues; }
-
-	/** The absolute orientation. */
-	get absoluteValues() { return this._absoluteValues; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Orientation class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._relativeValues = new Quaternion("relativeValues", this);
-		this._absoluteValues = new Quaternion("absoluteValues", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Orientation class. */
-Orientation.type = new Type("orientation", Orientation, Item.type);
-
-
-
-
-
-
-
-
-/** Defines an orientation based on an axis vector and an angle. */
-       class AxisAngleOrientation extends Orientation {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The axis vector. */
-	get axis() { return this._axis; }
-
-	/** The angle around the axis. */
-	get angle() { return this._angle; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the AxisAngleOrientation class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._axis = new Vector("axis", this, data);
-		this._angle = new Angle("angle", this, data);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the AxisAngleOrientation class. */
-AxisAngleOrientation.type = new Type("axis-angle-orientation", AxisAngleOrientation, Orientation.type);
-
-
-
-
-
-
-
-
-/** Defines an orientation with a target. */
-       class LookAtOrientation extends Orientation {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The target to point towards. */
-	get targetName() { return this._targetName; }
-
-	/** The target position. */
-	get targetPosition() { return this._targetPosition; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the YawPitchRollOrientation class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._targetName = new String("target", this);
-		this._targetPosition = new Vector("position", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the LookAtOrientation class. */
-LookAtOrientation.type = new Type("look-at-orientation", LookAtOrientation, Orientation.type);
-
-
-
-
-
-
-
-/** Defines an orientation based on a 3x3 rotation matrix. */
-       class MatrixOrientation extends Orientation {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The numeric values of the rotation matrix. */
-	get values() { return this._values; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the MatrixOrientation class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._values = new Number("values", this, data);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the MatrixOrientation class. */
-MatrixOrientation.type = new Type("matrix-orientation", MatrixOrientation, Orientation.type);
-
-
-
-
-
-
-
-/** Defines an orientation with a quaternion. */
-       class QuaternionOrientation extends Orientation {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The value of the quaternion vector in the X(i) axis. */
-	get x() { return this._x; }
-
-	/** The value of the quaternion vector in the Y(j) axis. */
-	get y() { return this._y; }
-
-	/** The value of the quaternion vector in the Z(k) axis. */
-	get z() { return this._z; }
-
-	/** The rotation half-angle around the quaternion vector. */
-	get w() { return this._w; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the QuaternionOrientation class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._x = new Number("x", this);
-		this._y = new Number("y", this);
-		this._z = new Number("z", this);
-		this._w = new Number("w", this, { value: 1, defaultValue: 1 });
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the QuaternionOrientation class. */
-QuaternionOrientation.type = new Type("quaternion-orientation", QuaternionOrientation, Orientation.type);
-
-
-
-
-
-
-/** Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles. */
-       class YawPitchRollOrientation extends Orientation {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The Angle in degrees around the equator of the globe. */
-	get yaw() { return this._yaw; }
-
-	/** The Angle in degrees around the prime meridian of the globe. */
-	get pitch() { return this._pitch; }
-
-	/** The vertical distance relative to the surface to the globe. */
-	get roll() { return this._roll; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-	/** Initializes a new instance of the YawPitchRollOrientation class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._yaw = new Angle("yaw", this);
-		this._pitch = new Angle("pitch", this);
-		this._roll = new Angle("roll", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the YawPitchRollOrientation class. */
-YawPitchRollOrientation.type = new Type("yaw-pitch-roll-orientation", YawPitchRollOrientation, Orientation.type);
-
-
-
-
-
-
-
-
-
-/** Defines a Euclidean pose with a quaternion orientation. */
-       class EuclideanPoseQuaternion extends Pose {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The position of the Euclidean Pose. */
-	get position() {
-		return this._position;
-	}
-
-	/** The orientation of the Euclidean Pose. */
-	get orientation() {
-		return this._orientation;
-	}
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the EuclideanPoseQuaternion class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._position = new EuclideanPosition("position", this, null);
-		this._orientation = new QuaternionOrientation("orientation", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the EuclideanPoseQuaternion class. */
-EuclideanPoseQuaternion.type = new Type("euclidean-pose-quaternion", EuclideanPoseQuaternion, Pose.type);
-
-
-
-
-
-
-
-/** Defines a Euclidean pose with Yaw-Pitch-Roll orientation. */
-       class EuclideanPoseYPR extends Pose {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The position of the Euclidean Pose. */
-	get position() {
-		return this._position;
-	}
-
-	/** The orientation of the Euclidean Pose. */
-	get orientation() {
-		return this._orientation;
-	}
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the EuclideanPoseYPR class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._position = new EuclideanPosition("position", this, null);
-		this._orientation = new YawPitchRollOrientation("orientation", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the EuclideanPoseYPR class. */
-EuclideanPoseYPR.type = new Type("euclidean-basic-ypr", EuclideanPoseYPR, Pose.type);
-
-
-
-
-
-
-/** Defines a basic GeoPose with Quaternion-based orientation. */
-       class GeoPoseBasicQuaternion extends GeoPose {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The orientation of the GeoPose. */
-	get orientation() { return this._orientation; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the GeoPoseBasicQuaternion class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._orientation = new QuaternionOrientation("orientation", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the GeoPoseBasicQuaternion class. */
-GeoPoseBasicQuaternion.type = new Type("geopose-basic-quaternion", GeoPoseBasicQuaternion, GeoPose.type);
-
-
-
-
-
-
-/** Defines a basic GeoPose with Yaw-Pitch-Roll (Tait-Bryan) orientation. */
-       class GeoPoseBasicYPR extends GeoPose {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The orientation of the GeoPose. */
-	get orientation() {
-		return this._orientation;
-	}
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the GeoPoseBasicYPR class.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._orientation = new YawPitchRollOrientation("orientation", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Updates the GeoPoseBasicYPR instance.
-	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime = 0, forced = false) {
-
-		// If the update is not forced, skip it when the item is already updated
-		if (this._updated && !forced)
-			return;
-
-		// Call the base class function
-		super.update(deltaTime, forced);
-
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the GeoPoseBasicYPR class. */
-GeoPoseBasicYPR.type = new Type("geopose-basic-ypr", GeoPoseBasicYPR, GeoPose.type);
-
+// ***************************************************** data/model/Position.js
 
 
 
@@ -2307,7 +2008,7 @@ GeoPoseBasicYPR.type = new Type("geopose-basic-ypr", GeoPoseBasicYPR, GeoPose.ty
 
 
 /** Defines a basic position within a reference frame. */
-       class Position extends Item {
+	   class Position extends Item {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -2348,7 +2049,9 @@ GeoPoseBasicYPR.type = new Type("geopose-basic-ypr", GeoPoseBasicYPR, GeoPose.ty
 
 /** The data type associated to the Position class. */
 Position.type = new Type("position", Position, Item.type);
+//# sourceMappingURL=Position.js.map
 
+// ********************************** data/model/positions/EuclideanPosition.js
 
 
 
@@ -2356,7 +2059,7 @@ Position.type = new Type("position", Position, Item.type);
 
 
 /** Defines a position in an euclidean coordinate system. */
-       class EuclideanPosition extends Position {
+	   class EuclideanPosition extends Position {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -2397,7 +2100,9 @@ Position.type = new Type("position", Position, Item.type);
 
 /** The data type associated to the EuclideanPosition class. */
 EuclideanPosition.type = new Type("euclidean-position", EuclideanPosition, Position.type);
+//# sourceMappingURL=EuclideanPosition.js.map
 
+// **************************************** data/model/positions/GeoPosition.js
 
 
 
@@ -2408,7 +2113,7 @@ EuclideanPosition.type = new Type("euclidean-position", EuclideanPosition, Posit
 
 /** Defines a position in geodetic (elliptical) coordinate system.
 * (Based on SPICE and Local Tangent Plane - East North Up). */
-       class GeoPosition extends Position {
+	   class GeoPosition extends Position {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -2497,400 +2202,694 @@ EuclideanPosition.type = new Type("euclidean-position", EuclideanPosition, Posit
 
 /** The data type associated to the GeodeticPosition class. */
 GeoPosition.type = new Type("geo-position", GeoPosition, Position.type);
+//# sourceMappingURL=GeoPosition.js.map
 
-
-
-/** Provides multiple methods to serialize and deserialize data items. */
-       class Serialization {
-
-	/** Serializes a Item instance into an object.
-	 * @param item The item to serialize.
-	 * @param item The format to use in the serialization.
-	 * @return The serialized data. */
-	static serialize(item, format) {
-		let data = {};
-		for (let child of item.children)
-			data[child.name] = child.serialize(format);
-		return data;
-	}
-
-
-	/** Deserializes generic data into a data Item.
-	 * @param item The data item to store the data.
-	 * @param data The data to deserialize. */
-	static deserialize(item, data) {
-
-		// If the data is a string, check if it is JSON or CSV data
-		if (typeof data == "string") {
-
-			// Start parsing it as a CSV string
-			let parsed;
-			try {
-				parsed = Serialization.fromCSV(data);
-			}
-			catch (_a) { }
-			if (!parsed)
-				try {
-					parsed = Serialization.fromCSV(data);
-				}
-				catch (_b) { }
-			if (!parsed)
-				try {
-					parsed = Serialization.fromJSON(data);
-				}
-				catch (_c) { }
-			if (!parsed)
-				return; // If no system has been successful
-			data = parsed;
-		}
-
-		// If the data is an array, try to parse it value by value
-		if (Array.isArray(data)) {
-			for (let [index, dataPart] of data) {
-				if (index >= item.children.count)
-					return;
-				item.children[index].deserialize(dataPart);
-			}
-		}
-
-		// If the data is an object, analyze it key by key
-		else
-			for (let key in data) {
-				let dataPart = data[key];
-				if (dataPart == undefined)
-					continue;
-				let child = item.children.getByName(key);
-				if (child)
-					child.deserialize(dataPart);
-			}
-	}
-
-	/** Parses a string.
-	* @param s The string to parse.
-	* @returns The CSV data. */
-	static fromWords(s, separator = ' ') {
-		let data = [];
-
-		return data;
-	}
-
-	/** Parses a CSV (Comma-Separated-Values) string.
-	 * @param s The string to parse.
-	 * @returns The parsed data. */
-	static fromCSV(s) {
-		let data = [];
-
-		return data;
-	}
-
-
-
-	/** Parses a JSON (JavaScript-Object-Notation) string.
-	 * @param s The string to parse.
-	 * @returns The parsed data. */
-	static fromJSON(s) { return JSON.parse(s); }
-
-
-	/** Converts an object into a CSV (Comma-Separated-Values) string.
-	 * @param data The data object to convert.
-	 * @returns The CSV representation of the object. */
-	static toCSV(data) {
-
-		// Returns the resulting string
-		let string = "";
-
-		// Returns the resulting string
-		return string;
-	}
-
-
-	/** Converts an object into a JSON (JavaScript-Object-Notation) string.
-	 * @param data The data object to convert.
-	 * @returns The JSON representation of the object. */
-	static toJSON(data, maxIndentation = 0) {
-
-		// Returns the resulting string
-		let string = "";
-
-		// Returns the resulting string
-		return string;
-	}
-
-
-	/** Serializes a data item into a string.
-	 * @param item The data item to serialize to a string.
-	 * @return The resulting string. */
-	static toString(item) {
-		let s = "";
-
-		return s;
-	}
-}
-
-/** Enumerates the different serialization formats. */
-       var SerializationFormat;
-(function (SerializationFormat) {
-	SerializationFormat[SerializationFormat["CSV"] = 0] = "CSV";
-	SerializationFormat[SerializationFormat["JSON"] = 1] = "JSON";
-	SerializationFormat[SerializationFormat["XML"] = 2] = "XML";
-})(SerializationFormat || (SerializationFormat = {}));
+// ************************************************** data/model/Orientation.js
 
 
 
 
-/** Contains the metadata of a data type.
- * Provides a way to handle reflection and serialization in different contexts
- * (even after the code is transpiled to Javascript). */
-       class Type {
+
+
+/** Define the basic class of a three dimensional orientation. */
+	   class Orientation extends Item {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The global list of Type instances. */
-	static get record() { return this._record; }
+	/** The relative orientation. */
+	get relativeValues() { return this._relativeValues; }
 
-	/** The name of the data type. */
-	get name() { return this._name; }
-
-	/** The list of instances of the data type. */
-	get instances() { return this._instances; }
-
-	/** The parent data type. */
-	get parent() { return this._parent; }
-
-	/** The children data types. */
-	get children() { return this._children; }
+	/** The absolute orientation. */
+	get absoluteValues() { return this._absoluteValues; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the Type class.
-	 * @param name The name of the data type.
-	 * @param innerType The Javascript type.
-	 * @param parent The parent data type. */
-	constructor(name, innerType, parent) {
-
-		// Store the given name and add this instance to the global record
-		this._name = name;
-		if (!Type._record[name])
-			Type._record[name] = this;
-		// else throw Error ('Repeated data type name: "' + name + '"');
-
-		// If there is a parent type, store the reference and create a link
-		if (parent) {
-			this._parent = parent;
-			this._parent.children.push(this);
-		}
-
-		// Initialize the list of child types
-		this._children = [];
-
-		// Initialize the list of instances of the data type
-		// this._instances = [];
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Check if the type is (or inherits from) another.
-	 * @param type The type to check against.
-	 * @returns A boolean indicating whether the types are the same or not. */
-	is(type) {
-		let t = this;
-		while (t) {
-			if (t == type)
-				return true;
-			t = t._parent;
-		}
-		return false;
-	}
-
-
-	/** Registers an instance of the type to the list.
-	 * @param instance The instance to register. */
-	register(instance) {
-		let type = instance.type;
-		while (type) {
-			type._instances.push(instance);
-			type = type._parent;
-		}
-	}
-}
-
-// --------------------------------------------------------- PRIVATE FIELDS
-
-/** The global list of Type instances. */
-Type._record = {};
-
-
-
-// ----------------------------------------------------------- EXPORTS SEQUENCE
-
-// Manage the exports of the entire framework to avoid circular references
-// Note: The "js" file extensions are not correct, but they are necessary for 
-// TSC to properly link the files without an additional build system/extension
-
-       { Item } from "./data/Item.js";
-       { Type } from "./data/Type.js";
-       { Collection } from "./data/Collection.js";
-       { Serialization, SerializationFormat } from "./data/Serialization.js";
-
-       { Simple } from "./data/items/Simple.js";
-       { Boolean } from "./data/items/simple/Boolean.js";
-       { Number } from "./data/items/simple/Number.js";
-       { String } from "./data/items/simple/String.js";
-       { Measure, MeasurementUnit } from "./data/items/Measure.js";
-       { Angle } from "./data/items/measures/Angle.js";
-       { Distance } from "./data/items/measures/Distance.js";
-       { Size } from "./data/items/measures/Size.js";
-       { Time } from "./data/items/measures/Time.js";
-       { Complex } from "./data/items/Complex.js";
-       { Vector } from "./data/items/complex/Vector.js";
-       { Color } from "./data/items/complex/Color.js";
-       { Euler } from "./data/items/complex/Euler.js";
-       { Quaternion } from "./data/items/complex/Quaternion.js";
-       { Shape } from "./data/items/Shape.js";
-       { Box } from "./data/items/shapes/Box.js";
-       { Ellipsoid } from "./data/items/shapes/Ellipsoid.js";
-       { Sphere } from "./data/items/shapes/Sphere.js";
-
-       { Frame } from "./data/model/Frame.js";
-       { EuclideanFrame } from "./data/model/frames/EuclideanFrame.js";
-       { GeoFrame } from "./data/model/frames/GeoFrame.js";
-       { Position } from "./data/model/Position.js";
-       { EuclideanPosition } from "./data/model/positions/EuclideanPosition.js";
-       { GeoPosition } from "./data/model/positions/GeoPosition.js";
-       { Orientation } from "./data/model/Orientation.js";
-       { AxisAngleOrientation } from "./data/model/orientations/AxisAngleOrientation.js";
-       { LookAtOrientation } from "./data/model/orientations/LookAtOrientation.js";
-       { MatrixOrientation } from "./data/model/orientations/MatrixOrientation.js";
-       { QuaternionOrientation } from "./data/model/orientations/QuaternionOrientation.js";
-       { YawPitchRollOrientation } from "./data/model/orientations/YawPitchRollOrientation.js";
-       { Pose } from "./data/model/Pose.js";
-       { EuclideanPoseQuaternion } from "./data/model/poses/EuclideanPoseQuaternion.js";
-       { EuclideanPoseYPR } from "./data/model/poses/EuclideanPoseYPR.js";
-       { GeoPoseBasicQuaternion } from "./data/model/poses/GeoPoseBasicQuaternion.js";
-       { GeoPoseBasicYPR } from "./data/model/poses/GeoPoseBasicYPR.js";
-       { Extension } from "./data/model/Extension.js";
-       { GeoPose } from "./data/model/GeoPose.js";
-
-       { Event } from "./logic/Event.js";
-       { Entity } from "./logic/Entity.js";
-       { ArrowEntity } from "./logic/entities/ArrowEntity.js";
-       { AtmosphereEntity } from "./logic/entities/AtmosphereEntity.js";
-       { BackgroundEntity } from "./logic/entities/BackgroundEntity.js";
-       { GraticuleEntity } from "./logic/entities/GraticuleEntity.js";
-       { GridEntity } from "./logic/entities/GridEntity.js";
-       { PresenceEntity } from "./logic/entities/PresenceEntity.js";
-       { ShapeEntity } from "./logic/entities/ShapeEntity.js";
-       { SpaceEntity } from "./logic/entities/SpaceEntity.js";
-       { TerrainEntity } from "./logic/entities/TerrainEntity.js";
-
-       { User } from "./user/User.js";
-       { View } from "./user/interaction/View.js";
-       { Layer } from "./user/interaction/Layer.js";
-       { Space } from "./user/interaction/Space.js";
-       { Presence } from "./user/interaction/Presence.js";
-       { Widget } from "./user/interaction/Widget.js";
-       { BackgroundWidget } from "./user/interaction/widgets/BackgroundWidget.js";
-       { CameraWidget } from "./user/interaction/widgets/CameraWidget.js";
-       { GeoPoseWidget } from "./user/interaction/widgets/GeoPoseWidget.js";
-       { PlanetWidget } from "./user/interaction/widgets/PlanetWidget.js";
-
-
-// ----------------------------------------------------------------- MAIN CLASS
-
-
-
-
-
-
-
-
-/** Manages the GeoPose Sandbox. */
-       class GeoPoseSandbox extends Item {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The name of the GeoPose Sandbox. */
-	static get frameworkName() { return "GeoPose Sandbox"; }
-
-	/** The version number of the GeoPose Sandbox. */
-	static get frameworkVersion() { return "0.1"; }
-
-	/** The list of GeoPoseSandbox instances. */
-	static get instances() {
-		return GeoPoseSandbox._instances;
-	}
-
-	/** Indicates if the GeoPose Sandbox should be automatically initialized. */
-	static get autoInit() { return GeoPoseSandbox._autoInit; }
-	static set autoInit(value) { GeoPoseSandbox._autoInit = value; }
-
-	/** The interaction spaces of the GeoPoseSandbox instance. */
-	get spaces() { return this._spaces; }
-
-	/** The interaction spaces of the GeoPoseSandbox instance. */
-	get users() { return this._users; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new GeoPoseSandbox instance.
+	/** Initializes a new instance of the Orientation class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
 	 * @param data The initialization data. */
-	constructor(data) {
+	constructor(name, parent, data) {
 
-		// Call the parent class constructor
-		super("root");
+		// Call the base class constructor
+		super(name, parent, data);
 
 		// Create the child items
-		this._spaces = new Collection([Space.type], this);
-		this._users = new Collection([User.type], this);
+		this._relativeValues = new Quaternion("relativeValues", this);
+		this._absoluteValues = new Quaternion("absoluteValues", this);
 
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
+	}
+}
 
-		// Add the instance to the list
-		GeoPoseSandbox._instances.push(this);
+// -------------------------------------------------------- PUBLIC METADATA
 
-		// Create the basic data items, if not defined
-		if (this._spaces.count == 0)
-			this._spaces.add(new Space("DefaultSpace", this));
-		if (this._users.count == 0)
-			this._users.add(new User("DefaultUser", this));
+/** The data type associated to the Orientation class. */
+Orientation.type = new Type("orientation", Orientation, Item.type);
+//# sourceMappingURL=Orientation.js.map
 
-		// Show a initialization message on console
-		console.log(GeoPoseSandbox.frameworkName + " " +
-			GeoPoseSandbox.frameworkVersion + " Initialized");
+// **************************** data/model/orientations/AxisAngleOrientation.js
+
+
+
+
+
+
+
+/** Defines an orientation based on an axis vector and an angle. */
+	   class AxisAngleOrientation extends Orientation {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The axis vector. */
+	get axis() { return this._axis; }
+
+	/** The angle around the axis. */
+	get angle() { return this._angle; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the AxisAngleOrientation class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._axis = new Vector("axis", this, data);
+		this._angle = new Angle("angle", this, data);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the AxisAngleOrientation class. */
+AxisAngleOrientation.type = new Type("axis-angle-orientation", AxisAngleOrientation, Orientation.type);
+//# sourceMappingURL=AxisAngleOrientation.js.map
+
+// ******************************* data/model/orientations/LookAtOrientation.js
+
+
+
+
+
+
+
+/** Defines an orientation with a target. */
+	   class LookAtOrientation extends Orientation {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The target to point towards. */
+	get targetName() { return this._targetName; }
+
+	/** The target position. */
+	get targetPosition() { return this._targetPosition; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the YawPitchRollOrientation class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._targetName = new String("target", this);
+		this._targetPosition = new Vector("position", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the LookAtOrientation class. */
+LookAtOrientation.type = new Type("look-at-orientation", LookAtOrientation, Orientation.type);
+//# sourceMappingURL=LookAtOrientation.js.map
+
+// ******************************* data/model/orientations/MatrixOrientation.js
+
+
+
+
+
+
+/** Defines an orientation based on a 3x3 rotation matrix. */
+	   class MatrixOrientation extends Orientation {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The numeric values of the rotation matrix. */
+	get values() { return this._values; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the MatrixOrientation class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._values = new Number("values", this, data);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the MatrixOrientation class. */
+MatrixOrientation.type = new Type("matrix-orientation", MatrixOrientation, Orientation.type);
+//# sourceMappingURL=MatrixOrientation.js.map
+
+// *************************** data/model/orientations/QuaternionOrientation.js
+
+
+
+
+
+
+/** Defines an orientation with a quaternion. */
+	   class QuaternionOrientation extends Orientation {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The value of the quaternion vector in the X(i) axis. */
+	get x() { return this._x; }
+
+	/** The value of the quaternion vector in the Y(j) axis. */
+	get y() { return this._y; }
+
+	/** The value of the quaternion vector in the Z(k) axis. */
+	get z() { return this._z; }
+
+	/** The rotation half-angle around the quaternion vector. */
+	get w() { return this._w; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the QuaternionOrientation class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._x = new Number("x", this);
+		this._y = new Number("y", this);
+		this._z = new Number("z", this);
+		this._w = new Number("w", this, { value: 1, defaultValue: 1 });
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the QuaternionOrientation class. */
+QuaternionOrientation.type = new Type("quaternion-orientation", QuaternionOrientation, Orientation.type);
+//# sourceMappingURL=QuaternionOrientation.js.map
+
+// ************************* data/model/orientations/YawPitchRollOrientation.js
+
+
+
+
+
+/** Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles. */
+	   class YawPitchRollOrientation extends Orientation {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The Angle in degrees around the equator of the globe. */
+	get yaw() { return this._yaw; }
+
+	/** The Angle in degrees around the prime meridian of the globe. */
+	get pitch() { return this._pitch; }
+
+	/** The vertical distance relative to the surface to the globe. */
+	get roll() { return this._roll; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+	/** Initializes a new instance of the YawPitchRollOrientation class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._yaw = new Angle("yaw", this);
+		this._pitch = new Angle("pitch", this);
+		this._roll = new Angle("roll", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the YawPitchRollOrientation class. */
+YawPitchRollOrientation.type = new Type("yaw-pitch-roll-orientation", YawPitchRollOrientation, Orientation.type);
+
+//# sourceMappingURL=YawPitchRollOrientation.js.map
+
+// **************************************************** data/model/Extension.js
+
+
+
+
+
+/** Defines the basic class of a Pose Extension. */
+	   class Extension extends Item {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Extension class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Extension class. */
+Extension.type = new Type("extension", Extension, Item.type);
+//# sourceMappingURL=Extension.js.map
+
+// ********************************************************* data/model/Pose.js
+
+
+
+
+
+
+
+
+
+
+/** Defines a Pose of an object. */
+	   class Pose extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The geodetic frame of the Pose. */
+	get frame() { return this._frame; }
+
+	/** The position of the Pose. */
+	get position() { return this._position; }
+
+	/** The orientation of the Pose. */
+	get orientation() { return this._orientation; }
+
+	/** The parent Pose. */
+	get parent() { return this._parentPose; }
+
+	/** The child Poses. */
+	get childPoses() { return this._childPoses; }
+
+	/** The extensions of the Pose. */
+	get extensions() { return this._extensions; }
+
+	/** The relative position of the Pose. */
+	get relativePosition() { return this._relativePosition; }
+
+	/** The absolute position of the Pose. */
+	get absolutePosition() { return this._absolutePosition; }
+
+	/** The relative orientation of the Pose. */
+	get relativeOrientation() { return this._relativeOrientation; }
+
+	/** The vertical vector of the Pose. */
+	get verticalVector() { return this._verticalVector; }
+
+	/** The forward vector of the Pose. */
+	get forwardVector() { return this._forwardVector; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Pose class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._position = new Position("position", this);
+		this._orientation = new Orientation("orientation", this);
+		this._childPoses = new Collection([Pose.type], this);
+		this._extensions = new Collection([Extension.type], this);
+		this._relativePosition = new Vector("relativePosition", this);
+		this._absolutePosition = new Vector("absolutePosition", this);
+		this._relativeOrientation = new Vector("relativeOrientation", this);
+		this._verticalVector = new Vector("verticalVector", this);
+		this._forwardVector = new Vector("forwardVector", this);
+		this._verticalVector = new Vector("verticalVector", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Pose class. */
+Pose.type = new Type("pose", Pose, Item.type);
+//# sourceMappingURL=Pose.js.map
+
+// ****************************************************** data/model/GeoPose.js
+
+
+
+
+
+
+
+/** Defines the GeoPose of an object. */
+	   class GeoPose extends Pose {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The geodetic frame of the GeoPose. */
+	get frame() { return this._frame; }
+
+	/** The position of the GeoPose. */
+	get position() { return this._position; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the GeoPose class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child nodes
+		this._frame = data.frame || new GeoFrame("frame", this);
+		this._position = new GeoPosition("position", this);
+
+		if (data.frame)
+			data.frame.links.add(this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the GeoPose instance.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the item is already updated
+		if (this._updated && !forced)
+			return;
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Pose class. */
+GeoPose.type = new Type("geopose", GeoPose, Pose.type);
+//# sourceMappingURL=GeoPose.js.map
+
+// ******************************** data/model/poses/EuclideanPoseQuaternion.js
+
+
+
+
+
+
+
+/** Defines a Euclidean pose with a quaternion orientation. */
+	   class EuclideanPoseQuaternion extends Pose {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The position of the Euclidean Pose. */
+	get position() {
+		return this._position;
+	}
+
+	/** The orientation of the Euclidean Pose. */
+	get orientation() {
+		return this._orientation;
+	}
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the EuclideanPoseQuaternion class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._position = new EuclideanPosition("position", this, null);
+		this._orientation = new QuaternionOrientation("orientation", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the EuclideanPoseQuaternion class. */
+EuclideanPoseQuaternion.type = new Type("euclidean-pose-quaternion", EuclideanPoseQuaternion, Pose.type);
+//# sourceMappingURL=EuclideanPoseQuaternion.js.map
+
+// *************************************** data/model/poses/EuclideanPoseYPR.js
+
+
+
+
+
+
+
+/** Defines a Euclidean pose with Yaw-Pitch-Roll orientation. */
+	   class EuclideanPoseYPR extends Pose {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The position of the Euclidean Pose. */
+	get position() {
+		return this._position;
+	}
+
+	/** The orientation of the Euclidean Pose. */
+	get orientation() {
+		return this._orientation;
+	}
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the EuclideanPoseYPR class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._position = new EuclideanPosition("position", this, null);
+		this._orientation = new YawPitchRollOrientation("orientation", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the EuclideanPoseYPR class. */
+EuclideanPoseYPR.type = new Type("euclidean-basic-ypr", EuclideanPoseYPR, Pose.type);
+//# sourceMappingURL=EuclideanPoseYPR.js.map
+
+// ********************************* data/model/poses/GeoPoseBasicQuaternion.js
+
+
+
+
+
+/** Defines a basic GeoPose with Quaternion-based orientation. */
+	   class GeoPoseBasicQuaternion extends GeoPose {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The orientation of the GeoPose. */
+	get orientation() { return this._orientation; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the GeoPoseBasicQuaternion class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._orientation = new QuaternionOrientation("orientation", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the GeoPoseBasicQuaternion class. */
+GeoPoseBasicQuaternion.type = new Type("geopose-basic-quaternion", GeoPoseBasicQuaternion, GeoPose.type);
+//# sourceMappingURL=GeoPoseBasicQuaternion.js.map
+
+// **************************************** data/model/poses/GeoPoseBasicYPR.js
+
+
+
+
+
+/** Defines a basic GeoPose with Yaw-Pitch-Roll (Tait-Bryan) orientation. */
+	   class GeoPoseBasicYPR extends GeoPose {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The orientation of the GeoPose. */
+	get orientation() {
+		return this._orientation;
+	}
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the GeoPoseBasicYPR class.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._orientation = new YawPitchRollOrientation("orientation", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
 	}
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** Initializes a new GeoPoseSandbox instance.
-	 * @param params The initialization parameters.
-	 * @returns The new GeoPoseSandbox instance. */
-	static init(params = {}) { return new GeoPoseSandbox(params); }
+	/** Updates the GeoPoseBasicYPR instance.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the item is already updated
+		if (this._updated && !forced)
+			return;
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+
+	}
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
 
-/** The data type associated to the GeoPoseWidget class. */
-GeoPoseSandbox.type = new Type("root", GeoPoseSandbox, Item.type);
+/** The data type associated to the GeoPoseBasicYPR class. */
+GeoPoseBasicYPR.type = new Type("geopose-basic-ypr", GeoPoseBasicYPR, GeoPose.type);
+//# sourceMappingURL=GeoPoseBasicYPR.js.map
 
-
-// --------------------------------------------------------- PRIVATE FIELDS
-
-/** The global list of GeoPoseSandbox instances. */
-GeoPoseSandbox._instances = [];
-
-/** Indicates if the GeoPose Sandbox should be automatically initialized.
- * This value is true by default to allow custom HTML elements. */
-GeoPoseSandbox._autoInit = true;
-
-
+// ************************************************************ logic/Entity.js
 
 
 
@@ -2899,7 +2898,7 @@ GeoPoseSandbox._autoInit = true;
 
 
 /** Defines a logic entity. */
-       class Entity extends Item {
+	   class Entity extends Item {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -2990,15 +2989,17 @@ GeoPoseSandbox._autoInit = true;
 
 /** The data type associated to the Entity class. */
 Entity.type = new Type("entity", Entity, Item.type);
+//# sourceMappingURL=Entity.js.map
+
+// ********************************************** logic/entities/ArrowEntity.js
 
 
 
 
 
 
-
-/** Defines a Arrow entity. */
-       class ArrowEntity extends Entity {
+/** Defines an Arrow entity. */
+	   class ArrowEntity extends Entity {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -3032,6 +3033,9 @@ Entity.type = new Type("entity", Entity, Item.type);
 
 /** The data type associated to the ShapeEntity class. */
 ArrowEntity.type = new Type("arrow-entity", ArrowEntity, Entity.type);
+//# sourceMappingURL=ArrowEntity.js.map
+
+// ***************************************** logic/entities/AtmosphereEntity.js
 
 
 
@@ -3040,9 +3044,8 @@ ArrowEntity.type = new Type("arrow-entity", ArrowEntity, Entity.type);
 
 
 
-
-/** Defines a Atmosphere Entity. */
-       class AtmosphereEntity extends Entity {
+/** Defines an Atmosphere Entity. */
+	   class AtmosphereEntity extends Entity {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -3104,7 +3107,9 @@ ArrowEntity.type = new Type("arrow-entity", ArrowEntity, Entity.type);
 
 /** The data type associated to the AtmosphereEntity class. */
 AtmosphereEntity.type = new Type("atmosphere-entity", AtmosphereEntity, Entity.type);
+//# sourceMappingURL=AtmosphereEntity.js.map
 
+// ***************************************** logic/entities/BackgroundEntity.js
 
 
 
@@ -3114,7 +3119,7 @@ AtmosphereEntity.type = new Type("atmosphere-entity", AtmosphereEntity, Entity.t
 
 
 /** Defines a Background Entity. */
-       class BackgroundEntity extends Entity {
+	   class BackgroundEntity extends Entity {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -3146,7 +3151,7 @@ AtmosphereEntity.type = new Type("atmosphere-entity", AtmosphereEntity, Entity.t
 			this.deserialize(data);
 
 		// Add the mesh geometry
-		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide }));
+		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.BackSide }));
 		this._representation.add(this._mesh);
 		this._mesh.renderOrder = -100;
 	}
@@ -3156,7 +3161,8 @@ AtmosphereEntity.type = new Type("atmosphere-entity", AtmosphereEntity, Entity.t
 
 	/** Updates the BackgroundEntity instance.
 	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
+	 * @param forced Indicates whether the update is forced or not.
+	 * @returns */
 	update(deltaTime = 0, forced = false) {
 
 		if (!this._shape.updated) {
@@ -3167,8 +3173,10 @@ AtmosphereEntity.type = new Type("atmosphere-entity", AtmosphereEntity, Entity.t
 			let textureURL = this._texture.value;
 			if (textureURL) {
 				const texture = new THREE.TextureLoader().load(textureURL);
-				this._mesh.material = new THREE.MeshBasicMaterial({
-					map: texture, side: THREE.BackSide
+				this._mesh.material = new THREE.MeshMatcapMaterial({
+					map: texture,
+					matcap: texture,
+					side: THREE.BackSide
 				});
 			}
 		}
@@ -3182,7 +3190,9 @@ AtmosphereEntity.type = new Type("atmosphere-entity", AtmosphereEntity, Entity.t
 
 /** The data type associated to the BackgroundEntity class. */
 BackgroundEntity.type = new Type("background-entity", BackgroundEntity, Entity.type);
+//# sourceMappingURL=BackgroundEntity.js.map
 
+// ****************************************** logic/entities/GraticuleEntity.js
 
 
 
@@ -3191,7 +3201,7 @@ BackgroundEntity.type = new Type("background-entity", BackgroundEntity, Entity.t
 
 
 /** Defines a Graticule Entity. */
-       class GraticuleEntity extends Entity {
+	   class GraticuleEntity extends Entity {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -3275,7 +3285,9 @@ BackgroundEntity.type = new Type("background-entity", BackgroundEntity, Entity.t
 
 /** The data type associated to the GraticuleEntity class. */
 GraticuleEntity.type = new Type("graticule-entity", GraticuleEntity, Entity.type);
+//# sourceMappingURL=GraticuleEntity.js.map
 
+// *********************************************** logic/entities/GridEntity.js
 
 
 
@@ -3283,7 +3295,7 @@ GraticuleEntity.type = new Type("graticule-entity", GraticuleEntity, Entity.type
 
 
 /** Defines a Grid entity. */
-       class GridEntity extends Entity {
+	   class GridEntity extends Entity {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -3340,7 +3352,9 @@ GraticuleEntity.type = new Type("graticule-entity", GraticuleEntity, Entity.type
 
 /** The data type associated to the GridEntity class. */
 GridEntity.type = new Type("grid-entity", GridEntity, Entity.type);
+//# sourceMappingURL=GridEntity.js.map
 
+// ******************************************* logic/entities/PresenceEntity.js
 
 
 
@@ -3349,8 +3363,7 @@ GridEntity.type = new Type("grid-entity", GridEntity, Entity.type);
 
 
 /** Defines a user Presence entity. */
-       class PresenceEntity extends Entity {
-
+	   class PresenceEntity extends Entity {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -3390,6 +3403,7 @@ GridEntity.type = new Type("grid-entity", GridEntity, Entity.type);
 
 		// Create the representation
 		this._representation = new THREE.PerspectiveCamera(this._fieldOfView.value, this._aspectRatio.value, this._nearPlane.value, this._farPlane.value);
+
 	}
 
 
@@ -3438,7 +3452,9 @@ GridEntity.type = new Type("grid-entity", GridEntity, Entity.type);
 
 /** The data type associated to the PresenceEntity class. */
 PresenceEntity.type = new Type("presence-entity", PresenceEntity, Entity.type);
+//# sourceMappingURL=PresenceEntity.js.map
 
+// ********************************************** logic/entities/ShapeEntity.js
 
 
 
@@ -3446,7 +3462,7 @@ PresenceEntity.type = new Type("presence-entity", PresenceEntity, Entity.type);
 
 
 /** Defines a Shape entity. */
-       class ShapeEntity extends Entity {
+	   class ShapeEntity extends Entity {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -3468,7 +3484,9 @@ PresenceEntity.type = new Type("presence-entity", PresenceEntity, Entity.type);
 
 /** The data type associated to the ShapeEntity class. */
 ShapeEntity.type = new Type("shape-entity", ShapeEntity, Entity.type);
+//# sourceMappingURL=ShapeEntity.js.map
 
+// ********************************************** logic/entities/SpaceEntity.js
 
 
 
@@ -3476,7 +3494,7 @@ ShapeEntity.type = new Type("shape-entity", ShapeEntity, Entity.type);
 
 
 /** Defines a Space entity. */
-       class SpaceEntity extends Entity {
+	   class SpaceEntity extends Entity {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -3495,15 +3513,28 @@ ShapeEntity.type = new Type("shape-entity", ShapeEntity, Entity.type);
 
 		// Set the lights
 		this._representation.add(new THREE.AmbientLight(0x888888, 0.5));
-		let light = new THREE.DirectionalLight(0xffffff);
-		light.position.z = 3;
-		this._representation.add(light);
+		this.light = new THREE.DirectionalLight(0xffffff);
+		this.light.position.z = 30000;
+		this._representation.add(this.light);
 
 		// DEBUG
 		// this._representation.add(new THREE.Mesh(
 		// 	new THREE.SphereGeometry(100000,64,64),
 		// 	new THREE.MeshPhongMaterial({color: 0x00ff00})));
 
+	}
+
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// Call the base class function
+		super.update(deltaTime, forced);
 	}
 }
 
@@ -3512,6 +3543,9 @@ ShapeEntity.type = new Type("shape-entity", ShapeEntity, Entity.type);
 /** The data type associated to the SpaceEntity class. */
 SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 
+//# sourceMappingURL=SpaceEntity.js.map
+
+// ******************************************** logic/entities/TerrainEntity.js
 
 
 
@@ -3522,7 +3556,7 @@ SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 
 
 /** Defines a Terrain Entity. */
-       class TerrainEntity extends Entity {
+	   class TerrainEntity extends Entity {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -3532,8 +3566,14 @@ SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 	/** The diffuse texture of the terrain. */
 	get diffuse() { return this._diffuse; }
 
+	/** The specular texture of the terrain. */
+	get specular() { return this._specular; }
+
 	/** The normal texture of the terrain. */
 	get normal() { return this._normal; }
+
+	/** The normal texture of the terrain. */
+	get normalScale() { return this._normalScale; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -3550,7 +3590,9 @@ SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 		// Create the child items
 		this._ellipsoid = new Ellipsoid("shape", this, data);
 		this._diffuse = new String("diffuse", this);
+		this._specular = new String("specular", this);
 		this._normal = new String("normal", this);
+		this._normalScale = new Number("normalScale", this);
 
 		// Deserialize the initialization data
 		if (data)
@@ -3559,7 +3601,6 @@ SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 		// Add the mesh geometry
 		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), new THREE.MeshPhongMaterial({ color: 0xffffff }));
 		this._representation.add(this._mesh);
-
 	}
 
 
@@ -3574,14 +3615,23 @@ SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 			this._mesh.scale.set(this._ellipsoid.radiusX.value, this._ellipsoid.radiusY.value, this._ellipsoid.radiusZ.value);
 		}
 
+		let material = this._mesh.material;
 		if (!this._diffuse.updated && this._diffuse.value) {
 			const texture = new THREE.TextureLoader().load(this._diffuse.value);
-			this._mesh.material.map = texture;
+			material.map = texture;
 		}
 
 		if (!this._normal.updated && this._normal.value) {
 			const texture = new THREE.TextureLoader().load(this._normal.value);
-			this._mesh.material.normalMap = texture;
+			material.normalMap = texture;
+		}
+
+		if (!this._specular.updated && this._specular.value) {
+			const texture = new THREE.TextureLoader().load(this._specular.value);
+			material.specularMap = texture;
+		}
+		if (!this._normalScale.updated) {
+			material.normalScale = new THREE.Vector2(this._normalScale.value, this._normalScale.value);
 		}
 
 		// Call the base class function
@@ -3593,75 +3643,9 @@ SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 
 /** The data type associated to the TerrainEntity class. */
 TerrainEntity.type = new Type("terrain-entity", TerrainEntity, Entity.type);
+//# sourceMappingURL=TerrainEntity.js.map
 
-
-/** Defines a Logic Event */
-       class Event {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The event type. */
-	get type() { return this._type; }
-
-	/** The event owner. */
-	get owner() { return this._owner; }
-
-	/** The event data. */
-	get data() { return this._data; }
-
-	/** The event listeners. */
-	get listeners() { return this._listeners; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Event instance.
-	 * @param type The event type.
-	 * @param owner The event owner.
-	 * @param data The event data. */
-	constructor(type, owner, data) {
-
-
-		// ---------------------------------------------------------- PUBLIC FIELDS
-
-		/** Marks the object as an Event. */
-		this.isEvent = true;
-		this._type = type;
-		this._owner = owner;
-		this._data = data;
-		this._listeners = [];
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Adds a listener for the event.
-	 * @param listener The listener function to add. */
-	add(listener) {
-		if (!this._listeners.includes(listener))
-			this._listeners.push(listener);
-	}
-
-
-	/** Removes a listener for the event.
-	 * @param listener The listener function to add. */
-	removes(listener) {
-		this._listeners = this._listeners.filter((l) => { return l != listener; });
-	}
-
-
-	/** Triggers the event.
-	 * @param source The object that triggers the event.
-	 * @param data Additional event data. */
-	trigger(source, data = {}) {
-		for (let listener of this._listeners) {
-			let captured = listener(this, source, data);
-			if (captured)
-				break; // If captured, stop broadcasting the event
-		}
-	}
-}
+// *************************************************************** user/User.js
 
 
 
@@ -3669,192 +3653,61 @@ TerrainEntity.type = new Type("terrain-entity", TerrainEntity, Entity.type);
 
 
 
-/** Defines an user interaction (view) layer . */
-       class Layer extends Item {
+
+/** Defines a user. */
+	   class User extends Item {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The widgets of the layer. */
-	get widgets() { return this._widgets; }
-
-	/** The Interaction Space associated to the layer. */
-	get space() { return this._space; }
-
-	/** The user Presence in the layer. */
-	get presence() { return this._presence; }
-
-	/** The entity associated to the layer. */
-	get entity() { return this._space.entity; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Layer instance.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param presence The user presence associated with the layer. */
-	constructor(name, parent, presence) {
-
-		// Call the parent class constructor
-		super(name, parent);
-
-		// Create the child items
-		this._widgets = new Collection([Widget.type], this);
-		this._presence = presence;
-		this._space = presence.space;
-		this._presence.links.add(this);
-		this._space.links.add(this);
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Updates the layer.
-	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime = 0, forced = false) {
-
-		// If the update is not forced, skip it when the item is already updated
-		if (this._updated && !forced)
-			return;
-
-		// Update the space	and the presence of the user within it
-		this.space.update(deltaTime, forced);
-		this.presence.update(deltaTime, forced);
-
-		// Update the widgets, the space and the user presence
-		for (let widget of this.widgets)
-			widget.update(deltaTime, forced);
-
-		// Call the parent class update function
-		super.update(deltaTime, forced);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Layer class. */
-Layer.type = new Type("layer", Layer, Item.type);
-
-
-
-
-
-
-
-
-/** Defines the user Presence in an interaction space. */
-       class Presence extends Item {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The entity associated with this presence. */
-	get entity() { return this._entity; }
-
-	/** The space associated with the presence. */
-	get space() { return this._space; }
-	set space(space) { this._space = space; }
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Presence instance.
-	 * @param name The name of the data item.
-	 * @param name The parent data item.
-	 * @param data The initialization data. */
-	constructor(name, parent, data = {}) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-
-		// Create the child items
-		this._entity = new PresenceEntity(name + "Entity", this);
-		// The space node is not initialized here because it is actually a link
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-}
-
-// -------------------------------------------------------- PUBLIC METADATA
-
-/** The data type associated to the Presence class. */
-Presence.type = new Type("presence", Presence, Item.type);
-
-
-
-
-
-
-
-
-
-/** Defines an Interaction Space. */
-       class Space extends Item {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The entity of the space. */
-	get entity() { return this._entity; }
-
-	/** The subspaces of the space. */
-	get subspaces() { return this._subspaces; }
-
-	/** The user presences in the space. */
+	/** The presences of the user in the interaction spaces. */
 	get presences() { return this._presences; }
 
-	/** The widgets of the space. */
-	get widgets() { return this._widgets; }
+	/** The point of views of the user. */
+	get views() { return this._views; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new Space instance.
+	/** Initializes a new User class instance.
 	 * @param name The name of the data item.
-	 * @param name The parent data item.
+	 * @param parent The parent data item.
 	 * @param data The initialization data. */
 	constructor(name, parent, data = {}) {
 
 		// Call the parent class constructor
 		super(name, parent, data);
 
-		// Create the child nodes
-		this._entity = new SpaceEntity(this.name);
-		this._subspaces = new Collection([Space.type], this);
+		// Create the child items
 		this._presences = new Collection([Presence.type], this);
-		this._widgets = new Collection([Widget.type], this);
+		this._views = new Collection([View.type], this);
 
 		// Deserialize the initialization data
-		if (data != undefined)
+		if (data !== undefined)
 			this.deserialize(data);
-	}
 
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Updates the space.
-	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime = 0, forced = false) {
-
-		// If the update is not forced, skip it when the item is already updated
-		if (this._updated && !forced)
-			return;
-
-		// Call the parent class update function
-		super.update(deltaTime, forced);
+		// Create the defaults presences and views
+		if (this._presences.count == 0) {
+			let spaces = this.parent.spaces;
+			for (let space of spaces) {
+				let presence = new Presence("DefaultPresence", this);
+				presence.space = space;
+				this.presences.add(presence);
+			}
+		}
+		if (this._views.count == 0)
+			this._views.add(new View("DefaultView", this));
 	}
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
 
-/** The data type associated to the Space class. */
-Space.type = new Type("space", Space, Item.type);
+/** The data type associated to the User class. */
+User.type = new Type("user", User, Item.type);
 
+//# sourceMappingURL=User.js.map
+
+// *************************************************** user/interaction/View.js
 
 
 
@@ -3867,7 +3720,7 @@ Space.type = new Type("space", Space, Item.type);
 
 
 /** Defines a User Interaction View. */
-       class View extends Item {
+	   class View extends Item {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -3986,14 +3839,16 @@ Space.type = new Type("space", Space, Item.type);
 			this._fpsCounter = 0;
 
 			// Show a message on console
-			// console.log("FPS: " + this._fpsValue);
+			console.log("FPS: " + this._fpsValue);
 		}
-
 
 
 		// Update and render the layers
 		for (let layer of this._layers) {
 			layer.update(this._deltaTime);
+			let camera = layer.presence.entity.representation;
+			layer.space.entity.light.position.copy(camera.position);
+			layer.space.entity.light.rotation.copy(camera.rotation);
 			this._viewport.render(layer.presence);
 		}
 	}
@@ -4108,12 +3963,14 @@ Space.type = new Type("space", Space, Item.type);
 
 /** The data type associated to the View class. */
 View.type = new Type("view", View, Item.type);
+//# sourceMappingURL=View.js.map
 
+// *********************************************** user/interaction/ViewPort.js
 
 
 
 /** Defines a Viewport. */
-       class ViewPort {
+	   class ViewPort {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -4167,14 +4024,216 @@ View.type = new Type("view", View, Item.type);
 	render(presence) {
 
 		// Clear the renderer
-		this._renderer.setClearColor(0xff0000);
+		this._renderer.setClearColor(0xffffff);
 		this._renderer.clear();
+
+
 
 		// Render the
 		this._renderer.render(presence.space.entity.representation, presence.entity.representation);
 	}
 }
+//# sourceMappingURL=ViewPort.js.map
 
+// ************************************************** user/interaction/Layer.js
+
+
+
+
+
+
+/** Defines an user interaction (view) layer . */
+	   class Layer extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The widgets of the layer. */
+	get widgets() { return this._widgets; }
+
+	/** The Interaction Space associated to the layer. */
+	get space() { return this._space; }
+
+	/** The user Presence in the layer. */
+	get presence() { return this._presence; }
+
+	/** The entity associated to the layer. */
+	get entity() { return this._space.entity; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Layer instance.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param presence The user presence associated with the layer. */
+	constructor(name, parent, presence) {
+
+		// Call the parent class constructor
+		super(name, parent);
+
+		// Create the child items
+		this._widgets = new Collection([Widget.type], this);
+		this._presence = presence;
+		this._space = presence.space;
+		this._presence.links.add(this);
+		this._space.links.add(this);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the layer.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the item is already updated
+		if (this._updated && !forced)
+			return;
+
+		// Update the space	and the presence of the user within it
+		this.space.update(deltaTime, forced);
+		this.presence.update(deltaTime, forced);
+
+		// Update the widgets, the space and the user presence
+		for (let widget of this.widgets)
+			widget.update(deltaTime, forced);
+
+		// Call the parent class update function
+		super.update(deltaTime, forced);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Layer class. */
+Layer.type = new Type("layer", Layer, Item.type);
+
+//# sourceMappingURL=Layer.js.map
+
+// ************************************************** user/interaction/Space.js
+
+
+
+
+
+
+
+
+/** Defines an Interaction Space. */
+	   class Space extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The entity of the space. */
+	get entity() { return this._entity; }
+
+	/** The subspaces of the space. */
+	get subspaces() { return this._subspaces; }
+
+	/** The user presences in the space. */
+	get presences() { return this._presences; }
+
+	/** The widgets of the space. */
+	get widgets() { return this._widgets; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Space instance.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Create the child nodes
+		this._entity = new SpaceEntity(this.name);
+		this._subspaces = new Collection([Space.type], this);
+		this._presences = new Collection([Presence.type], this);
+		this._widgets = new Collection([Widget.type], this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the space.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the item is already updated
+		if (this._updated && !forced)
+			return;
+
+		// Call the parent class update function
+		super.update(deltaTime, forced);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Space class. */
+Space.type = new Type("space", Space, Item.type);
+//# sourceMappingURL=Space.js.map
+
+// *********************************************** user/interaction/Presence.js
+
+
+
+
+
+
+/** Defines the user Presence in an interaction space. */
+	   class Presence extends Item {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The entity associated with this presence. */
+	get entity() { return this._entity; }
+
+	/** The space associated with the presence. */
+	get space() { return this._space; }
+	set space(space) { this._space = space; }
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Presence instance.
+	 * @param name The name of the data item.
+	 * @param name The parent data item.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+
+		// Create the child items
+		this._entity = new PresenceEntity(name + "Entity", this);
+		// The space node is not initialized here because it is actually a link
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+}
+
+// -------------------------------------------------------- PUBLIC METADATA
+
+/** The data type associated to the Presence class. */
+Presence.type = new Type("presence", Presence, Item.type);
+//# sourceMappingURL=Presence.js.map
+
+// ************************************************* user/interaction/Widget.js
 
 
 
@@ -4184,7 +4243,7 @@ View.type = new Type("view", View, Item.type);
 
 
 /** Defines an user interaction widget. */
-       class Widget extends Item {
+	   class Widget extends Item {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -4251,14 +4310,16 @@ View.type = new Type("view", View, Item.type);
 
 /** The data type associated to the Widget class. */
 Widget.type = new Type("widget", Widget, Item.type);
+//# sourceMappingURL=Widget.js.map
 
+// ******************************* user/interaction/widgets/BackgroundWidget.js
 
 
 
 
 
 /** Defines a widget for the background. */
-       class BackgroundWidget extends Widget {
+	   class BackgroundWidget extends Widget {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -4291,7 +4352,9 @@ Widget.type = new Type("widget", Widget, Item.type);
 
 /** The data type associated to the Widget class. */
 BackgroundWidget.type = new Type("background-widget", BackgroundWidget, Widget.type);
+//# sourceMappingURL=BackgroundWidget.js.map
 
+// *********************************** user/interaction/widgets/CameraWidget.js
 
 
 
@@ -4300,7 +4363,7 @@ BackgroundWidget.type = new Type("background-widget", BackgroundWidget, Widget.t
 
 
 /** Defines a widget to control the camera (the presence of the user). */
-       class CameraWidget extends Widget {
+	   class CameraWidget extends Widget {
 
 
 
@@ -4341,7 +4404,9 @@ BackgroundWidget.type = new Type("background-widget", BackgroundWidget, Widget.t
 /** The data type associated to the Widget class. */
 CameraWidget.type = new Type("Camera-widget", CameraWidget, Widget.type);
 
+//# sourceMappingURL=CameraWidget.js.map
 
+// ********************************** user/interaction/widgets/GeoPoseWidget.js
 
 
 
@@ -4351,7 +4416,7 @@ CameraWidget.type = new Type("Camera-widget", CameraWidget, Widget.type);
 
 
 /** Defines a widget for a GeoPose. */
-       class GeoPoseWidget extends Widget {
+	   class GeoPoseWidget extends Widget {
 
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
@@ -4393,6 +4458,8 @@ CameraWidget.type = new Type("Camera-widget", CameraWidget, Widget.type);
 		// Deserialize the initialization data
 		if (data != undefined)
 			this.deserialize(data);
+
+		this.update(0, true);
 	}
 
 
@@ -4415,7 +4482,6 @@ CameraWidget.type = new Type("Camera-widget", CameraWidget, Widget.type);
 		// Show a message on console
 		console.log("Updated: " + this.name);
 
-
 		// Call the base class function
 		super.update(deltaTime, forced);
 	}
@@ -4426,7 +4492,9 @@ CameraWidget.type = new Type("Camera-widget", CameraWidget, Widget.type);
 /** The data type associated to the Widget class. */
 GeoPoseWidget.type = new Type("GeoPose-widget", GeoPoseWidget, Widget.type);
 
+//# sourceMappingURL=GeoPoseWidget.js.map
 
+// *********************************** user/interaction/widgets/PlanetWidget.js
 
 
 
@@ -4435,7 +4503,7 @@ GeoPoseWidget.type = new Type("GeoPose-widget", GeoPoseWidget, Widget.type);
 
 
 /** Defines a widget for a planet. */
-       class PlanetWidget extends Widget {
+	   class PlanetWidget extends Widget {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -4473,8 +4541,10 @@ GeoPoseWidget.type = new Type("GeoPose-widget", GeoPoseWidget, Widget.type);
 
 		// Add the shape Component
 		this._terrain = new TerrainEntity(name + "Terrain", this._entity, data);
-		this._atmosphere = new AtmosphereEntity(name + "Atmosphere", this._entity, data);
-		this._graticule = new GraticuleEntity(name + "Graticule", this._entity, data);
+		if (data.atmosphere)
+			this._atmosphere = new AtmosphereEntity(name + "Atmosphere", this._entity, data);
+		if (data.graticule)
+			this._graticule = new GraticuleEntity(name + "Graticule", this._entity, data);
 
 		// Deserialize the initialization data
 		if (data != undefined)
@@ -4502,13 +4572,17 @@ GeoPoseWidget.type = new Type("GeoPose-widget", GeoPoseWidget, Widget.type);
 			this._terrain.ellipsoid.radiusY.value = radiusY;
 			this._terrain.ellipsoid.radiusZ.value = radiusZ;
 
-			this._atmosphere.ellipsoid.radiusX.value = radiusX;
-			this._atmosphere.ellipsoid.radiusY.value = radiusY;
-			this._atmosphere.ellipsoid.radiusZ.value = radiusZ;
+			if (this._atmosphere) {
+				this._atmosphere.ellipsoid.radiusX.value = radiusX;
+				this._atmosphere.ellipsoid.radiusY.value = radiusY;
+				this._atmosphere.ellipsoid.radiusZ.value = radiusZ;
+			}
 
-			this._graticule.ellipsoid.radiusX.value = radiusX;
-			this._graticule.ellipsoid.radiusY.value = radiusY;
-			this._graticule.ellipsoid.radiusZ.value = radiusZ;
+			if (this._graticule) {
+				this._graticule.ellipsoid.radiusX.value = radiusX;
+				this._graticule.ellipsoid.radiusY.value = radiusY;
+				this._graticule.ellipsoid.radiusZ.value = radiusZ;
+			}
 		}
 
 		// Show a message on console
@@ -4523,6 +4597,15 @@ GeoPoseWidget.type = new Type("GeoPose-widget", GeoPoseWidget, Widget.type);
 
 /** The data type associated to the Widget class. */
 PlanetWidget.type = new Type("planet-widget", PlanetWidget, Widget.type);
+//# sourceMappingURL=PlanetWidget.js.map
+
+// ********************************************************** GeoPoseSandbox.js
+
+// ----------------------------------------------------------- EXPORTS SEQUENCE
+
+// Manage the exports of the entire framework to avoid circular references
+// Note: The "js" file extensions are not correct, but they are necessary for 
+// TSC to properly link the files without an additional build system/extension
 
 
 
@@ -4532,54 +4615,160 @@ PlanetWidget.type = new Type("planet-widget", PlanetWidget, Widget.type);
 
 
 
-/** Defines a user. */
-       class User extends Item {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------------------------- MAIN CLASS
+
+
+
+
+
+
+
+
+/** Manages the GeoPose Sandbox. */
+	   class GeoPoseSandbox extends Item {
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The presences of the user in the interaction spaces. */
-	get presences() { return this._presences; }
+	/** The name of the GeoPose Sandbox. */
+	static get frameworkName() { return "GeoPose Sandbox"; }
 
-	/** The point of views of the user. */
-	get views() { return this._views; }
+	/** The version number of the GeoPose Sandbox. */
+	static get frameworkVersion() { return "0.1"; }
+
+	/** The list of GeoPoseSandbox instances. */
+	static get instances() {
+		return GeoPoseSandbox._instances;
+	}
+
+	/** Indicates if the GeoPose Sandbox should be automatically initialized. */
+	static get autoInit() { return GeoPoseSandbox._autoInit; }
+	static set autoInit(value) { GeoPoseSandbox._autoInit = value; }
+
+	/** The interaction spaces of the GeoPoseSandbox instance. */
+	get spaces() { return this._spaces; }
+
+	/** The interaction spaces of the GeoPoseSandbox instance. */
+	get users() { return this._users; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new User class instance.
-	 * @param name The name of the data item.
-	 * @param parent The parent data item.
+	/** Initializes a new GeoPoseSandbox instance.
 	 * @param data The initialization data. */
-	constructor(name, parent, data = {}) {
+	constructor(data) {
 
 		// Call the parent class constructor
-		super(name, parent, data);
+		super("root");
 
 		// Create the child items
-		this._presences = new Collection([Presence.type], this);
-		this._views = new Collection([View.type], this);
+		this._spaces = new Collection([Space.type], this);
+		this._users = new Collection([User.type], this);
 
 		// Deserialize the initialization data
-		if (data !== undefined)
+		if (data != undefined)
 			this.deserialize(data);
 
-		// Create the defaults presences and views
-		if (this._presences.count == 0) {
-			let spaces = this.parent.spaces;
-			for (let space of spaces) {
-				let presence = new Presence("DefaultPresence", this);
-				presence.space = space;
-				this.presences.add(presence);
-			}
-		}
-		if (this._views.count == 0)
-			this._views.add(new View("DefaultView", this));
+		// Add the instance to the list
+		GeoPoseSandbox._instances.push(this);
+
+		// Create the basic data items, if not defined
+		if (this._spaces.count == 0)
+			this._spaces.add(new Space("DefaultSpace", this));
+		if (this._users.count == 0)
+			this._users.add(new User("DefaultUser", this));
+
+		// Show a initialization message on console
+		console.log(GeoPoseSandbox.frameworkName + " " +
+			GeoPoseSandbox.frameworkVersion + " Initialized");
 	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Initializes a new GeoPoseSandbox instance.
+	 * @param params The initialization parameters.
+	 * @returns The new GeoPoseSandbox instance. */
+	static init(params = {}) { return new GeoPoseSandbox(params); }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
 
-/** The data type associated to the User class. */
-User.type = new Type("user", User, Item.type);
+/** The data type associated to the GeoPoseWidget class. */
+GeoPoseSandbox.type = new Type("root", GeoPoseSandbox, Item.type);
+
+
+// --------------------------------------------------------- PRIVATE FIELDS
+
+/** The global list of GeoPoseSandbox instances. */
+GeoPoseSandbox._instances = [];
+
+/** Indicates if the GeoPose Sandbox should be automatically initialized.
+ * This value is true by default to allow custom HTML elements. */
+GeoPoseSandbox._autoInit = true;
+
+//# sourceMappingURL=GeoPoseSandbox.js.map
 

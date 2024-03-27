@@ -1,8 +1,8 @@
-import * as THREE from "../../../externals/three.module.js";
+import * as THREE from "three";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
-import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
-import { String } from "../../data/items/simple/String.js";
+import { Ellipsoid } from "../../data/types/shapes/Ellipsoid.js";
+import { String } from "../../data/types/simple/String.js";
 
 
 /** Defines a Background Entity. */
@@ -38,7 +38,7 @@ export class BackgroundEntity extends Entity {
 			this.deserialize(data);
 
 		// Add the mesh geometry
-		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide }));
+		this._mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.BackSide }));
 		this._representation.add(this._mesh);
 		this._mesh.renderOrder = -100;
 	}
@@ -48,7 +48,8 @@ export class BackgroundEntity extends Entity {
 
 	/** Updates the BackgroundEntity instance.
 	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
+	 * @param forced Indicates whether the update is forced or not.
+	 * @returns */
 	update(deltaTime = 0, forced = false) {
 
 		if (!this._shape.updated) {
@@ -59,8 +60,10 @@ export class BackgroundEntity extends Entity {
 			let textureURL = this._texture.value;
 			if (textureURL) {
 				const texture = new THREE.TextureLoader().load(textureURL);
-				this._mesh.material = new THREE.MeshBasicMaterial({
-					map: texture, side: THREE.BackSide
+				this._mesh.material = new THREE.MeshMatcapMaterial({
+					map: texture,
+					matcap: texture,
+					side: THREE.BackSide
 				});
 			}
 		}
@@ -74,3 +77,4 @@ export class BackgroundEntity extends Entity {
 
 /** The data type associated to the BackgroundEntity class. */
 BackgroundEntity.type = new Type("background-entity", BackgroundEntity, Entity.type);
+//# sourceMappingURL=BackgroundEntity.js.map

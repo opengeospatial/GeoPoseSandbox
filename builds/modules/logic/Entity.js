@@ -1,4 +1,4 @@
-import * as THREE from "../../externals/three.module.js";
+import * as THREE from "three";
 import { Item } from "../data/Item.js";
 import { Type } from "../data/Type.js";
 import { Pose } from "../data/model/Pose.js";
@@ -96,3 +96,4 @@ export class Entity extends Item {
 
 /** The data type associated to the Entity class. */
 Entity.type = new Type("entity", Entity, Item.type);
+//# sourceMappingURL=Entity.js.map

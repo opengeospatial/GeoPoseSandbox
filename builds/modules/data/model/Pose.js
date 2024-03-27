@@ -4,7 +4,7 @@ import { Collection } from "../Collection.js";
 import { Position } from "./Position.js";
 import { Orientation } from "./Orientation.js";
 import { Extension } from "./Extension.js";
-import { Vector } from "../items/complex/Vector.js";
+import { Vector } from "../types/complex/Vector.js";
 
 
 /** Defines a Pose of an object. */
@@ -80,3 +80,4 @@ export class Pose extends Item {
 
 /** The data type associated to the Pose class. */
 Pose.type = new Type("pose", Pose, Item.type);
+//# sourceMappingURL=Pose.js.map

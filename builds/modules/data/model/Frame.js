@@ -1,6 +1,6 @@
 import { Item } from "../Item.js";
 import { Type } from "../Type.js";
-import { String } from "../items/simple/String.js";
+import { String } from "../types/simple/String.js";
 
 
 /** Defines a reference frame. */
@@ -42,3 +42,4 @@ export class Frame extends Item {
 
 /** The data type associated to the Frame class. */
 Frame.type = new Type("frame", Frame, Item.type);
+//# sourceMappingURL=Frame.js.map

@@ -1,6 +1,6 @@
 import { Item } from "../Item.js";
 import { Type } from "../Type.js";
-import { Vector } from "../items/complex/Vector.js";
+import { Vector } from "../types/complex/Vector.js";
 
 
 /** Defines a basic position within a reference frame. */
@@ -45,3 +45,4 @@ export class Position extends Item {
 
 /** The data type associated to the Position class. */
 Position.type = new Type("position", Position, Item.type);
+//# sourceMappingURL=Position.js.map

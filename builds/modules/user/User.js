@@ -56,3 +56,4 @@ export class User extends Item {
 /** The data type associated to the User class. */
 User.type = new Type("user", User, Item.type);
 
+//# sourceMappingURL=User.js.map

@@ -62,3 +62,4 @@ export class GeoPose extends Pose {
 
 /** The data type associated to the Pose class. */
 GeoPose.type = new Type("geopose", GeoPose, Pose.type);
+//# sourceMappingURL=GeoPose.js.map

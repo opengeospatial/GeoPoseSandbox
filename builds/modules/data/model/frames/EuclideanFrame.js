@@ -4,3 +4,4 @@ import { Frame } from "../Frame.js";
 export class EuclideanFrame extends Frame {
 }
 
+//# sourceMappingURL=EuclideanFrame.js.map

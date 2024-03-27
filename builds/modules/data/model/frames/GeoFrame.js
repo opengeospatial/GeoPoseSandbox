@@ -1,5 +1,5 @@
 import { Type } from "../../Type.js";
-import { Distance } from "../../items/measures/Distance.js";
+import { Distance } from "../../types/measures/Distance.js";
 import { Frame } from "../Frame.js";
 
 
@@ -49,3 +49,4 @@ GeoFrame.type = new Type("geo-frame", GeoFrame, Frame.type);
 GeoFrame.defaultFrame = new GeoFrame("Earth", undefined);
 
 
+//# sourceMappingURL=GeoFrame.js.map

@@ -55,3 +55,4 @@ export class GeoPoseBasicYPR extends GeoPose {
 
 /** The data type associated to the GeoPoseBasicYPR class. */
 GeoPoseBasicYPR.type = new Type("geopose-basic-ypr", GeoPoseBasicYPR, GeoPose.type);
+//# sourceMappingURL=GeoPoseBasicYPR.js.map

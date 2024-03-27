@@ -13,6 +13,8 @@ export class SpaceEntity extends Entity {
 	public static type: Type = new Type("space-entity", SpaceEntity, 
 		Entity.type);
 
+	public light : THREE.DirectionalLight;
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 	
 	/** Initializes a new SpaceEntity instance.
@@ -29,9 +31,9 @@ export class SpaceEntity extends Entity {
 
 		// Set the lights
 		this._representation.add(new THREE.AmbientLight(0x888888, 0.5));
-		let light = new THREE.DirectionalLight(0xffffff);
-		light.position.z = 3;
-		this._representation.add(light);
+		this.light = new THREE.DirectionalLight(0xffffff);
+		this.light.position.z = 30000;
+		this._representation.add(this.light);
 
 		// DEBUG
 		// this._representation.add(new THREE.Mesh(
@@ -40,4 +42,16 @@ export class SpaceEntity extends Entity {
 	
 	}
 
+	
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time. 
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime: number = 0, forced: boolean = false) {
+		
+		// Call the base class function
+		super.update(deltaTime, forced);	
+	}
 }
