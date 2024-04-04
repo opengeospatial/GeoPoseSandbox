@@ -1,7 +1,7 @@
 import { Type } from "../../Type.js";
 import { Orientation } from "../Orientation.js";
-import { Angle } from "../../items/measures/Angle.js";
-import { Vector } from "../../items/complex/Vector.js";
+import { Angle } from "../../types/measures/Angle.js";
+import { Vector } from "../../types/complex/Vector.js";
 
 
 /** Defines an orientation based on an axis vector and an angle. */
@@ -42,3 +42,4 @@ export class AxisAngleOrientation extends Orientation {
 
 /** The data type associated to the AxisAngleOrientation class. */
 AxisAngleOrientation.type = new Type("axis-angle-orientation", AxisAngleOrientation, Orientation.type);
+//# sourceMappingURL=AxisAngleOrientation.js.map

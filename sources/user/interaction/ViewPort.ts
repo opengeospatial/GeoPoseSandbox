@@ -69,8 +69,10 @@ export class ViewPort {
 	render(presence: Presence) {
 
 		// Clear the renderer
-		this._renderer.setClearColor(0xff0000);
+		this._renderer.setClearColor(0xffffff);
 		this._renderer.clear();
+
+		
 
 		// Render the
 		this._renderer.render(presence.space.entity.representation,

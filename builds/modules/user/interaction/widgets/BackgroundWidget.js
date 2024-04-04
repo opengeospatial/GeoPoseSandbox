@@ -36,3 +36,4 @@ export class BackgroundWidget extends Widget {
 
 /** The data type associated to the Widget class. */
 BackgroundWidget.type = new Type("background-widget", BackgroundWidget, Widget.type);
+//# sourceMappingURL=BackgroundWidget.js.map

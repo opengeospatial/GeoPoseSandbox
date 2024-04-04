@@ -46,3 +46,4 @@ export class EuclideanPoseQuaternion extends Pose {
 
 /** The data type associated to the EuclideanPoseQuaternion class. */
 EuclideanPoseQuaternion.type = new Type("euclidean-pose-quaternion", EuclideanPoseQuaternion, Pose.type);
+//# sourceMappingURL=EuclideanPoseQuaternion.js.map

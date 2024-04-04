@@ -1,11 +1,11 @@
-import * as THREE from "../../../externals/three.module.js";
+import * as THREE from "three";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
-import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
-import { String } from "../../data/items/simple/String.js";
+import { Ellipsoid } from "../../data/types/shapes/Ellipsoid.js";
+import { String } from "../../data/types/simple/String.js";
 
 
-/** Defines a Atmosphere Entity. */
+/** Defines an Atmosphere Entity. */
 export class AtmosphereEntity extends Entity {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -68,3 +68,4 @@ export class AtmosphereEntity extends Entity {
 
 /** The data type associated to the AtmosphereEntity class. */
 AtmosphereEntity.type = new Type("atmosphere-entity", AtmosphereEntity, Entity.type);
+//# sourceMappingURL=AtmosphereEntity.js.map

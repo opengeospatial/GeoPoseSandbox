@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>GeoPose Sandbox API Reference</title>
+		<link rel="icon" href="data:;base64,=">
+		<style>
+* { margin: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden;}
+body {
+	color: white; background-color: #222; 
+	text-emphasis-color: #48F; font-family: Arial; }
+h1, h2 { color: #48F; text-wrap: nowrap; }
+a { text-decoration: none; color: #48F; } 
+a:visited { color: #248; } 
+header { height: 5%; padding: 1vh; font-size: 3vh; color: #48F; 
+	font-weight: bold; border-bottom: 1px solid grey;}
+main { display: flex; width:100%; height: 95%; 
+	flex-direction: row; }
+nav { display: flex; flex-direction: column; border-right: 1px solid grey;	padding: 1vmin 3vmin 1vmin 1vmin; overflow: hidden auto;}
+article { flex: 1; overflow: hidden auto; }
+ article div { width: 60vmin; margin: 2vh auto; 
+	border-bottom: 1px solid grey; }
+
+		</style>
+	</head>
+	<body>
+	<header>GeoPose Sandbox API Reference</header>
+		<main>
+			<nav>
+				<h2>Classes</h2>
+				<a href="#Angle">Angle</a>
+				<a href="#ArrowEntity">ArrowEntity</a>
+				<a href="#AtmosphereEntity">AtmosphereEntity</a>
+				<a href="#AxisAngleOrientation">AxisAngleOrientation</a>
+				<a href="#BackgroundEntity">BackgroundEntity</a>
+				<a href="#BackgroundWidget">BackgroundWidget</a>
+				<a href="#Boolean">Boolean</a>
+				<a href="#Box">Box</a>
+				<a href="#CameraWidget">CameraWidget</a>
+				<a href="#Collection">Collection</a>
+				<a href="#Color">Color</a>
+				<a href="#Complex">Complex</a>
+				<a href="#Distance">Distance</a>
+				<a href="#Ellipsoid">Ellipsoid</a>
+				<a href="#Entity">Entity</a>
+				<a href="#EuclideanFrame">EuclideanFrame</a>
+				<a href="#EuclideanPoseQuaternion">EuclideanPoseQuaternion</a>
+				<a href="#EuclideanPoseYPR">EuclideanPoseYPR</a>
+				<a href="#EuclideanPosition">EuclideanPosition</a>
+				<a href="#Euler">Euler</a>
+				<a href="#Event">Event</a>
+				<a href="#Extension">Extension</a>
+				<a href="#Frame">Frame</a>
+				<a href="#GeoFrame">GeoFrame</a>
+				<a href="#GeoPose">GeoPose</a>
+				<a href="#GeoPoseBasicQuaternion">GeoPoseBasicQuaternion</a>
+				<a href="#GeoPoseBasicYPR">GeoPoseBasicYPR</a>
+				<a href="#GeoPoseSandbox">GeoPoseSandbox</a>
+				<a href="#GeoPoseWidget">GeoPoseWidget</a>
+				<a href="#GeoPosition">GeoPosition</a>
+				<a href="#GraticuleEntity">GraticuleEntity</a>
+				<a href="#GridEntity">GridEntity</a>
+				<a href="#Item">Item</a>
+				<a href="#Layer">Layer</a>
+				<a href="#LookAtOrientation">LookAtOrientation</a>
+				<a href="#MatrixOrientation">MatrixOrientation</a>
+				<a href="#Measure">Measure</a>
+				<a href="#MeasurementUnit">MeasurementUnit</a>
+				<a href="#Number">Number</a>
+				<a href="#Orientation">Orientation</a>
+				<a href="#PlanetWidget">PlanetWidget</a>
+				<a href="#Pose">Pose</a>
+				<a href="#Position">Position</a>
+				<a href="#Presence">Presence</a>
+				<a href="#PresenceEntity">PresenceEntity</a>
+				<a href="#Quaternion">Quaternion</a>
+				<a href="#QuaternionOrientation">QuaternionOrientation</a>
+				<a href="#Serialization">Serialization</a>
+				<a href="#Shape">Shape</a>
+				<a href="#ShapeEntity">ShapeEntity</a>
+				<a href="#Simple">Simple</a>
+				<a href="#Size">Size</a>
+				<a href="#Space">Space</a>
+				<a href="#SpaceEntity">SpaceEntity</a>
+				<a href="#Sphere">Sphere</a>
+				<a href="#String">String</a>
+				<a href="#TerrainEntity">TerrainEntity</a>
+				<a href="#Time">Time</a>
+				<a href="#Type">Type</a>
+				<a href="#User">User</a>
+				<a href="#Vector">Vector</a>
+				<a href="#View">View</a>
+				<a href="#ViewPort">ViewPort</a>
+				<a href="#Widget">Widget</a>
+				<a href="#YawPitchRollOrientation">YawPitchRollOrientation</a>
+			</nav>
+			<article>
+				<div id="Angle">
+					<h3>Angle : <a href="#Measure">Measure</a></h3>
+					<p>Defines a angular measurement.</p>
+				</div>				<div id="ArrowEntity">
+					<h3>ArrowEntity : <a href="#Entity">Entity</a></h3>
+					<p>Defines an Arrow entity.</p>
+				</div>				<div id="AtmosphereEntity">
+					<h3>AtmosphereEntity : <a href="#Entity">Entity</a></h3>
+					<p>Defines an Atmosphere Entity.</p>
+				</div>				<div id="AxisAngleOrientation">
+					<h3>AxisAngleOrientation : <a href="#Orientation">Orientation</a></h3>
+					<p>Defines an orientation based on an axis vector and an angle.</p>
+				</div>				<div id="BackgroundEntity">
+					<h3>BackgroundEntity : <a href="#Entity">Entity</a></h3>
+					<p>Defines a Background Entity.</p>
+				</div>				<div id="BackgroundWidget">
+					<h3>BackgroundWidget : <a href="#Widget">Widget</a></h3>
+					<p>Defines a widget for the background.</p>
+				</div>				<div id="Boolean">
+					<h3>Boolean : <a href="#Simple">Simple</a></h3>
+					<p>Defines a boolean data item.</p>
+				</div>				<div id="Box">
+					<h3>Box : <a href="#Shape">Shape</a></h3>
+					<p>Defines a three-dimensional box Shape (global).</p>
+				</div>				<div id="CameraWidget">
+					<h3>CameraWidget : <a href="#Widget">Widget</a></h3>
+					<p>Defines a widget to control the camera (the presence of the user).</p>
+				</div>				<div id="Collection">
+					<h3>Collection</h3>
+					<p>Defines a collection of data items.</p>
+				</div>				<div id="Color">
+					<h3>Color : <a href="#Complex">Complex</a></h3>
+					<p>Defines an RGBA color.</p>
+				</div>				<div id="Complex">
+					<h3>Complex : <a href="#Item">Item</a></h3>
+					<p>Defines a complex data item.</p>
+				</div>				<div id="Distance">
+					<h3>Distance : <a href="#Measure">Measure</a></h3>
+					<p>Defines a length measurement.</p>
+				</div>				<div id="Ellipsoid">
+					<h3>Ellipsoid : <a href="#Shape">Shape</a></h3>
+					<p>Defines a three-dimensional ellipsoid shape.</p>
+				</div>				<div id="Entity">
+					<h3>Entity : <a href="#Item">Item</a></h3>
+					<p>Defines a logic entity.</p>
+				</div>				<div id="EuclideanFrame">
+					<h3>EuclideanFrame : <a href="#Frame">Frame</a></h3>
+					<p>Defines an euclidean (Flat-Earth) frame.</p>
+				</div>				<div id="EuclideanPoseQuaternion">
+					<h3>EuclideanPoseQuaternion : <a href="#Pose">Pose</a></h3>
+					<p>Defines a Euclidean pose with a quaternion orientation.</p>
+				</div>				<div id="EuclideanPoseYPR">
+					<h3>EuclideanPoseYPR : <a href="#Pose">Pose</a></h3>
+					<p>Defines a Euclidean pose with Yaw-Pitch-Roll orientation.</p>
+				</div>				<div id="EuclideanPosition">
+					<h3>EuclideanPosition : <a href="#Position">Position</a></h3>
+					<p>Defines a position in an euclidean coordinate system.</p>
+				</div>				<div id="Euler">
+					<h3>Euler : <a href="#Complex">Complex</a></h3>
+					<p>Defines the Euler orientation.</p>
+				</div>				<div id="Event">
+					<h3>Event</h3>
+					<p>Defines a Logic Event</p>
+				</div>				<div id="Extension">
+					<h3>Extension : <a href="#Item">Item</a></h3>
+					<p>Defines the basic class of a Pose Extension.</p>
+				</div>				<div id="Frame">
+					<h3>Frame : <a href="#Item">Item</a></h3>
+					<p>Defines a reference frame.</p>
+				</div>				<div id="GeoFrame">
+					<h3>GeoFrame : <a href="#Frame">Frame</a></h3>
+					<p>Defines a geodetic (elliptical) frame.</p>
+				</div>				<div id="GeoPose">
+					<h3>GeoPose : <a href="#Pose">Pose</a></h3>
+					<p>Defines the GeoPose of an object.</p>
+				</div>				<div id="GeoPoseBasicQuaternion">
+					<h3>GeoPoseBasicQuaternion : <a href="#GeoPose">GeoPose</a></h3>
+					<p>Defines a basic GeoPose with Quaternion-based orientation.</p>
+				</div>				<div id="GeoPoseBasicYPR">
+					<h3>GeoPoseBasicYPR : <a href="#GeoPose">GeoPose</a></h3>
+					<p>Defines a basic GeoPose with Yaw-Pitch-Roll (Tait-Bryan) orientation.</p>
+				</div>				<div id="GeoPoseSandbox">
+					<h3>GeoPoseSandbox : <a href="#Item">Item</a></h3>
+					<p>Manages the GeoPose Sandbox.</p>
+				</div>				<div id="GeoPoseWidget">
+					<h3>GeoPoseWidget : <a href="#Widget">Widget</a></h3>
+					<p>Defines a widget for a GeoPose.</p>
+				</div>				<div id="GeoPosition">
+					<h3>GeoPosition : <a href="#Position">Position</a></h3>
+					<p>Defines a position in geodetic (elliptical) coordinate system. (Based on SPICE and Local Tangent Plane - East North Up).</p>
+				</div>				<div id="GraticuleEntity">
+					<h3>GraticuleEntity : <a href="#Entity">Entity</a></h3>
+					<p>Defines a Graticule Entity.</p>
+				</div>				<div id="GridEntity">
+					<h3>GridEntity : <a href="#Entity">Entity</a></h3>
+					<p>Defines a Grid entity.</p>
+				</div>				<div id="Item">
+					<h3>Item</h3>
+					<p>Defines a data item (often called a datum) in a graph structure. Provides a way to store information in a mainly hierarchical way.</p>
+				</div>				<div id="Layer">
+					<h3>Layer : <a href="#Item">Item</a></h3>
+					<p>Defines an user interaction (view) layer .</p>
+				</div>				<div id="LookAtOrientation">
+					<h3>LookAtOrientation : <a href="#Orientation">Orientation</a></h3>
+					<p>Defines an orientation with a target.</p>
+				</div>				<div id="MatrixOrientation">
+					<h3>MatrixOrientation : <a href="#Orientation">Orientation</a></h3>
+					<p>Defines an orientation based on a 3x3 rotation matrix.</p>
+				</div>				<div id="Measure">
+					<h3>Measure : <a href="#Number">Number</a></h3>
+					<p>Defines a numeric Measure item.</p>
+				</div>				<div id="MeasurementUnit">
+					<h3>MeasurementUnit</h3>
+					<p>Defines a Measurement Unit.</p>
+				</div>				<div id="Number">
+					<h3>Number : <a href="#Simple">Simple</a></h3>
+					<p>Defines a Numeric data item.</p>
+				</div>				<div id="Orientation">
+					<h3>Orientation : <a href="#Item">Item</a></h3>
+					<p>Define the basic class of a three dimensional orientation.</p>
+				</div>				<div id="PlanetWidget">
+					<h3>PlanetWidget : <a href="#Widget">Widget</a></h3>
+					<p>Defines a widget for a planet.</p>
+				</div>				<div id="Pose">
+					<h3>Pose : <a href="#Item">Item</a></h3>
+					<p>Defines a Pose of an object.</p>
+				</div>				<div id="Position">
+					<h3>Position : <a href="#Item">Item</a></h3>
+					<p>Defines a basic position within a reference frame.</p>
+				</div>				<div id="Presence">
+					<h3>Presence : <a href="#Item">Item</a></h3>
+					<p>Defines the user Presence in an interaction space.</p>
+				</div>				<div id="PresenceEntity">
+					<h3>PresenceEntity : <a href="#Entity">Entity</a></h3>
+					<p>Defines a user Presence entity.</p>
+				</div>				<div id="Quaternion">
+					<h3>Quaternion : <a href="#Complex">Complex</a></h3>
+					<p>Defines a four-dimensional complex number to describe rotations.</p>
+				</div>				<div id="QuaternionOrientation">
+					<h3>QuaternionOrientation : <a href="#Orientation">Orientation</a></h3>
+					<p>Defines an orientation with a quaternion.</p>
+				</div>				<div id="Serialization">
+					<h3>Serialization</h3>
+					<p>Provides multiple methods to serialize and deserialize data items.</p>
+				</div>				<div id="Shape">
+					<h3>Shape : <a href="#Item">Item</a></h3>
+					<p>Defines a three dimensional shape.</p>
+				</div>				<div id="ShapeEntity">
+					<h3>ShapeEntity : <a href="#Entity">Entity</a></h3>
+					<p>Defines a Shape entity.</p>
+				</div>				<div id="Simple">
+					<h3>Simple</h3>
+					<p>Defines a simple data item.</p>
+				</div>				<div id="Size">
+					<h3>Size : <a href="#Measure">Measure</a></h3>
+					<p>Defines a dimensional measurement.</p>
+				</div>				<div id="Space">
+					<h3>Space : <a href="#Item">Item</a></h3>
+					<p>Defines an Interaction Space.</p>
+				</div>				<div id="SpaceEntity">
+					<h3>SpaceEntity : <a href="#Entity">Entity</a></h3>
+					<p>Defines a Space entity.</p>
+				</div>				<div id="Sphere">
+					<h3>Sphere : <a href="#Shape">Shape</a></h3>
+					<p>Defines a three-dimensional spherical Shape.</p>
+				</div>				<div id="String">
+					<h3>String : <a href="#Simple">Simple</a></h3>
+					<p>Defines a String data item.</p>
+				</div>				<div id="TerrainEntity">
+					<h3>TerrainEntity : <a href="#Entity">Entity</a></h3>
+					<p>Defines a Terrain Entity.</p>
+				</div>				<div id="Time">
+					<h3>Time : <a href="#Measure">Measure</a></h3>
+					<p>Defines a temporal measurement.</p>
+				</div>				<div id="Type">
+					<h3>Type</h3>
+					<p>Contains the metadata of a data type. Provides a way to handle reflection and serialization in different contexts (even after the code is transpiled to Javascript).</p>
+				</div>				<div id="User">
+					<h3>User : <a href="#Item">Item</a></h3>
+					<p>Defines a user.</p>
+				</div>				<div id="Vector">
+					<h3>Vector : <a href="#Complex">Complex</a></h3>
+					<p>Defines a three-dimensional vector.</p>
+				</div>				<div id="View">
+					<h3>View : <a href="#Item">Item</a></h3>
+					<p>Defines a User Interaction View.</p>
+				</div>				<div id="ViewPort">
+					<h3>ViewPort</h3>
+					<p>Defines a Viewport.</p>
+				</div>				<div id="Widget">
+					<h3>Widget : <a href="#Item">Item</a></h3>
+					<p>Defines an user interaction widget.</p>
+				</div>				<div id="YawPitchRollOrientation">
+					<h3>YawPitchRollOrientation : <a href="#Orientation">Orientation</a></h3>
+					<p>Defines a Tait-Bryan orientation with Yaw, Pitch and Roll angles.</p>
+				</div>			</nav>
+		</main>
+	</body>
+</html>

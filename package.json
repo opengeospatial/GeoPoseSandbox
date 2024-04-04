@@ -1,25 +1,34 @@
 {
 	"name": "geopose-sandbox",
-	"version": "0.1.6",
+	"displayName": "GeoPose Sandbox",
+	"version": "0.2.0",
 	"description": "A testing environment to validate the different elements of the OGC GeoPose Standard",
+	"type": "module",
 	"main": "builds/geopose.sandbox.js",
+	"mainSourceFile": "GeoPoseSandbox.ts",
+	"mainOutputFile": "geopose.sandbox.js",
 	"directories": {
-		"bin": "builds",
+		"sources": "sources",
 		"doc": "docs",
+		"reference": "docs/api-reference",
+		"bin": "builds",
+		"build": "builds",
+		"builds": "builds",
+		"modules": "builds/modules",
+		"temporal": "builds/temporal",
 		"example": "examples"
+		
 	},
-	"files": [
-		"builds/*"
-	],
+	"files": [ "builds/*" ],
 	"devDependencies": {
 		"terser": "^5.7.0",
 		"typescript": "^4.3.2"
 	},
 	"scripts": {
-		"build-watch": "tsc -w",
-		"build": "node utilities/build/build.js",
-		"prepare": "node utilities/build/build.js",
-		"test": "electron utilities/test/test.js"
+		"build-tsc": "tsc -w",
+		"build": "node utilities/build.js",
+		"prepare": "node utilities/build.js",
+		"test": "electron utilities/test.js"
 	},
 	"repository": {
 		"type": "git",
@@ -40,6 +49,9 @@
 	},
 	"homepage": "https://github.com/opengeospatial/GeoPoseSandbox#readme",
 	"dependencies": {
+		"@types/three": "^0.158.1",
+		"proj4": "^2.10.0",
 		"three": "^0.157.0"
 	}
 }
+

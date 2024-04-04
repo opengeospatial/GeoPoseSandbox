@@ -1,4 +1,4 @@
-import * as THREE from "../../../externals/three.module.js";
+import * as THREE from "three";
 
 /** Defines a Viewport. */
 export class ViewPort {
@@ -55,10 +55,13 @@ export class ViewPort {
 	render(presence) {
 
 		// Clear the renderer
-		this._renderer.setClearColor(0xff0000);
+		this._renderer.setClearColor(0xffffff);
 		this._renderer.clear();
+
+
 
 		// Render the
 		this._renderer.render(presence.space.entity.representation, presence.entity.representation);
 	}
 }
+//# sourceMappingURL=ViewPort.js.map

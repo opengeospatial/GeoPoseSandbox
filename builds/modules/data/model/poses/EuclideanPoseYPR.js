@@ -3,6 +3,7 @@ import { Pose } from "../Pose.js";
 import { EuclideanPosition } from "../positions/EuclideanPosition.js";
 import { YawPitchRollOrientation } from "../orientations/YawPitchRollOrientation.js";
 
+
 /** Defines a Euclidean pose with Yaw-Pitch-Roll orientation. */
 export class EuclideanPoseYPR extends Pose {
 
@@ -45,3 +46,4 @@ export class EuclideanPoseYPR extends Pose {
 
 /** The data type associated to the EuclideanPoseYPR class. */
 EuclideanPoseYPR.type = new Type("euclidean-basic-ypr", EuclideanPoseYPR, Pose.type);
+//# sourceMappingURL=EuclideanPoseYPR.js.map

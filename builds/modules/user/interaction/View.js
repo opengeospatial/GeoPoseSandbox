@@ -1,7 +1,7 @@
 import { Item } from "../../data/Item.js";
 import { Type } from "../../data/Type.js";
-import { Number } from "../../data/items/simple/Number.js";
-import { String } from "../../data/items/simple/String.js";
+import { Number } from "../../data/types/simple/Number.js";
+import { String } from "../../data/types/simple/String.js";
 import { Collection } from "../../data/Collection.js";
 import { Layer } from "./Layer.js";
 import { ViewPort } from "./ViewPort.js";
@@ -128,14 +128,16 @@ export class View extends Item {
 			this._fpsCounter = 0;
 
 			// Show a message on console
-			// console.log("FPS: " + this._fpsValue);
+			console.log("FPS: " + this._fpsValue);
 		}
-
 
 
 		// Update and render the layers
 		for (let layer of this._layers) {
 			layer.update(this._deltaTime);
+			let camera = layer.presence.entity.representation;
+			layer.space.entity.light.position.copy(camera.position);
+			layer.space.entity.light.rotation.copy(camera.rotation);
 			this._viewport.render(layer.presence);
 		}
 	}
@@ -250,3 +252,4 @@ export class View extends Item {
 
 /** The data type associated to the View class. */
 View.type = new Type("view", View, Item.type);
+//# sourceMappingURL=View.js.map

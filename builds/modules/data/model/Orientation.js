@@ -1,6 +1,6 @@
 import { Item } from "../Item.js";
 import { Type } from "../Type.js";
-import { Quaternion } from "../items/complex/Quaternion.js";
+import { Quaternion } from "../types/complex/Quaternion.js";
 
 
 /** Define the basic class of a three dimensional orientation. */
@@ -41,3 +41,4 @@ export class Orientation extends Item {
 
 /** The data type associated to the Orientation class. */
 Orientation.type = new Type("orientation", Orientation, Item.type);
+//# sourceMappingURL=Orientation.js.map

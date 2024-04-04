@@ -1,4 +1,4 @@
-import * as THREE from "../../../externals/three.module.js";
+import * as THREE from "three";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
 
@@ -61,3 +61,4 @@ export class GridEntity extends Entity {
 
 /** The data type associated to the GridEntity class. */
 GridEntity.type = new Type("grid-entity", GridEntity, Entity.type);
+//# sourceMappingURL=GridEntity.js.map

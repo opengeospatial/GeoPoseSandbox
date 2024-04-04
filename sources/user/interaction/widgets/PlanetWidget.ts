@@ -66,8 +66,10 @@ export class PlanetWidget extends Widget {
 
 		// Add the shape Component
 		this._terrain = new TerrainEntity(name + "Terrain", this._entity, data);
-		this._atmosphere = new AtmosphereEntity(name + "Atmosphere", this._entity , data);
-		this._graticule = new GraticuleEntity(name + "Graticule", this._entity, data);
+		if (data.atmosphere)this._atmosphere = new AtmosphereEntity(
+			name + "Atmosphere", this._entity , data);
+		if (data.graticule) this._graticule = new GraticuleEntity(
+			name + "Graticule", this._entity, data);
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
@@ -95,13 +97,17 @@ export class PlanetWidget extends Widget {
 			this._terrain.ellipsoid.radiusY.value = radiusY;
 			this._terrain.ellipsoid.radiusZ.value = radiusZ;
 
-			this._atmosphere.ellipsoid.radiusX.value = radiusX;
-			this._atmosphere.ellipsoid.radiusY.value = radiusY;
-			this._atmosphere.ellipsoid.radiusZ.value = radiusZ;
+			if (this._atmosphere) {
+				this._atmosphere.ellipsoid.radiusX.value = radiusX;
+				this._atmosphere.ellipsoid.radiusY.value = radiusY;
+				this._atmosphere.ellipsoid.radiusZ.value = radiusZ;
+			}
 
-			this._graticule.ellipsoid.radiusX.value = radiusX;
-			this._graticule.ellipsoid.radiusY.value = radiusY;
-			this._graticule.ellipsoid.radiusZ.value = radiusZ;
+			if (this._graticule) {
+				this._graticule.ellipsoid.radiusX.value = radiusX;
+				this._graticule.ellipsoid.radiusY.value = radiusY;
+				this._graticule.ellipsoid.radiusZ.value = radiusZ;
+			}
 		}
 
 		// Show a message on console

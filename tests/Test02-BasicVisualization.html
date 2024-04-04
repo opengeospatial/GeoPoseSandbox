@@ -63,7 +63,8 @@ function createDomElement(tag, id, parent, classes, style, content) {
 	return element;
 }
 
-function createNumericInput (name, parent, label, units, value, min, max, step, callback) {
+function createNumericInput (name, parent, label, units, value, min, max, step, 
+	callback, disabled) {
 	let labelElement, inputElement, unitsElement;
 
 	let wrapper =  createDomElement("p", name, parent,)
@@ -84,7 +85,6 @@ function createNumericInput (name, parent, label, units, value, min, max, step, 
 	if (callback) inputElement.oninput = callback;
 	if (labelElement) labelElement.htmlFor = name + "input";
 	if (unitsElement) unitsElement.htmlFor = name + "input";
-	
 	if (elements[name]) throw new Error ("Repeated element name:" + name);
 	elements[name] = inputElement; 
 	return inputElement;
@@ -128,6 +128,7 @@ let backgroundWidget = new BackgroundWidget("Background", layer,
 let planetWidget = new PlanetWidget("Earth", layer,
 	{ 
 		frame: earth,
+		graticule: true, atmosphere: true,
 		diffuse: "textures/2k_earth_daymap.jpg",
 		normal: "textures/2k_earth_normals.jpg",
 		clouds: "textures/2k_earth_clouds.jpg",
@@ -170,10 +171,11 @@ let cameraAltitude = createNumericInput("CameraAltitude", cameraControls,
 	 cameraPose.position.altitude, 0, null, 10000, 
 	(event) => { setValue(cameraPose.position.altitude, event.target.value); }
 );
-createNumericInput("CameraQuaternionX", cameraControls, "Quaternion X", null, 0);
-createNumericInput("CameraQuaternionY", cameraControls, "Quaternion Y", null, 0);
-createNumericInput("CameraQuaternionZ", cameraControls, "Quaternion Z", null, 0);
-createNumericInput("CameraQuaternionW", cameraControls, "Quaternion W", null, 1);
+createNumericInput("CameraQuaternionX", cameraControls, "Quaternion X", 0, 0).setAttribute('disabled', '1');
+createNumericInput("CameraQuaternionY", cameraControls, "Quaternion Y", 0, 0).setAttribute('disabled', '1');
+createNumericInput("CameraQuaternionZ", cameraControls, "Quaternion Z", 0, 0).setAttribute('disabled', '1');
+createNumericInput("CameraQuaternionW", cameraControls, "Quaternion W", 0, 1).setAttribute('disabled', '1');
+
 
 objectControls.innerHTML = "<h3>Object:</h3>";
 let objectLatitude = createNumericInput("objectLatitude", objectControls, 

@@ -1,0 +1,8 @@
+{
+	"version": 3,
+	"file": "EuclideanFrame.js",
+	"sourceRoot": "",
+	"sources": [ "..\\..\\..\\..\\..\\builds\\modules\\data\\model\\frames/EuclideanFrame.ts" ],
+	"names": [],
+	"mappings": "AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,aAAa,CAAC;AACpC,IAAI;AACJ,+CAA+C;AAC/C,MAAM,OAAO,cAAe,SAAQ,KAAK;CACxC;AACD,IAAI"
+}

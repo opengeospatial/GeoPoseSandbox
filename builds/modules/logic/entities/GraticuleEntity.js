@@ -1,7 +1,7 @@
-import * as THREE from "../../../externals/three.module.js";
+import * as THREE from "three";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
-import { Ellipsoid } from "../../data/items/shapes/Ellipsoid.js";
+import { Ellipsoid } from "../../data/types/shapes/Ellipsoid.js";
 
 
 /** Defines a Graticule Entity. */
@@ -89,3 +89,4 @@ export class GraticuleEntity extends Entity {
 
 /** The data type associated to the GraticuleEntity class. */
 GraticuleEntity.type = new Type("graticule-entity", GraticuleEntity, Entity.type);
+//# sourceMappingURL=GraticuleEntity.js.map

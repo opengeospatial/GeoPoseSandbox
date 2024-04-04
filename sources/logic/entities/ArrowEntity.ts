@@ -3,7 +3,7 @@ import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
 
 
-/** Defines a Arrow entity. */
+/** Defines an Arrow entity. */
 export class ArrowEntity extends Entity {
 
 	// -------------------------------------------------------- PUBLIC METADATA

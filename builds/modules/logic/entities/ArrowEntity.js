@@ -1,9 +1,9 @@
-import * as THREE from "../../../externals/three.module.js";
+import * as THREE from "three";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
 
 
-/** Defines a Arrow entity. */
+/** Defines an Arrow entity. */
 export class ArrowEntity extends Entity {
 
 
@@ -38,3 +38,4 @@ export class ArrowEntity extends Entity {
 
 /** The data type associated to the ShapeEntity class. */
 ArrowEntity.type = new Type("arrow-entity", ArrowEntity, Entity.type);
+//# sourceMappingURL=ArrowEntity.js.map

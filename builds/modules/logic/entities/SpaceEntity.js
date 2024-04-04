@@ -1,4 +1,4 @@
-import * as THREE from "../../../externals/three.module.js";
+import * as THREE from "three";
 import { Type } from "../../data/Type.js";
 import { Entity } from "../Entity.js";
 
@@ -23,15 +23,28 @@ export class SpaceEntity extends Entity {
 
 		// Set the lights
 		this._representation.add(new THREE.AmbientLight(0x888888, 0.5));
-		let light = new THREE.DirectionalLight(0xffffff);
-		light.position.z = 3;
-		this._representation.add(light);
+		this.light = new THREE.DirectionalLight(0xffffff);
+		this.light.position.z = 30000;
+		this._representation.add(this.light);
 
 		// DEBUG
 		// this._representation.add(new THREE.Mesh(
 		// 	new THREE.SphereGeometry(100000,64,64),
 		// 	new THREE.MeshPhongMaterial({color: 0x00ff00})));
 
+	}
+
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// Call the base class function
+		super.update(deltaTime, forced);
 	}
 }
 
@@ -40,3 +53,4 @@ export class SpaceEntity extends Entity {
 /** The data type associated to the SpaceEntity class. */
 SpaceEntity.type = new Type("space-entity", SpaceEntity, Entity.type);
 
+//# sourceMappingURL=SpaceEntity.js.map

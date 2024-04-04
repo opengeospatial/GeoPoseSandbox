@@ -36,3 +36,4 @@ export class GeoPoseBasicQuaternion extends GeoPose {
 
 /** The data type associated to the GeoPoseBasicQuaternion class. */
 GeoPoseBasicQuaternion.type = new Type("geopose-basic-quaternion", GeoPoseBasicQuaternion, GeoPose.type);
+//# sourceMappingURL=GeoPoseBasicQuaternion.js.map

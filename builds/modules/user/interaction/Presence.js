@@ -42,3 +42,4 @@ export class Presence extends Item {
 
 /** The data type associated to the Presence class. */
 Presence.type = new Type("presence", Presence, Item.type);
+//# sourceMappingURL=Presence.js.map

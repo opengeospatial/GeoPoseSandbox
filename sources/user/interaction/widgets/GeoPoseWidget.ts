@@ -67,6 +67,8 @@ export class GeoPoseWidget extends Widget {
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
+
+		this.update(0, true)
 	}
 	
 
@@ -87,7 +89,6 @@ export class GeoPoseWidget extends Widget {
 
 		// Show a message on console
 		console.log("Updated: " + this.name);
-
 
 		// Call the base class function
 		super.update(deltaTime, forced);

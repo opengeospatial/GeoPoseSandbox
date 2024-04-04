@@ -1,6 +1,6 @@
 import { Type } from "../../Type.js";
 import { Orientation } from "../Orientation.js";
-import { Number } from "../../items/simple/Number.js";
+import { Number } from "../../types/simple/Number.js";
 
 
 /** Defines an orientation with a quaternion. */
@@ -49,3 +49,4 @@ export class QuaternionOrientation extends Orientation {
 
 /** The data type associated to the QuaternionOrientation class. */
 QuaternionOrientation.type = new Type("quaternion-orientation", QuaternionOrientation, Orientation.type);
+//# sourceMappingURL=QuaternionOrientation.js.map

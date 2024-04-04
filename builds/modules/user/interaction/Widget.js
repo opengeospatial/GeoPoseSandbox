@@ -73,3 +73,4 @@ export class Widget extends Item {
 
 /** The data type associated to the Widget class. */
 Widget.type = new Type("widget", Widget, Item.type);
+//# sourceMappingURL=Widget.js.map

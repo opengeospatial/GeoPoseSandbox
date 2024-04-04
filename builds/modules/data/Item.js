@@ -3,7 +3,7 @@ import { Event } from "../logic/Event.js";
 import { Collection } from "./Collection.js";
 import { Serialization } from "./Serialization.js";
 
-/** Defines a data item (often called a datum) in a graph structure .
+/** Defines a data item (often called a datum) in a graph structure.
  * Provides a way to store information in a mainly hierarchical way. */
 export class Item {
 
@@ -38,7 +38,7 @@ export class Item {
 		this._updateTime = Date.now();
 
 		// Trigger the "modified" event
-		this.onModified.trigger(this, value);
+		this._onModified.trigger(this, value);
 		Item.onModified.trigger(this, value);
 
 		// Propagate the event upwards in the hierarchy and to the links
@@ -75,8 +75,9 @@ export class Item {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Item class.
-	 * @param name The name of the data item.
-	 * @param parent The parent data item. */
+	 * @param {string} name The name of the data item.
+	 * @param {Item} parent The parent data item.
+	 * @param {*} [data] The initialization data. */
 	constructor(name, parent, data) {
 
 		// Obtain the type of item from the static property
@@ -88,10 +89,10 @@ export class Item {
 				"'. Remember to add it through the 'type' static property.");
 
 		// Check the name of the item
-		if (name && typeof (name) && name.length > 0)
+		if (name && typeof name == 'string' && name.length > 0)
 			this._name = name;
 		else
-			name = type.name;
+			this._name = type.name;
 
 		// If there is a parent type, store the reference and create a link
 		if (parent && parent instanceof Item) {
@@ -108,9 +109,14 @@ export class Item {
 		this._onPreUpdate = new Event("pre-update", this);
 		this._onPostUpdate = new Event("post-update", this);
 
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+
 		// Set the update state to false and set the update time
 		this.updated = false;
 		this._updateTime = Date.now();
+
 
 		// Trigger the onCreation event
 		Item.onCreation.trigger(this);
@@ -165,6 +171,11 @@ export class Item {
 	/** Deserializes the Item instance.
 	 * @param data The data to deserialize. */
 	deserialize(data = {}) { Serialization.deserialize(this, data); }
+
+
+	/** Obtains the string representation of the instance.
+	 * @returns The string representation of the instance. */
+	toString() { return JSON.stringify(this.deserialize()); }
 }
 
 // -------------------------------------------------------- PUBLIC METADATA
@@ -186,3 +197,4 @@ Item._onPostUpdate = new Event("post-update");
 
 /** A global event triggered when a data item is created. */
 Item.onCreation = new Event("creation");
+//# sourceMappingURL=Item.js.map

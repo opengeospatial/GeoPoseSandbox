@@ -4,6 +4,7 @@ import { Pose } from "../Pose.js";
 import { EuclideanPosition } from "../positions/EuclideanPosition.js";
 import { YawPitchRollOrientation } from "../orientations/YawPitchRollOrientation.js";
 
+
 /** Defines a Euclidean pose with Yaw-Pitch-Roll orientation. */
 export class EuclideanPoseYPR extends Pose {
 

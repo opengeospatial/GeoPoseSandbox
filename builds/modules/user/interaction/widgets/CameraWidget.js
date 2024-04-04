@@ -46,3 +46,4 @@ export class CameraWidget extends Widget {
 /** The data type associated to the Widget class. */
 CameraWidget.type = new Type("Camera-widget", CameraWidget, Widget.type);
 
+//# sourceMappingURL=CameraWidget.js.map
